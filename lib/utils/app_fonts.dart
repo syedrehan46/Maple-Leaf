@@ -58,5 +58,13 @@ class AppFonts{
         color: color
     );
   }
+  static TextStyle styleHarmoniaBold16W600(Color color){
+    return TextStyle(
+        fontSize: 16.sp,
+        fontWeight: FontWeight.w600,
+        fontFamily: AppStrings.fontFamilyHarmoniaBold,
+        color: color
+    );
+  }
 
 }
