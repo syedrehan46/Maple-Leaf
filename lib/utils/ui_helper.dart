@@ -116,11 +116,12 @@ class UiHelper{
       decoration: InputDecoration(
         hintText: hintText,
         label: Text(hintText),
+        labelStyle: TextStyle(color: Colors.black),
         hintStyle: AppFonts.styleHarmoniaRegular13W400(AppColors.greyA4A4A4Color),
         suffixIcon: GestureDetector(
           onTap: onPress,
           child: isPasswordVisible
-              ? SvgPicture.asset(AppImages.unHideIcon, fit: BoxFit.scaleDown)
+              ? SvgPicture.asset(AppImages.unHideIcon, fit: BoxFit.scaleDown,color: Colors.black,)
               : SvgPicture.asset(AppImages.hideIcon, fit: BoxFit.scaleDown),
         ),
         focusedBorder: OutlineInputBorder(
@@ -154,6 +155,7 @@ class UiHelper{
       decoration: InputDecoration(
         hintText: labelText,
         label: Text(labelText),
+        labelStyle: TextStyle(color: Colors.black),
         hintStyle: AppFonts.styleHarmoniaRegular13W400(AppColors.greyA4A4A4Color),
         // isDense: true,
         // Add focusedBorder and enabledBorder here

@@ -1,7 +1,11 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:mapleleaf/main.dart';
 import 'package:mapleleaf/utils/ui_helper.dart';
+import 'package:mapleleaf/view/auth/change_password_view.dart';
+import 'package:mapleleaf/view/auth/forgot_password_view.dart';
+import 'package:mapleleaf/view/dashboard/select_dashboard_view.dart';
 
 import '../../utils/app_colors.dart';
 import '../../utils/app_fonts.dart';
@@ -14,43 +18,173 @@ class SignInView extends StatefulWidget {
 }
 
 class _SignInViewState extends State<SignInView> {
-
   TextEditingController usernameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
+  bool _rememberMe = false;
+  bool _isPasswordVisible = false;
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: Stack(
+    return GestureDetector(
+      onTap: () => FocusScope.of(context).unfocus(), // dismiss keyboard
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        body: Stack(
           children: [
-            Container(
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage("assets/images/menu_bg.png"),
-                  fit: BoxFit.cover,
-                ),
+            const Positioned.fill(
+              child: Image(
+                image: AssetImage("assets/images/menu_bg.png"),
+                fit: BoxFit.cover,
               ),
             ),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 15.w),
-              child: Column(
-                children: [
-                  SizedBox(height: 10.h,),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Icon(Icons.arrow_back_ios, size: 16.r,),
-                      Text("Create Account", style: AppFonts.styleHarmoniaBold14W600(AppColors.primaryColor),),
-                    ],
-                  ),
-                  SizedBox(height: 25.h,),
-                  Text("Sign In to Your Account", style: AppFonts.styleHarmoniaBold31W600(AppColors.blackColor),),
-                  SizedBox(height: 100.h,),
-                  UiHelper.customTextField(controller: usernameController,labelText: "Username"),
-                  SizedBox(height: 20.h,),
-                  UiHelper.customPassTextField(controller: passwordController, obscureText: true, isPasswordVisible: true, onPress: (){}),
-                ],
+            SafeArea(
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20.w),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(height: 10.h),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        GestureDetector(
+                          onTap: () => Get.back(),
+                          child: Icon(Icons.arrow_back_ios, size: 16.r),
+                        ),
+                        Text(
+                          "Create Account",
+                          style: AppFonts.styleHarmoniaBold14W600(AppColors.primaryColor),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 25.h),
+                    Text(
+                      "Sign In to Your Account",
+                      style: AppFonts.styleHarmoniaBold31W600(AppColors.blackColor),
+                    ),
+                    SizedBox(height: 100.h),
+
+                    // Username
+                    UiHelper.customTextField(
+                      controller: usernameController,
+                      labelText: "Username",
+                    ),
+                    SizedBox(height: 20.h),
+
+                    // Password with visibility toggle
+                    TextField(
+                      controller: passwordController,
+                      obscureText: !_isPasswordVisible,
+                      decoration: InputDecoration(
+                        labelText: "Password",
+                        border: const OutlineInputBorder(),
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            _isPasswordVisible
+                                ? Icons.visibility
+                                : Icons.visibility_off,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              _isPasswordVisible = !_isPasswordVisible;
+                            });
+                          },
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 20.h),
+
+                    // Custom Circular Checkbox
+                    Row(
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              _rememberMe = !_rememberMe;
+                            });
+                          },
+                          child: Container(
+                            width: 20,
+                            height: 20,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              border: Border.all(color: Colors.black),
+                              color: _rememberMe ? Colors.blue : Colors.transparent,
+                            ),
+                            child: _rememberMe
+                                ? Icon(Icons.check, size: 18, color: Colors.white)
+                                : null,
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        const Text('Remember Me'),
+                      ],
+                    ),
+
+                    SizedBox(height: 20.h),
+
+                    // Sign In Button
+                    UiHelper.customButtonFill(
+                      color: AppColors.primaryColor,
+                      fontColor: Colors.white,
+                      btnText: "Sign in".toUpperCase(),
+                      onTap: () {
+                        if (usernameController.text.isNotEmpty &&
+                            passwordController.text.isNotEmpty) {
+                          if (usernameController.text == "12150" &&
+                              passwordController.text == "Maple@987") {
+                            Get.to(() => const SelectDashboardView());
+                          } else {
+                            print("invalid");
+                          }
+                        } else {
+                          print("Error");
+                        }
+                      },
+                    ),
+
+                    SizedBox(height: Get.height * 0.1),
+
+                    // Centered Forgot Password
+                    Center(
+                      child: GestureDetector(
+                        onTap: () {
+                          Get.to(() => const ForgotPasswordView());
+                        },
+                        child: Text(
+                          "Forgot the Password?",
+                          style: AppFonts.styleHarmoniaBold14W600(AppColors.primaryColor),
+                        ),
+                      ),
+                    ),
+
+                    SizedBox(height: 10.h),
+
+                    // Centered Change Password
+                    Center(
+                      child: GestureDetector(
+                        onTap: () {
+                          Get.to(() => const ChangePasswordView());
+                        },
+                        child: Text(
+                          "Change Password?",
+                          style: AppFonts.styleHarmoniaBold14W600(AppColors.primaryColor),
+                        ),
+                      ),
+                    ),
+
+                    SizedBox(height: 20.h),
+
+                    Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Text(
+                        "Version : $appVersion",
+                        style: AppFonts.styleHarmoniaBold14W600(AppColors.primaryColor),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ],
