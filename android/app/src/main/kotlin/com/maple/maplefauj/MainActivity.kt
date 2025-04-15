@@ -1,4 +1,4 @@
-package com.maple.maplefauj.mapleleaf
+package com.maple.maplefauj
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -1,6 +1,6 @@
-# mapleleaf
+# maplefauj
 
-A new Flutter project. 3.27 sdk
+A new Flutter project. 3.27
 
 ## Getting Started
 
