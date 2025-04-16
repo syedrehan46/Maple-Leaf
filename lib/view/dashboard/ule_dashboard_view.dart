@@ -108,30 +108,160 @@ class _UleDashboardViewState extends State<UleDashboardView> {
 
                 // Avatars with Labels
                 Padding(
-                  padding: const EdgeInsets.only(top:12.0),
+                  padding: const EdgeInsets.only(top: 12.0),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          _buildAvatar("assets/images/ule_group.png", "UG",),
-                          SizedBox(width: 35),
-                          _buildAvatar("assets/images/ic_ima.png", "IM"),
-                          SizedBox(width: 35),
-                          _buildAvatar("assets/images/ic_npi.png", "NPI"),
-                        ],
+                      Padding(
+                        padding: const EdgeInsets.only(top: 25.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Column(
+                              children: [
+                                CircleAvatar(
+                                  radius: 35,
+                                  backgroundColor: Colors.orangeAccent.withOpacity(0.2),
+                                  child: Padding(
+                                    padding: EdgeInsets.all(5),
+                                    child: CircleAvatar(
+                                      radius: 30,
+                                      backgroundImage: AssetImage("assets/images/ule_group.png"),
+                                      backgroundColor: Colors.white,
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(height: 6),
+                                Text(
+                                  "UG",
+                                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14.sp),
+                                ),
+                              ],
+                            ),
+                            SizedBox(width: 35),
+                            Column(
+                              children: [
+                                CircleAvatar(
+                                  radius: 35,
+                                  backgroundColor: Colors.greenAccent.withOpacity(0.2),
+                                  child: Padding(
+                                    padding: EdgeInsets.all(5),
+                                    child: CircleAvatar(
+                                      radius: 30,
+                                      backgroundImage: AssetImage("assets/images/ic_ima.png"),
+                                      backgroundColor: Colors.white,
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(height: 6),
+                                Text(
+                                  "IM",
+                                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14.sp),
+                                ),
+                              ],
+                            ),
+                            SizedBox(width: 35),
+                            Column(
+                              children: [
+                                CircleAvatar(
+                                  radius: 35,
+                                  backgroundColor: Colors.blueAccent.withOpacity(0.2),
+                                  child: Padding(
+                                    padding: EdgeInsets.all(5),
+                                    child: CircleAvatar(
+                                      radius: 30,
+                                      backgroundImage: AssetImage("assets/images/ic_npi.png"),
+                                      backgroundColor: Colors.white,
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(height: 6),
+                                Text(
+                                  "NPI",
+                                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14.sp),
+                                ),
+                              ],
+                            ),
+
+                          ],
+                        ),
                       ),
                       SizedBox(height: 30),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          _buildAvatar("assets/images/ic_lm.png", "LM"),
-                          SizedBox(width: 35),
-                          _buildAvatar("assets/images/ic_pe.png", "IM"),
-                          SizedBox(width: 35),
-                          _buildAvatar("assets/images/ic_scp.png", "PE"),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Column(
+                                children: [
+                                  CircleAvatar(
+                                    radius: 35,
+                                    backgroundColor: Colors.orangeAccent.withOpacity(0.2),
+                                    child: Padding(
+                                      padding: EdgeInsets.all(5),
+                                      child: CircleAvatar(
+                                        radius: 30,
+                                        backgroundImage: AssetImage("assets/images/ule_group.png"),
+                                        backgroundColor: Colors.white,
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(height: 6),
+                                  Text(
+                                    "UG",
+                                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14.sp),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(width: 35),
+                              Column(
+                                children: [
+                                  CircleAvatar(
+                                    radius: 35,
+                                    backgroundColor: Colors.greenAccent.withOpacity(0.2),
+                                    child: Padding(
+                                      padding: EdgeInsets.all(5),
+                                      child: CircleAvatar(
+                                        radius: 30,
+                                        backgroundImage: AssetImage("assets/images/ic_ima.png"),
+                                        backgroundColor: Colors.white,
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(height: 6),
+                                  Text(
+                                    "IM",
+                                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14.sp),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(width: 35),
+                              Column(
+                                children: [
+                                  CircleAvatar(
+                                    radius: 35,
+                                    backgroundColor: Colors.blueAccent.withOpacity(0.2),
+                                    child: Padding(
+                                      padding: EdgeInsets.all(5),
+                                      child: CircleAvatar(
+                                        radius: 30,
+                                        backgroundImage: AssetImage("assets/images/ic_npi.png"),
+                                        backgroundColor: Colors.white,
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(height: 6),
+                                  Text(
+                                    "NPI",
+                                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14.sp),
+                                  ),
+                                ],
+                              ),
+
+                            ],
+                          ),
                         ],
                       ),
                     ],
@@ -148,16 +278,10 @@ class _UleDashboardViewState extends State<UleDashboardView> {
   Widget _buildAvatar(String imagePath, String label) {
     return Column(
       children: [
-        Container(
-          width: 60,
-          height: 60,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            image: DecorationImage(
-              image: AssetImage(imagePath),
-              fit: BoxFit.cover,
-            ),
-          ),
+        CircleAvatar(
+          radius: 30, // You can adjust the size as needed
+          backgroundImage: AssetImage(imagePath),
+          backgroundColor: Colors.grey[200], // Optional: fallback color
         ),
         SizedBox(height: 6),
         Text(
