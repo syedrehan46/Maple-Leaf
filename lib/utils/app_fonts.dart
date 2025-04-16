@@ -5,6 +5,15 @@ import 'app_strings.dart';
 
 class AppFonts{
 
+  static TextStyle styleHarmoniaRegular10W600(Color color){
+    return TextStyle(
+        fontSize: 10.sp,
+        fontWeight: FontWeight.w600,
+        fontFamily: AppStrings.fontFamilyHarmoniaRegular,
+        color: color
+    );
+  }
+
   static TextStyle styleHarmoniaRegular12W400(Color color){
     return TextStyle(
         fontSize: 12.sp,

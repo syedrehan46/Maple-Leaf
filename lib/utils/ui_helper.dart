@@ -43,6 +43,32 @@ class UiHelper{
     );
   }
 
+  static customButtonWithCounter({required double height,required String btnText, required String countText, required VoidCallback onTap}){
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        margin: EdgeInsets.symmetric(horizontal: 50.w),
+        height: height,
+        decoration: BoxDecoration(
+          color: AppColors.primaryColor,
+          borderRadius: BorderRadius.circular(100),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(btnText, style: AppFonts.styleHarmoniaBold14W600(AppColors.whiteColor),),
+            SizedBox(width: 10.w,),
+            CircleAvatar(
+              radius: 10.r,
+              backgroundColor: AppColors.whiteColor,
+              child: Center(child: Text(countText, style: AppFonts.styleHarmoniaRegular10W600(AppColors.primaryColor),)),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   // static customButtonFill({required Color color,required Color fontColor,required String btnText, required VoidCallback onTap}){
   //   return GestureDetector(
   //     onTap: onTap,

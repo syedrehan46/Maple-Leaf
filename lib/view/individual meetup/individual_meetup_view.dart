@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:mapleleaf/utils/app_fonts.dart';
+import 'package:mapleleaf/utils/ui_helper.dart';
 
 import '../../utils/app_colors.dart';
 
@@ -58,26 +59,27 @@ class _IndividualMeetupViewState extends State<IndividualMeetupView> {
                             color: AppColors.whiteColor,
                           ),
                         ),
-                        Expanded(child: Center(child: Text("Individual Meetup", style: AppFonts.styleHarmoniaBold14W600(AppColors.whiteColor),))),
+                        Expanded(child: Center(child: Text("Individual Meetup".toUpperCase(), style: AppFonts.styleHarmoniaBold14W600(AppColors.whiteColor),))),
                       ],
                     ),
                   ),
                 ),
                 SizedBox(height: 10.h,),
-                Container(
-                  height: 200,
-                  width: Get.width,
-                  margin: EdgeInsets.symmetric(horizontal: 15.w, vertical: 5.h),
-                  decoration: BoxDecoration(
-                    color: AppColors.primaryColor,
-                    borderRadius: BorderRadius.circular(10.r),
-                  ),
-                  child: Column(
-                    children: [
-                      Text("Hello", style: AppFonts.styleHarmoniaBold16W600(AppColors.whiteColor),),
-                    ],
-                  ),
-                ),
+                UiHelper.customButtonWithCounter(height: 45.h, btnText: "Painter".toUpperCase(), countText: "0", onTap: (){}),
+                // Container(
+                //   height: 200,
+                //   width: Get.width,
+                //   margin: EdgeInsets.symmetric(horizontal: 15.w, vertical: 5.h),
+                //   decoration: BoxDecoration(
+                //     color: AppColors.primaryColor,
+                //     borderRadius: BorderRadius.circular(10.r),
+                //   ),
+                //   child: Column(
+                //     children: [
+                //       Text("Hello", style: AppFonts.styleHarmoniaBold16W600(AppColors.whiteColor),),
+                //     ],
+                //   ),
+                // ),
                 // Expanded(
                 //   child: ListView.builder(
                 //     itemCount: 20,
