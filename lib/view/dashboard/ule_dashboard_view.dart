@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:mapleleaf/utils/app_fonts.dart';
+import 'package:mapleleaf/view/individual%20meetup/individual_meetup_view.dart';
 
 import '../../utils/app_colors.dart';
 
@@ -13,8 +16,6 @@ class UleDashboardView extends StatefulWidget {
 class _UleDashboardViewState extends State<UleDashboardView> {
   @override
   Widget build(BuildContext context) {
-    ScreenUtil.init(context); // Make sure screen util is initialized
-
     return Scaffold(
       body: SafeArea(
         child: Stack(
@@ -35,7 +36,8 @@ class _UleDashboardViewState extends State<UleDashboardView> {
               children: [
                 // Top Header
                 Container(
-                  height: 100,
+                  // height: 100,
+                  padding: EdgeInsets.symmetric(vertical: 12.h),
                   decoration: BoxDecoration(
                     color: AppColors.primaryColor,
                     borderRadius: BorderRadius.only(
@@ -118,11 +120,13 @@ class _UleDashboardViewState extends State<UleDashboardView> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            _buildAvatar("assets/images/ule_group.png", "UG"),
+                            _buildAvatar(imagePath: "assets/images/ule_group.png", label: "IS", onTap: (){}),
                             SizedBox(width: 35),
-                            _buildAvatar("assets/images/ic_ima.png", "IM"),
+                            _buildAvatar(imagePath: "assets/images/ic_ima.png", label: "IM", onTap: (){
+                              Get.to(()=> IndividualMeetupView());
+                            }),
                             SizedBox(width: 35),
-                            _buildAvatar("assets/images/ic_npi.png", "NPI"),
+                            _buildAvatar(imagePath: "assets/images/ic_npi.png", label: "NPI", onTap: (){}),
                           ],
                         ),
                       ),
@@ -130,11 +134,11 @@ class _UleDashboardViewState extends State<UleDashboardView> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          _buildAvatar("assets/images/ic_lm.png", "LM"),
+                          _buildAvatar(imagePath: "assets/images/ic_lm.png", label: "LM", onTap: (){}),
                           SizedBox(width: 35),
-                          _buildAvatar("assets/images/ic_pe.png", "PE"),
+                          _buildAvatar(imagePath: "assets/images/ic_pe.png", label: "PE", onTap: (){}),
                           SizedBox(width: 35),
-                          _buildAvatar("assets/images/ic_scp.png", "SCP"),
+                          _buildAvatar(imagePath: "assets/images/ic_scp.png", label: "SCP", onTap: (){}),
                         ],
                       ),
                     ],
@@ -148,41 +152,35 @@ class _UleDashboardViewState extends State<UleDashboardView> {
     );
   }
 
-  Widget _buildAvatar(String imagePath, String label) {
+  Widget _buildAvatar({required String imagePath, required String label, required VoidCallback onTap}) {
     return Column(
       children: [
-        Container(
-          padding: EdgeInsets.all(2), // Border thickness
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            border: Border.all(
-              color: Colors.grey.shade200, // Border color
-              width: 1,           // Border width
+        GestureDetector(
+          onTap: onTap,
+          child: Container(
+            padding: EdgeInsets.all(2), // Border thickness
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              border: Border.all(
+                color: Colors.grey.shade200, // Border color
+                width: 1.w,           // Border width
+              ),
             ),
-          ),
-          child: CircleAvatar(
-            radius: 35,
-            backgroundColor: Colors.white,
-            child: ClipOval(
-              child: SizedBox(
-                width: 35, // Smaller image size
-                height: 35,
-                child: Image.asset(
-                  imagePath,
-                  fit: BoxFit.contain,
-                ),
+            child: CircleAvatar(
+              radius: 35.r,
+              backgroundColor: Colors.white,
+              child: Image.asset(
+                imagePath,
+                scale: 25.r,
+                fit: BoxFit.scaleDown,
               ),
             ),
           ),
         ),
-
-        SizedBox(height: 6),
+        SizedBox(height: 6.h),
         Text(
           label,
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 14.sp,
-          ),
+          style: AppFonts.styleHarmoniaBold14W600(AppColors.blackColor),
         ),
       ],
     );
