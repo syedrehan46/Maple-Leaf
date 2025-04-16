@@ -78,7 +78,9 @@ class _SignInViewState extends State<SignInView> {
                       obscureText: !_isPasswordVisible,
                       decoration: InputDecoration(
                         labelText: "Password",
-                        border: const OutlineInputBorder(),
+                        border:  OutlineInputBorder(
+                          // borderSide: BorderSide(color: Colors.red,width: 2),
+                        ),
                         suffixIcon: IconButton(
                           icon: Icon(
                             _isPasswordVisible
@@ -93,34 +95,44 @@ class _SignInViewState extends State<SignInView> {
                         ),
                       ),
                     ),
-                    SizedBox(height: 20.h),
+                    SizedBox(height: 10.h),
 
                     // Custom Circular Checkbox
-                    Row(
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              _rememberMe = !_rememberMe;
-                            });
-                          },
-                          child: Container(
-                            width: 20,
-                            height: 20,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              border: Border.all(color: Colors.black),
-                              color: _rememberMe ? Colors.blue : Colors.transparent,
-                            ),
-                            child: _rememberMe
-                                ? Icon(Icons.check, size: 18, color: Colors.white)
-                                : null,
-                          ),
-                        ),
-                        const SizedBox(width: 8),
-                        const Text('Remember Me'),
-                      ],
-                    ),
+                    GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          _rememberMe = !_rememberMe;
+                        });
+                      },
+                      child: Row(
+    children: [
+    Container(
+    width: 20,
+    height: 20,
+    decoration: BoxDecoration(
+    shape: BoxShape.circle,
+    border: Border.all(color: Colors.red), // red border
+    ),
+    child: _rememberMe
+    ? Center(
+    child: Container(
+    width: 10,
+    height: 10,
+    decoration: BoxDecoration(
+    color: Colors.red,
+    shape: BoxShape.circle,
+    ),
+    ),
+    )
+        : null,
+    ),
+    const SizedBox(width: 8),
+    const Text('Remember Me'),
+    ],
+    ),
+
+    ),
+
 
                     SizedBox(height: 20.h),
 
@@ -144,37 +156,43 @@ class _SignInViewState extends State<SignInView> {
                       },
                     ),
 
-                    SizedBox(height: Get.height * 0.1),
+                    // SizedBox(height: Get.height * 0.1),
 
                     // Centered Forgot Password
-                    Center(
-                      child: GestureDetector(
-                        onTap: () {
-                          Get.to(() => const ForgotPasswordView());
-                        },
-                        child: Text(
-                          "Forgot the Password?",
-                          style: AppFonts.styleHarmoniaBold14W600(AppColors.primaryColor),
-                        ),
-                      ),
-                    ),
+                   Padding(
+                     padding: const EdgeInsets.only(top: 14.0),
+                     child: Column(
+                       children: [
+                         Center(
+                           child: GestureDetector(
+                             onTap: () {
+                               Get.to(() => const ForgotPasswordView());
+                             },
+                             child: Text(
+                               "Forgot the Password?",
+                               style: AppFonts.styleHarmoniaBold14W600(AppColors.primaryColor),
+                             ),
+                           ),
+                         ),
 
-                    SizedBox(height: 10.h),
+                         SizedBox(height: 10.h),
 
-                    // Centered Change Password
-                    Center(
-                      child: GestureDetector(
-                        onTap: () {
-                          Get.to(() => const ChangePasswordView());
-                        },
-                        child: Text(
-                          "Change Password?",
-                          style: AppFonts.styleHarmoniaBold14W600(AppColors.primaryColor),
-                        ),
-                      ),
-                    ),
-
-                    SizedBox(height: 20.h),
+                         // Centered Change Password
+                         Center(
+                           child: GestureDetector(
+                             onTap: () {
+                               Get.to(() => const ChangePasswordView());
+                             },
+                             child: Text(
+                               "Change Password?",
+                               style: AppFonts.styleHarmoniaBold14W600(AppColors.primaryColor),
+                             ),
+                           ),
+                         ),
+                       ],
+                     ),
+                   ),
+                    SizedBox(height: 85.h),
 
                     Align(
                       alignment: Alignment.bottomCenter,

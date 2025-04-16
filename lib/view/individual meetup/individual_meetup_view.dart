@@ -65,7 +65,17 @@ class _IndividualMeetupViewState extends State<IndividualMeetupView> {
                   ),
                 ),
                 SizedBox(height: 10.h,),
-                UiHelper.customButtonWithCounter(height: 45.h, btnText: "Painter".toUpperCase(), countText: "0", onTap: (){}),
+                Expanded(child: Center(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min
+                    ,
+                    children: [
+                      UiHelper.customButtonWithCounter(height: 45.h, btnText: "Painter".toUpperCase(), countText: "0", onTap: (){}),
+                      SizedBox(height: 20,),
+                      UiHelper.customButtonWithCounter(height: 45.h, btnText: "LABORS CONTRACTOR".toUpperCase(), countText: "0", onTap: (){}),
+                    ],
+                  ),
+                ))
                 // Container(
                 //   height: 200,
                 //   width: Get.width,

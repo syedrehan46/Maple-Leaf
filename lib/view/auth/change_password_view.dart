@@ -60,7 +60,7 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
                     SizedBox(height: 100.h),
                     UiHelper.customTextField(
                       controller: usernameController,
-                      labelText: "Employee ID",
+                      labelText: "UserName",
                     ),
                     SizedBox(height: 20.h),
                     UiHelper.customPassTextField(
@@ -92,7 +92,7 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
                       child: UiHelper.customButtonFill(
                         color: AppColors.primaryColor,
                         fontColor: Colors.white,
-                        btnText: "Verify",
+                        btnText: "Sign Up",
                         onTap: () {
                           print("fill button");
                         },
