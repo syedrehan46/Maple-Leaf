@@ -3,6 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:mapleleaf/utils/app_fonts.dart';
 import 'package:mapleleaf/utils/ui_helper.dart';
+import 'package:mapleleaf/view/Labor%20Contractor%20Engament/labor_contractor_engagement_view.dart';
+import 'package:mapleleaf/view/painter%20engagement/painter_engagement_view.dart';
 
 import '../../utils/app_colors.dart';
 
@@ -70,9 +72,9 @@ class _IndividualMeetupViewState extends State<IndividualMeetupView> {
                     mainAxisSize: MainAxisSize.min
                     ,
                     children: [
-                      UiHelper.customButtonWithCounter(height: 45.h, btnText: "Painter".toUpperCase(), countText: "0", onTap: (){}),
+                      UiHelper.customButtonWithCounter(height: 45.h, btnText: "Painter".toUpperCase(), countText: "0", onTap: (){Get.to(PainterEngagementView());}),
                       SizedBox(height: 20,),
-                      UiHelper.customButtonWithCounter(height: 45.h, btnText: "LABORS CONTRACTOR".toUpperCase(), countText: "0", onTap: (){}),
+                      UiHelper.customButtonWithCounter(height: 45.h, btnText: "LABORS CONTRACTOR".toUpperCase(), countText: "0", onTap: (){Get.to(LaborContractorEngagementView());}),
                     ],
                   ),
                 ))

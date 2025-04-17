@@ -152,7 +152,7 @@ class UiHelper{
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: BorderSide(color:Colors.red, width: 2),
+          borderSide: BorderSide(color: AppColors.primaryColor, width: 2),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
@@ -195,11 +195,11 @@ class UiHelper{
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: BorderSide(color: Colors.red, width: 2),
+          borderSide: BorderSide(color: AppColors.primaryColor, width: 2),
         ),
         focusedErrorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: BorderSide(color: Colors.red, width: 2),
+          borderSide: BorderSide(color: AppColors.primaryColor, width: 2),
         ),
       ),
     );
