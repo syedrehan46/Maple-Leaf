@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -30,6 +31,9 @@ void main() async{
   PackageInfo packageInfo = await PackageInfo.fromPlatform();
   appVersion = packageInfo.version;
   await fetchDeviceInfo();
+  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+    statusBarColor: AppColors.primaryColor,
+  ));
   runApp(const MyApp());
 }
 

@@ -189,13 +189,11 @@ class _UleDashboardViewState extends State<UleDashboardView> {
             child: CircleAvatar(
               radius: 35.r,
               backgroundColor: Colors.white,
-              child: ClipOval(
-                child: Image.asset(
-                  imagePath,
-                  height: 40.r,
-                  width: 40.r,
-                  fit: BoxFit.contain,
-                ),
+              child: Image.asset(
+                imagePath,
+                height: 40.r,
+                width: 40.r,
+                fit: BoxFit.contain,
               ),
             ),
           ),
