@@ -73,28 +73,7 @@ class _SignInViewState extends State<SignInView> {
                     SizedBox(height: 20.h),
 
                     // Password with visibility toggle
-                    TextField(
-                      controller: passwordController,
-                      obscureText: !_isPasswordVisible,
-                      decoration: InputDecoration(
-                        labelText: "Password",
-                        border:  OutlineInputBorder(
-                          // borderSide: BorderSide(color: Colors.red,width: 2),
-                        ),
-                        suffixIcon: IconButton(
-                          icon: Icon(
-                            _isPasswordVisible
-                                ? Icons.visibility
-                                : Icons.visibility_off,
-                          ),
-                          onPressed: () {
-                            setState(() {
-                              _isPasswordVisible = !_isPasswordVisible;
-                            });
-                          },
-                        ),
-                      ),
-                    ),
+                    UiHelper.customPassTextField(controller: passwordController, obscureText: true, isPasswordVisible: true, onPress: (){}),
                     SizedBox(height: 10.h),
 
                     // Custom Circular Checkbox
@@ -144,12 +123,13 @@ class _SignInViewState extends State<SignInView> {
                       onTap: () {
                         if (usernameController.text.isNotEmpty &&
                             passwordController.text.isNotEmpty) {
-                          if (usernameController.text == "12150" &&
-                              passwordController.text == "Maple@987") {
-                            Get.to(() => const SelectDashboardView());
-                          } else {
-                            print("invalid");
-                          }
+                          // if (usernameController.text == "12150" &&
+                          //     passwordController.text == "Maple@987") {
+                          //   Get.to(() => const SelectDashboardView());
+                          // } else {
+                          //   print("invalid");
+                          // }
+                          Get.to(() => const SelectDashboardView());
                         } else {
                           print("Error");
                         }
