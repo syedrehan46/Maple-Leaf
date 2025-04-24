@@ -136,12 +136,11 @@ class _AddLeadsViewState extends State<AddLeadsView> {
                   icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
                   onPressed: () => Get.back(),
                 ),
-                const Expanded(
-                  child: Align(
-                    alignment: Alignment.center,
+                Expanded(
+                  child: Center(
                     child: Text(
                       'ADD LEADS',
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: Colors.white,
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
@@ -149,10 +148,15 @@ class _AddLeadsViewState extends State<AddLeadsView> {
                     ),
                   ),
                 ),
+                // Match the space taken by IconButton to balance layout
+                SizedBox(width: kToolbarHeight * 0.8), // ~same as IconButton width
               ],
             ),
           ),
-          Padding(
+          // ... other children widgets
+
+
+        Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,

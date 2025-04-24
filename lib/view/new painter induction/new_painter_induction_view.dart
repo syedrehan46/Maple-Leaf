@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mapleleaf/utils/app_colors.dart';
 import 'package:get/get.dart';
 
@@ -45,18 +46,14 @@ class NewPainterInductionView extends StatelessWidget {
                         selectedValue.value = dropdownValue;
                       });
                     },
-
                     selectedItemBuilder: (BuildContext context) {
                       return items.map((String value) {
                         return Text(
                           value,
-                          style: TextStyle(
-                            color: Colors.black,
-                          ),
+                          style: const TextStyle(color: Colors.black),
                         );
                       }).toList();
                     },
-
                     items: items.map<DropdownMenuItem<String>>((String value) {
                       return DropdownMenuItem<String>(
                         value: value,
@@ -132,12 +129,11 @@ class NewPainterInductionView extends StatelessWidget {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(30),
                           ),
-                          padding:  EdgeInsets.symmetric(
+                          padding: const EdgeInsets.symmetric(
                               horizontal: 6, vertical: 0),
                         ),
                         child: const Text("This Month"),
                       )),
-
                       const SizedBox(width: 16),
                       Obx(() => ElevatedButton(
                         onPressed: () {
@@ -160,7 +156,6 @@ class NewPainterInductionView extends StatelessWidget {
                         ),
                         child: const Text("Since Last Month"),
                       )),
-
                     ],
                   ),
                   const SizedBox(height: 8),
@@ -191,63 +186,82 @@ class NewPainterInductionView extends StatelessWidget {
                     ],
                   ),
                   const SizedBox(height: 20),
-                  buildDropdown("City", ["Please Select City","CHARHOI", "DANDI DARA", "DINA", "JHEUM", "KHARIAN", "KOTLA", "SARAI ALAMGIR"], selectedCity),
-                  const SizedBox(height: 16),
+                  buildDropdown("City", [
+                    "Please Select City",
+                    "CHARHOI",
+                    "DANDI DARA",
+                    "DINA",
+                    "JHEUM",
+                    "KHARIAN",
+                    "KOTLA",
+                    "SARAI ALAMGIR"
+                  ], selectedCity),
+                  const SizedBox(height: 20),
 
-                  // Add the "SHOW SUMMARY" button here after city dropdown
-                  Padding(
-                    padding: const EdgeInsets.all(12.0),
-                    child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: ElevatedButton(
+                  /// Final button row
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      /// SHOW SUMMARY
+                      ElevatedButton(
                         onPressed: () {
                           print("SHOW SUMMARY tapped");
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: AppColors.primaryColor,
-                          foregroundColor: Colors.black,
+                          foregroundColor: Colors.white,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(30),
                           ),
-                          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 20, vertical: 12),
                         ),
-                        child: const Text("SHOW SUMMARY", style: TextStyle(color: Colors.white)),
+                        child: const Text("SHOW SUMMARY"),
                       ),
-                    ),
-                  ),
 
-                  const SizedBox(height: 16),
-                  Row(
-                    children: [
-                      ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.primaryColor,
-                        ),
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 12.0),
-                          child: const Text("SHOW RESULT",
-                              style: TextStyle(color: Colors.white)),
-                        ),
-                      ),
-                      const SizedBox(width: 12),
-                      ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.white,
-                          side: const BorderSide(color: AppColors.primaryColor, width: 2),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(25),
+                      /// SHOW RESULT + CLEAR
+                      Row(
+                        children: [
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: ElevatedButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: AppColors.primaryColor,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(30),
+                                ),
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 20, vertical: 12),
+                              ),
+                              child: const Text("SHOW RESULT",
+                                  style: TextStyle(color: Colors.white)),
+                            ),
                           ),
-                        ),
-                        onPressed: () {
-                          selectedIndex.value = -1;
-                          selectedCity.value = ''; // Reset to empty string
-                          selectedStatus.value = ''; // Reset to empty string
-                        },
-                        child: const Text("CLEAR",
-                            style: TextStyle(color:  AppColors.primaryColor)),
+                          const SizedBox(width: 12),
+                          ElevatedButton(
+                            onPressed: () {
+                              selectedIndex.value = -1;
+                              selectedCity.value = '';
+                              selectedStatus.value = '';
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.white,
+                              side: const BorderSide(
+                                  color: AppColors.primaryColor, width: 2),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(25),
+                              ),
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 20, vertical: 12),
+                            ),
+                            child: const Text("CLEAR",
+                                style:
+                                TextStyle(color: AppColors.primaryColor)),
+                          ),
+                        ],
                       ),
                     ],
                   ),
@@ -263,20 +277,20 @@ class NewPainterInductionView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Column(
-          children: [
-            // Header Container
-            Container(
-              height: 60,
-              width: double.infinity,
-              decoration: const BoxDecoration(
-                color: Color(0xFFD32F2F),
-                borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(15),
-                  bottomRight: Radius.circular(15),
-                ),
+      body: Column(
+        children: [
+          Container(
+            height: 80,
+            width: double.infinity,
+            decoration: const BoxDecoration(
+              color: Color(0xFFD32F2F),
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(15),
+                bottomRight: Radius.circular(15),
               ),
+            ),
+            child: Padding(
+              padding: EdgeInsets.only(left: 10.w, right: 10.w, top: 25.h, bottom: 15.h),
               child: Stack(
                 alignment: Alignment.center,
                 children: [
@@ -297,7 +311,6 @@ class NewPainterInductionView extends StatelessWidget {
                     right: 15,
                     child: GestureDetector(
                       onTap: () {
-                        print("Filter icon tapped");
                         showCustomFilterDialog(context);
                       },
                       child: Container(
@@ -315,27 +328,28 @@ class NewPainterInductionView extends StatelessWidget {
                 ],
               ),
             ),
-
-            // Search TextField
-            Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: TextField(
-                controller: textEditingController,
-                textAlign: TextAlign.center,
-                decoration: InputDecoration(
-                  hintText: "Search",
-                  filled: true,
-                  fillColor: Colors.grey[100],
-                  contentPadding: const EdgeInsets.symmetric(vertical: 12),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide.none,
-                  ),
-                ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: Container(
+              height: 80,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                color: AppColors.primaryColor,
+                borderRadius: BorderRadius.circular(8),
               ),
-            ),
-          ],
-        ),
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      Text("YFFUR",style: TextStyle(color: AppColors.primaryColor,fontSize: 16,fontWeight: FontWeight.bold),),
+                    ],
+                  )
+                ],
+              ),
+            )
+          ),
+        ],
       ),
     );
   }

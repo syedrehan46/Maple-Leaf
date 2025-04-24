@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mapleleaf/utils/app_colors.dart';
 import 'package:get/get.dart';
 import 'package:mapleleaf/view/individual%20meetup/UserLead%20Page/add_leads_view.dart';
@@ -16,7 +17,7 @@ class IndividualMeetingPainters extends StatelessWidget {
         children: [
           // Header Container
           Container(
-            height: 90,
+            height: 80,
             width: double.infinity,
             decoration: const BoxDecoration(
               color: Color(0xFFD32F2F),
@@ -25,23 +26,26 @@ class IndividualMeetingPainters extends StatelessWidget {
                 bottomRight: Radius.circular(15),
               ),
             ),
-            child: Stack(
-              alignment: Alignment.center,
-              children: [
-                const Text(
-                  "INDIVIDUAL MEETUPS PAINTER ",
-                  style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-                Positioned(
-                  left: 0,
-                  child: IconButton(
-                    onPressed: () {
-                      Get.back();
-                    },
-                    icon: const Icon(Icons.arrow_back_ios, color: Colors.white, size: 20),
+            child: Padding(
+              padding: EdgeInsets.only(left: 10.w, right: 10.w, top: 20.h, bottom: 10.h),
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  const Text(
+                    "INDIVIDUAL MEETUPS PAINTER ",
+                    style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
                   ),
-                ),
-              ],
+                  Positioned(
+                    left: 0,
+                    child: IconButton(
+                      onPressed: () {
+                        Get.back();
+                      },
+                      icon: const Icon(Icons.arrow_back_ios, color: Colors.white, size: 20),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
 
