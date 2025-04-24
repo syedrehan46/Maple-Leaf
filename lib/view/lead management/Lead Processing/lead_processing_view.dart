@@ -1,14 +1,32 @@
 import 'package:flutter/material.dart';
-import 'package:mapleleaf/utils/app_colors.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
+import 'package:mapleleaf/utils/app_colors.dart';
+import 'package:mapleleaf/view/lead%20management/Lead%20Converted/feedback_view.dart';
+// import 'package:maple/porfolio_view.dart';
 
-class NewPainterInductionView extends StatelessWidget {
-  NewPainterInductionView({super.key});
+class LeadProcessingView extends StatefulWidget {
+  const LeadProcessingView({super.key});
 
+  @override
+  State<LeadProcessingView> createState() => _LeadGeneratedViewState();
+}
+
+class _LeadGeneratedViewState extends State<LeadProcessingView> {
   final RxInt selectedIndex = 0.obs;
-  final RxString selectedCity = "Please Select City".obs;
-  final RxString selectedStatus = "Please Select Status".obs;
-  final TextEditingController textEditingController = TextEditingController();
+  final RxString selectedCity = ''.obs;
+  final RxString selectedStatus = ''.obs;
+
+  final List<Map<String, dynamic>> leads = [
+    {
+      'id': '17686',
+      'phone': '03219876543',
+      'name': 'Sara',
+      'color': AppColors.activeColor,
+      'date': DateFormat('dd-MMM-yyyy').format(DateTime.now()),
+    }
+  ];
+
 
   Widget buildDropdown(String label, List<String> items, RxString selectedValue) {
     String dropdownValue = items.first;
@@ -46,17 +64,19 @@ class NewPainterInductionView extends StatelessWidget {
                       });
                     },
 
+                    /// 👇 This controls how selected item (closed state) looks
                     selectedItemBuilder: (BuildContext context) {
                       return items.map((String value) {
                         return Text(
                           value,
                           style: TextStyle(
-                            color: Colors.black,
+                            color: Colors.black, // Always black when dropdown is closed
                           ),
                         );
                       }).toList();
                     },
 
+                    /// 👇 This controls dropdown list items
                     items: items.map<DropdownMenuItem<String>>((String value) {
                       return DropdownMenuItem<String>(
                         value: value,
@@ -77,6 +97,9 @@ class NewPainterInductionView extends StatelessWidget {
       },
     );
   }
+
+
+
 
   void showCustomFilterDialog(BuildContext context) {
     showDialog(
@@ -137,7 +160,6 @@ class NewPainterInductionView extends StatelessWidget {
                         ),
                         child: const Text("This Month"),
                       )),
-
                       const SizedBox(width: 16),
                       Obx(() => ElevatedButton(
                         onPressed: () {
@@ -160,7 +182,6 @@ class NewPainterInductionView extends StatelessWidget {
                         ),
                         child: const Text("Since Last Month"),
                       )),
-
                     ],
                   ),
                   const SizedBox(height: 8),
@@ -193,29 +214,7 @@ class NewPainterInductionView extends StatelessWidget {
                   const SizedBox(height: 20),
                   buildDropdown("City", ["Please Select City","CHARHOI", "DANDI DARA", "DINA", "JHEUM", "KHARIAN", "KOTLA", "SARAI ALAMGIR"], selectedCity),
                   const SizedBox(height: 16),
-
-                  // Add the "SHOW SUMMARY" button here after city dropdown
-                  Padding(
-                    padding: const EdgeInsets.all(12.0),
-                    child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          print("SHOW SUMMARY tapped");
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.primaryColor,
-                          foregroundColor: Colors.black,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30),
-                          ),
-                          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                        ),
-                        child: const Text("SHOW SUMMARY", style: TextStyle(color: Colors.white)),
-                      ),
-                    ),
-                  ),
-
+                  buildDropdown("Status", ["Please Select Status","LEAD GENERATED", "PROCESSED", "CONVERTED", "CLOSE"], selectedStatus),
                   const SizedBox(height: 16),
                   Row(
                     children: [
@@ -259,83 +258,110 @@ class NewPainterInductionView extends StatelessWidget {
       },
     );
   }
-
   @override
   Widget build(BuildContext context) {
+    final String currentDate =
+    DateFormat('dd-MMM-yyyy').format(DateTime.now()).toUpperCase();
+
     return Scaffold(
-      body: SafeArea(
-        child: Column(
-          children: [
-            // Header Container
-            Container(
-              height: 60,
-              width: double.infinity,
-              decoration: const BoxDecoration(
-                color: Color(0xFFD32F2F),
-                borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(15),
-                  bottomRight: Radius.circular(15),
-                ),
-              ),
-              child: Stack(
-                alignment: Alignment.center,
-                children: [
-                  const Text(
-                    "NEW PAINTER INDUCTION",
-                    style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
-                  Positioned(
-                    left: 0,
-                    child: IconButton(
-                      onPressed: () {
-                        Get.back();
-                      },
-                      icon: const Icon(Icons.arrow_back_ios, color: Colors.white, size: 20),
-                    ),
-                  ),
-                  Positioned(
-                    right: 15,
-                    child: GestureDetector(
-                      onTap: () {
-                        print("Filter icon tapped");
-                        showCustomFilterDialog(context);
-                      },
-                      child: Container(
-                        padding: const EdgeInsets.all(8),
-                        color: Colors.transparent,
-                        child: Image.asset(
-                          "assets/images/ic_filter.png",
-                          height: 20,
-                          width: 20,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+      appBar: AppBar(
+        backgroundColor: AppColors.primaryColor,
+        title: const Text(
+          "Lead Processing ",
+          style: TextStyle(color: Color(0xFFF7F7F7)),
+        ),
+        centerTitle: true,
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context); // or any navigation logic
+          },
+          icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
+        ),
+        actions: [
+          IconButton(
+            onPressed: () {
+              showCustomFilterDialog(context); // open filter dialog
+            },
+            icon: Image.asset(
+              'assets/images/ic_filter.png',
+              height: 24,
+              width: 24,
+              color: Colors.white, // remove if you want original color
+            ),
+          ),
+        ],
+        shape: const OutlineInputBorder(
+          borderRadius: BorderRadius.only(
+            bottomRight: Radius.circular(20),
+            bottomLeft: Radius.circular(20),
+          ),
+        ),
+      ),
+
+
+      body:  ListView.builder(
+        itemCount: leads.length,
+        itemBuilder: (BuildContext context, int index) {
+          final lead = leads[index];
+          return Padding(
+            padding: EdgeInsets.fromLTRB(
+              12,
+              index == 0 ? 22 : 6, // double the top padding for the first item
+              12,
+              4,
             ),
 
-            // Search TextField
-            Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: TextField(
-                controller: textEditingController,
-                textAlign: TextAlign.center,
-                decoration: InputDecoration(
-                  hintText: "Search",
-                  filled: true,
-                  fillColor: Colors.grey[100],
-                  contentPadding: const EdgeInsets.symmetric(vertical: 12),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide.none,
-                  ),
+            child: GestureDetector(
+              onTap: () {
+
+                Get.to(FeedbackScreen());
+
+              },
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 16,vertical: 6),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8),
+                  color: lead['color'],
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Text(
+                          lead['id'],
+                          style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        const SizedBox(width: 40),
+                        Text(
+                          lead['date'],
+                          style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 10),
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        "${lead['phone']}${lead['name']}",
+                        style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),
-          ],
-        ),
+          );
+        },
       ),
     );
   }

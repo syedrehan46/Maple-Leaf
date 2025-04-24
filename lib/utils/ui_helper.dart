@@ -47,8 +47,9 @@ class UiHelper{
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        margin: EdgeInsets.symmetric(horizontal: 50.w),
-        height: height,
+      height: height,
+        margin: EdgeInsets.symmetric(horizontal: 30),
+
         decoration: BoxDecoration(
           color: AppColors.primaryColor,
           borderRadius: BorderRadius.circular(100),
@@ -56,12 +57,12 @@ class UiHelper{
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(btnText, style: AppFonts.styleHarmoniaBold14W600(AppColors.whiteColor),),
-            SizedBox(width: 10.w,),
+            Text(btnText, style: AppFonts.styleHarmoniaBold18W600(AppColors.whiteColor),),
+            SizedBox(width: 6.w,),
             CircleAvatar(
-              radius: 10.r,
+              radius: 15.r,
               backgroundColor: AppColors.whiteColor,
-              child: Center(child: Text(countText, style: AppFonts.styleHarmoniaRegular10W600(AppColors.primaryColor),)),
+              child: Center(child: Text(countText, style: AppFonts.styleHarmoniaBold16W600(AppColors.primaryColor),)),
             ),
           ],
         ),

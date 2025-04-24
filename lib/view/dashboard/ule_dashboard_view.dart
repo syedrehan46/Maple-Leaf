@@ -2,7 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:mapleleaf/utils/app_fonts.dart';
+import 'package:mapleleaf/view/Group%20Management/group_management_view.dart';
 import 'package:mapleleaf/view/individual%20meetup/individual_meetup_view.dart';
+import 'package:mapleleaf/view/lead%20management/lead_management_view.dart';
+import 'package:mapleleaf/view/new%20painter%20induction/new_painter_induction_view.dart';
+import 'package:mapleleaf/view/painter%20engagement/painter_engagement_view.dart';
+import 'package:mapleleaf/view/sab%20contractor%20profile/sab_contractor_profile_view.dart';
 import '../../utils/app_colors.dart';
 
 class UleDashboardView extends StatefulWidget {
@@ -37,7 +42,7 @@ class _UleDashboardViewState extends State<UleDashboardView> {
                 height: 120,
                 padding: EdgeInsets.symmetric(vertical: 12.h),
                 decoration: BoxDecoration(
-                  color: AppColors.primaryColor,
+                  color: Color(0xFFD32F2F),
                   borderRadius: BorderRadius.only(
                     bottomLeft: Radius.circular(15.r),
                     bottomRight: Radius.circular(15.r),
@@ -51,11 +56,14 @@ class _UleDashboardViewState extends State<UleDashboardView> {
                       // Avatar and text
                       Row(
                         children: [
-                          CircleAvatar(
-                            radius: 25.r,
-                            backgroundImage:
-                            AssetImage('assets/images/ic_profile.png'),
-                            backgroundColor: Colors.white,
+                          Padding(
+                            padding: const EdgeInsets.only(top: 12.0),
+                            child: CircleAvatar(
+                              radius: 25.r,
+                              backgroundImage:
+                              AssetImage('assets/images/ic_profile.png'),
+                              backgroundColor: Colors.white,
+                            ),
                           ),
                           SizedBox(width: 10.w),
                           Column(
@@ -81,11 +89,7 @@ class _UleDashboardViewState extends State<UleDashboardView> {
                           ),
                         ],
                       ),
-                      Icon(
-                        Icons.notifications_none_rounded,
-                        size: 30.r,
-                        color: AppColors.whiteColor,
-                      ),
+                      Container(padding:EdgeInsets.only(top:16),child:Image.asset("assets/images/ic_notification.png",height:25,width:25,color:Colors.white))
                     ],
                   ),
                 ),
@@ -121,8 +125,8 @@ class _UleDashboardViewState extends State<UleDashboardView> {
                         children: [
                           _buildAvatar(
                               imagePath: "assets/images/ule_group.png",
-                              label: "IS",
-                              onTap: () {}),
+                              label: "GE",
+                              onTap: () {Get.to(GroupManagementView());}),
                           SizedBox(width: 35.w),
                           _buildAvatar(
                               imagePath: "assets/images/ic_ima.png",
@@ -134,7 +138,9 @@ class _UleDashboardViewState extends State<UleDashboardView> {
                           _buildAvatar(
                               imagePath: "assets/images/ic_npi.png",
                               label: "NPI",
-                              onTap: () {}),
+                              onTap: () {
+                                Get.to(NewPainterInductionView());
+                              }),
                         ],
                       ),
                     ),
@@ -145,17 +151,17 @@ class _UleDashboardViewState extends State<UleDashboardView> {
                         _buildAvatar(
                             imagePath: "assets/images/ic_lm.png",
                             label: "LM",
-                            onTap: () {}),
+                            onTap: () {Get.to(LeadManagementView());}),
                         SizedBox(width: 35.w),
                         _buildAvatar(
                             imagePath: "assets/images/ic_pe.png",
                             label: "PE",
-                            onTap: () {}),
+                            onTap: () {Get.to(PainterEngagementView());}),
                         SizedBox(width: 35.w),
                         _buildAvatar(
                             imagePath: "assets/images/ic_scp.png",
                             label: "SCP",
-                            onTap: () {}),
+                            onTap: () {Get.to(SabContractorProfileView());}),
                       ],
                     ),
                   ],

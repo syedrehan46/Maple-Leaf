@@ -1,0 +1,44 @@
+import 'package:flutter/material.dart';
+import 'package:mapleleaf/utils/app_colors.dart';
+import 'package:get/get.dart';
+
+class GroupManagementView extends StatelessWidget {
+  const GroupManagementView({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return  Scaffold(
+      body: SafeArea(
+        child: Container(
+          height: 60,
+          width: double.infinity,
+          decoration: BoxDecoration(
+              color: Color(0xFFD32F2F),
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(15),
+                bottomRight: Radius.circular(15),
+              ),
+              // color: AppColors.primaryColor
+          ),
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              Text("GROUP MANAGEMENT",style: TextStyle(color: Colors.white,fontSize: 18,fontWeight: FontWeight.bold),),
+              Positioned(left: 0,child: IconButton(onPressed: (){Get.back();}, icon: Icon(Icons.arrow_back_ios,color: Colors.white,size: 20,))),
+              Positioned(
+                right: 15,
+                child: Image.asset(
+                  "assets/images/ic_filter.png",
+                  height: 20,
+                  width: 20,
+                  color: Colors.white, // optional: tint the icon if needed
+                ),
+              ),
+
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}

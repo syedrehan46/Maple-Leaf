@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:mapleleaf/utils/app_colors.dart';
 import 'package:mapleleaf/view/dashboard/ule_dashboard_view.dart';
-
-import '../../utils/app_colors.dart';
-import '../../utils/ui_helper.dart';
 
 class SelectDashboardView extends StatefulWidget {
   const SelectDashboardView({super.key});
@@ -20,73 +18,105 @@ class _SelectDashboardViewState extends State<SelectDashboardView> {
       body: SafeArea(
         child: Stack(
           children: [
-            Positioned.fill(child: Container(
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage("assets/images/menu_bg.png"),
-                  fit: BoxFit.cover,
-                ),
+            // Corrected Positioned.fill widget with background image
+            Positioned.fill(
+              child: Image.asset(
+                "assets/images/bg.png",
+                fit: BoxFit.cover, // Ensures the image covers the entire screen
               ),
-            )),
-            Positioned(
-              top: 20,
-                left: 20,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    GestureDetector(
-                        onTap: ()=> Get.back(),
-                        child: Icon(Icons.arrow_back_ios, size: 16.r,)),
-                  ],
-                ),
             ),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20.w),
+            // ⬇️ BACK BUTTON
+            Positioned(
+              top: 20.h,
+              left: 20.w,
+              child: GestureDetector(
+                onTap: () => Get.back(),
+                child: Icon(Icons.arrow_back_ios, size: 20.r, color: Colors.white),
+              ),
+            ),
+
+            // ⬇️ BUTTONS IN CENTER
+            Center(
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
                 children: [
-                  SizedBox(height: 20.h,),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 10.w),
-                    child: UiHelper.customButtonFill(
-                        color: AppColors.primaryColor,
-                        fontColor: Colors.white,
-                        btnText: "ule/pod".toUpperCase(),
-                        onTap: (){
-                          Get.to(()=> UleDashboardView());
-                          print("ule/pod");
-                        }
-                    ),
-                  ),
-                  SizedBox(height: 20.h,),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 10.w),
-                    child: UiHelper.customButtonFill(
-                        color: AppColors.primaryColor,
-                        fontColor: Colors.white,
-                        btnText: "fos".toUpperCase(),
-                        onTap: (){
-                          print("fill button");
-                        }
-                    ),
-                  ),
-                  SizedBox(height: 20.h,),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 10.w),
-                    child: UiHelper.customButtonFill(
-                        color: AppColors.primaryColor,
-                        fontColor: Colors.white,
-                        btnText: "d2c".toUpperCase(),
-                        onTap: (){
-                          print("fill button");
-                        }
-                    ),
-                  ),
+                  _buildULEButton(),
+                  SizedBox(height: 20.h),
+                  _buildFOSButton(),
                 ],
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildULEButton() {
+    return GestureDetector(
+      onTap: () => Get.to(() => const UleDashboardView()),
+      child: Padding(
+        padding: const EdgeInsets.all(6.0),
+        child: Container(
+          width: double.infinity,
+          padding: EdgeInsets.symmetric(vertical: 16.h),
+          decoration: BoxDecoration(
+            color: Colors.white.withOpacity(0.9),
+            borderRadius: BorderRadius.circular(40.r),
+            border: Border.all(color: Color(0xff2DA94F), width: 2),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.asset("assets/images/leaf_ic.png", height: 30, width: 30),
+              SizedBox(width: 10.w),
+              Text(
+                "ULE/POD/D2C",
+                style: TextStyle(
+                  fontSize: 16.sp,
+                  fontWeight: FontWeight.bold,
+                  color: AppColors.primaryColor,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildFOSButton() {
+    return GestureDetector(
+      onTap: () => print("FOS tapped"),
+      child: Padding(
+        padding: const EdgeInsets.only(left: 8.0, right: 8),
+        child: Container(
+          width: double.infinity,
+          padding: EdgeInsets.symmetric(vertical: 16),
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Color(0xFF8B0000), Color(0xFFB22222)],
+            ),
+            borderRadius: BorderRadius.circular(40.r),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Opacity(
+                opacity: 0.4,
+                child: Image.asset("assets/images/leaf_ic.png", height: 30, width: 30),
+              ),
+              SizedBox(width: 10.w),
+              Text(
+                "FOS",
+                style: TextStyle(
+                  fontSize: 16.sp,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

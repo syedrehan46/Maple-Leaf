@@ -3,8 +3,8 @@ import 'package:get/get.dart';
 import 'package:mapleleaf/utils/app_colors.dart';
 import 'package:mapleleaf/view/individual%20meetup/individual_meeting_painters.dart';
 
-class SabContractorProfileView extends StatelessWidget {
-  SabContractorProfileView({super.key});
+class IndividualMeetupPainter extends StatelessWidget {
+  IndividualMeetupPainter({super.key});
 
   final RxInt selectedIndex = 0.obs;
   final RxString selectedCity = ''.obs;
@@ -189,7 +189,7 @@ class SabContractorProfileView extends StatelessWidget {
                 alignment: Alignment.center,
                 children: [
                   const Text(
-                    "INDIVIDUAL MEETUPS LABOR",
+                    "INDIVIDUAL MEETUPS PAINTER",
                     style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                   Positioned(
@@ -263,6 +263,7 @@ class MeetupCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
+        // Replace with your actual navigation target
         Get.to(() => IndividualMeetingPainters());
       },
       child: Card(

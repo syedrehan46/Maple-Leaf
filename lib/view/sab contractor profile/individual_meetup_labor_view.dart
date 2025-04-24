@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mapleleaf/utils/app_colors.dart';
 import 'package:mapleleaf/view/individual%20meetup/individual_meeting_painters.dart';
+import 'package:mapleleaf/view/sab%20contractor%20profile/individual_meetup_labor.dart';
 
-class SabContractorProfileView extends StatelessWidget {
-  SabContractorProfileView({super.key});
+class IndividualMeetupLaborView extends StatelessWidget {
+  IndividualMeetupLaborView({super.key});
 
   final RxInt selectedIndex = 0.obs;
-  final RxString selectedCity = ''.obs;
-  final RxString selectedStatus = ''.obs;
+  final RxString selectedCity = "Please Select City".obs;
+  final RxString selectedStatus = "Please Select Status".obs;
 
   Widget buildDropdown(String label, List<String> items, RxString selectedValue) {
     return Padding(
@@ -32,7 +33,7 @@ class SabContractorProfileView extends StatelessWidget {
             ),
             child: DropdownButtonHideUnderline(
               child: Obx(() => DropdownButton<String>(
-                value: selectedValue.value.isNotEmpty ? selectedValue.value : items.first,
+                value: selectedValue.value,
                 isExpanded: true,
                 icon: const Icon(Icons.arrow_drop_down),
                 onChanged: (String? newValue) {
@@ -152,8 +153,8 @@ class SabContractorProfileView extends StatelessWidget {
                           ),
                           onPressed: () {
                             selectedIndex.value = -1;
-                            selectedCity.value = '';
-                            selectedStatus.value = '';
+                            selectedCity.value = "Please Select City";
+                            selectedStatus.value = "Please Select Status";
                           },
                           child: const Text("CLEAR", style: TextStyle(color: AppColors.primaryColor)),
                         ),
@@ -263,7 +264,7 @@ class MeetupCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Get.to(() => IndividualMeetingPainters());
+        Get.to(() => IndividualMeetupLabor());
       },
       child: Card(
         color: Colors.red.shade800,
