@@ -42,7 +42,7 @@ class _UleDashboardViewState extends State<UleDashboardView> {
                 height: 120,
                 padding: EdgeInsets.symmetric(vertical: 12.h),
                 decoration: BoxDecoration(
-                  color: Color(0xFFD32F2F),
+                  color: AppColors.redColor,
                   borderRadius: BorderRadius.only(
                     bottomLeft: Radius.circular(15.r),
                     bottomRight: Radius.circular(15.r),

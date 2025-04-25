@@ -2,15 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mapleleaf/utils/app_colors.dart';
 import 'package:get/get.dart';
-
 class NewPainterInductionView extends StatelessWidget {
   NewPainterInductionView({super.key});
-
   final RxInt selectedIndex = 0.obs;
   final RxString selectedCity = "Please Select City".obs;
   final RxString selectedStatus = "Please Select Status".obs;
   final TextEditingController textEditingController = TextEditingController();
-
   Widget buildDropdown(String label, List<String> items, RxString selectedValue) {
     String dropdownValue = items.first;
 
@@ -74,7 +71,6 @@ class NewPainterInductionView extends StatelessWidget {
       },
     );
   }
-
   void showCustomFilterDialog(BuildContext context) {
     showDialog(
       context: context,
@@ -273,83 +269,84 @@ class NewPainterInductionView extends StatelessWidget {
       },
     );
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          Container(
-            height: 80,
-            width: double.infinity,
-            decoration: const BoxDecoration(
-              color: Color(0xFFD32F2F),
-              borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(15),
-                bottomRight: Radius.circular(15),
+      body: SafeArea(
+        child: Column(
+          children: [
+            Container(
+              height: 80,
+              width: double.infinity,
+              decoration: const BoxDecoration(
+                color: AppColors.redColor,
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(15),
+                  bottomRight: Radius.circular(15),
+                ),
               ),
-            ),
-            child: Padding(
-              padding: EdgeInsets.only(left: 10.w, right: 10.w, top: 25.h, bottom: 15.h),
-              child: Stack(
-                alignment: Alignment.center,
-                children: [
-                  const Text(
-                    "NEW PAINTER INDUCTION",
-                    style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
-                  Positioned(
-                    left: 0,
-                    child: IconButton(
-                      onPressed: () {
-                        Get.back();
-                      },
-                      icon: const Icon(Icons.arrow_back_ios, color: Colors.white, size: 20),
+              child: Padding(
+                padding: EdgeInsets.only(left: 10.w, right: 10.w, top: 25.h, bottom: 15.h),
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    const Text(
+                      "NEW PAINTER INDUCTION",
+                      style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
                     ),
-                  ),
-                  Positioned(
-                    right: 15,
-                    child: GestureDetector(
-                      onTap: () {
-                        showCustomFilterDialog(context);
-                      },
-                      child: Container(
-                        padding: const EdgeInsets.all(8),
-                        color: Colors.transparent,
-                        child: Image.asset(
-                          "assets/images/ic_filter.png",
-                          height: 20,
-                          width: 20,
-                          color: Colors.white,
+                    Positioned(
+                      left: 0,
+                      child: IconButton(
+                        onPressed: () {
+                          Get.back();
+                        },
+                        icon: const Icon(Icons.arrow_back_ios, color: Colors.white, size: 20),
+                      ),
+                    ),
+                    Positioned(
+                      right: 15,
+                      child: GestureDetector(
+                        onTap: () {
+                          showCustomFilterDialog(context);
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.all(8),
+                          color: Colors.transparent,
+                          child: Image.asset(
+                            "assets/images/ic_filter.png",
+                            height: 20,
+                            width: 20,
+                            color: Colors.white,
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(12.0),
-            child: Container(
-              height: 80,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                color: AppColors.primaryColor,
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: Column(
-                children: [
-                  Row(
-                    children: [
-                      Text("YFFUR",style: TextStyle(color: AppColors.primaryColor,fontSize: 16,fontWeight: FontWeight.bold),),
-                    ],
-                  )
-                ],
-              ),
-            )
-          ),
-        ],
+            Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: Container(
+                height: 80,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  color: AppColors.primaryColor,
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        Text("YFFUR",style: TextStyle(color: AppColors.primaryColor,fontSize: 16,fontWeight: FontWeight.bold),),
+                      ],
+                    )
+                  ],
+                ),
+              )
+            ),
+          ],
+        ),
       ),
     );
   }

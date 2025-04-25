@@ -10,10 +10,10 @@ class GroupManagementView extends StatelessWidget {
     return  Scaffold(
       body: SafeArea(
         child: Container(
-          height: 60,
+          height: 80,
           width: double.infinity,
           decoration: BoxDecoration(
-              color: Color(0xFFD32F2F),
+              color: AppColors.redColor,
               borderRadius: BorderRadius.only(
                 bottomLeft: Radius.circular(15),
                 bottomRight: Radius.circular(15),

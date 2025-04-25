@@ -27,5 +27,5 @@ class AppColors{
   static const approvedColor = Color(0xff34C759);
   static const blackColor = Colors.black;
   static const whiteColor = Colors.white;
-  static const redColor = Colors.red;
+  static const redColor = Color(0xFFB71C1C);
 }

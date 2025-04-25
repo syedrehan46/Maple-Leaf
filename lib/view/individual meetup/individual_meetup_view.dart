@@ -40,10 +40,10 @@ class _IndividualMeetupViewState extends State<IndividualMeetupView> {
             children: [
               // Top Header
               Container(
-                height: 100,
+                height: 80,
                 padding: EdgeInsets.symmetric(vertical: 20.h),
                 decoration: BoxDecoration(
-                 color: Color(0xFFD32F2F),
+                 color: AppColors.redColor,
                   borderRadius: BorderRadius.only(
                     bottomLeft: Radius.circular(20.r),
                     bottomRight: Radius.circular(20.r),

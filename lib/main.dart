@@ -8,6 +8,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:mapleleaf/utils/app_colors.dart';
 import 'package:mapleleaf/utils/app_strings.dart';
+import 'package:mapleleaf/view/dashboard/ule_dashboard_view.dart';
+import 'package:mapleleaf/view/painter%20engagement/Engaged%20Painter/Painter_list.dart';
+import 'package:mapleleaf/view/painter%20engagement/Engaged%20Painter/add_lead.dart';
+import 'package:mapleleaf/view/painter%20engagement/Engaged%20Painter/engaged_painter.dart';
+import 'package:mapleleaf/view/painter%20engagement/painter_engagement_view.dart';
 import 'package:mapleleaf/view/splash_view.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:path_provider/path_provider.dart' as path_provider;
@@ -80,7 +85,7 @@ class MyApp extends StatelessWidget {
           builder: EasyLoading.init(),
         );
       },
-      child: const SplashView(),
+      child: UleDashboardView(),
     );
   }
 }
