@@ -103,10 +103,12 @@ class IndividualMeetingPainters extends StatelessWidget {
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 12.0,vertical: 0),
-            child: GestureDetector(
-              onTap: (){Get.to(AddLeadsView());},
+          GestureDetector(
+            onTap: (){
+              Get.to(AddLeadsView());
+            },
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12.0,vertical: 2),
               child: Container(
                 height: 60,
                 width: double.infinity,
@@ -124,7 +126,7 @@ class IndividualMeetingPainters extends StatelessWidget {
                       padding: const EdgeInsets.only(right: 14.0),
                       child: Row(
                         children: [
-                          Text("03242454646",style: TextStyle(fontSize: 16,color: Colors.white),),
+                          Text("03164442036",style: TextStyle(fontSize: 16,color: Colors.white),),
                           Icon(Icons.arrow_forward_ios,size: 25,color: Colors.white,),
                           // Container(height: 25,width: 25,decoration: BoxDecoration(shape: BoxShape.circle,color: Colors.white),child: Center(child: Text("1",style: TextStyle(color: AppColors.primaryColor),),),)
 
@@ -135,8 +137,7 @@ class IndividualMeetingPainters extends StatelessWidget {
                 ),
               ),
             ),
-          )
-
+          ),
           // Spacer to push the button to the bottom
 
         ],

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:mapleleaf/utils/app_colors.dart';
+import 'package:mapleleaf/utils/ui_helper.dart'; // <<-- Make sure to import this
 import 'package:mapleleaf/view/individual%20meetup/individual_meeting_painters.dart';
 
 class IndividualMeetupPainter extends StatelessWidget {
@@ -11,216 +12,12 @@ class IndividualMeetupPainter extends StatelessWidget {
   final RxString selectedCity = ''.obs;
   final RxString selectedStatus = ''.obs;
 
-  Widget buildDropdown(String label, List<String> items, RxString selectedValue) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            " $label",
-            style: const TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 16,
-            ),
-          ),
-          const SizedBox(height: 8),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12),
-            decoration: BoxDecoration(
-              color: const Color(0xFFF9FBFB),
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: DropdownButtonHideUnderline(
-              child: Obx(() => DropdownButton<String>(
-                value: selectedValue.value.isNotEmpty ? selectedValue.value : items.first,
-                isExpanded: true,
-                icon: const Icon(Icons.arrow_drop_down),
-                onChanged: (String? newValue) {
-                  if (newValue != null) {
-                    selectedValue.value = newValue;
-                  }
-                },
-                items: items.map((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(
-                      value,
-                      style: TextStyle(
-                        color: value == items.first ? Colors.red : Colors.black,
-                      ),
-                    ),
-                  );
-                }).toList(),
-              )),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  void showCustomFilterDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return Dialog(
-          insetPadding: const EdgeInsets.all(20),
-          child: Container(
-            padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(15),
-              color: AppColors.whiteColor,
-            ),
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Text("Month", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
-                      GestureDetector(
-                        onTap: () => Navigator.pop(context),
-                        child: Container(
-                          decoration: const BoxDecoration(color: AppColors.primaryColor, shape: BoxShape.circle),
-                          padding: const EdgeInsets.all(4),
-                          child: const Icon(Icons.close, color: Colors.white, size: 16),
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 20),
-                  Wrap(
-                    spacing: 16,
-                    runSpacing: 8,
-                    children: List.generate(3, (index) {
-                      final labels = ["This Month", "Since Last Month", "Since Last Two Month"];
-                      return Obx(() => ElevatedButton(
-                        onPressed: () => selectedIndex.value = index,
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.white,
-                          foregroundColor: Colors.black,
-                          side: BorderSide(
-                            color: selectedIndex.value == index ? Colors.red : Colors.black,
-                            width: 1.5,
-                          ),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30),
-                          ),
-                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 0),
-                        ),
-                        child: Text(labels[index]),
-                      ));
-                    }),
-                  ),
-                  const SizedBox(height: 20),
-                  buildDropdown("City", [
-                    "Please Select City",
-                    "CHARHOI",
-                    "DANDI DARA",
-                    "DINA",
-                    "JHEUM",
-                    "KHARIAN",
-                    "KOTLA",
-                    "SARAI ALAMGIR"
-                  ], selectedCity),
-                  const SizedBox(height: 16),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: AppColors.primaryColor,
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
-                          ),
-                          onPressed: () => Navigator.pop(context),
-                          child: const Padding(
-                            padding: EdgeInsets.symmetric(vertical: 12.0),
-                            child: Text("SHOW RESULT", style: TextStyle(color: Colors.white)),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 12),
-                      Expanded(
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.white,
-                            side: const BorderSide(color: AppColors.primaryColor, width: 2),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(25),
-                            ),
-                          ),
-                          onPressed: () {
-                            selectedIndex.value = -1;
-                            selectedCity.value = '';
-                            selectedStatus.value = '';
-                          },
-                          child: const Text("CLEAR", style: TextStyle(color: AppColors.primaryColor)),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ),
-        );
-      },
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
         children: [
-          Container(
-            height: 80,
-            width: double.infinity,
-            decoration: const BoxDecoration(
-              color: AppColors.primaryColor,
-              borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(15),
-                bottomRight: Radius.circular(15),
-              ),
-            ),
-            child: Padding(
-              padding: EdgeInsets.only(left: 10.w, right: 10.w, top: 20.h, bottom: 10.h),
-              child: Stack(
-                alignment: Alignment.center,
-                children: [
-                  const Text(
-                    "INDIVIDUAL MEETUPS PAINTER",
-                    style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
-                  Positioned(
-                    left: 0,
-                    child: IconButton(
-                      onPressed: () => Get.back(),
-                      icon: const Icon(Icons.arrow_back_ios, color: Colors.white, size: 20),
-                    ),
-                  ),
-                  Positioned(
-                    right: 0,
-                    child: GestureDetector(
-                      onTap: () => showCustomFilterDialog(context),
-                      child: Container(
-                        padding: const EdgeInsets.all(8),
-                        color: Colors.transparent,
-                        child: Image.asset(
-                          "assets/images/ic_filter.png",
-                          height: 20,
-                          width: 20,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
+          _buildAppBar(context),
           Expanded(
             child: ListView(
               padding: const EdgeInsets.symmetric(vertical: 8),
@@ -236,6 +33,60 @@ class IndividualMeetupPainter extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildAppBar(BuildContext context) {
+    return Container(
+      height: 80,
+      width: double.infinity,
+      decoration: const BoxDecoration(
+        color: AppColors.primaryColor,
+        borderRadius: BorderRadius.only(
+          bottomLeft: Radius.circular(15),
+          bottomRight: Radius.circular(15),
+        ),
+      ),
+      child: Padding(
+        padding: EdgeInsets.only(left: 10.w, right: 10.w, top: 20.h, bottom: 10.h),
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            const Text(
+              "INDIVIDUAL MEETUPS PAINTER",
+              style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            Positioned(
+              left: 0,
+              child: IconButton(
+                onPressed: () => Get.back(),
+                icon: const Icon(Icons.arrow_back_ios, color: Colors.white, size: 20),
+              ),
+            ),
+            Positioned(
+              right: 0,
+              child: GestureDetector(
+                onTap: () => UiHelper.showCustomFilterDialog(
+                  context,
+                  selectedIndex: selectedIndex,
+                  selectedCity: selectedCity,
+                  selectedStatus: selectedStatus,
+                ),
+                child: Container(
+                  padding: const EdgeInsets.all(8),
+                  color: Colors.transparent,
+                  child: Image.asset(
+                    "assets/images/ic_filter.png",
+                    height: 20,
+                    width: 20,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -265,7 +116,6 @@ class MeetupCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        // Replace with your actual navigation target
         Get.to(() => IndividualMeetingPainters());
       },
       child: Card(

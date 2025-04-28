@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mapleleaf/utils/app_colors.dart';
 import 'package:get/get.dart';
+import 'package:mapleleaf/utils/app_fonts.dart';
+import 'package:mapleleaf/utils/ui_helper.dart';
 class NewPainterInductionView extends StatelessWidget {
   NewPainterInductionView({super.key});
   final RxInt selectedIndex = 0.obs;
@@ -325,26 +327,10 @@ class NewPainterInductionView extends StatelessWidget {
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: Container(
-                height: 80,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: AppColors.primaryColor,
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Column(
-                  children: [
-                    Row(
-                      children: [
-                        Text("YFFUR",style: TextStyle(color: AppColors.primaryColor,fontSize: 16,fontWeight: FontWeight.bold),),
-                      ],
-                    )
-                  ],
-                ),
-              )
-            ),
+            UiHelper.customListItem(title: "YFFUR", phoneNumber: "03242454646", location: "KUND(DANDI DARA)", date: "10-APR-2025", padding: 36),
+            UiHelper.customListItem(title: "WAHEED", phoneNumber: "03205129246", location: "SATELITTE(JHELUM)", date: "12-APR-2025", padding: 12),
+            UiHelper.customListItem(title: "AHMED", phoneNumber: "03465782246", location: "SATELITTE(JHELUM)", date: "12-APR-2025", padding: 12),
+
           ],
         ),
       ),
