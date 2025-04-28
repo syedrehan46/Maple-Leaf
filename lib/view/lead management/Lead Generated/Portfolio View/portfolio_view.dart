@@ -41,7 +41,7 @@ class _PorfolioViewState extends State<PorfolioView> {
 
       body: Stack(
         children: [
-          Image.asset("assets/images/menu_bg.png",fit: BoxFit.fill,),
+         Positioned.fill(child: Image.asset("assets/images/menu_bg.png",fit: BoxFit.cover,)),
           SingleChildScrollView(
             child: Container(
               margin: const EdgeInsets.all(16),

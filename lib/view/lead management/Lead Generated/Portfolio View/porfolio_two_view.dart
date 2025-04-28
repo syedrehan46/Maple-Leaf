@@ -96,7 +96,7 @@ class _FeedbackScreenState extends State<PorfolioTwoView> {
       ),
       body: Stack(
         children: [
-          Image.asset("assets/images/menu_bg.png",fit: BoxFit.fill,),
+          Positioned.fill(child: Image.asset("assets/images/menu_bg.png",fit: BoxFit.cover,)),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: SingleChildScrollView(
