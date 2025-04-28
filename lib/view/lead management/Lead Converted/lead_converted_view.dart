@@ -151,6 +151,7 @@ class _LeadConvertedViewState extends State<LeadConvertedView> {
                         ),
                         child: const Text("This Month"),
                       )),
+
                       const SizedBox(width: 16),
                       Obx(() => ElevatedButton(
                         onPressed: () {
@@ -173,6 +174,7 @@ class _LeadConvertedViewState extends State<LeadConvertedView> {
                         ),
                         child: const Text("Since Last Month"),
                       )),
+
                     ],
                   ),
                   const SizedBox(height: 8),
@@ -290,66 +292,76 @@ class _LeadConvertedViewState extends State<LeadConvertedView> {
         ),
       ),
 
-      body: ListView.builder(
-        itemCount: leads.length,
-        itemBuilder: (BuildContext context, int index) {
-          final lead = leads[index];
-          return Padding(
-            padding: EdgeInsets.fromLTRB(
-              12,
-              index == 0 ? 22 : 6, // double the top padding for the first item
-              12,
-              4,
+      body: Stack(
+        children: [
+          Positioned.fill(
+            child: Image.asset(
+              'assets/images/menu_bg.png', // Use your background image path here
+              fit: BoxFit.cover,
             ),
-            child: GestureDetector(
-              onTap: () {
-                Get.to(FeedbackScreen());
-              },
-              child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8),
-                  color: lead['color'],
+          ),
+          ListView.builder(
+            itemCount: leads.length,
+            itemBuilder: (BuildContext context, int index) {
+              final lead = leads[index];
+              return Padding(
+                padding: EdgeInsets.fromLTRB(
+                  12,
+                  index == 0 ? 22 : 6, // double the top padding for the first item
+                  12,
+                  4,
                 ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Row(
+                child: GestureDetector(
+                  onTap: () {
+                    Get.to(FeedbackScreen());
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                      color: lead['color'],
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Text(
-                          lead['id'],
-                          style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold),
+                        Row(
+                          children: [
+                            Text(
+                              lead['id'],
+                              style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            const SizedBox(width: 40),
+                            Text(
+                              lead['date'],
+                              style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ],
                         ),
-                        const SizedBox(width: 40),
-                        Text(
-                          lead['date'],
-                          style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold),
+                        const SizedBox(height: 10),
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            "${lead['phone']} - ${lead['name']}",
+                            style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold),
+                          ),
                         ),
                       ],
                     ),
-                    const SizedBox(height: 10),
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        "${lead['phone']} - ${lead['name']}",
-                        style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
-              ),
-            ),
-          );
-        },
+              );
+            },
+          ),
+        ],
       ),
     );
   }

@@ -70,7 +70,7 @@ class IndividualMeetingPainters extends StatelessWidget {
 
           GestureDetector(
             onTap: (){
-              Get.to(AddLeadsView());
+              Get.to(AddLeadsView(title: "MAPLE LEAF",));
             },
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12.0,vertical: 16),
@@ -105,7 +105,7 @@ class IndividualMeetingPainters extends StatelessWidget {
           ),
           GestureDetector(
             onTap: (){
-              Get.to(AddLeadsView());
+              Get.to(AddLeadsView(title: "YFFUR",));
             },
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12.0,vertical: 2),

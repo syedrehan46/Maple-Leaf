@@ -94,47 +94,52 @@ class _FeedbackScreenState extends State<PorfolioTwoView> {
           ),
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              _buildTextfield("Painter Phone", painterController, readOnly: true),
-              _buildTextfield("Painter Name", painterNameController, readOnly: true),
-              _buildTextfield("Customer Contact No", customerContactController, readOnly: false),
-              _buildTextfield("Customer Name and Address", customerNameAddressController, readOnly: false),
-              _buildTextfield("Plan Type",individualMeetupPainterController , readOnly: true),
-              _buildTextfield("Shop Name", shopNameController, readOnly: true),
-              _buildTextfield("Expected KGS", expectedKgsController, readOnly: true),
-              _buildTextfield("Further Follow Up Date", dateController, readOnly: true),
+      body: Stack(
+        children: [
+          Image.asset("assets/images/menu_bg.png",fit: BoxFit.fill,),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  _buildTextfield("Painter Phone", painterController, readOnly: true),
+                  _buildTextfield("Painter Name", painterNameController, readOnly: true),
+                  _buildTextfield("Customer Contact No", customerContactController, readOnly: false),
+                  _buildTextfield("Customer Name and Address", customerNameAddressController, readOnly: false),
+                  _buildTextfield("Plan Type",individualMeetupPainterController , readOnly: true),
+                  _buildTextfield("Shop Name", shopNameController, readOnly: true),
+                  _buildTextfield("Expected KGS", expectedKgsController, readOnly: true),
+                  _buildTextfield("Further Follow Up Date", dateController, readOnly: true),
 
 
 
-              // 🔁 Updated 3 rows below with same layout style as above
-              Row(
-                children: [
-                  Expanded(child: _buildTextfield("Site Visit", siteVisitController, readOnly: true)),
-                  const SizedBox(width: 4),
-                  Expanded(child: _buildTextfield("Product Sold", productSoldController, readOnly: true)),
+                  // 🔁 Updated 3 rows below with same layout style as above
+                  Row(
+                    children: [
+                      Expanded(child: _buildTextfield("Site Visit", siteVisitController, readOnly: true)),
+                      const SizedBox(width: 4),
+                      Expanded(child: _buildTextfield("Product Sold", productSoldController, readOnly: true)),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Expanded(child: _buildTextfield("Sample Applied", sampleController, readOnly: true)),
+                      const SizedBox(width: 6),
+                      Expanded(child: _buildTextfield("Converted To Sale", convertedToSaleController, readOnly: true)),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Expanded(child: _buildTextfield("Painter Conversion", painterConversionController, readOnly: true)),
+                      const SizedBox(width: 6),
+                      Expanded(child: _buildTextfield("Special Incentives", specialIncentivesController, readOnly: true)),
+                    ],
+                  ),
                 ],
               ),
-              Row(
-                children: [
-                  Expanded(child: _buildTextfield("Sample Applied", sampleController, readOnly: true)),
-                  const SizedBox(width: 6),
-                  Expanded(child: _buildTextfield("Converted To Sale", convertedToSaleController, readOnly: true)),
-                ],
-              ),
-              Row(
-                children: [
-                  Expanded(child: _buildTextfield("Painter Conversion", painterConversionController, readOnly: true)),
-                  const SizedBox(width: 6),
-                  Expanded(child: _buildTextfield("Special Incentives", specialIncentivesController, readOnly: true)),
-                ],
-              ),
-            ],
+            ),
           ),
-        ),
+        ],
       ),
     );
   }

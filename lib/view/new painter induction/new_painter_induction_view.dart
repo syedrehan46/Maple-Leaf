@@ -4,12 +4,15 @@ import 'package:mapleleaf/utils/app_colors.dart';
 import 'package:get/get.dart';
 import 'package:mapleleaf/utils/app_fonts.dart';
 import 'package:mapleleaf/utils/ui_helper.dart';
+import 'package:mapleleaf/view/individual%20meetup/UserLead%20Page/add_leads_view.dart';
+
 class NewPainterInductionView extends StatelessWidget {
   NewPainterInductionView({super.key});
   final RxInt selectedIndex = 0.obs;
   final RxString selectedCity = "Please Select City".obs;
   final RxString selectedStatus = "Please Select Status".obs;
   final TextEditingController textEditingController = TextEditingController();
+
   Widget buildDropdown(String label, List<String> items, RxString selectedValue) {
     String dropdownValue = items.first;
 
@@ -73,6 +76,7 @@ class NewPainterInductionView extends StatelessWidget {
       },
     );
   }
+
   void showCustomFilterDialog(BuildContext context) {
     showDialog(
       context: context,
@@ -132,6 +136,7 @@ class NewPainterInductionView extends StatelessWidget {
                         ),
                         child: const Text("This Month"),
                       )),
+
                       const SizedBox(width: 16),
                       Obx(() => ElevatedButton(
                         onPressed: () {
@@ -271,68 +276,80 @@ class NewPainterInductionView extends StatelessWidget {
       },
     );
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Column(
-          children: [
-            Container(
-              height: 80,
-              width: double.infinity,
-              decoration: const BoxDecoration(
-                color: AppColors.redColor,
-                borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(15),
-                  bottomRight: Radius.circular(15),
+      body: Stack(
+        children: [
+          // Background Image
+          Positioned.fill(
+            child: Image.asset(
+              'assets/images/menu_bg.png',
+              fit: BoxFit.cover,
+            ),
+          ),
+          Column(
+            children: [
+              Container(
+                height: 80,
+                width: double.infinity,
+                decoration: const BoxDecoration(
+                  color: AppColors.redColor,
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(15),
+                    bottomRight: Radius.circular(15),
+                  ),
                 ),
-              ),
-              child: Padding(
-                padding: EdgeInsets.only(left: 10.w, right: 10.w, top: 25.h, bottom: 15.h),
-                child: Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    const Text(
-                      "NEW PAINTER INDUCTION",
-                      style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
-                    ),
-                    Positioned(
-                      left: 0,
-                      child: IconButton(
-                        onPressed: () {
-                          Get.back();
-                        },
-                        icon: const Icon(Icons.arrow_back_ios, color: Colors.white, size: 20),
+                child: Padding(
+                  padding: EdgeInsets.only(left: 10.w, right: 10.w, top: 25.h, bottom: 15.h),
+                  child: Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      const Text(
+                        "NEW PAINTER INDUCTION",
+                        style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
                       ),
-                    ),
-                    Positioned(
-                      right: 15,
-                      child: GestureDetector(
-                        onTap: () {
-                          showCustomFilterDialog(context);
-                        },
-                        child: Container(
-                          padding: const EdgeInsets.all(8),
-                          color: Colors.transparent,
-                          child: Image.asset(
-                            "assets/images/ic_filter.png",
-                            height: 20,
-                            width: 20,
-                            color: Colors.white,
+                      Positioned(
+                        left: 0,
+                        child: IconButton(
+                          onPressed: () {
+                            Get.back();
+                          },
+                          icon: const Icon(Icons.arrow_back_ios, color: Colors.white, size: 20),
+                        ),
+                      ),
+                      Positioned(
+                        right: 15,
+                        child: GestureDetector(
+                          onTap: () {
+                            showCustomFilterDialog(context);
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.all(8),
+                            color: Colors.transparent,
+                            child: Image.asset(
+                              "assets/images/ic_filter.png",
+                              height: 20,
+                              width: 20,
+                              color: Colors.white,
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
-            ),
-            UiHelper.customListItem(title: "YFFUR", phoneNumber: "03242454646", location: "KUND(DANDI DARA)", date: "10-APR-2025", padding: 36),
-            UiHelper.customListItem(title: "WAHEED", phoneNumber: "03205129246", location: "SATELITTE(JHELUM)", date: "12-APR-2025", padding: 12),
-            UiHelper.customListItem(title: "AHMED", phoneNumber: "03465782246", location: "SATELITTE(JHELUM)", date: "12-APR-2025", padding: 12),
-
-          ],
-        ),
+              GestureDetector(onTap: (){Get.to(AddLeadsView(title: "YFFUR",));},
+                  child: UiHelper.customListItem(title: "YFFUR", phoneNumber: "03242454646", location: "KUND(DANDI DARA)", date: "10-APR-2025", padding: 36)),
+              GestureDetector(onTap: (){Get.to(AddLeadsView(title: "WAHEED",));}
+                  ,child: UiHelper.customListItem(title: "", phoneNumber: "03205129246", location: "SATELITTE(JHELUM)", date: "12-APR-2025", padding: 12)),
+              GestureDetector(onTap: (){Get.to(AddLeadsView(title: "AHMED",));}
+                  ,child: UiHelper.customListItem(title: "AHMED", phoneNumber: "03465782246", location: "SATELITTE(JHELUM)", date: "12-APR-2025", padding: 12)),
+            ],
+          ),
+        ],
       ),
     );
   }

@@ -4,7 +4,10 @@ import 'package:get/get.dart';
 import 'package:mapleleaf/utils/app_colors.dart';
 
 class AddLeadsView extends StatefulWidget {
-  const AddLeadsView({super.key});
+  final String title;  // Declare the title field
+
+  // Constructor to accept the title as a parameter
+  const AddLeadsView({super.key, required this.title});
 
   @override
   State<AddLeadsView> createState() => _AddLeadsViewState();
@@ -63,7 +66,6 @@ class _AddLeadsViewState extends State<AddLeadsView> {
                     decoration: const InputDecoration(
                       hintText: 'Search...',
                       prefixIcon: Icon(Icons.search),
-                      // border: OutlineInputBorder(),
                       isDense: true,
                     ),
                   ),
@@ -91,19 +93,17 @@ class _AddLeadsViewState extends State<AddLeadsView> {
                                 Navigator.pop(context);
                               },
                             ),
-                            const Divider(height: 1, color: Colors.grey), // 👈 Underline
+                            const Divider(height: 1, color: Colors.grey),
                           ],
                         );
                       },
                     ),
                   ),
-
                   Align(
                     alignment: Alignment.bottomRight,
                     child: TextButton.icon(
                       onPressed: () => Navigator.pop(context),
-                      // icon: const Icon(Icons.close, color: Colors.red),
-                      label: const Text('CLOSE', style: TextStyle(color: Colors.red,fontSize: 16,fontWeight: FontWeight.bold)),
+                      label: const Text('CLOSE', style: TextStyle(color: Colors.red, fontSize: 16, fontWeight: FontWeight.bold)),
                     ),
                   ),
                 ],
@@ -139,7 +139,7 @@ class _AddLeadsViewState extends State<AddLeadsView> {
                 Expanded(
                   child: Center(
                     child: Text(
-                      'ADD LEADS',
+                      widget.title,  // Access the title using widget.title
                       style: const TextStyle(
                         color: Colors.white,
                         fontSize: 18,
@@ -148,22 +148,18 @@ class _AddLeadsViewState extends State<AddLeadsView> {
                     ),
                   ),
                 ),
-                // Match the space taken by IconButton to balance layout
-                SizedBox(width: kToolbarHeight * 0.8), // ~same as IconButton width
+                SizedBox(width: kToolbarHeight * 0.8), // Match the space taken by IconButton
               ],
             ),
           ),
-          // ... other children widgets
-
-
-        Padding(
+          Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Center(
                   child: Text(
-                    'MAPLE EMPLOYEE',
+                    widget.title,  // Use widget.title here as well
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,

@@ -39,87 +39,92 @@ class _PorfolioViewState extends State<PorfolioView> {
         ),
       ),
 
-      body: SingleChildScrollView(
-        child: Container(
-          margin: const EdgeInsets.all(16),
-          padding: const EdgeInsets.all(16),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(15),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              buildTextField("Painter Phone", "03355150650"),
-              buildTextField("Painter Name", "KAMRAN"),
-              buildTextField("Customer Contact No", "03355150650"),
-              buildTextField("Customer Name and Address", "null"),
-              buildTextField("Plan Type", "INDIVIDUAL MEETUP PAINTER"),
-              buildDropdown(
-                  "Site Visit", ["Please select Site Visit", "Yes", "No"]),
-
-              buildDropdown("Special Incentive",
-                  ["Please select Special Incentive", "YES", "NO"]),
-              buildDropdown("Painter Auto Conversion",
-                  ["Please select Painter auto Conversion", "YES", "NO"]),
-              buildDropdown("Sample Applied",
-                  ["Please select Sample Applied", "Yes", "No"]),
-              buildDropdown("Converted To Sale",
-                  ["Please select Converted to Sale", "Yes", "No"]),
-
-              // Follow up Date button
-              Padding(
-                padding: const EdgeInsets.only(top: 8, bottom: 16),
-                child: Row(
-                  children: [
-                    const Text(
-                      "Further Follow Up",
-                      style: TextStyle(fontWeight: FontWeight.w500),
-                    ),
-                    const Spacer(),
-                    TextButton(
-                      onPressed: () => _selectDate(context),
-                      style: TextButton.styleFrom(
-                        backgroundColor: Colors.red[700],
-                        foregroundColor: Colors.white,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                      ),
-                      child: Text(followUpDate),
-                    ),
-                  ],
-                ),
+      body: Stack(
+        children: [
+          Image.asset("assets/images/menu_bg.png",fit: BoxFit.fill,),
+          SingleChildScrollView(
+            child: Container(
+              margin: const EdgeInsets.all(16),
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(15),
               ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  buildTextField("Painter Phone", "03355150650"),
+                  buildTextField("Painter Name", "KAMRAN"),
+                  buildTextField("Customer Contact No", "03355150650"),
+                  buildTextField("Customer Name and Address", "null"),
+                  buildTextField("Plan Type", "INDIVIDUAL MEETUP PAINTER"),
+                  buildDropdown(
+                      "Site Visit", ["Please select Site Visit", "Yes", "No"]),
 
-              // Update Button
-              Center(
-                child: SizedBox(
-                  height: 50,
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      // handle submission logic here
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.red[700],
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 32, vertical: 14),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                    ),
-                    child: const Text(
-                      "UPDATE INFORMATION",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold, color: Colors.white),
+                  buildDropdown("Special Incentive",
+                      ["Please select Special Incentive", "YES", "NO"]),
+                  buildDropdown("Painter Auto Conversion",
+                      ["Please select Painter auto Conversion", "YES", "NO"]),
+                  buildDropdown("Sample Applied",
+                      ["Please select Sample Applied", "Yes", "No"]),
+                  buildDropdown("Converted To Sale",
+                      ["Please select Converted to Sale", "Yes", "No"]),
+
+                  // Follow up Date button
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8, bottom: 16),
+                    child: Row(
+                      children: [
+                        const Text(
+                          "Further Follow Up",
+                          style: TextStyle(fontWeight: FontWeight.w500),
+                        ),
+                        const Spacer(),
+                        TextButton(
+                          onPressed: () => _selectDate(context),
+                          style: TextButton.styleFrom(
+                            backgroundColor: Colors.red[700],
+                            foregroundColor: Colors.white,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                          ),
+                          child: Text(followUpDate),
+                        ),
+                      ],
                     ),
                   ),
-                ),
+
+                  // Update Button
+                  Center(
+                    child: SizedBox(
+                      height: 50,
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          // handle submission logic here
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.red[700],
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 32, vertical: 14),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                        ),
+                        child: const Text(
+                          "UPDATE INFORMATION",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, color: Colors.white),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
-        ),
+        ],
       ),
     );
   }
