@@ -80,7 +80,7 @@ class UiHelper {
           children: [
             Text(
               btnText,
-              style: AppFonts.styleHarmoniaBold18W600(AppColors.whiteColor),
+              style: AppFonts.styleHarmoniaBold18W600(),
             ),
             SizedBox(width: 6.w),
             CircleAvatar(

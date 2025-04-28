@@ -118,132 +118,150 @@ class _AddLeadsViewState extends State<AddLeadsView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      body: Column(
+      backgroundColor: Colors.white, // Base background color
+      body: Stack(
         children: [
-          Container(
-            decoration: BoxDecoration(
-              color: AppColors.primaryColor,
-              borderRadius: const BorderRadius.only(
-                bottomLeft: Radius.circular(20),
-                bottomRight: Radius.circular(20),
+          // 🔽 Background Image
+          Positioned.fill(
+            child: Container(
+              decoration: const BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage("assets/images/menu_bg.png"),
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
-            padding: EdgeInsets.only(left: 10.w, right: 10.w, top: 20.h, bottom: 10.h),
-            child: Row(
-              children: [
-                IconButton(
-                  icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
-                  onPressed: () => Get.back(),
-                ),
-                Expanded(
-                  child: Center(
-                    child: Text(
-                      widget.title,  // Access the title using widget.title
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(width: kToolbarHeight * 0.8), // Match the space taken by IconButton
-              ],
-            ),
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Center(
-                  child: Text(
-                    widget.title,  // Use widget.title here as well
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.primaryColor,
+
+          // 🔼 Foreground Content
+          Column(
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  color: AppColors.primaryColor,
+                  borderRadius: const BorderRadius.only(
+                    bottomLeft: Radius.circular(20),
+                    bottomRight: Radius.circular(20),
+                  ),
+                ),
+                padding: EdgeInsets.only(left: 10.w, right: 10.w, top: 20.h, bottom: 10.h),
+                child: Row(
+                  children: [
+                    IconButton(
+                      icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
+                      onPressed: () => Get.back(),
                     ),
-                  ),
-                ),
-                const SizedBox(height: 45),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                  child: CustomTextField(
-                    label: "Enter Customer Name and Password",
-                    controller: customerNameEditingController,
-                  ),
-                ),
-                const SizedBox(height: 20),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                  child: CustomTextField(
-                    label: "Enter Customer Number",
-                    controller: customerNumberEditingController,
-                    maxLength: 11,
-                    keyboardType: TextInputType.number,
-                  ),
-                ),
-                const SizedBox(height: 20),
-                const Text(
-                  "  * Areas",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-                ),
-                const SizedBox(height: 5),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                  child: ElevatedButton(
-                    onPressed: openLocationDialog,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFFF5F5F5),
-                      foregroundColor: Colors.black,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5),
-                      ),
-                      elevation: 0,
-                      padding: const EdgeInsets.symmetric(vertical: 16),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          selectedLocation.isEmpty ? "Please Select Area" : selectedLocation,
-                          style: const TextStyle(fontSize: 16),
+                    Expanded(
+                      child: Center(
+                        child: Text(
+                          widget.title,  // Access the title using widget.title
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                        const Icon(Icons.arrow_drop_down),
-                      ],
+                      ),
                     ),
-                  ),
+                    SizedBox(width: kToolbarHeight * 0.8), // Match the space taken by IconButton
+                  ],
                 ),
-                const SizedBox(height: 30),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                  child: SizedBox(
-                    height: 50,
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.primaryColor,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Center(
+                      child: Text(
+                        widget.title,  // Use widget.title here as well
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.primaryColor,
                         ),
-                        padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
-                      ),
-                      onPressed: () {},
-                      child: const Text(
-                        "Add Lead",
-                        style: TextStyle(fontSize: 18, color: Colors.white, fontWeight: FontWeight.bold),
                       ),
                     ),
-                  ),
+                    const SizedBox(height: 45),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      child: CustomTextField(
+                        label: "Enter Customer Name and Password",
+                        controller: customerNameEditingController,
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      child: CustomTextField(
+                        label: "Enter Customer Number",
+                        controller: customerNumberEditingController,
+                        maxLength: 11,
+                        keyboardType: TextInputType.number,
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    const Text(
+                      "  * Areas",
+                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                    ),
+                    const SizedBox(height: 5),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      child: ElevatedButton(
+                        onPressed: openLocationDialog,
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color(0xFFF5F5F5),
+                          foregroundColor: Colors.black,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          elevation: 0,
+                          padding: const EdgeInsets.symmetric(vertical: 16),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              selectedLocation.isEmpty ? "Please Select Area" : selectedLocation,
+                              style: const TextStyle(fontSize: 16),
+                            ),
+                            const Icon(Icons.arrow_drop_down),
+                          ],
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 30),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      child: SizedBox(
+                        height: 50,
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: AppColors.primaryColor,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30),
+                            ),
+                            padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+                          ),
+                          onPressed: () {},
+                          child: const Text(
+                            "Add Lead",
+                            style: TextStyle(fontSize: 18, color: Colors.white, fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ],
       ),
     );
+
   }
 }
 

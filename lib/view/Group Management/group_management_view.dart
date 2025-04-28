@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mapleleaf/utils/app_colors.dart';
 import 'package:get/get.dart';
+import 'package:mapleleaf/utils/app_fonts.dart';
 
 class GroupManagementView extends StatelessWidget {
   const GroupManagementView({super.key});
@@ -23,7 +24,7 @@ class GroupManagementView extends StatelessWidget {
           child: Stack(
             alignment: Alignment.center,
             children: [
-              Text("GROUP MANAGEMENT",style: TextStyle(color: Colors.white,fontSize: 18,fontWeight: FontWeight.bold),),
+              Text("GROUP MANAGEMENT",style: AppFonts.styleHarmoniaBold18W600()),
               Positioned(left: 0,child: IconButton(onPressed: (){Get.back();}, icon: Icon(Icons.arrow_back_ios,color: Colors.white,size: 20,))),
               Positioned(
                 right: 15,

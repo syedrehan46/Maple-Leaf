@@ -42,7 +42,10 @@ class _UleDashboardViewState extends State<UleDashboardView> {
                 height: 120,
                 padding: EdgeInsets.symmetric(vertical: 12.h),
                 decoration: BoxDecoration(
-                  color: AppColors.redColor,
+                  image: DecorationImage(
+                    image: AssetImage('assets/images/bg_app.png'), // Background image path
+                    fit: BoxFit.cover, // Ensures the image covers the entire area of the container without distorting its aspect ratio
+                  ),
                   borderRadius: BorderRadius.only(
                     bottomLeft: Radius.circular(15.r),
                     bottomRight: Radius.circular(15.r),
@@ -60,8 +63,7 @@ class _UleDashboardViewState extends State<UleDashboardView> {
                             padding: const EdgeInsets.only(top: 12.0),
                             child: CircleAvatar(
                               radius: 25.r,
-                              backgroundImage:
-                              AssetImage('assets/images/ic_profile.png'),
+                              backgroundImage: AssetImage('assets/images/ic_profile.png'),
                               backgroundColor: Colors.white,
                             ),
                           ),
@@ -89,12 +91,19 @@ class _UleDashboardViewState extends State<UleDashboardView> {
                           ),
                         ],
                       ),
-                      Container(padding:EdgeInsets.only(top:16),child:Image.asset("assets/images/ic_notification.png",height:25,width:25,color:Colors.white))
+                      Container(
+                        padding: EdgeInsets.only(top: 16),
+                        child: Image.asset(
+                          "assets/images/ic_notification.png",
+                          height: 25,
+                          width: 25,
+                          color: Colors.white,
+                        ),
+                      )
                     ],
                   ),
                 ),
               ),
-
               // Our Menu Text
               Padding(
                 padding: EdgeInsets.all(16.0),

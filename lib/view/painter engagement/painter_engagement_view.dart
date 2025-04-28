@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mapleleaf/utils/app_colors.dart';
+import '../../utils/app_fonts.dart';
 import 'Engaged Painter/engaged_painter.dart';
 import 'Unengaged Painter/unengaged_painter.dart';
 
@@ -35,114 +36,141 @@ class _PainterEngagementViewState extends State<PainterEngagementView> with Sing
   Widget build(BuildContext context) {
     // Calculate the exact position based on animation value for smooth tracking during slide
     final animationValue = _tabController.animation?.value ?? 0.0;
-    final indicatorPosition = animationValue * (MediaQuery.of(context).size.width * 0.5 - 10);
 
     return Scaffold(
-      backgroundColor: Colors.white,
-      body: SafeArea(
-        child: Column(
-          children: [
-            // Header
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12),
-              height: 80,
-              width: double.infinity,
+      backgroundColor: Colors.white, // Base background color
+      body: Stack(
+        children: [
+          // 🔽 Background Image
+          Positioned.fill(
+            child: Container(
               decoration: const BoxDecoration(
-                color: AppColors.redColor,
-                borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(15),
-                  bottomRight: Radius.circular(15),
+                image: DecorationImage(
+                  image: AssetImage("assets/images/menu_bg.png"),
+                  fit: BoxFit.cover,
                 ),
               ),
-              child: Stack(
-                alignment: Alignment.center,
-                children: [
-                  const Text(
-                    "PAINTER ENGAGEMENT",
-                    style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+          ),
+
+          // 🔼 Foreground Content
+          Column(
+            children: [
+              // Header
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 12),
+                height: 80,
+                width: double.infinity,
+                decoration: const BoxDecoration(
+                  color: AppColors.redColor,
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(15),
+                    bottomRight: Radius.circular(15),
                   ),
-                  Positioned(
-                    left: 0,
-                    child: IconButton(
-                      icon: const Icon(Icons.arrow_back_ios, color: Colors.white, size: 20),
-                      onPressed: () {
-                        Get.back();
-                      },
+                ),
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    Padding(padding: EdgeInsets.only(top: 20),
+                      child: Text(
+                        "PAINTER ENGAGEMENT",
+                        style: AppFonts.styleHarmoniaBold18W600(),
+                      ),
+                    ),
+                    Positioned(
+                      left: 0,
+                      top: 27,
+                      child: IconButton(
+                        icon: const Icon(Icons.arrow_back_ios, color: Colors.white, size: 20),
+                        onPressed: () {
+                          Get.back();
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+              const SizedBox(height: 20),
+
+              // TabBar - Custom Styled with fixed text display issue
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: Container(
+                  height: 50,
+                  decoration: BoxDecoration(
+                    border: Border.all(color: AppColors.redColor, width: 2),
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(28),
+                    child: Stack(
+                      children: [
+                        // Animated indicator that follows the tab selection
+                        AnimatedBuilder(
+                          animation: _tabController.animation!,
+                          builder: (context, _) {
+                            return Positioned(
+                              left: MediaQuery.of(context).size.width * 0.5 * animationValue - 5,
+                              right: MediaQuery.of(context).size.width * 0.5 * (1 - animationValue) - 5,
+                              top: 0,
+                              bottom: 0,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: AppColors.redColor,
+                                  borderRadius: BorderRadius.circular(22),
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+
+                        // The actual TabBar with transparent indicator
+                        TabBar(
+                          controller: _tabController,
+                          indicator: const BoxDecoration(
+                            // Making the indicator transparent since we're using our custom background
+                            color: Colors.transparent,
+                          ),
+                          dividerColor: Colors.transparent,
+                          labelColor: Colors.white,
+                          unselectedLabelColor: Colors.grey.shade600,
+                          labelStyle: const TextStyle(fontWeight: FontWeight.bold),
+                          unselectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold),
+                          tabs: const [
+                            Tab(text: 'ENGAGED PAINTERS'),
+                            Tab(text: 'UNENGAGED PAINTERS'),
+                          ],
+                          // Adding padding to ensure text fits
+                          labelPadding: const EdgeInsets.symmetric(horizontal: 4),
+                          // Ensure tabs have enough space
+                          tabAlignment: TabAlignment.fill,
+                        ),
+                      ],
                     ),
                   ),
-                ],
-              ),
-            ),
-
-            const SizedBox(height: 20),
-
-            // TabBar - Custom Styled
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10),
-              child: Container(
-                width: MediaQuery.of(context).size.width,
-                height: 50,
-                decoration: BoxDecoration(
-                  border: Border.all(color: AppColors.redColor, width: 2),
-                  borderRadius: BorderRadius.circular(30),
-                ),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(28),
-                  child: Stack(
-                    children: [
-                      // This indicator now moves exactly with the swipe animation
-                      Positioned(
-                        left: indicatorPosition,
-                        child: Container(
-                          width: (MediaQuery.of(context).size.width - 20) * 0.5, // Half width minus padding
-                          height: 50,
-                          decoration: BoxDecoration(
-                            color: AppColors.redColor,
-                            borderRadius: BorderRadius.circular(22),
-                          ),
-                        ),
-                      ),
-
-                      // The actual TabBar with transparent indicator
-                      TabBar(
-                        controller: _tabController,
-                        indicator: const BoxDecoration(
-                          // Making the indicator transparent since we're using our custom background
-                          color: Colors.transparent,
-                        ),
-                        dividerColor: Colors.transparent,
-                        labelColor: Colors.white,
-                        unselectedLabelColor: Colors.grey.shade600,
-                        labelStyle: const TextStyle(fontWeight: FontWeight.bold),
-                        unselectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold),
-                        tabs: const [
-                          Tab(text: 'ENGAGED PAINTERS'),
-                          Tab(text: 'UNENGAGED PAINTERS'),
-                        ],
-                      ),
-                    ],
-                  ),
                 ),
               ),
-            ),
-            const SizedBox(height: 15),
+              const SizedBox(height: 15),
 
-            // TabBarView - Content Area
-            Expanded(
-              child: TabBarView(
-                controller: _tabController,
-                children:  [
-                  // Engaged Painters Tab
-                  EngagedPainter(),
+              // TabBarView - Content Area
+              Expanded(
+                child: TabBarView(
+                  controller: _tabController,
+                  children: [
+                    // Engaged Painters Tab
+                    EngagedPainter(),
 
-                  // Unengaged Painters Tab
-                  UnengagedPainter(),
-                ],
+                    // Unengaged Painters Tab
+                    UnengagedPainter(),
+                  ],
+                ),
               ),
-            ),
-          ],
-        ),
+            ],
+          ),
+        ],
       ),
     );
+
   }
 }

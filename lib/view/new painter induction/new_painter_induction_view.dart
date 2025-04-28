@@ -306,9 +306,9 @@ class NewPainterInductionView extends StatelessWidget {
                   child: Stack(
                     alignment: Alignment.center,
                     children: [
-                      const Text(
+                       Text(
                         "NEW PAINTER INDUCTION",
-                        style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+                        style: AppFonts.styleHarmoniaBold18W600(),
                       ),
                       Positioned(
                         left: 0,

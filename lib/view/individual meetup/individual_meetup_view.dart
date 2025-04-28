@@ -63,7 +63,7 @@ class _IndividualMeetupViewState extends State<IndividualMeetupView> {
                           color: AppColors.whiteColor,
                         ),
                       ),
-                      Expanded(child: Center(child: Text("Individual Meetups".toUpperCase(), style: AppFonts.styleHarmoniaBold16W600(AppColors.whiteColor),))),
+                      Expanded(child: Center(child: Text("Individual Meetups".toUpperCase(), style: AppFonts.styleHarmoniaBold18W600(),))),
                     ],
                   ),
                 ),

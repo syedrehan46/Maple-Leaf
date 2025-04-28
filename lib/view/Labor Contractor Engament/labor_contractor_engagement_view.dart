@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mapleleaf/utils/app_colors.dart';
 
+import '../../utils/app_fonts.dart';
+
 class LaborContractorEngagementView extends StatelessWidget {
   LaborContractorEngagementView({super.key});
 
@@ -230,9 +232,9 @@ class LaborContractorEngagementView extends StatelessWidget {
               child: Stack(
                 alignment: Alignment.center,
                 children: [
-                  const Text(
+                  Text(
                     "INDIVIDUAL MEETUPS LABOR",
-                    style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+                    style: AppFonts.styleHarmoniaBold18W600(),
                   ),
                   Positioned(
                     left: 0,

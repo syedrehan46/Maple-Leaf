@@ -4,6 +4,8 @@ import 'package:mapleleaf/utils/app_colors.dart';
 import 'package:mapleleaf/view/individual%20meetup/UserLead%20Page/add_leads_view.dart';
 import 'package:mapleleaf/view/individual%20meetup/individual_meetup.dart';
 
+import '../../utils/app_fonts.dart';
+
 class SabContractorProfileView extends StatelessWidget {
   SabContractorProfileView({super.key});
 
@@ -31,9 +33,9 @@ class SabContractorProfileView extends StatelessWidget {
                 child: Stack(
                   alignment: Alignment.center,
                   children: [
-                    const Text(
+                    Text(
                       "SUB CONTRACTOR PROFILE ",
-                      style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+                      style: AppFonts.styleHarmoniaBold18W600(),
                     ),
                     Positioned(
                       left: 0,

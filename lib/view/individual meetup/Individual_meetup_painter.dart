@@ -5,6 +5,8 @@ import 'package:mapleleaf/utils/app_colors.dart';
 import 'package:mapleleaf/utils/ui_helper.dart'; // <<-- Make sure to import this
 import 'package:mapleleaf/view/individual%20meetup/individual_meeting_painters.dart';
 
+import '../../utils/app_fonts.dart';
+
 class IndividualMeetupPainter extends StatelessWidget {
   IndividualMeetupPainter({super.key});
 
@@ -15,6 +17,7 @@ class IndividualMeetupPainter extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: Column(
         children: [
           _buildAppBar(context),
@@ -53,9 +56,9 @@ class IndividualMeetupPainter extends StatelessWidget {
         child: Stack(
           alignment: Alignment.center,
           children: [
-            const Text(
+            Text(
               "INDIVIDUAL MEETUPS PAINTER",
-              style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+              style: AppFonts.styleHarmoniaBold18W600(),
             ),
             Positioned(
               left: 0,

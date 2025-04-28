@@ -5,6 +5,8 @@ import 'package:mapleleaf/utils/app_colors.dart';
 import 'package:mapleleaf/view/individual%20meetup/individual_meeting_painters.dart';
 import 'package:mapleleaf/view/sab%20contractor%20profile/individual_meetup_labor.dart';
 
+import '../../utils/app_fonts.dart';
+
 class IndividualMeetupLaborView extends StatelessWidget {
   IndividualMeetupLaborView({super.key});
 
@@ -191,9 +193,9 @@ class IndividualMeetupLaborView extends StatelessWidget {
               child: Stack(
                 alignment: Alignment.center,
                 children: [
-                  const Text(
+                   Text(
                     "INDIVIDUAL MEETUPS LABOR",
-                    style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+                    style:AppFonts.styleHarmoniaBold18W600(),
                   ),
                   Positioned(
                     left: 0,

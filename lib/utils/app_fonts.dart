@@ -75,12 +75,12 @@ class AppFonts{
         color: color
     );
   }
-  static TextStyle styleHarmoniaBold18W600(Color color){
+  static TextStyle styleHarmoniaBold18W600(){
     return TextStyle(
         fontSize: 18.sp,
         fontWeight: FontWeight.bold,
         fontFamily: AppStrings.fontFamilyHarmoniaBold,
-        color: color
+        color: Colors.white
     );
   }
 

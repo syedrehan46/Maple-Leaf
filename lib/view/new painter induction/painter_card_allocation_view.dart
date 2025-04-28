@@ -124,7 +124,7 @@ class _AddLeadsViewState extends State<PainterCardAllocationView> {
         children: [
           Container(
             decoration: BoxDecoration(
-              color: AppColors.primaryColor,
+              color: AppColors.redColor,
               borderRadius: const BorderRadius.only(
                 bottomLeft: Radius.circular(20),
                 bottomRight: Radius.circular(20),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../utils/app_colors.dart';
+import '../../../utils/app_fonts.dart';
 
 class AddLead extends StatefulWidget {
   const AddLead({super.key});
@@ -148,178 +149,196 @@ class _AddLeadState extends State<AddLead> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      body: SingleChildScrollView(
-        child: SafeArea(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Header
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12),
-                height: 80,
-                width: double.infinity,
-                decoration: const BoxDecoration(
-                  color: AppColors.redColor,
-                  borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(15),
-                    bottomRight: Radius.circular(15),
-                  ),
-                ),
-                child: Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    const Text(
-                      "ADD LEADS",
-                      style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
-                    ),
-                    Positioned(
-                      left: 0,
-                      child: IconButton(
-                        icon: const Icon(Icons.arrow_back_ios, color: Colors.white, size: 20),
-                        onPressed: () {
-                          Get.back();
-                        },
-                      ),
-                    ),
-                  ],
+      backgroundColor: Colors.white, // Base background color
+      body: Stack(
+        children: [
+          // 🔽 Background Image
+          Positioned.fill(
+            child: Container(
+              decoration: const BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage("assets/images/menu_bg.png"),
+                  fit: BoxFit.cover,
                 ),
               ),
-
-              // Display ONLY the painter name if passed from previous screen
-              if (Get.arguments != null && Get.arguments['name'] != null)
-                Center(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
-                    child: Text(
-                      '${Get.arguments['name']}',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: AppColors.redColor,
-                      ),
-                    ),
-                  ),
-                ),
-
-              // Form fields
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // Name TextField - always empty
-                    TextFormField(
-                      controller: nameController,
-                      decoration: InputDecoration(
-                        hintText: "*Enter Customer Name and Address",
-                        labelText: "*Enter Customer Name and Address",
-                        labelStyle: TextStyle(color: Colors.grey.shade700),
-                        floatingLabelBehavior: FloatingLabelBehavior.auto,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide(color: AppColors.redColor, width: 2),
-                        ),
-                        contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-                      ),
-                    ),
-
-                    const SizedBox(height: 20),
-
-                    //
-                    TextFormField(
-                      controller: phoneController,
-                      keyboardType: TextInputType.phone,
-                      decoration: InputDecoration(
-                        labelStyle: TextStyle(color: Colors.grey.shade700),
-                        hintText: "*Enter Customer Number",
-                        labelText: "*Enter Customer Number",
-                        floatingLabelBehavior: FloatingLabelBehavior.auto,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide(color: AppColors.redColor, width: 2),
-                        ),
-                        contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-                      ),
-                    ),
-
-                    const SizedBox(height: 20),
-
-                    // Area Text
-                    const Text(
-                      '*Areas',
-                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-                    ),
-
-                    const SizedBox(height: 10),
-
-                    // Area Selection Field that shows dialog on tap
-                    InkWell(
-                      onTap: showAreaSelectionDialog,
-                      child: Container(
-                        width: double.infinity,
-                        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-                        decoration: BoxDecoration(
-                          color: Colors.grey.shade300,
-                          border: Border.all(color: Colors.grey),
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              selectedArea ?? 'Please select area',
-                              style: TextStyle(
-                                color: selectedArea == null ? Colors.grey.shade700 : Colors.black,
-                              ),
-                            ),
-                            const Icon(Icons.arrow_drop_down),
-                          ],
-                        ),
-                      ),
-                    ),
-
-                    const SizedBox(height: 30),
-
-                    // Add Lead Button
-                    Center(
-                      child: InkWell(
-                        onTap: () {
-                           // Or navigate to another screen after adding
-                        },
-                        child: Container(
-                          width: MediaQuery.of(context).size.width * (0.8),
-                          height: 50,
-                          decoration: BoxDecoration(
-                            color: AppColors.redColor,
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          child: const Center(
-                            child: Text(
-                              'Add Lead',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
+            ),
           ),
-        ),
+
+          // 🔼 Foreground Content
+          SingleChildScrollView(
+            child: SafeArea(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Header
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                    height: 80,
+                    width: double.infinity,
+                    decoration: const BoxDecoration(
+                      color: AppColors.redColor,
+                      borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(15),
+                        bottomRight: Radius.circular(15),
+                      ),
+                    ),
+                    child: Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        Text(
+                          "ADD LEADS",
+                          style: AppFonts.styleHarmoniaBold18W600(),
+                        ),
+                        Positioned(
+                          left: 0,
+                          child: IconButton(
+                            icon: const Icon(Icons.arrow_back_ios, color: Colors.white, size: 20),
+                            onPressed: () {
+                              Get.back();
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  // Display ONLY the painter name if passed from previous screen
+                  if (Get.arguments != null && Get.arguments['name'] != null)
+                    Center(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+                        child: Text(
+                          '${Get.arguments['name']}',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.redColor,
+                          ),
+                        ),
+                      ),
+                    ),
+
+                  // Form fields
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // Name TextField - always empty
+                        TextFormField(
+                          controller: nameController,
+                          decoration: InputDecoration(
+                            hintText: "*Enter Customer Name and Address",
+                            labelText: "*Enter Customer Name and Address",
+                            labelStyle: TextStyle(color: Colors.grey.shade700),
+                            floatingLabelBehavior: FloatingLabelBehavior.auto,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide: BorderSide(color: AppColors.redColor, width: 2),
+                            ),
+                            contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+                          ),
+                        ),
+
+                        const SizedBox(height: 20),
+
+                        // Phone Number TextField
+                        TextFormField(
+                          controller: phoneController,
+                          keyboardType: TextInputType.phone,
+                          decoration: InputDecoration(
+                            labelStyle: TextStyle(color: Colors.grey.shade700),
+                            hintText: "*Enter Customer Number",
+                            labelText: "*Enter Customer Number",
+                            floatingLabelBehavior: FloatingLabelBehavior.auto,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide: BorderSide(color: AppColors.redColor, width: 2),
+                            ),
+                            contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+                          ),
+                        ),
+
+                        const SizedBox(height: 20),
+
+                        // Area Text
+                        const Text(
+                          '*Areas',
+                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                        ),
+
+                        const SizedBox(height: 10),
+
+                        // Area Selection Field that shows dialog on tap
+                        InkWell(
+                          onTap: showAreaSelectionDialog,
+                          child: Container(
+                            width: double.infinity,
+                            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+                            decoration: BoxDecoration(
+                              color: Colors.grey.shade300,
+                              border: Border.all(color: Colors.grey),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  selectedArea ?? 'Please select area',
+                                  style: TextStyle(
+                                    color: selectedArea == null ? Colors.grey.shade700 : Colors.black,
+                                  ),
+                                ),
+                                const Icon(Icons.arrow_drop_down),
+                              ],
+                            ),
+                          ),
+                        ),
+
+                        const SizedBox(height: 30),
+
+                        // Add Lead Button
+                        Center(
+                          child: InkWell(
+                            onTap: () {
+                              // Or navigate to another screen after adding
+                            },
+                            child: Container(
+                              width: MediaQuery.of(context).size.width * (0.8),
+                              height: 50,
+                              decoration: BoxDecoration(
+                                color: AppColors.redColor,
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              child: const Center(
+                                child: Text(
+                                  'Add Lead',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
+
   }
 }
