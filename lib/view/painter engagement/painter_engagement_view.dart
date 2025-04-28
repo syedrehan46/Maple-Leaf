@@ -25,7 +25,6 @@ class _PainterEngagementViewState extends State<PainterEngagementView> with Sing
       setState(() {});
     });
   }
-
   @override
   void dispose() {
     _tabController.dispose();
@@ -105,24 +104,21 @@ class _PainterEngagementViewState extends State<PainterEngagementView> with Sing
                       ),
 
                       // The actual TabBar with transparent indicator
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 5),
-                        child: TabBar(
-                          controller: _tabController,
-                          indicator: const BoxDecoration(
-                            // Making the indicator transparent since we're using our custom background
-                            color: Colors.transparent,
-                          ),
-                          dividerColor: Colors.transparent,
-                          labelColor: Colors.white,
-                          unselectedLabelColor: Colors.grey.shade600,
-                          labelStyle: const TextStyle(fontWeight: FontWeight.bold),
-                          unselectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold),
-                          tabs: const [
-                            Tab(text: 'ENGAGED PAINTERS'),
-                            Tab(text: 'UNENGAGED PAINTERS'),
-                          ],
+                      TabBar(
+                        controller: _tabController,
+                        indicator: const BoxDecoration(
+                          // Making the indicator transparent since we're using our custom background
+                          color: Colors.transparent,
                         ),
+                        dividerColor: Colors.transparent,
+                        labelColor: Colors.white,
+                        unselectedLabelColor: Colors.grey.shade600,
+                        labelStyle: const TextStyle(fontWeight: FontWeight.bold),
+                        unselectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold),
+                        tabs: const [
+                          Tab(text: 'ENGAGED PAINTERS'),
+                          Tab(text: 'UNENGAGED PAINTERS'),
+                        ],
                       ),
                     ],
                   ),
