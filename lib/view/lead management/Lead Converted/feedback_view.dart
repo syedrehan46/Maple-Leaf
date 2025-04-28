@@ -72,97 +72,102 @@ class FeedbackScreen extends StatelessWidget {
           ),
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: SingleChildScrollView(
-          // Added scroll in case of overflow
-          child: Column(
-            children: [
-              _buildTextfield("Painter Phone", painterController, readOnly: true),
-              _buildTextfield("Painter Name", painterNameController, readOnly: true),
-              _buildTextfield("Customer Contact No", customerContactController, readOnly: true),
-              _buildTextfield("Customer Name and Address", customerNameAddressController, readOnly: true),
+      body: Stack(
+        children: [
+          Positioned.fill(child: Image.asset("assets/images/menu_bg.png",fit: BoxFit.cover,)),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: SingleChildScrollView(
+              // Added scroll in case of overflow
+              child: Column(
+                children: [
+                  _buildTextfield("Painter Phone", painterController, readOnly: true),
+                  _buildTextfield("Painter Name", painterNameController, readOnly: true),
+                  _buildTextfield("Customer Contact No", customerContactController, readOnly: true),
+                  _buildTextfield("Customer Name and Address", customerNameAddressController, readOnly: true),
 
-              // Row 1
-              Row(
-                children: [
-                  Expanded(
-                    child: _buildTextfield("Site Visit", siteVisitController, readOnly: true),
+                  // Row 1
+                  Row(
+                    children: [
+                      Expanded(
+                        child: _buildTextfield("Site Visit", siteVisitController, readOnly: true),
+                      ),
+                      const SizedBox(width: 4), // Reduced spacing
+                      Expanded(
+                        child: _buildTextfield("Product Sold", productSoldController, readOnly: true),
+                      ),
+                    ],
                   ),
-                  const SizedBox(width: 4), // Reduced spacing
-                  Expanded(
-                    child: _buildTextfield("Product Sold", productSoldController, readOnly: true),
-                  ),
-                ],
-              ),
 
-              // Row 2
-              Row(
-                children: [
-                  Expanded(
-                    child: _buildTextfield("Sample Applied", sampleController, readOnly: true),
+                  // Row 2
+                  Row(
+                    children: [
+                      Expanded(
+                        child: _buildTextfield("Sample Applied", sampleController, readOnly: true),
+                      ),
+                      SizedBox(width: 6),
+                      Expanded(
+                        child: _buildTextfield("Converted To Sale", convertedToSaleController, readOnly: true),
+                      ),
+                    ],
                   ),
-                  SizedBox(width: 6),
-                  Expanded(
-                    child: _buildTextfield("Converted To Sale", convertedToSaleController, readOnly: true),
-                  ),
-                ],
-              ),
 
-              // Row 3
-              Row(
-                children: [
-                  Expanded(
-                    child: _buildTextfield("Painter Conversion", painterConversionController, readOnly: true),
+                  // Row 3
+                  Row(
+                    children: [
+                      Expanded(
+                        child: _buildTextfield("Painter Conversion", painterConversionController, readOnly: true),
+                      ),
+                      SizedBox(width: 6),
+                      Expanded(
+                        child: _buildTextfield("Special Incentives", specialIncentivesController, readOnly: true),
+                      ),
+                    ],
                   ),
-                  SizedBox(width: 6),
-                  Expanded(
-                    child: _buildTextfield("Special Incentives", specialIncentivesController, readOnly: true),
+                  _buildTextfield("Expected KGS", expectedKgsController, readOnly: true),
+                  _buildTextfield("MILLI PAINTS", shopNameController, readOnly: true),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: _buildTextfield("No of bags 5 KG Putty", fiveController, readOnly: false),
+                      ),
+                      SizedBox(width: 6),
+                      Expanded(
+                        child: _buildTextfield("KG'S", kGSController, readOnly: true),
+                      ),
+                    ],
                   ),
-                ],
-              ),
-              _buildTextfield("Expected KGS", expectedKgsController, readOnly: true),
-              _buildTextfield("MILLI PAINTS", shopNameController, readOnly: true),
-              Row(
-                children: [
-                  Expanded(
-                    child: _buildTextfield("No of bags 5 KG Putty", fiveController, readOnly: false),
-                  ),
-                  SizedBox(width: 6),
-                  Expanded(
-                    child: _buildTextfield("KG'S", kGSController, readOnly: true),
-                  ),
-                ],
-              ),
 
-              // Row 2
-              Row(
-                children: [
-                  Expanded(
-                    child: _buildTextfield("No of Bags 20 KG Putty", twentyController, readOnly: false),
+                  // Row 2
+                  Row(
+                    children: [
+                      Expanded(
+                        child: _buildTextfield("No of Bags 20 KG Putty", twentyController, readOnly: false),
+                      ),
+                      SizedBox(width: 6),
+                      Expanded(
+                        child: _buildTextfield("KG'S", kgstwoController, readOnly: true),
+                      ),
+                    ],
                   ),
-                  SizedBox(width: 6),
-                  Expanded(
-                    child: _buildTextfield("KG'S", kgstwoController, readOnly: true),
-                  ),
-                ],
-              ),
 
-              // Row 3
-              Row(
-                children: [
-                  Expanded(
-                    child: _buildTextfield("No of Bags 20 KG Rep...", twentyRegController, readOnly: false),
-                  ),
-                  SizedBox(width: 6),
-                  Expanded(
-                    child: _buildTextfield("KG'S", kgsthreeController, readOnly: true),
+                  // Row 3
+                  Row(
+                    children: [
+                      Expanded(
+                        child: _buildTextfield("No of Bags 20 KG Rep...", twentyRegController, readOnly: false),
+                      ),
+                      SizedBox(width: 6),
+                      Expanded(
+                        child: _buildTextfield("KG'S", kgsthreeController, readOnly: true),
+                      ),
+                    ],
                   ),
                 ],
               ),
-            ],
+            ),
           ),
-        ),
+        ],
       ),
     );
   }
