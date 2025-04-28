@@ -176,71 +176,89 @@ class IndividualMeetupLaborView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
+      body: Stack(
         children: [
-          Container(
-            height: 80,
-            width: double.infinity,
-            decoration: const BoxDecoration(
-              color: AppColors.primaryColor,
-              borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(15),
-                bottomRight: Radius.circular(15),
-              ),
-            ),
-            child: Padding(
-              padding: EdgeInsets.only(left: 10.w, right: 10.w, top: 20.h, bottom: 10.h),
-              child: Stack(
-                alignment: Alignment.center,
-                children: [
-                   Text(
-                    "INDIVIDUAL MEETUPS LABOR",
-                    style:AppFonts.styleHarmoniaBold18W600(),
-                  ),
-                  Positioned(
-                    left: 0,
-                    child: IconButton(
-                      onPressed: () => Get.back(),
-                      icon: const Icon(Icons.arrow_back_ios, color: Colors.white, size: 20),
-                    ),
-                  ),
-                  Positioned(
-                    right: 0,
-                    child: GestureDetector(
-                      onTap: () => showCustomFilterDialog(context),
-                      child: Container(
-                        padding: const EdgeInsets.all(8),
-                        color: Colors.transparent,
-                        child: Image.asset(
-                          "assets/images/ic_filter.png",
-                          height: 20,
-                          width: 20,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
+          // Background Image
+          Positioned.fill(
+            child: Container(
+              decoration: const BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage("assets/images/menu_bg.png"), // Background image
+                  fit: BoxFit.cover, // Ensures the image covers the entire screen
+                ),
               ),
             ),
           ),
-          Expanded(
-            child: ListView(
-              padding: const EdgeInsets.symmetric(vertical: 8),
-              children: const [
-                MeetupCard(city: "DANDI DARA", subCity: "DANDI DARA", achieved: 2, target: 30, weeklyFreq: 8, month: "APRIL", topPadding: 16),
-                MeetupCard(city: "KOTLA", subCity: "KOTLA", achieved: 0, target: 30, weeklyFreq: 8, month: "APRIL"),
-                MeetupCard(city: "CHARHOI", subCity: "CHARHOI", achieved: 0, target: 30, weeklyFreq: 8, month: "APRIL"),
-                MeetupCard(city: "SARAI ALAMGIR", subCity: "SARAI ALAMGIR", achieved: 0, target: 30, weeklyFreq: 9, month: "APRIL"),
-                MeetupCard(city: "KOTLA", subCity: "KOTLA", achieved: 0, target: 30, weeklyFreq: 8, month: "APRIL"),
-                MeetupCard(city: "CHARHOI", subCity: "CHARHOI", achieved: 0, target: 30, weeklyFreq: 8, month: "APRIL"),
-                MeetupCard(city: "SARAI ALAMGIR", subCity: "SARAI ALAMGIR", achieved: 0, target: 30, weeklyFreq: 9, month: "APRIL"),
-              ],
-            ),
+
+          // Foreground Content (Unchanged)
+          Column(
+            children: [
+              Container(
+                height: 80,
+                width: double.infinity,
+                decoration: const BoxDecoration(
+                  color: AppColors.primaryColor,
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(15),
+                    bottomRight: Radius.circular(15),
+                  ),
+                ),
+                child: Padding(
+                  padding: EdgeInsets.only(left: 10.w, right: 10.w, top: 20.h, bottom: 10.h),
+                  child: Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      Text(
+                        "INDIVIDUAL MEETUPS LABOR",
+                        style: AppFonts.styleHarmoniaBold18W600(),
+                      ),
+                      Positioned(
+                        left: 0,
+                        child: IconButton(
+                          onPressed: () => Get.back(),
+                          icon: const Icon(Icons.arrow_back_ios, color: Colors.white, size: 20),
+                        ),
+                      ),
+                      Positioned(
+                        right: 0,
+                        child: GestureDetector(
+                          onTap: () => showCustomFilterDialog(context),
+                          child: Container(
+                            padding: const EdgeInsets.all(8),
+                            color: Colors.transparent,
+                            child: Image.asset(
+                              "assets/images/ic_filter.png",
+                              height: 20,
+                              width: 20,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Expanded(
+                child: ListView(
+                  padding: const EdgeInsets.symmetric(vertical: 8),
+                  children: const [
+                    MeetupCard(city: "DANDI DARA", subCity: "DANDI DARA", achieved: 2, target: 30, weeklyFreq: 8, month: "APRIL", topPadding: 16),
+                    MeetupCard(city: "KOTLA", subCity: "KOTLA", achieved: 0, target: 30, weeklyFreq: 8, month: "APRIL"),
+                    MeetupCard(city: "CHARHOI", subCity: "CHARHOI", achieved: 0, target: 30, weeklyFreq: 8, month: "APRIL"),
+                    MeetupCard(city: "SARAI ALAMGIR", subCity: "SARAI ALAMGIR", achieved: 0, target: 30, weeklyFreq: 9, month: "APRIL"),
+                    MeetupCard(city: "KOTLA", subCity: "KOTLA", achieved: 0, target: 30, weeklyFreq: 8, month: "APRIL"),
+                    MeetupCard(city: "CHARHOI", subCity: "CHARHOI", achieved: 0, target: 30, weeklyFreq: 8, month: "APRIL"),
+                    MeetupCard(city: "SARAI ALAMGIR", subCity: "SARAI ALAMGIR", achieved: 0, target: 30, weeklyFreq: 9, month: "APRIL"),
+                  ],
+                ),
+              ),
+            ],
           ),
         ],
       ),
     );
+
   }
 }
 

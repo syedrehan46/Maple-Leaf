@@ -18,8 +18,6 @@ import 'package:package_info_plus/package_info_plus.dart';
 import 'package:path_provider/path_provider.dart' as path_provider;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'controller/controller_bindings.dart';
-
-
 late Directory myAppDir;
 late SharedPreferences preferences;
 late String appVersion;

@@ -1,16 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import '../../../utils/app_colors.dart';
 import '../../../utils/app_fonts.dart';
-
 class AddLead extends StatefulWidget {
   const AddLead({super.key});
-
   @override
   State<AddLead> createState() => _AddLeadState();
 }
-
 class _AddLeadState extends State<AddLead> {
   String? selectedArea;
   final List<String> areas = [
@@ -38,7 +34,6 @@ class _AddLeadState extends State<AddLead> {
           area.toLowerCase().contains(query.toLowerCase())).toList();
     });
   }
-
   void showAreaSelectionDialog() {
     // Reset search before showing dialog
     searchController.clear();
