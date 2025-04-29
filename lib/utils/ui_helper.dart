@@ -181,6 +181,9 @@ class UiHelper {
       ),
     );
   }
+  static String getImagePath({required String name, String format = "png"}) {
+    return "assets/images/$name.$format";
+  }
 
   static Widget customButtonFill({
     required Color color,

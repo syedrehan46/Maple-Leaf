@@ -170,6 +170,7 @@ class _PorfolioViewState extends State<PorfolioView> {
                 "* $label",
                 style: const TextStyle(
                   fontWeight: FontWeight.bold,
+                  color: AppColors.whiteColor,
                   fontSize: 16,
                 ),
               ),
