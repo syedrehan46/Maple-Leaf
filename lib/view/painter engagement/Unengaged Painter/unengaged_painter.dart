@@ -25,7 +25,9 @@ class UnengagedPainter extends StatelessWidget {
       showDialog(
         context: context,
         builder: (context) {
+
           return Dialog(
+            backgroundColor: AppColors.whiteColor,
             insetPadding: const EdgeInsets.all(20),
             child: Container(
               padding: const EdgeInsets.all(16),
@@ -60,7 +62,7 @@ class UnengagedPainter extends StatelessWidget {
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 12),
                       decoration: BoxDecoration(
-                        color: Colors.grey.shade300,
+                        color: Colors.grey.shade200,
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: Obx(() => DropdownButton<String>(

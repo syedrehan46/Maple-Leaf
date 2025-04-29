@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mapleleaf/utils/app_colors.dart';
+import 'package:mapleleaf/utils/custom%20widgets/custom_appbar.dart';
 
 import '../../utils/app_fonts.dart';
 
@@ -216,69 +217,25 @@ class LaborContractorEngagementView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Column(
-          children: [
+      body: Column(
+        children: [
+          CustomAppbar(title: 'INDIVIDUAL MEETUPS LABOR'),
 
-            Container(
-              height: 60,
-              width: double.infinity,
-              decoration: const BoxDecoration(
-                color: AppColors.primaryColor,
-                borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(15),
-                  bottomRight: Radius.circular(15),
-                ),
-              ),
-              child: Stack(
-                alignment: Alignment.center,
-                children: [
-                  Text(
-                    "INDIVIDUAL MEETUPS LABOR sdsds",
-                    style: AppFonts.styleHarmoniaBold18W600(),
-                  ),
-                  Positioned(
-                    left: 0,
-                    child: IconButton(
-                      onPressed: () => Get.back(),
-                      icon: const Icon(Icons.arrow_back_ios, color: Colors.white, size: 20),
-                    ),
-                  ),
-                  Positioned(
-                    right: 15,
-                    child: GestureDetector(
-                      onTap: () => showCustomFilterDialog(context),
-                      child: Container(
-                        padding: const EdgeInsets.all(8),
-                        color: Colors.transparent,
-                        child: Image.asset(
-                          "assets/images/ic_filter.png",
-                          height: 20,
-                          width: 20,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+          Expanded(
+            child: ListView(
+              padding: const EdgeInsets.symmetric(vertical: 8),
+              children: const [
+                MeetupCard(city: "DANDI DARA", subCity: "DANDI DARA", achieved: 2, target: 30, weeklyFreq: 8, month: "APRIL", topPadding: 16),
+                MeetupCard(city: "KOTLA", subCity: "KOTLA", achieved: 0, target: 30, weeklyFreq: 8, month: "APRIL"),
+                MeetupCard(city: "CHARHOI", subCity: "CHARHOI", achieved: 0, target: 30, weeklyFreq: 8, month: "APRIL"),
+                MeetupCard(city: "SARAI ALAMGIR", subCity: "SARAI ALAMGIR", achieved: 0, target: 30, weeklyFreq: 9, month: "APRIL"),
+                MeetupCard(city: "KOTLA", subCity: "KOTLA", achieved: 0, target: 30, weeklyFreq: 8, month: "APRIL"),
+                MeetupCard(city: "CHARHOI", subCity: "CHARHOI", achieved: 0, target: 30, weeklyFreq: 8, month: "APRIL"),
+                MeetupCard(city: "SARAI ALAMGIR", subCity: "SARAI ALAMGIR", achieved: 0, target: 30, weeklyFreq: 9, month: "APRIL"),
+              ],
             ),
-            Expanded(
-              child: ListView(
-                padding: const EdgeInsets.symmetric(vertical: 8),
-                children: const [
-                  MeetupCard(city: "DANDI DARA", subCity: "DANDI DARA", achieved: 2, target: 30, weeklyFreq: 8, month: "APRIL", topPadding: 16),
-                  MeetupCard(city: "KOTLA", subCity: "KOTLA", achieved: 0, target: 30, weeklyFreq: 8, month: "APRIL"),
-                  MeetupCard(city: "CHARHOI", subCity: "CHARHOI", achieved: 0, target: 30, weeklyFreq: 8, month: "APRIL"),
-                  MeetupCard(city: "SARAI ALAMGIR", subCity: "SARAI ALAMGIR", achieved: 0, target: 30, weeklyFreq: 9, month: "APRIL"),
-                  MeetupCard(city: "KOTLA", subCity: "KOTLA", achieved: 0, target: 30, weeklyFreq: 8, month: "APRIL"),
-                  MeetupCard(city: "CHARHOI", subCity: "CHARHOI", achieved: 0, target: 30, weeklyFreq: 8, month: "APRIL"),
-                  MeetupCard(city: "SARAI ALAMGIR", subCity: "SARAI ALAMGIR", achieved: 0, target: 30, weeklyFreq: 9, month: "APRIL"),
-                ],
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

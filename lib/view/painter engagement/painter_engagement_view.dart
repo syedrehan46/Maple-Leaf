@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mapleleaf/utils/app_colors.dart';
+import 'package:mapleleaf/utils/custom%20widgets/custom_appbar.dart';
 import '../../utils/app_fonts.dart';
 import 'Engaged Painter/engaged_painter.dart';
 import 'Unengaged Painter/unengaged_painter.dart';
@@ -56,42 +57,7 @@ class _PainterEngagementViewState extends State<PainterEngagementView> with Sing
           // 🔼 Foreground Content
           Column(
             children: [
-              SizedBox(height: 20,),
-              // Header
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12),
-                height: 80,
-                width: double.infinity,
-                decoration: const BoxDecoration(
-                  color: AppColors.redColor,
-                  borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(15),
-                    bottomRight: Radius.circular(15),
-                  ),
-                ),
-                child: Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    Padding(padding: EdgeInsets.only(top: 20),
-                      child: Text(
-                        "PAINTER ENGAGEMENT",
-                        style: AppFonts.styleHarmoniaBold18W600(),
-                      ),
-                    ),
-                    Positioned(
-                      left: 0,
-                      top: 27,
-                      child: IconButton(
-                        icon: const Icon(Icons.arrow_back_ios, color: Colors.white, size: 20),
-                        onPressed: () {
-                          Get.back();
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-
+              CustomAppbar(title: 'PAINTER ENGAGEMENT'),
               const SizedBox(height: 20),
 
               // TabBar - Custom Styled with fixed text display issue
@@ -152,16 +118,16 @@ class _PainterEngagementViewState extends State<PainterEngagementView> with Sing
                   ),
                 ),
               ),
-              const SizedBox(height: 15),
+
 
               // TabBarView - Content Area
               Expanded(
+
                 child: TabBarView(
                   controller: _tabController,
                   children: [
                     // Engaged Painters Tab
                     EngagedPainter(),
-
                     // Unengaged Painters Tab
                     UnengagedPainter(),
                   ],

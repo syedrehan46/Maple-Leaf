@@ -271,11 +271,11 @@ class UiHelper {
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(color: Colors.red, width: 2),
+          borderSide: const BorderSide(color:AppColors.primaryColor, width: 2),
         ),
         focusedErrorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(color: Colors.red, width: 2),
+          borderSide: const BorderSide(color: AppColors.primaryColor, width: 2),
         ),
       ),
       validator: validator,
@@ -285,10 +285,15 @@ class UiHelper {
   static customTextField({
     required TextEditingController controller,
     required String labelText,
+    String? Function(String?)? validator,
+
+
   }) {
-    return TextField(
+    return TextFormField(
       controller: controller,
+      validator: validator,
       cursorColor: AppColors.primaryColor,
+
       textCapitalization: TextCapitalization.words,
       style: AppFonts.styleHarmoniaRegular13W400(AppColors.blackColor),
       decoration: InputDecoration(
