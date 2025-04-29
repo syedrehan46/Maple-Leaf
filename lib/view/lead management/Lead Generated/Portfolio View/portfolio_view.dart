@@ -170,17 +170,15 @@ class _PorfolioViewState extends State<PorfolioView> {
                 "* $label",
                 style: const TextStyle(
                   fontWeight: FontWeight.bold,
-                  color: AppColors.whiteColor,
                   fontSize: 16,
                 ),
               ),
               const SizedBox(height: 8),
               Container(
-                width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(8),
-                  border: Border.all(color: Colors.grey.withOpacity(0.1)),
+                  border: Border.all(color: Colors.grey.shade300),
                 ),
                 child: DropdownButtonHideUnderline(
                   child: DropdownButton<String>(
@@ -205,10 +203,10 @@ class _PorfolioViewState extends State<PorfolioView> {
                       return items.map<Widget>((String item) {
                         // When dropdown is closed, selected item is gray
                         return Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                           width: double.infinity,
                           alignment: Alignment.centerLeft,
                           color: Colors.grey.shade200,
+                          padding: const EdgeInsets.symmetric(vertical: 8),
                           child: Text(item),
                         );
                       }).toList();
@@ -225,23 +223,20 @@ class _PorfolioViewState extends State<PorfolioView> {
 
                         return DropdownMenuItem<String>(
                           value: value,
-                          child: Material(
+                          child: Container(
                             color: backgroundColor,
-                            child: Container(
-                              width: double.infinity,
-                              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                              child: Text(
-                                value,
-                                style: TextStyle(
-                                  color: index == 0 ? Colors.white : Colors.black,
-                                ),
+                            width: double.infinity,
+                            padding: const EdgeInsets.symmetric(vertical: 0,horizontal: 0),
+                            child: Text(
+                              value,
+                              style: TextStyle(
+                                color: index == 0 ? Colors.white : Colors.black,
                               ),
                             ),
                           ),
                         );
                       },
                     ).toList(),
-                    menuMaxHeight: 300,
                   ),
                 ),
               ),
@@ -251,8 +246,6 @@ class _PorfolioViewState extends State<PorfolioView> {
       },
     );
   }
-
-
 
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
