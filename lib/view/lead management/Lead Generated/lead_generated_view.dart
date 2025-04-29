@@ -7,16 +7,13 @@ import 'package:mapleleaf/view/lead%20management/Lead%20Generated/Portfolio%20Vi
 
 class LeadGeneratedView extends StatefulWidget {
   const LeadGeneratedView({super.key});
-
   @override
   State<LeadGeneratedView> createState() => _LeadGeneratedViewState();
 }
-
 class _LeadGeneratedViewState extends State<LeadGeneratedView> {
   final RxInt selectedIndex = 0.obs;
   final RxString selectedCity = ''.obs;
   final RxString selectedStatus = ''.obs;
-
   final List<Map<String, dynamic>> leads = [
     {
       'id': '17684',
@@ -40,7 +37,6 @@ class _LeadGeneratedViewState extends State<LeadGeneratedView> {
       'color': AppColors.activeColor,
     },
   ];
-
   Widget buildDropdown(String label, List<String> items, RxString selectedValue) {
     String dropdownValue = items.first;
 
@@ -110,10 +106,6 @@ class _LeadGeneratedViewState extends State<LeadGeneratedView> {
       },
     );
   }
-
-
-
-
   void showCustomFilterDialog(BuildContext context) {
     showDialog(
       context: context,
@@ -271,7 +263,6 @@ class _LeadGeneratedViewState extends State<LeadGeneratedView> {
       },
     );
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -347,6 +338,7 @@ class _LeadGeneratedViewState extends State<LeadGeneratedView> {
           ),
        ),
           CustomAppbar(title: 'Lead Generated',timeLocationIsVisible: true,),
+
       ]
       ),
     );

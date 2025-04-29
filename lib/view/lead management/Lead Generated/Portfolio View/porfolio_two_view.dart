@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mapleleaf/utils/app_colors.dart';
+import 'package:mapleleaf/utils/custom%20widgets/custom_appbar.dart';
 
 // Custom FocusNode to disable focus behavior for read-only fields
 class AlwaysDisabledFocusNode extends FocusNode {
@@ -67,76 +68,81 @@ class _FeedbackScreenState extends State<PorfolioTwoView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: AppColors.primaryColor,
-        title: const Text(
-          "PORTFOLIO kkkkkk",
-          style: TextStyle(
-              color: Color(0xffF7F7F7),
-              fontWeight: FontWeight.bold,
-              fontSize: 16),
-        ),
-        centerTitle: true,
-        leading: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          icon: const Icon(
-            Icons.arrow_back_ios,
-            size: 25,
-            color: Colors.white,
-          ),
-        ),
-        shape: const OutlineInputBorder(
-          borderRadius: BorderRadius.only(
-            bottomLeft: Radius.circular(20),
-            bottomRight: Radius.circular(20),
-          ),
-        ),
-      ),
-      body: Stack(
+      body: Column(
         children: [
-          Positioned.fill(child: Image.asset("assets/images/menu_bg.png",fit: BoxFit.cover,)),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  _buildTextfield("Painter Phone", painterController, readOnly: true),
-                  _buildTextfield("Painter Name", painterNameController, readOnly: true),
-                  _buildTextfield("Customer Contact No", customerContactController, readOnly: false),
-                  _buildTextfield("Customer Name and Address", customerNameAddressController, readOnly: false),
-                  _buildTextfield("Plan Type",individualMeetupPainterController , readOnly: true),
-                  _buildTextfield("Shop Name", shopNameController, readOnly: true),
-                  _buildTextfield("Expected KGS", expectedKgsController, readOnly: true),
-                  _buildTextfield("Further Follow Up Date", dateController, readOnly: true),
+          // Fixed AppBar
+          CustomAppbar(title: "PORTFOLIO"),
 
+          // Scrollable Content Below
+          Expanded(
+            child: Stack(
+              children: [
+                // Background Image
+                Positioned.fill(
+                  child: Image.asset(
+                    "assets/images/menu_bg.png",
+                    fit: BoxFit.cover,
+                  ),
+                ),
 
+                // Foreground Content (Scroll View)
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        _buildTextfield("Painter Phone", painterController, readOnly: true),
+                        _buildTextfield("Painter Name", painterNameController, readOnly: true),
+                        _buildTextfield("Customer Contact No", customerContactController, readOnly: false),
+                        _buildTextfield("Customer Name and Address", customerNameAddressController, readOnly: false),
+                        _buildTextfield("Plan Type", individualMeetupPainterController, readOnly: true),
+                        _buildTextfield("Shop Name", shopNameController, readOnly: true),
+                        _buildTextfield("Expected KGS", expectedKgsController, readOnly: true),
+                        _buildTextfield("Further Follow Up Date", dateController, readOnly: true),
 
-                  // 🔁 Updated 3 rows below with same layout style as above
-                  Row(
-                    children: [
-                      Expanded(child: _buildTextfield("Site Visit", siteVisitController, readOnly: true)),
-                      const SizedBox(width: 4),
-                      Expanded(child: _buildTextfield("Product Sold", productSoldController, readOnly: true)),
-                    ],
+                        // Row 1
+                        Row(
+                          children: [
+                            Expanded(
+                              child: _buildTextfield("Site Visit", siteVisitController, readOnly: true),
+                            ),
+                            const SizedBox(width: 4),
+                            Expanded(
+                              child: _buildTextfield("Product Sold", productSoldController, readOnly: true),
+                            ),
+                          ],
+                        ),
+
+                        // Row 2
+                        Row(
+                          children: [
+                            Expanded(
+                              child: _buildTextfield("Sample Applied", sampleController, readOnly: true),
+                            ),
+                            const SizedBox(width: 6),
+                            Expanded(
+                              child: _buildTextfield("Converted To Sale", convertedToSaleController, readOnly: true),
+                            ),
+                          ],
+                        ),
+
+                        // Row 3
+                        Row(
+                          children: [
+                            Expanded(
+                              child: _buildTextfield("Painter Conversion", painterConversionController, readOnly: true),
+                            ),
+                            const SizedBox(width: 6),
+                            Expanded(
+                              child: _buildTextfield("Special Incentives", specialIncentivesController, readOnly: true),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
-                  Row(
-                    children: [
-                      Expanded(child: _buildTextfield("Sample Applied", sampleController, readOnly: true)),
-                      const SizedBox(width: 6),
-                      Expanded(child: _buildTextfield("Converted To Sale", convertedToSaleController, readOnly: true)),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Expanded(child: _buildTextfield("Painter Conversion", painterConversionController, readOnly: true)),
-                      const SizedBox(width: 6),
-                      Expanded(child: _buildTextfield("Special Incentives", specialIncentivesController, readOnly: true)),
-                    ],
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ],

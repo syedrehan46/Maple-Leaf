@@ -122,6 +122,7 @@ class _AddLeadsViewState extends State<AddLeadsView> {
     return Scaffold(
       backgroundColor: Colors.white, // Base background color
       body: Stack(
+
         children: [
           // 🔽 Background Image
           Positioned.fill(
@@ -137,8 +138,9 @@ class _AddLeadsViewState extends State<AddLeadsView> {
 
           // 🔼 Foreground Content
           Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              CustomAppbar(title: '${widget.title}'),
+              Center(child: CustomAppbar(title: '${widget.title}')),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
                 child: Column(
