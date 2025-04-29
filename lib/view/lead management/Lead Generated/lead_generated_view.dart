@@ -20,14 +20,14 @@ class _LeadGeneratedViewState extends State<LeadGeneratedView> {
       'phone': '03129229292',
       'date': "13-APR-2025",
       'name': 'KAMRAN',
-      'color': AppColors.primaryColor,
+      'color': AppColors.redColor,
     },
     {
       'id': '17685',
       'phone': '03112345678',
       'name': 'ZAIRE',
       'date': "12-APR-2025",
-      'color': AppColors.primaryColor,
+      'color': AppColors.redColor,
     },
     {
       'id': '17686',
