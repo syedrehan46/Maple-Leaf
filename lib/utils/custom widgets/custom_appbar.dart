@@ -15,7 +15,7 @@ class CustomAppbar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        SizedBox(height: 20,),
+        // SizedBox(height: 20,),
         Container(
           height: 80,
           width: double.infinity,
@@ -27,33 +27,43 @@ class CustomAppbar extends StatelessWidget {
             ),
             // color: AppColors.primaryColor
           ),
-          child: Stack(
-            alignment: Alignment.center,
+          child: Column(
             children: [
-              Text("$title",style: AppFonts.styleHarmoniaBold18W600()),
-              Positioned(left: 0,child: IconButton(onPressed: (){Get.back();}, icon: Icon(Icons.arrow_back_ios,color: Colors.white,size: 20,))),
-              if(timeLocationIsVisible)
-              Positioned(
-                right: 15,
-                child: GestureDetector(
-                  onTap: () {
-                    showCustomFilterDialog(context);
-                  },
-                  child: Image.asset(
-                    "assets/images/ic_filter.png",
-                    height: 20,
-                    width: 20,
-                    color: Colors.white, // optional: tint the icon if needed
-                  ),
+              SizedBox(height: 30,),
+              Padding(
+                padding: const EdgeInsets.only(left: 10,right: 20),
+                child: Row(
+                  // alignment: Alignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    IconButton(onPressed: (){Get.back();}, icon: Icon(Icons.arrow_back_ios,color: Colors.white,size: 20,)),
+                    Text("$title",style: AppFonts.styleHarmoniaBold18W600()),
+                    if(timeLocationIsVisible)
+                    GestureDetector(
+                      onTap: () {
+                        showCustomFilterDialog(context);
+                      },
+                      child: Image.asset(
+                        "assets/images/ic_filter.png",
+                        height: 20,
+                        width: 20,
+                        color: Colors.white, // optional: tint the icon if needed
+                      ),
+                    ),
+                    if(!timeLocationIsVisible)
+                      SizedBox()
+
+                  ],
                 ),
               ),
-
             ],
           ),
         ),
       ],
     );
   }
+
+
   final RxInt selectedIndex = 0.obs;
   final RxString selectedCity = "Please Select City".obs;
   final RxString selectedStatus = "Please Select Status".obs;

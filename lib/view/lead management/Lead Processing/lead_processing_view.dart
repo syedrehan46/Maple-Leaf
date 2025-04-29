@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:mapleleaf/utils/app_colors.dart';
+import 'package:mapleleaf/utils/custom%20widgets/custom_appbar.dart';
 import 'package:mapleleaf/view/lead%20management/Lead%20Converted/feedback_view.dart';
 
 class LeadProcessingView extends StatefulWidget {
@@ -256,103 +257,76 @@ class _LeadGeneratedViewState extends State<LeadProcessingView> {
     DateFormat('dd-MMM-yyyy').format(DateTime.now()).toUpperCase();
 
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: AppColors.primaryColor,
-        title: const Text(
-          "Lead Processing ",
-          style: TextStyle(color: Color(0xFFF7F7F7)),
-        ),
-        centerTitle: true,
-        leading: IconButton(
-          onPressed: () {
-            Navigator.pop(context); // or any navigation logic
-          },
-          icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
-        ),
-        actions: [
-          IconButton(
-            onPressed: () {
-              showCustomFilterDialog(context); // open filter dialog
-            },
-            icon: Image.asset(
-              'assets/images/ic_filter.png',
-              height: 24,
-              width: 24,
-              color: Colors.white, // remove if you want original color
-            ),
-          ),
-        ],
-        shape: const OutlineInputBorder(
-          borderRadius: BorderRadius.only(
-            bottomRight: Radius.circular(20),
-            bottomLeft: Radius.circular(20),
-          ),
-        ),
-      ),
 
       body: Stack(
         children: [
           Positioned.fill(child: Image.asset("assets/images/menu_bg.png", fit: BoxFit.cover)),
-          ListView.builder(
-            itemCount: leads.length,
-            itemBuilder: (BuildContext context, int index) {
-              final lead = leads[index];
-              return Padding(
-                padding: EdgeInsets.fromLTRB(
-                  12,
-                  index == 0 ? 22 : 6, // double the top padding for the first item
-                  12,
-                  4,
-                ),
-                child: GestureDetector(
-                  onTap: () {
-                    Get.to(FeedbackScreen());
-                  },
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8),
-                      color: lead['color'],
+          Column(
+            children: [
+              CustomAppbar(title: 'Lead Processing',timeLocationIsVisible: true,),
+              ListView.builder(
+                shrinkWrap: true,
+                itemCount: leads.length,
+                itemBuilder: (BuildContext context, int index) {
+                  final lead = leads[index];
+                  return Padding(
+                    padding: EdgeInsets.fromLTRB(
+                      12,
+                      index == 0 ? 22 : 6, // double the top padding for the first item
+                      12,
+                      4,
                     ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Row(
+                    child: GestureDetector(
+                      onTap: () {
+                        Get.to(FeedbackScreen());
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                          color: lead['color'],
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            Text(
-                              lead['id'],
-                              style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold),
+                            Row(
+                              children: [
+                                Text(
+                                  lead['id'],
+                                  style: const TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                const SizedBox(width: 40),
+                                Text(
+                                  lead['date'],
+                                  style: const TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ],
                             ),
-                            const SizedBox(width: 40),
-                            Text(
-                              lead['date'],
-                              style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold),
+                            const SizedBox(height: 10),
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                "${lead['phone']} ${lead['name']}",
+                                style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold),
+                              ),
                             ),
                           ],
                         ),
-                        const SizedBox(height: 10),
-                        Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                            "${lead['phone']} ${lead['name']}",
-                            style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                      ],
+                      ),
                     ),
-                  ),
-                ),
-              );
-            },
+                  );
+                },
+              ),
+            ],
           ),
         ],
       ),
