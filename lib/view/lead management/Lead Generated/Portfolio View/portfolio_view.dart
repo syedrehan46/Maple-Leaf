@@ -253,18 +253,32 @@ class _PorfolioViewState extends State<PorfolioView> {
   }
 
 
-
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
       firstDate: DateTime.now().subtract(const Duration(days: 0)),
       lastDate: DateTime(2100),
+      builder: (BuildContext context, Widget? child) {
+        return Theme(
+          data: Theme.of(context).copyWith(
+            colorScheme: ColorScheme.light(
+              primary: AppColors.primaryColor, // ✅ header and selected date color
+              onPrimary: AppColors.whiteColor, // ✅ text color on selected date
+              onSurface: AppColors.blackColor, // ✅ default text color
+            ),
+            dialogBackgroundColor: Colors.white, // ✅ background color
+          ),
+          child: child!,
+        );
+      },
     );
+
     if (picked != null) {
       setState(() {
         followUpDate = DateFormat('dd-MM-yyyy').format(picked);
       });
     }
   }
+
 }

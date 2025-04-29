@@ -83,9 +83,12 @@ class _IndividualMeetupState extends State<IndividualMeetup> {
                       ),
                       padding: const EdgeInsets.symmetric(horizontal: 12),
                       child: DropdownButtonFormField<String>(
+
                         isDense: true,
+
                         decoration: const InputDecoration.collapsed(hintText: ""),
                         value: selectedLocation ?? locations.first,
+                        dropdownColor: AppColors.whiteColor,
                         onChanged: (value) {
                           setState(() {
                             selectedLocation = value;
@@ -138,6 +141,7 @@ class _IndividualMeetupState extends State<IndividualMeetup> {
                         isDense: true,
                         decoration: const InputDecoration.collapsed(hintText: ""),
                         value: selectedGiveaway ?? giveaways.first,
+                        dropdownColor: AppColors.whiteColor,
                         onChanged: (value) {
                           setState(() {
                             selectedGiveaway = value;
