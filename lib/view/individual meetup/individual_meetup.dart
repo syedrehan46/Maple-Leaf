@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:mapleleaf/utils/app_colors.dart';
 import 'package:mapleleaf/utils/custom%20widgets/custom_appbar.dart';
 
-import '../../utils/app_fonts.dart';
-
 class IndividualMeetup extends StatefulWidget {
   const IndividualMeetup({super.key});
 
@@ -15,8 +13,15 @@ class _IndividualMeetupState extends State<IndividualMeetup> {
   String? selectedLocation;
   String? selectedGiveaway;
 
-  final List<String> locations = ['CAFE', 'SPOT', 'SITE', 'SHOP'];
+  final List<String> locations = [
+    'Please Select Location',
+    'CAFE',
+    'SPOT',
+    'SITE',
+    'SHOP'
+  ];
   final List<String> giveaways = [
+    'Please Select Giveaway',
     'NONE',
     'FOOD AND GIVEAWAY',
     'FOOD AND FREE BAGS',
@@ -31,7 +36,6 @@ class _IndividualMeetupState extends State<IndividualMeetup> {
           CustomAppbar(title: 'INDIVIDUAL MEETUPS'),
           Stack(
             children: [
-              // 🔽 Background Image
               Positioned.fill(
                 child: Container(
                   decoration: const BoxDecoration(
@@ -42,8 +46,6 @@ class _IndividualMeetupState extends State<IndividualMeetup> {
                   ),
                 ),
               ),
-
-              // 🔼 Foreground Content
               Padding(
                 padding: const EdgeInsets.all(12.0),
                 child: Column(
@@ -82,8 +84,8 @@ class _IndividualMeetupState extends State<IndividualMeetup> {
                       padding: const EdgeInsets.symmetric(horizontal: 12),
                       child: DropdownButtonFormField<String>(
                         isDense: true,
-                        decoration: const InputDecoration.collapsed(hintText: "Please Select Location"),
-                        value: selectedLocation,
+                        decoration: const InputDecoration.collapsed(hintText: ""),
+                        value: selectedLocation ?? locations.first,
                         onChanged: (value) {
                           setState(() {
                             selectedLocation = value;
@@ -92,9 +94,22 @@ class _IndividualMeetupState extends State<IndividualMeetup> {
                         items: locations.map((location) {
                           return DropdownMenuItem<String>(
                             value: location,
-                            child: Text(location),
+                            child: Text(
+                              location,
+                              style: TextStyle(
+                                color: location == locations.first ? Colors.red : Colors.black,
+                              ),
+                            ),
                           );
                         }).toList(),
+                        selectedItemBuilder: (BuildContext context) {
+                          return locations.map((location) {
+                            return Text(
+                              location,
+                              style: const TextStyle(color: Colors.black),
+                            );
+                          }).toList();
+                        },
                       ),
                     ),
                     const SizedBox(height: 20),
@@ -121,8 +136,8 @@ class _IndividualMeetupState extends State<IndividualMeetup> {
                       padding: const EdgeInsets.symmetric(horizontal: 12),
                       child: DropdownButtonFormField<String>(
                         isDense: true,
-                        decoration: const InputDecoration.collapsed(hintText: "Please Select Giveaway"),
-                        value: selectedGiveaway,
+                        decoration: const InputDecoration.collapsed(hintText: ""),
+                        value: selectedGiveaway ?? giveaways.first,
                         onChanged: (value) {
                           setState(() {
                             selectedGiveaway = value;
@@ -131,9 +146,22 @@ class _IndividualMeetupState extends State<IndividualMeetup> {
                         items: giveaways.map((giveaway) {
                           return DropdownMenuItem<String>(
                             value: giveaway,
-                            child: Text(giveaway),
+                            child: Text(
+                              giveaway,
+                              style: TextStyle(
+                                color: giveaway == giveaways.first ? Colors.red : Colors.black,
+                              ),
+                            ),
                           );
                         }).toList(),
+                        selectedItemBuilder: (BuildContext context) {
+                          return giveaways.map((giveaway) {
+                            return Text(
+                              giveaway,
+                              style: const TextStyle(color: Colors.black),
+                            );
+                          }).toList();
+                        },
                       ),
                     ),
                     const SizedBox(height: 30),
