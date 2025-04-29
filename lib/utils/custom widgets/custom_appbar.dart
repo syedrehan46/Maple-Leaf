@@ -1,84 +1,62 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:mapleleaf/utils/app_colors.dart';
 import 'package:get/get.dart';
-import 'package:mapleleaf/utils/app_fonts.dart';
-import 'package:mapleleaf/utils/ui_helper.dart';
-import 'package:mapleleaf/view/individual%20meetup/UserLead%20Page/add_leads_view.dart';
+import 'package:get/get_core/src/get_main.dart';
 
-import '../../utils/custom widgets/custom_appbar.dart';
+import '../app_colors.dart';
+import '../app_fonts.dart';
 
-class NewPainterInductionView extends StatelessWidget {
-  NewPainterInductionView({super.key});
-  final RxInt selectedIndex = 0.obs;
-  final RxString selectedCity = "Please Select City".obs;
-  final RxString selectedStatus = "Please Select Status".obs;
-  final TextEditingController textEditingController = TextEditingController();
+class CustomAppbar extends StatelessWidget {
+  final String title;
+  final bool timeLocationIsVisible;
+  CustomAppbar({super.key,required this.title, this.timeLocationIsVisible=false});
 
-  Widget buildDropdown(String label, List<String> items, RxString selectedValue) {
-    String dropdownValue = items.first;
-
-    return StatefulBuilder(
-      builder: (context, setState) {
-        return Padding(
-          padding: const EdgeInsets.only(bottom: 16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        SizedBox(height: 20,),
+        Container(
+          height: 80,
+          width: double.infinity,
+          decoration: BoxDecoration(
+            color: AppColors.redColor,
+            borderRadius: BorderRadius.only(
+              bottomLeft: Radius.circular(15),
+              bottomRight: Radius.circular(15),
+            ),
+            // color: AppColors.primaryColor
+          ),
+          child: Stack(
+            alignment: Alignment.center,
             children: [
-              Text(
-                " $label",
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16,
-                ),
-              ),
-              const SizedBox(height: 8),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12),
-                decoration: BoxDecoration(
-                  color: const Color(0xffD2F6F9FB),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: DropdownButtonHideUnderline(
-                  child: DropdownButton<String>(
-                    value: dropdownValue,
-                    isExpanded: true,
-                    icon: const Icon(Icons.arrow_drop_down),
-                    onChanged: (String? newValue) {
-                      setState(() {
-                        dropdownValue = newValue!;
-                        selectedValue.value = dropdownValue;
-                      });
-                    },
-                    selectedItemBuilder: (BuildContext context) {
-                      return items.map((String value) {
-                        return Text(
-                          value,
-                          style: const TextStyle(color: Colors.black),
-                        );
-                      }).toList();
-                    },
-                    items: items.map<DropdownMenuItem<String>>((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(
-                          value,
-                          style: TextStyle(
-                            color: value == items.first ? Colors.red : Colors.black,
-                          ),
-                        ),
-                      );
-                    }).toList(),
+              Text("$title",style: AppFonts.styleHarmoniaBold18W600()),
+              Positioned(left: 0,child: IconButton(onPressed: (){Get.back();}, icon: Icon(Icons.arrow_back_ios,color: Colors.white,size: 20,))),
+              if(timeLocationIsVisible)
+              Positioned(
+                right: 15,
+                child: GestureDetector(
+                  onTap: () {
+                    showCustomFilterDialog(context);
+                  },
+                  child: Image.asset(
+                    "assets/images/ic_filter.png",
+                    height: 20,
+                    width: 20,
+                    color: Colors.white, // optional: tint the icon if needed
                   ),
                 ),
               ),
+
             ],
           ),
-        );
-      },
+        ),
+      ],
     );
   }
-
+  final RxInt selectedIndex = 0.obs;
+  final RxString selectedCity = "Please Select City".obs;
+  final RxString selectedStatus = "Please Select Status".obs;
   void showCustomFilterDialog(BuildContext context) {
     showDialog(
       context: context,
@@ -280,34 +258,71 @@ class NewPainterInductionView extends StatelessWidget {
       },
     );
   }
+  Widget buildDropdown(String label, List<String> items, RxString selectedValue) {
+    String dropdownValue = items.first;
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
-        children: [
-          // Background Image
-          Positioned.fill(
-            child: Image.asset(
-              'assets/images/menu_bg.png',
-              fit: BoxFit.cover,
-            ),
-          ),
-          Column(
+    return StatefulBuilder(
+      builder: (context, setState) {
+        return Padding(
+          padding: const EdgeInsets.only(bottom: 16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            
             children: [
-              CustomAppbar(title: 'NEW PAINTER INDUCTION',timeLocationIsVisible: false,),
-
-
-              GestureDetector(onTap: (){Get.to(AddLeadsView(title: "YFFUR",));},
-                  child: UiHelper.customListItem(title: "YFFUR", phoneNumber: "03242454646", location: "KUND(DANDI DARA)", date: "10-APR-2025", padding: 36)),
-              GestureDetector(onTap: (){Get.to(AddLeadsView(title: "WAHEED",));}
-                  ,child: UiHelper.customListItem(title: "", phoneNumber: "03205129246", location: "SATELITTE(JHELUM)", date: "12-APR-2025", padding: 12)),
-              GestureDetector(onTap: (){Get.to(AddLeadsView(title: "AHMED",));}
-                  ,child: UiHelper.customListItem(title: "AHMED", phoneNumber: "03465782246", location: "SATELITTE(JHELUM)", date: "12-APR-2025", padding: 12)),
+              Text(
+                " $label",
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                ),
+              ),
+              const SizedBox(height: 8),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 12),
+                decoration: BoxDecoration(
+                  color: const Color(0xffD2F6F9FB),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: DropdownButtonHideUnderline(
+                  child: DropdownButton<String>(
+                    value: dropdownValue,
+                    isExpanded: true,
+                    icon: const Icon(Icons.arrow_drop_down),
+                    onChanged: (String? newValue) {
+                      setState(() {
+                        dropdownValue = newValue!;
+                        selectedValue.value = dropdownValue;
+                      });
+                    },
+                    selectedItemBuilder: (BuildContext context) {
+                      return items.map((String value) {
+                        return Padding(
+                          padding: const EdgeInsets.only(top: 10),
+                          child: Text(
+                            value,
+                            style: const TextStyle(color: Colors.black),
+                          ),
+                        );
+                      }).toList();
+                    },
+                    items: items.map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(
+                          value,
+                          style: TextStyle(
+                            color: value == items.first ? Colors.red : Colors.black,
+                          ),
+                        ),
+                      );
+                    }).toList(),
+                  ),
+                ),
+              ),
             ],
           ),
-        ],
-      ),
+        );
+      },
     );
   }
 }

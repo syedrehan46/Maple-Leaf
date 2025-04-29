@@ -40,6 +40,7 @@ class _AddLeadsViewState extends State<AddLeadsView> {
       context: context,
       builder: (BuildContext context) {
         return Dialog(
+          backgroundColor: AppColors.whiteColor,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
           child: SizedBox(
             height: 450,
@@ -136,6 +137,7 @@ class _AddLeadsViewState extends State<AddLeadsView> {
           // 🔼 Foreground Content
           Column(
             children: [
+              SizedBox(height: 20,),
               Container(
                 decoration: BoxDecoration(
                   color: AppColors.primaryColor,
@@ -148,7 +150,7 @@ class _AddLeadsViewState extends State<AddLeadsView> {
                 child: Row(
                   children: [
                     IconButton(
-                      icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
+                      icon: const Icon(Icons.arrow_back_ios, color: Colors.white,size: 20,),
                       onPressed: () => Get.back(),
                     ),
                     Expanded(
@@ -219,15 +221,18 @@ class _AddLeadsViewState extends State<AddLeadsView> {
                           elevation: 0,
                           padding: const EdgeInsets.symmetric(vertical: 16),
                         ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              selectedLocation.isEmpty ? "Please Select Area" : selectedLocation,
-                              style: const TextStyle(fontSize: 16),
-                            ),
-                            const Icon(Icons.arrow_drop_down),
-                          ],
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                selectedLocation.isEmpty ? "Please Select Area" : selectedLocation,
+                                style: const TextStyle(fontSize: 16),
+                              ),
+                              const Icon(Icons.arrow_drop_down),
+                            ],
+                          ),
                         ),
                       ),
                     ),

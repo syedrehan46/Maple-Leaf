@@ -20,8 +20,9 @@ class SabContractorProfileView extends StatelessWidget {
           Column(
             children: [
               // Header Container
+              SizedBox(height: 20,),
               Container(
-                height: 90,
+                height: 80,
                 width: double.infinity,
                 decoration: const BoxDecoration(
                   color: AppColors.primaryColor,

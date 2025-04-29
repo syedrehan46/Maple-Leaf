@@ -31,6 +31,7 @@ class IndividualMeetingPainters extends StatelessWidget {
           // 🔼 Foreground content
           Column(
             children: [
+              SizedBox(height: 20,),
               // 🔴 Header
               Container(
                 height: 80,

@@ -148,7 +148,7 @@ class UiHelper {
                       ),
                       const SizedBox(width: 14),
                       const Icon(Icons.arrow_forward_ios,
-                          size: 22, color: Colors.white),
+                          size:20, color: Colors.white),
                     ],
                   ),
                 ),
@@ -507,4 +507,5 @@ class UiHelper {
       },
     );
   }
+
 }

@@ -56,6 +56,7 @@ class _PainterEngagementViewState extends State<PainterEngagementView> with Sing
           // 🔼 Foreground Content
           Column(
             children: [
+              SizedBox(height: 20,),
               // Header
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 12),

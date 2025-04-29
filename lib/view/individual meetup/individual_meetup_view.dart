@@ -9,6 +9,7 @@ import 'package:mapleleaf/view/painter%20engagement/painter_engagement_view.dart
 import 'package:mapleleaf/view/sab%20contractor%20profile/individual_meetup_labor_view.dart';
 
 import '../../utils/app_colors.dart';
+import '../../utils/custom widgets/custom_appbar.dart';
 
 class IndividualMeetupView extends StatefulWidget {
   const IndividualMeetupView({super.key});
@@ -39,35 +40,8 @@ class _IndividualMeetupViewState extends State<IndividualMeetupView> {
           Column(
             children: [
               // Top Header
-              Container(
-                height: 80,
-                padding: EdgeInsets.symmetric(vertical: 20.h),
-                decoration: BoxDecoration(
-                 color: AppColors.redColor,
-                  borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(20.r),
-                    bottomRight: Radius.circular(20.r),
-                  ),
-                ),
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 15.w),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      // Avatar and text
-                      GestureDetector(
-                        onTap: ()=> Get.back(),
-                        child: Icon(
-                          Icons.arrow_back_ios,
-                          size: 20.r,
-                          color: AppColors.whiteColor,
-                        ),
-                      ),
-                      Expanded(child: Center(child: Text("Individual Meetups".toUpperCase(), style: AppFonts.styleHarmoniaBold18W600(),))),
-                    ],
-                  ),
-                ),
-              ),
+              CustomAppbar(title: 'INDIVIDUAL MEETUPS',timeLocationIsVisible: false,),
+
               SizedBox(height: 10.h,),
               Expanded(child: Center(
                 child: Column(

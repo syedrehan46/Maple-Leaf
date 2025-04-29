@@ -24,8 +24,9 @@ class LeadManagementView extends StatelessWidget {
           Column(
             children: [
               // App Bar
+              SizedBox(height: 20,),
               Container(
-                height: 90,
+                height: 80,
                 width: double.infinity,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.only(
