@@ -234,7 +234,7 @@ class LaborContractorEngagementView extends StatelessWidget {
                 alignment: Alignment.center,
                 children: [
                   Text(
-                    "INDIVIDUAL MEETUPS LABOR",
+                    "INDIVIDUAL MEETUPS LABOR sdsds",
                     style: AppFonts.styleHarmoniaBold18W600(),
                   ),
                   Positioned(

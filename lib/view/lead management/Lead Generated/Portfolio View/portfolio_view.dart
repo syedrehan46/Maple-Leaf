@@ -19,7 +19,7 @@ class _PorfolioViewState extends State<PorfolioView> {
       appBar: AppBar(
         backgroundColor: AppColors.primaryColor,
         title: const Text(
-          "PORTFOLIO",
+          "PORTFOLIO", 
           style: TextStyle(color: Colors.white),
         ),
         centerTitle: true,

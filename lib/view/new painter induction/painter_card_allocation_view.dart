@@ -164,7 +164,7 @@ class _AddLeadsViewState extends State<PainterCardAllocationView> {
               children: [
                 Center(
                   child: Text(
-                    'SUB CONTRACTOR PROFILE',
+                    'SUB CONTRACTOR PROFILE kkkkkkkkkkkkkkkkkkkk',
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,

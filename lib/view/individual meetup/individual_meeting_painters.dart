@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mapleleaf/utils/app_colors.dart';
 import 'package:get/get.dart';
 import 'package:mapleleaf/utils/app_fonts.dart';
+import 'package:mapleleaf/utils/custom%20widgets/custom_appbar.dart';
 import 'package:mapleleaf/view/individual%20meetup/UserLead%20Page/add_leads_view.dart';
 import 'package:mapleleaf/view/individual%20meetup/individual_meetup.dart';
 
@@ -31,40 +32,7 @@ class IndividualMeetingPainters extends StatelessWidget {
           // 🔼 Foreground content
           Column(
             children: [
-              SizedBox(height: 20,),
-              // 🔴 Header
-              Container(
-                height: 80,
-                width: double.infinity,
-                decoration: const BoxDecoration(
-                  color: AppColors.redColor,
-                  borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(15),
-                    bottomRight: Radius.circular(15),
-                  ),
-                ),
-                child: Padding(
-                  padding: EdgeInsets.only(left: 10.w, right: 10.w, top: 20.h, bottom: 10.h),
-                  child: Stack(
-                    alignment: Alignment.center,
-                    children: [
-                      Text(
-                        "INDIVIDUAL MEETUPS PAINTER ",
-                        style: AppFonts.styleHarmoniaBold18W600(),
-                      ),
-                      Positioned(
-                        left: 0,
-                        child: IconButton(
-                          onPressed: () {
-                            Get.back();
-                          },
-                          icon: const Icon(Icons.arrow_back_ios, color: Colors.white, size: 20),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+              CustomAppbar(title: "INDIVIDUAL MEETUPS PAINTER"),
 
               // 🔍 Search box
               Padding(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mapleleaf/utils/app_colors.dart';
 import 'package:get/get.dart';
+import 'package:mapleleaf/utils/custom%20widgets/custom_appbar.dart';
 import 'package:mapleleaf/view/lead%20management/Lead%20Converted/lead_converted_view.dart';
 import 'package:mapleleaf/view/lead%20management/Lead%20Generated/lead_generated_view.dart';
 import 'package:mapleleaf/view/lead%20management/Lead%20Processing/lead_processing_view.dart';
@@ -24,44 +25,7 @@ class LeadManagementView extends StatelessWidget {
           Column(
             children: [
               // App Bar
-              SizedBox(height: 20,),
-              Container(
-                height: 80,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(15),
-                    bottomRight: Radius.circular(15),
-                  ),
-                  color: AppColors.primaryColor,
-                ),
-                child: Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    const Text(
-                      "LEAD MANAGEMENT",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Positioned(
-                      left: 6,
-                      child: IconButton(
-                        onPressed: () {
-                          Get.back();
-                        },
-                        icon: const Icon(
-                          Icons.arrow_back_ios,
-                          color: Colors.white,
-                          size: 25,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+              CustomAppbar(title: 'LEAD MANAGEMENT'),
               // Buttons
               Expanded(
                 child: Center(

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:mapleleaf/utils/app_colors.dart';
+import 'package:mapleleaf/utils/custom%20widgets/custom_appbar.dart';
 
 class AddLeadsView extends StatefulWidget {
   final String title;  // Declare the title field
@@ -137,38 +138,7 @@ class _AddLeadsViewState extends State<AddLeadsView> {
           // 🔼 Foreground Content
           Column(
             children: [
-              SizedBox(height: 20,),
-              Container(
-                decoration: BoxDecoration(
-                  color: AppColors.primaryColor,
-                  borderRadius: const BorderRadius.only(
-                    bottomLeft: Radius.circular(20),
-                    bottomRight: Radius.circular(20),
-                  ),
-                ),
-                padding: EdgeInsets.only(left: 10.w, right: 10.w, top: 20.h, bottom: 10.h),
-                child: Row(
-                  children: [
-                    IconButton(
-                      icon: const Icon(Icons.arrow_back_ios, color: Colors.white,size: 20,),
-                      onPressed: () => Get.back(),
-                    ),
-                    Expanded(
-                      child: Center(
-                        child: Text(
-                          widget.title,  // Access the title using widget.title
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ),
-                    SizedBox(width: kToolbarHeight * 0.8), // Match the space taken by IconButton
-                  ],
-                ),
-              ),
+              CustomAppbar(title: '${widget.title}'),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
                 child: Column(

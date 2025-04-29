@@ -6,6 +6,7 @@ import 'package:mapleleaf/view/individual%20meetup/individual_meeting_painters.d
 import 'package:mapleleaf/view/sab%20contractor%20profile/individual_meetup_labor.dart';
 
 import '../../utils/app_fonts.dart';
+import '../../utils/custom widgets/custom_appbar.dart';
 
 class IndividualMeetupLaborView extends StatelessWidget {
   IndividualMeetupLaborView({super.key});
@@ -193,52 +194,8 @@ class IndividualMeetupLaborView extends StatelessWidget {
           // Foreground Content (Unchanged)
           Column(
             children: [
-              Container(
-                height: 80,
-                width: double.infinity,
-                decoration: const BoxDecoration(
-                  color: AppColors.primaryColor,
-                  borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(15),
-                    bottomRight: Radius.circular(15),
-                  ),
-                ),
-                child: Padding(
-                  padding: EdgeInsets.only(left: 10.w, right: 10.w, top: 20.h, bottom: 10.h),
-                  child: Stack(
-                    alignment: Alignment.center,
-                    children: [
-                      Text(
-                        "INDIVIDUAL MEETUPS LABOR",
-                        style: AppFonts.styleHarmoniaBold18W600(),
-                      ),
-                      Positioned(
-                        left: 0,
-                        child: IconButton(
-                          onPressed: () => Get.back(),
-                          icon: const Icon(Icons.arrow_back_ios, color: Colors.white, size: 20),
-                        ),
-                      ),
-                      Positioned(
-                        right: 0,
-                        child: GestureDetector(
-                          onTap: () => showCustomFilterDialog(context),
-                          child: Container(
-                            padding: const EdgeInsets.all(8),
-                            color: Colors.transparent,
-                            child: Image.asset(
-                              "assets/images/ic_filter.png",
-                              height: 20,
-                              width: 20,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+              CustomAppbar(title: 'INDIVIDUAL MEETUPS LABOR',timeLocationIsVisible: true,),
+
               Expanded(
                 child: ListView(
                   padding: const EdgeInsets.symmetric(vertical: 8),

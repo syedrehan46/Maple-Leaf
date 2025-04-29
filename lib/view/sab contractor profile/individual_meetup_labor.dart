@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mapleleaf/utils/app_colors.dart';
+import 'package:mapleleaf/utils/custom%20widgets/custom_appbar.dart';
 import 'package:mapleleaf/view/individual%20meetup/UserLead%20Page/add_leads_view.dart';
 import 'package:mapleleaf/view/individual%20meetup/individual_meetup.dart';
 
@@ -32,35 +33,8 @@ class IndividualMeetupLabor extends StatelessWidget {
           Column(
             children: [
               // Header Container
-              Container(
-                height: 90,
-                width: double.infinity,
-                decoration: const BoxDecoration(
-                  color: AppColors.primaryColor,
-                  borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(15),
-                    bottomRight: Radius.circular(15),
-                  ),
-                ),
-                child: Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    Text(
-                      "INDIVIDUAL MEETUPS PAINTER",
-                      style: AppFonts.styleHarmoniaBold18W600(),
-                    ),
-                    Positioned(
-                      left: 0,
-                      child: IconButton(
-                        onPressed: () {
-                          Get.back();
-                        },
-                        icon: const Icon(Icons.arrow_back_ios, color: Colors.white, size: 20),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+              CustomAppbar(title: 'INDIVIDUAL MEETUPS PAINTER'),
+              
 
               // Search TextField
               Padding(
