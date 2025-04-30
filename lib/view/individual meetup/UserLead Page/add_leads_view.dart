@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
 import 'package:mapleleaf/utils/app_colors.dart';
 import 'package:mapleleaf/utils/custom%20widgets/custom_appbar.dart';
 
@@ -26,92 +24,107 @@ class _AddLeadsViewState extends State<AddLeadsView> {
     'MAIN BAZAR',
     'PHURLARWAN'
   ];
-  List<String> filteredLocations = [];
   String selectedLocation = '';
   final TextEditingController searchController = TextEditingController();
 
-  @override
-  void initState() {
-    super.initState();
-    filteredLocations = locations;
-  }
-
   void openLocationDialog() {
+    // Create a local filtered list that will be managed by the dialog's StatefulBuilder
+    List<String> dialogFilteredLocations = List.from(locations);
+
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return Dialog(
-          backgroundColor: AppColors.whiteColor,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-          child: SizedBox(
-            height: 450,
-            width: 550,
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    'Select Item',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(height: 8),
-                  TextField(
-                    controller: searchController,
-                    onChanged: (value) {
-                      setState(() {
-                        filteredLocations = locations
-                            .where((item) => item.toLowerCase().contains(value.toLowerCase()))
-                            .toList();
-                      });
-                    },
-                    decoration: const InputDecoration(
-                      hintText: 'Search...',
-                      prefixIcon: Icon(Icons.search),
-                      isDense: true,
-                    ),
-                  ),
-                  const SizedBox(height: 6),
-                  Expanded(
-                    child: ListView.builder(
-                      itemCount: filteredLocations.length,
-                      itemBuilder: (context, index) {
-                        return Column(
-                          children: [
-                            ListTile(
-                              dense: true,
-                              contentPadding: EdgeInsets.zero,
-                              title: Text(
-                                filteredLocations[index],
-                                style: const TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w300,
-                                ),
-                              ),
-                              onTap: () {
-                                setState(() {
-                                  selectedLocation = filteredLocations[index];
-                                });
-                                Navigator.pop(context);
-                              },
+        // Use StatefulBuilder to manage the dialog's own state
+        return StatefulBuilder(
+            builder: (context, setDialogState) {
+              return Dialog(
+                backgroundColor: AppColors.whiteColor,
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                child: SizedBox(
+                  height: 450,
+                  width: 550,
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          'Select Item',
+                          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                        ),
+                        const SizedBox(height: 8),
+                        TextField(
+                          controller: searchController,
+                          onChanged: (value) {
+                            // Use the dialog's setState to update the filtered list
+                            setDialogState(() {
+                              dialogFilteredLocations = locations
+                                  .where((item) => item.toLowerCase().contains(value.toLowerCase()))
+                                  .toList();
+                            });
+                          },
+                          decoration: const InputDecoration(
+                            hintText: 'Search...',
+                            prefixIcon: Icon(Icons.search),
+                            isDense: true,
+                          ),
+                        ),
+                        const SizedBox(height: 6),
+                        Expanded(
+                          child: ListView.builder(
+                            itemCount: dialogFilteredLocations.length,
+                            itemBuilder: (context, index) {
+                              return Column(
+                                children: [
+                                  ListTile(
+                                    dense: true,
+                                    contentPadding: EdgeInsets.zero,
+                                    title: Text(
+                                      dialogFilteredLocations[index],
+                                      style: const TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w300,
+                                      ),
+                                    ),
+                                    onTap: () {
+                                      // Update the selected location in the parent widget's state
+                                      setState(() {
+                                        selectedLocation = dialogFilteredLocations[index];
+                                      });
+                                      // Clear search when selection is made
+                                      searchController.clear();
+                                      Navigator.pop(context);
+                                    },
+                                  ),
+                                  const Divider(height: 1, color: Colors.grey),
+                                ],
+                              );
+                            },
+                          ),
+                        ),
+                        Align(
+                          alignment: Alignment.bottomRight,
+                          child: TextButton.icon(
+                            onPressed: () {
+                              // Clear search when dialog is closed
+                              searchController.clear();
+                              Navigator.pop(context);
+                            },
+                            label: const Text('CLOSE',
+                                style: TextStyle(
+                                    color: Colors.red,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold
+                                )
                             ),
-                            const Divider(height: 1, color: Colors.grey),
-                          ],
-                        );
-                      },
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                  Align(
-                    alignment: Alignment.bottomRight,
-                    child: TextButton.icon(
-                      onPressed: () => Navigator.pop(context),
-                      label: const Text('CLOSE', style: TextStyle(color: Colors.red, fontSize: 16, fontWeight: FontWeight.bold)),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
+                ),
+              );
+            }
         );
       },
     );
@@ -122,7 +135,6 @@ class _AddLeadsViewState extends State<AddLeadsView> {
     return Scaffold(
       backgroundColor: Colors.white, // Base background color
       body: Stack(
-
         children: [
           // 🔽 Background Image
           Positioned.fill(
@@ -140,7 +152,7 @@ class _AddLeadsViewState extends State<AddLeadsView> {
           Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Center(child: CustomAppbar(title: '${widget.title}')),
+              Center(child: CustomAppbar(title: widget.title)),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
                 child: Column(
@@ -148,7 +160,7 @@ class _AddLeadsViewState extends State<AddLeadsView> {
                   children: [
                     Center(
                       child: Text(
-                        widget.title,  // Use widget.title here as well
+                        widget.title,
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
@@ -238,7 +250,6 @@ class _AddLeadsViewState extends State<AddLeadsView> {
         ],
       ),
     );
-
   }
 }
 

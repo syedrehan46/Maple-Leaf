@@ -51,7 +51,7 @@ class CustomAppbar extends StatelessWidget {
                       ),
                     ),
                     if(!timeLocationIsVisible)
-                      SizedBox(width: 35,)
+                      SizedBox(width: MediaQuery.of(context).size.width*(10/360),)
 
                   ],
                 ),
