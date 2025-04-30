@@ -25,6 +25,27 @@ class _LeadConvertedViewState extends State<LeadConvertedView> {
       'color': AppColors.activeColor,
       'date': DateFormat('dd-MMM-yyyy').format(DateTime.now()),
     },
+    {
+      'id': '17687',
+      'phone': '03219833543',
+      'name': 'Ayesha',
+      'color': AppColors.activeColor,
+      'date': DateFormat('dd-MMM-yyyy').format(DateTime.now()),
+    },
+    {
+      'id': '17688',
+      'phone': '03219876534S',
+      'name': 'Rehan',
+      'color': AppColors.activeColor,
+      'date': DateFormat('dd-MMM-yyyy').format(DateTime.now()),
+    },
+    {
+      'id': '17689',
+      'phone': '03219216543',
+      'name': 'AHMED',
+      'color': AppColors.activeColor,
+      'date': DateFormat('dd-MMM-yyyy').format(DateTime.now()),
+    },
   ];
 
   Widget buildDropdown(String label, List<String> items, RxString selectedValue) {
