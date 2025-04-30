@@ -32,6 +32,7 @@ class UnengagedPainter extends StatelessWidget {
             child: Container(
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
+                color: AppColors.whiteColor,
                 borderRadius: BorderRadius.circular(15),
               ),
               child: SingleChildScrollView(
@@ -51,7 +52,6 @@ class UnengagedPainter extends StatelessWidget {
                         ),
                       ],
                     ),
-                    const SizedBox(height: 10),
                     const Align(
                       alignment: Alignment.centerLeft,
                       child: Text("City", style: TextStyle(fontWeight: FontWeight.w600)),
@@ -66,6 +66,7 @@ class UnengagedPainter extends StatelessWidget {
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: Obx(() => DropdownButton<String>(
+                        dropdownColor: AppColors.whiteColor,
                         value: selectedCity.value,
                         isExpanded: true,
                         underline: Container(), // Remove the default underline

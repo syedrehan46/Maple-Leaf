@@ -140,6 +140,7 @@ class EngagedPainter extends StatelessWidget {
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: Obx(() => DropdownButton<String>(
+                        dropdownColor: AppColors.whiteColor,
                         value: selectedCity.value,
                         isExpanded: true,
                         underline: Container(), // Remove the default underline
