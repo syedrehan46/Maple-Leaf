@@ -53,7 +53,6 @@ class CustomAppbar extends StatelessWidget {
                     ),
                     if(!timeLocationIsVisible)
                       SizedBox(width: MediaQuery.of(context).size.width*(10/360),)
-
                   ],
                 ),
               ),
@@ -64,10 +63,12 @@ class CustomAppbar extends StatelessWidget {
     );
   }
 
-
   final RxInt selectedIndex = 0.obs;
+
   final RxString selectedCity = "Please Select City".obs;
+
   final RxString selectedStatus = "Please Select Status".obs;
+
   void showCustomFilterDialog(BuildContext context) {
     showDialog(
       context: context,
@@ -283,6 +284,7 @@ class CustomAppbar extends StatelessWidget {
       },
     );
   }
+
   Widget buildDropdown(String label, List<String> items, RxString selectedValue) {
     String dropdownValue = items.first;
 
@@ -352,4 +354,5 @@ class CustomAppbar extends StatelessWidget {
       },
     );
   }
+
 }

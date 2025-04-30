@@ -7,11 +7,16 @@ import 'Painter_list.dart';
 class EngagedPainter extends StatelessWidget {
 
   EngagedPainter({super.key});
+
   bool isEngagedSelected = true;
+
   final RxInt selectedIndex = 0.obs;
+
   final RxString selectedCity = "Please Select City".obs;
+
   @override
   Widget build(BuildContext context) {
+
     final List<String> cities = [
       "Please Select City", // First red item
       "CHARHOI",
@@ -210,6 +215,7 @@ class EngagedPainter extends StatelessWidget {
         },
       );
     }
+
     return SafeArea(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -244,7 +250,7 @@ class EngagedPainter extends StatelessWidget {
                     'assets/images/ic_filter.png',
                     height: 24,
                     width: 24,
-                    color: Colors.red,
+                    color: AppColors.redColor,
                   ),
                 ),
               ],
@@ -259,5 +265,6 @@ class EngagedPainter extends StatelessWidget {
         ],
       ),
     );
+
   }
 }
