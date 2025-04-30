@@ -28,6 +28,7 @@ class EngagedPainter extends StatelessWidget {
         context: context,
         builder: (context) {
           return Dialog(
+            backgroundColor: AppColors.whiteColor,
             insetPadding: const EdgeInsets.all(20),
             child: Container(
               padding: const EdgeInsets.all(16),

@@ -38,7 +38,7 @@ class CustomAppbar extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     IconButton(onPressed: (){Get.back();}, icon: Icon(Icons.arrow_back_ios,color: Colors.white,size: 20,)),
-                    Text("$title",style: AppFonts.styleHarmoniaBold18W600()),
+                    Text("${title.toUpperCase()}",style: AppFonts.styleHarmoniaBold18W600()),
                     if(timeLocationIsVisible)
                     GestureDetector(
                       onTap: () {

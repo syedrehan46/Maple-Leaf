@@ -18,6 +18,7 @@ import 'package:package_info_plus/package_info_plus.dart';
 import 'package:path_provider/path_provider.dart' as path_provider;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'controller/controller_bindings.dart';
+import 'package:flutter/services.dart';
 late Directory myAppDir;
 late SharedPreferences preferences;
 late String appVersion;
@@ -29,6 +30,10 @@ late String token;
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
+  await SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
   myAppDir = await path_provider.getApplicationDocumentsDirectory();
   preferences = await SharedPreferences.getInstance();
   PackageInfo packageInfo = await PackageInfo.fromPlatform();
