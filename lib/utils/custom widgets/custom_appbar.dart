@@ -116,7 +116,7 @@ class CustomAppbar extends StatelessWidget {
                           foregroundColor: Colors.black,
                           side: BorderSide(
                             color: selectedIndex.value == 0
-                                ? Colors.red
+                                ? AppColors.redColor
                                 : Colors.black,
                             width: 1.5,
                           ),
@@ -139,7 +139,7 @@ class CustomAppbar extends StatelessWidget {
                           foregroundColor: Colors.black,
                           side: BorderSide(
                             color: selectedIndex.value == 1
-                                ? Colors.red
+                                ?  AppColors.redColor
                                 : Colors.black,
                             width: 1.5,
                           ),
@@ -166,7 +166,7 @@ class CustomAppbar extends StatelessWidget {
                           foregroundColor: Colors.black,
                           side: BorderSide(
                             color: selectedIndex.value == 2
-                                ? Colors.red
+                                ? AppColors.redColor
                                 : Colors.black,
                             width: 1.5,
                           ),
@@ -309,7 +309,9 @@ class CustomAppbar extends StatelessWidget {
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: DropdownButtonHideUnderline(
+
                   child: DropdownButton<String>(
+                    dropdownColor: AppColors.whiteColor,
                     value: dropdownValue,
                     isExpanded: true,
                     icon: const Icon(Icons.arrow_drop_down),
@@ -336,7 +338,7 @@ class CustomAppbar extends StatelessWidget {
                         child: Text(
                           value,
                           style: TextStyle(
-                            color: value == items.first ? Colors.red : Colors.black,
+                            color: value == items.first ? AppColors.redColor : Colors.black,
                           ),
                         ),
                       );

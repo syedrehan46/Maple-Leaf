@@ -83,7 +83,7 @@ class _IndividualMeetupViewState extends State<IndividualMeetupView> {
                               Container(
                                 height: 20,
                                 width: 20,
-                                decoration: BoxDecoration(shape: BoxShape.circle,color: Colors.red),
+                                decoration: BoxDecoration(shape: BoxShape.circle,color: AppColors.redColor),
                                 child: Center(child: Text("0",style: TextStyle(color: Colors.white),)),
                               )
                             ],
@@ -126,7 +126,7 @@ class _IndividualMeetupViewState extends State<IndividualMeetupView> {
                               Container(
                                 height: 20,
                                 width: 20,
-                                decoration: BoxDecoration(shape: BoxShape.circle,color: Colors.red),
+                                decoration: BoxDecoration(shape: BoxShape.circle,color: AppColors.redColor),
                                 child: Center(child: Text("0",style: TextStyle(color: Colors.white),)),
                               )
                             ],

@@ -114,7 +114,7 @@ class _UleDashboardViewState extends State<UleDashboardView> {
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 22,
-                      fontWeight: FontWeight.bold,
+                      fontWeight: FontWeight.w700,
                     ),
                   ),
                 ),
@@ -162,10 +162,30 @@ class _UleDashboardViewState extends State<UleDashboardView> {
                             label: "LM",
                             onTap: () {Get.to(LeadManagementView());}),
                         SizedBox(width: 35.w),
-                        _buildAvatar(
-                            imagePath: "assets/images/ic_pe.png",
-                            label: "PE",
-                            onTap: () {Get.to(PainterEngagementView());}),
+                        Stack(
+                          children: [
+                            _buildAvatar(
+                                imagePath: "assets/images/ic_pe.png",
+                                label: "PE",
+                                onTap: () {Get.to(PainterEngagementView());}),
+                            Positioned(
+                              top: 0,
+                              right: 5,
+                              child: Container(
+                                height: 20,
+                                width: 20,
+                                decoration: BoxDecoration(
+                                  color: AppColors.redColor,
+                                  shape: BoxShape.circle
+                                ),
+                                child: Center(child: Text('1',style: AppFonts.styleHarmoniaRegular12W400(AppColors.whiteColor).copyWith(
+                                  fontWeight: FontWeight.w800
+                                ),)),
+
+                              ),
+                            )
+                          ],
+                        ),
                         SizedBox(width: 35.w),
                         _buildAvatar(
                             imagePath: "assets/images/ic_scp.png",
@@ -196,14 +216,14 @@ class _UleDashboardViewState extends State<UleDashboardView> {
             padding: EdgeInsets.all(2),
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              border: Border.all(
+              color: Color(0xfff6f4f4),
+              border: Border.all(       
                 color: Colors.grey.shade300,
                 width: 1.w,
               ),
             ),
-            child: CircleAvatar(
-              radius: 35.r,
-              backgroundColor: Colors.white,
+            child: Padding(
+              padding: const EdgeInsets.all(14.0),
               child: Image.asset(
                 imagePath,
                 height: 40.r,
