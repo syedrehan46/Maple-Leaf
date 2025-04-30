@@ -337,7 +337,7 @@ class _LeadGeneratedViewState extends State<LeadGeneratedView> {
             },
           ),
        ),
-          CustomAppbar(title: 'Lead Generated',timeLocationIsVisible: true,),
+          CustomAppbar(title: 'Lead Generated',timeLocationIsVisible: true, isshowSummary: false,),
 
       ]
       ),

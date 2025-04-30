@@ -9,7 +9,8 @@ import '../app_fonts.dart';
 class CustomAppbar extends StatelessWidget {
   final String title;
   final bool timeLocationIsVisible;
-  CustomAppbar({super.key,required this.title, this.timeLocationIsVisible=false});
+  final bool isshowSummary;
+  CustomAppbar({super.key,required this.title, this.timeLocationIsVisible=false, this.isshowSummary=true});
 
   @override
   Widget build(BuildContext context) {
@@ -190,9 +191,21 @@ class CustomAppbar extends StatelessWidget {
                     "KOTLA",
                     "SARAI ALAMGIR"
                   ], selectedCity),
+                  if(!isshowSummary)
+                  const SizedBox(height: 10),
+                  if(!isshowSummary)
+                  buildDropdown("Status", [
+                    "Please Select Status",
+                    "LEAD GENERATED",
+                    "PROCESSED",
+                    "CONVERTED",
+                    "CLOSE",
+                  ], selectedStatus),
                   const SizedBox(height: 20),
 
                   /// Final button row
+                  ///
+                  if(isshowSummary)
                   ElevatedButton(
                     onPressed: () {
                       print("SHOW SUMMARY tapped");
@@ -208,6 +221,8 @@ class CustomAppbar extends StatelessWidget {
                     ),
                     child: const Text("SHOW SUMMARY"),
                   ),
+                  if(isshowSummary)
+                  SizedBox(height: 10,),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [

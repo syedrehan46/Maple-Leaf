@@ -86,11 +86,11 @@ class _SignInViewState extends State<SignInView> {
                       // Password with visibility toggle
                       UiHelper.customPassTextField(
                           controller: passwordController,
-                          obscureText: true,
-                          isPasswordVisible: true,
+                          obscureText: !_isPasswordVisible,
+                          isPasswordVisible: _isPasswordVisible,
                           onPress: () {
                             setState(() {
-                              _isPasswordVisible != _isPasswordVisible;
+                              _isPasswordVisible = !_isPasswordVisible;
                             });
                           },
                           validator: (value) {
@@ -99,7 +99,9 @@ class _SignInViewState extends State<SignInView> {
                             }
                             return null;
                           }),
-                      SizedBox(height: 10.h),
+
+
+                    SizedBox(height: 10.h),
 
                       // Custom Circular Checkbox
                       GestureDetector(

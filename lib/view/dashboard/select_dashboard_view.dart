@@ -54,7 +54,7 @@ class _SelectDashboardViewState extends State<SelectDashboardView> {
 
   Widget _buildULEButton() {
     return GestureDetector(
-      onTap: () => Get.to(() => const UleDashboardView()),
+      onTap: () => Get.offAll(() => const UleDashboardView()),
       child: Padding(
         padding: const EdgeInsets.all(6.0),
         child: Container(
