@@ -224,8 +224,6 @@ class NewPainterInductionView extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       /// SHOW SUMMARY
-
-
                       /// SHOW RESULT + CLEAR
                       Row(
                         children: [
