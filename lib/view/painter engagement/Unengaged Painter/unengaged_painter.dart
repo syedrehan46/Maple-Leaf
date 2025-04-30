@@ -167,7 +167,7 @@ class UnengagedPainter extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(width: 10),
-                Icon(Icons.search,color: Colors.red,),
+                Icon(Icons.search,color: AppColors.redColor,),
                 const SizedBox(width: 10),
                 GestureDetector(
                   onTap: () {
@@ -177,7 +177,7 @@ class UnengagedPainter extends StatelessWidget {
                     'assets/images/ic_filter.png',
                     height: 24,
                     width: 24,
-                    color: Colors.red,
+                    color: AppColors.redColor,
                   ),
                 ),
               ],

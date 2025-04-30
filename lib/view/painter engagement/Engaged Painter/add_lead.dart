@@ -68,11 +68,14 @@ class _AddLeadState extends State<AddLead> {
                           topRight: Radius.circular(15),
                         ),
                       ),
-                      child: Text(
-                        "Select Item",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 5),
+                        child: Text(
+                          "Select Item",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18,
+                          ),
                         ),
                       ),
                     ),
@@ -122,6 +125,27 @@ class _AddLeadState extends State<AddLead> {
                           );
                         },
                       ),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 5),
+                          child: TextButton.icon(
+                            onPressed: () {
+                              searchController.clear();
+                              Navigator.pop(context);
+                            },
+                            label: const Text('CLOSE',
+                                style: TextStyle(
+                                    color: AppColors.redColor,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold
+                                )
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),

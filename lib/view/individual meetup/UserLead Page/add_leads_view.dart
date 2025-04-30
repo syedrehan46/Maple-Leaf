@@ -112,7 +112,7 @@ class _AddLeadsViewState extends State<AddLeadsView> {
                             },
                             label: const Text('CLOSE',
                                 style: TextStyle(
-                                    color: Colors.red,
+                                    color: AppColors.redColor,
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold
                                 )
