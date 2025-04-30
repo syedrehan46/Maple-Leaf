@@ -127,7 +127,7 @@ class _IndividualMeetupViewState extends State<IndividualMeetupView> {
                                 height: 20,
                                 width: 20,
                                 decoration: BoxDecoration(shape: BoxShape.circle,color: AppColors.redColor),
-                                child: Center(child: Text("0",style: TextStyle(color: Colors.white),)),
+                                child: Center(child: Text("0",style: TextStyle(color: AppColors.whiteColor),)),
                               )
                             ],
                           ),
