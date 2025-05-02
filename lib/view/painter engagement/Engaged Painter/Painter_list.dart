@@ -9,6 +9,7 @@ class PainterList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final media=MediaQuery.of(context).size;
     // Sample data for Pakistani phone numbers and names
     final List<Map<String, String>> contacts = [
       {'name': 'Ahmed Khan', 'phone': '03215678901'},
@@ -45,7 +46,7 @@ class PainterList extends StatelessWidget {
               padding: const EdgeInsets.only(bottom: 12), // Space between items
               child: Container(
                 height: 55, // Fixed height
-                width: MediaQuery.of(context).size.width * (0.7), // Width of device
+                width: media.width * (0.7), // Width of device
                 decoration: BoxDecoration(
                   color: AppColors.redColor, // Red container
                   borderRadius: BorderRadius.circular(30),

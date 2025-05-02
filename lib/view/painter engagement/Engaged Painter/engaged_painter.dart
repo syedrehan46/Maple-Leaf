@@ -16,6 +16,7 @@ class EngagedPainter extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final media=MediaQuery.of(context).size;
 
     final List<String> cities = [
       "Please Select City", // First red item
@@ -228,6 +229,7 @@ class EngagedPainter extends StatelessWidget {
                 Expanded(
                   child: Container(
                     height: 50,
+                    width: media.width,
                     decoration: BoxDecoration(
                       color: const Color(0xFFF2F5F7),
                       borderRadius: BorderRadius.circular(10),

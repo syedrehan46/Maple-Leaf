@@ -4,13 +4,11 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import '../app_colors.dart';
 import '../app_fonts.dart';
-
 class CustomAppbar extends StatelessWidget {
   final String title;
   final bool timeLocationIsVisible;
   final bool isshowSummary;
   CustomAppbar({super.key,required this.title, this.timeLocationIsVisible=false, this.isshowSummary=true});
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -61,13 +59,9 @@ class CustomAppbar extends StatelessWidget {
       ],
     );
   }
-
   final RxInt selectedIndex = 0.obs;
-
   final RxString selectedCity = "Please Select City".obs;
-
   final RxString selectedStatus = "Please Select Status".obs;
-
   void showCustomFilterDialog(BuildContext context) {
     showDialog(
       context: context,
@@ -283,7 +277,6 @@ class CustomAppbar extends StatelessWidget {
       },
     );
   }
-
   Widget buildDropdown(String label, List<String> items, RxString selectedValue) {
     String dropdownValue = items.first;
 
@@ -353,5 +346,4 @@ class CustomAppbar extends StatelessWidget {
       },
     );
   }
-
 }

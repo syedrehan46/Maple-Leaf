@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mapleleaf/utils/custom%20widgets/custom_appbar.dart';
 import '../../../utils/app_colors.dart';
 import '../../../utils/app_fonts.dart';
 class AddLead extends StatefulWidget {
-  const AddLead({super.key});
+  AddLead({super.key});
   @override
   State<AddLead> createState() => _AddLeadState();
 }
 class _AddLeadState extends State<AddLead> {
   String? selectedArea;
+
   final List<String> areas = [
       'AL MADNI TOWN', 'AL SADDIQ WELFARE', 'ARSAL TOWN', ' BILAL TOWN', 'EID GAH ROAD',
     'FAROOQ TOWN', 'GARDEN TOWN', 'GULSHAN TOWN', 'GT ROAD', 'GUJAR PUR',
@@ -17,17 +19,14 @@ class _AddLeadState extends State<AddLead> {
   ];
   List<String> filteredAreas = [];
   final TextEditingController searchController = TextEditingController();
-
   // Text editing controllers with empty initial values
   final TextEditingController nameController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
-
   @override
   void initState() {
     super.initState();
     filteredAreas = List.from(areas);
   }
-
   void filterAreas(String query) {
     setState(() {
       filteredAreas = areas.where((area) =>
@@ -38,7 +37,6 @@ class _AddLeadState extends State<AddLead> {
     // Reset search before showing dialog
     searchController.clear();
     filteredAreas = List.from(areas);
-
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -50,7 +48,7 @@ class _AddLeadState extends State<AddLead> {
                 borderRadius: BorderRadius.circular(15),
               ),
               child: Container(
-                width: double.maxFinite,
+                width: MediaQuery.of(context).size.width,
                 constraints: BoxConstraints(
                   maxHeight: MediaQuery.of(context).size.height * 0.7,
                 ),
@@ -60,7 +58,7 @@ class _AddLeadState extends State<AddLead> {
                     // Header "Select Item"
                     Container(
                       padding: const EdgeInsets.symmetric(vertical: 12,horizontal: 5),
-                      width: double.infinity,
+                      width: MediaQuery.of(context).size.width,
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: const BorderRadius.only(
@@ -97,7 +95,6 @@ class _AddLeadState extends State<AddLead> {
                         },
                       ),
                     ),
-
                     // Area List
                     Flexible(
                       child: ListView.separated(
@@ -167,84 +164,54 @@ class _AddLeadState extends State<AddLead> {
 
   @override
   Widget build(BuildContext context) {
+    final media=MediaQuery.of(context).size;
     return Scaffold(
-      backgroundColor: Colors.white, // Base background color
+      backgroundColor: Colors.white,
+      // Base background color
       body: Stack(
-        children: [
-          // 🔽 Background Image
-          Positioned.fill(
-            child: Container(
-              decoration: const BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage("assets/images/menu_bg.png"),
-                  fit: BoxFit.cover,
-                ),
-              ),
-            ),
-          ),
-
-          // 🔼 Foreground Content
-          SingleChildScrollView(
-            child: SafeArea(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Header
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 12),
-                    height: 80,
-                    width: double.infinity,
-                    decoration: const BoxDecoration(
-                      color: AppColors.redColor,
-                      borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(15),
-                        bottomRight: Radius.circular(15),
-                      ),
-                    ),
-                    child: Stack(
-                      alignment: Alignment.center,
-                      children: [
-                        Text(
-                          "ADD LEADS",
-                          style: AppFonts.styleHarmoniaBold18W600(),
-                        ),
-                        Positioned(
-                          left: 0,
-                          child: IconButton(
-                            icon: const Icon(Icons.arrow_back_ios, color: Colors.white, size: 20),
-                            onPressed: () {
-                              Get.back();
-                            },
-                          ),
-                        ),
-                      ],
+        alignment: Alignment.center,
+            children: [
+              //  Background Image
+              Positioned.fill(
+                child: Container(
+                  decoration: const BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage("assets/images/menu_bg.png"),
+                      fit: BoxFit.cover,
                     ),
                   ),
+                ),
+              ),
 
-                  // Display ONLY the painter name if passed from previous screen
-                  if (Get.arguments != null && Get.arguments['name'] != null)
-                    Center(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
-                        child: Text(
-                          '${Get.arguments['name']}',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: AppColors.redColor,
+              //  Foreground Content
+              SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    // Header
+                    CustomAppbar(title: 'ADD LEADS',timeLocationIsVisible: false,),
+                    // Display ONLY the painter name if passed from previous screen
+                    if (Get.arguments != null && Get.arguments['name'] != null)
+                      Center(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+                          child: Text(
+                            '${Get.arguments['name']}',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: AppColors.redColor,
+                            ),
                           ),
                         ),
                       ),
-                    ),
 
-                  // Form fields
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        // Name TextField - always empty
-                        TextFormField(
+                    // Form fields
+                    Container(
+                      height: 50,
+                      width: media.width*(0.9),
+                      child: TextFormField(
                           controller: nameController,
                           decoration: InputDecoration(
                             hintText: "*Enter Customer Name and Address",
@@ -261,102 +228,107 @@ class _AddLeadState extends State<AddLead> {
                             contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
                           ),
                         ),
-
-                        const SizedBox(height: 20),
-
-                        // Phone Number TextField
-                        TextFormField(
-                          controller: phoneController,
-                          keyboardType: TextInputType.phone,
-                          decoration: InputDecoration(
-                            labelStyle: TextStyle(color: Colors.grey.shade700),
-                            hintText: "*Enter Customer Number",
-                            labelText: "*Enter Customer Number",
-                            floatingLabelBehavior: FloatingLabelBehavior.auto,
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              borderSide: BorderSide(color: AppColors.redColor, width: 2),
-                            ),
-                            contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-                          ),
-                        ),
-
-                        const SizedBox(height: 20),
-
-                        // Area Text
-                        const Text(
-                          '*Areas',
-                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-                        ),
-
-                        const SizedBox(height: 10),
-
-                        // Area Selection Field that shows dialog on tap
-                        InkWell(
-                          onTap: showAreaSelectionDialog,
-                          child: Container(
-                            width: double.infinity,
-                            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-                            decoration: BoxDecoration(
-                              color: Colors.grey.shade300,
-                              border: Border.all(color: Colors.grey),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  selectedArea ?? 'Please select area',
-                                  style: TextStyle(
-                                    color: selectedArea == null ? Colors.grey.shade700 : Colors.black,
-                                  ),
-                                ),
-                                const Icon(Icons.arrow_drop_down),
-                              ],
-                            ),
-                          ),
-                        ),
-
-                        const SizedBox(height: 30),
-
-                        // Add Lead Button
-                        Center(
-                          child: InkWell(
-                            onTap: () {
-                              // Or navigate to another screen after adding
-                            },
-                            child: Container(
-                              width: MediaQuery.of(context).size.width * (0.8),
-                              height: 50,
-                              decoration: BoxDecoration(
-                                color: AppColors.redColor,
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              child: const Center(
-                                child: Text(
-                                  'Add Lead',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 16,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
                     ),
-                  ),
-                ],
+
+                    const SizedBox(height: 20),
+
+                    // Phone Number TextField
+                    Container(
+                      height: 50,
+                      width: media.width*(0.9),
+                      child: TextFormField(
+                        controller: phoneController,
+                        keyboardType: TextInputType.phone,
+                        decoration: InputDecoration(
+                          labelStyle: TextStyle(color: Colors.grey.shade700),
+                          hintText: "*Enter Customer Number",
+                          labelText: "*Enter Customer Number",
+                          floatingLabelBehavior: FloatingLabelBehavior.auto,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: BorderSide(color: AppColors.redColor, width: 2),
+                          ),
+                          contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+                        ),
+                      ),
+                    ),
+
+                    const SizedBox(height: 20),
+
+                    // Area Text
+                    Padding(
+                      padding: const EdgeInsets.only(right: 280),
+                      child: const Text(
+                        '*Areas',
+                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                      ),
+                    ),
+
+                    const SizedBox(height: 10),
+
+                    // Area Selection Field that shows dialog on tap
+                    InkWell(
+                      onTap: showAreaSelectionDialog,
+                      child: Container(
+                        height: 50,
+                        width: media.width*(0.9),
+                        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+                        decoration: BoxDecoration(
+                          color: Colors.grey.shade300,
+                          border: Border.all(color: Colors.grey),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              selectedArea ?? 'Please select area',
+                              style: TextStyle(
+                                color: selectedArea == null ? Colors.grey.shade700 : Colors.black,
+                              ),
+                            ),
+                            const Icon(Icons.arrow_drop_down),
+                          ],
+                        ),
+                      ),
+                    ),
+
+                    const SizedBox(height: 30),
+
+                    // Add Lead Button
+                    Center(
+                      child: InkWell(
+                        onTap: () {
+                          // Or navigate to another screen after adding
+                        },
+                        child: Container(
+                          height: 50,
+                          width: media.width*(0.9),
+                          decoration: BoxDecoration(
+                            color: AppColors.redColor,
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: const Center(
+                            child: Text(
+                              'Add Lead',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
+            ],
           ),
-        ],
-      ),
     );
 
   }

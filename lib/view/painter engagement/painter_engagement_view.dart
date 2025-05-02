@@ -35,6 +35,7 @@ class _PainterEngagementViewState extends State<PainterEngagementView> with Sing
 
   @override
   Widget build(BuildContext context) {
+    final media=MediaQuery.of(context).size;
     // Calculate the exact position based on animation value for smooth tracking during slide
     final animationValue = _tabController.animation?.value ?? 0.0;
 
@@ -65,6 +66,7 @@ class _PainterEngagementViewState extends State<PainterEngagementView> with Sing
                 padding: const EdgeInsets.symmetric(horizontal: 10),
                 child: Container(
                   height: 50,
+                  width: media.width,
                   decoration: BoxDecoration(
                     border: Border.all(color: AppColors.redColor, width: 2),
                     borderRadius: BorderRadius.circular(30),

@@ -10,6 +10,7 @@ class UnengagedPainter extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final media=MediaQuery.of(context).size;
     final List<String> cities = [
       "Please Select City", // First red item
       "CHARHOI",
@@ -153,6 +154,7 @@ class UnengagedPainter extends StatelessWidget {
                 Expanded(
                   child: Container(
                     height: 50,
+                    width:media.width,
                     decoration: BoxDecoration(
                       color: const Color(0xFFF2F5F7),
                       borderRadius: BorderRadius.circular(10),
@@ -185,7 +187,9 @@ class UnengagedPainter extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 20),
-          Expanded(child: Center(child: Text(('Please use the search or filter to view Painters'),style: TextStyle(color: AppColors.redColor,fontWeight: FontWeight.bold),),)),
+          Expanded(child: Center(child:
+          Text(('Please use the search or filter to view Painters'),
+            style: TextStyle(color: AppColors.redColor,fontWeight: FontWeight.bold),),)),
         ],
       ),
     );;
