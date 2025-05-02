@@ -45,7 +45,7 @@ class IndividualMeetupPainter extends StatelessWidget {
   Widget _buildAppBar(BuildContext context) {
     return Column(
       children: [
-        CustomAppbar(title: 'INDIVIDUAL MEETUPS PAINTER',timeLocationIsVisible: false,),
+        CustomAppbar(title: 'INDIVIDUAL MEETUPS PAINTER',timeLocationIsVisible: true,),
       ],
     );
   }

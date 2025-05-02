@@ -1,18 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:mapleleaf/utils/app_colors.dart';
 import 'package:mapleleaf/utils/custom%20widgets/custom_appbar.dart';
-
 class IndividualMeetup extends StatefulWidget {
   const IndividualMeetup({super.key});
-
   @override
   State<IndividualMeetup> createState() => _IndividualMeetupState();
 }
-
 class _IndividualMeetupState extends State<IndividualMeetup> {
   String? selectedLocation;
   String? selectedGiveaway;
-
   final List<String> locations = [
     'Please Select Location',
     'CAFE',
@@ -27,7 +23,6 @@ class _IndividualMeetupState extends State<IndividualMeetup> {
     'FOOD AND FREE BAGS',
     'FOOD'
   ];
-
   @override
   Widget build(BuildContext context) {
     final media=MediaQuery.of(context).size;
@@ -44,13 +39,11 @@ class _IndividualMeetupState extends State<IndividualMeetup> {
               ),
             ),
           ),
-
           // Content layer
           Column(
             children: [
               // App bar at the top
               CustomAppbar(title: 'INDIVIDUAL MEETUPS'),
-
               // Main content
               Expanded(
                 child: Padding(

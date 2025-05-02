@@ -4,14 +4,10 @@ import 'package:mapleleaf/utils/app_colors.dart';
 import 'package:mapleleaf/utils/custom%20widgets/custom_appbar.dart';
 import 'package:mapleleaf/view/individual%20meetup/UserLead%20Page/add_leads_view.dart';
 import 'package:mapleleaf/view/individual%20meetup/individual_meetup.dart';
-
 import '../../utils/app_fonts.dart';
-
 class SabContractorProfileView extends StatelessWidget {
   SabContractorProfileView({super.key});
-
   final TextEditingController textEditingController = TextEditingController();
-
   @override
   Widget build(BuildContext context) {
     final media=MediaQuery.of(context).size;
@@ -45,7 +41,6 @@ class SabContractorProfileView extends StatelessWidget {
                   ),
                 ),
               ),
-
               // Placeholder for No Data Found
               Expanded(
                 child: Container(

@@ -291,7 +291,7 @@ class NewPainterInductionView extends StatelessWidget {
           ),
           Column(
             children: [
-              CustomAppbar(title: 'NEW PAINTER INDUCTION',timeLocationIsVisible: false,),
+              CustomAppbar(title: 'NEW PAINTER INDUCTION',timeLocationIsVisible: true,),
 
 
               GestureDetector(onTap: (){Get.to(AddLeadsView(title: "YFFUR",));},

@@ -316,7 +316,7 @@ class _LeadConvertedViewState extends State<LeadConvertedView> {
 
       body: Column(
         children: [
-          CustomAppbar(title: 'Lead Converted'),
+          CustomAppbar(title: 'Lead Converted',timeLocationIsVisible: true,),
           Stack(
             children: [
               Positioned.fill(
