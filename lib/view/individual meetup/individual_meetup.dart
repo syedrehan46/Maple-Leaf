@@ -30,6 +30,7 @@ class _IndividualMeetupState extends State<IndividualMeetup> {
 
   @override
   Widget build(BuildContext context) {
+    final media=MediaQuery.of(context).size;
     return Scaffold(
       body: Column(
         children: [
@@ -41,7 +42,7 @@ class _IndividualMeetupState extends State<IndividualMeetup> {
                   decoration: const BoxDecoration(
                     image: DecorationImage(
                       image: AssetImage("assets/images/menu_bg.png"),
-                      fit: BoxFit.cover,
+                      fit: BoxFit.fill,
                     ),
                   ),
                 ),
@@ -77,6 +78,7 @@ class _IndividualMeetupState extends State<IndividualMeetup> {
                     const SizedBox(height: 5),
                     Container(
                       height: 50,
+                      width: media.width,
                       decoration: BoxDecoration(
                         color: const Color(0xffD2F6F9FB),
                         borderRadius: BorderRadius.circular(8),
@@ -132,6 +134,7 @@ class _IndividualMeetupState extends State<IndividualMeetup> {
                     const SizedBox(height: 5),
                     Container(
                       height: 50,
+                      width: media.width,
                       decoration: BoxDecoration(
                         color: const Color(0xffD2F6F9FB),
                         borderRadius: BorderRadius.circular(8),
@@ -172,7 +175,7 @@ class _IndividualMeetupState extends State<IndividualMeetup> {
 
                     // NEW Button
                     SizedBox(
-                      width: double.infinity,
+                      width: media.width,
                       height: 50,
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
