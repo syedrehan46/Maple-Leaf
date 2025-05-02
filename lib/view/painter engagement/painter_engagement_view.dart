@@ -98,23 +98,33 @@ class _PainterEngagementViewState extends State<PainterEngagementView> with Sing
                         TabBar(
                           controller: _tabController,
                           indicator: const BoxDecoration(
-                            // Making the indicator transparent since we're using our custom background
                             color: Colors.transparent,
                           ),
                           dividerColor: Colors.transparent,
                           labelColor: Colors.white,
                           unselectedLabelColor: Colors.grey.shade600,
-                          labelStyle: const TextStyle(fontWeight: FontWeight.bold),
-                          unselectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold),
+
+                          // 🔽 Use MediaQuery for responsive font size
+                          labelStyle: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.blackColor,
+                            fontSize: MediaQuery.of(context).size.width * 0.036, // Example: 3.5% of screen width
+                          ),
+
+                          unselectedLabelStyle: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.blackColor,
+
+                          ),
+
                           tabs: const [
                             Tab(text: 'ENGAGED PAINTERS'),
                             Tab(text: 'UNENGAGED PAINTERS'),
                           ],
-                          // Adding padding to ensure text fits
                           labelPadding: const EdgeInsets.symmetric(horizontal: 4),
-                          // Ensure tabs have enough space
                           tabAlignment: TabAlignment.fill,
                         ),
+
                       ],
                     ),
                   ),
@@ -126,6 +136,9 @@ class _PainterEngagementViewState extends State<PainterEngagementView> with Sing
               Expanded(
 
                 child: TabBarView(
+                  physics: BouncingScrollPhysics(
+                    parent: AlwaysScrollableScrollPhysics()
+                  ),
                   controller: _tabController,
                   children: [
                     // Engaged Painters Tab
