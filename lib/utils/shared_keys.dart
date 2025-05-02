@@ -7,7 +7,7 @@ class SharedKeys{
   static const String keyRememberMe = "keyRememberMe";
   static const String keyToken = "keyToken";
   static const String keyAvatar = "keyAvatar";
-  static const String keyName = "keyName";
+  static const String keyUsername = "keyUsername";
   static const String keyProfileId = "keyProfileId";
   static const String keyLastLoginDate = "keyLastLoginDate";
   static const String keyLastLoginTime = "keyLastLoginTime";

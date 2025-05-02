@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:mapleleaf/controller/auth_controller.dart';
 
 import '../../utils/app_colors.dart';
 import '../../utils/app_fonts.dart';
@@ -138,11 +139,19 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
                           fontColor: Colors.white,
                           btnText: "Sign Up",
                           onTap: () {
-                        if (_formKey.currentState!.validate()) {
-
-    }
+                            if (_formKey.currentState!.validate()) {
+                              if(newPasswordController.text == confirmPasswordController.text){
+                                Get.find<AuthController>().apiUpdateCredential(
+                                    userName: usernameController.text,
+                                    oldPassword: oldPasswordController.text,
+                                    newPassword: newPasswordController.text
+                                );
+                              }else{
+                                print("newpass not matched");
+                              }
+                            }
                             print("fill button");
-                          },
+                            },
                         ),
                       ),
                     ],

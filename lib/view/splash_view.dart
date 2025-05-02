@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:mapleleaf/view/auth/select_account_view.dart';
+import '../controller/auth_controller.dart';
 import '../main.dart';
 import '../utils/app_colors.dart';
 import '../utils/notification_service.dart';
@@ -20,16 +21,9 @@ class _SplashViewState extends State<SplashView> {
 
   @override
   void initState() {
-    // notificationServices.requestNotificationPermissions();
-    // notificationServices.foregroundMessage();
-    // notificationServices.firebaseInit(context);
-    // notificationServices.setupInteractMessage(context);
-    // notificationServices.isTokenRefresh();
-    // notificationServices.getDeviceToken();
     configLoading();
     Future.delayed(const Duration(milliseconds: 1000),(){
-      Get.to(()=> SelectAccountView());
-      // Get.find<AuthController>().apiLogin(phoneNo: preferences.getString(SharedKeys.keyPhoneNo) ?? "", password: preferences.getString(SharedKeys.keyPswd) ?? "", fromSplash: true);
+      Get.find<AuthController>().apiLogin(userName: preferences.getString(SharedKeys.keyUsername) ?? "", password: preferences.getString(SharedKeys.keyPswd) ?? "", fromSplash: true);
     });
     super.initState();
   }
