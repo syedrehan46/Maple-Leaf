@@ -10,15 +10,14 @@ class GroupManagementView extends StatefulWidget {
   @override
   State<GroupManagementView> createState() => _GroupManagementViewState();
 }
-
 class _GroupManagementViewState extends State<GroupManagementView> with SingleTickerProviderStateMixin {
-  late TabController _tabController;
+  late final TabController _tabController;
   final RxInt selectedIndex = 0.obs;
 
   @override
   void initState() {
     super.initState();
-
+    _tabController = TabController(length: 2, vsync: this);
 
     // Add listener to force rebuild on animation changes for smooth transitions
     _tabController.animation!.addListener(() {
@@ -109,9 +108,10 @@ class _GroupManagementViewState extends State<GroupManagementView> with SingleTi
                             fontSize: MediaQuery.of(context).size.width * 0.036,
                           ),
 
-                          unselectedLabelStyle: const TextStyle(
+                          unselectedLabelStyle: TextStyle(
                             fontWeight: FontWeight.bold,
                             color: AppColors.blackColor,
+                            fontSize: MediaQuery.of(context).size.width * 0.036,
                           ),
 
                           tabs: const [
