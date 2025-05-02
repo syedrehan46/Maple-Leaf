@@ -295,11 +295,11 @@ class NewPainterInductionView extends StatelessWidget {
 
 
               GestureDetector(onTap: (){Get.to(AddLeadsView(title: "YFFUR",));},
-                  child: UiHelper.customListItem(title: "YFFUR", phoneNumber: "03242454646", location: "KUND(DANDI DARA)", date: "10-APR-2025", padding: 36)),
+                  child: UiHelper.customListItem(context: context,title: "YFFUR", phoneNumber: "03242454646", location: "KUND(DANDI DARA)", date: "10-APR-2025", padding: 36)),
               GestureDetector(onTap: (){Get.to(AddLeadsView(title: "WAHEED",));}
-                  ,child: UiHelper.customListItem(title: "", phoneNumber: "03205129246", location: "SATELITTE(JHELUM)", date: "12-APR-2025", padding: 12)),
+                  ,child: UiHelper.customListItem(context: context,title: "", phoneNumber: "03205129246", location: "SATELITTE(JHELUM)", date: "12-APR-2025", padding: 12)),
               GestureDetector(onTap: (){Get.to(AddLeadsView(title: "AHMED",));}
-                  ,child: UiHelper.customListItem(title: "AHMED", phoneNumber: "03465782246", location: "SATELITTE(JHELUM)", date: "12-APR-2025", padding: 12)),
+                  ,child: UiHelper.customListItem(context: context,title: "AHMED", phoneNumber: "03465782246", location: "SATELITTE(JHELUM)", date: "12-APR-2025", padding: 12)),
             ],
           ),
         ],
