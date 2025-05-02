@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:mapleleaf/controller/auth_controller.dart';
 import 'package:mapleleaf/main.dart';
 import 'package:mapleleaf/utils/ui_helper.dart';
 import 'package:mapleleaf/view/auth/change_password_view.dart';
@@ -157,13 +158,7 @@ class _SignInViewState extends State<SignInView> {
                               if (_formKey.currentState!.validate()) {
                                 if (usernameController.text.isNotEmpty &&
                                     passwordController.text.isNotEmpty) {
-                                  // if (usernameController.text == "12150" &&
-                                  //     passwordController.text == "Maple@987") {
-                                  //   Get.to(() => const SelectDashboardView());
-                                  // } else {
-                                  //   print("invalid");
-                                  // }
-                                  Get.to(() => const SelectDashboardView());
+                                  Get.find<AuthController>().apiLogin(userName: usernameController.text, password: passwordController.text);
                                 }
                               } else {
                                 print("Error");

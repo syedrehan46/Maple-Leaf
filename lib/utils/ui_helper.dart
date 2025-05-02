@@ -294,7 +294,8 @@ class UiHelper {
       controller: controller,
       validator: validator,
       cursorColor: AppColors.primaryColor,
-
+      keyboardType: TextInputType.number,
+      textInputAction: TextInputAction.next,
       textCapitalization: TextCapitalization.words,
       style: AppFonts.styleHarmoniaRegular13W400(AppColors.blackColor),
       decoration: InputDecoration(

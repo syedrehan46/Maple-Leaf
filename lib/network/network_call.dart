@@ -127,6 +127,31 @@ class NetworkCall{
     }
   }
 
+  static Future<ApiResponse> postFormData(String url, Map map) async {
+    print("API URL: $url");
+    print("Form Data: $map");
+    try {
+      var request = http.MultipartRequest('POST', Uri.parse(url));
+      map.forEach((key, value) {
+        request.fields[key] = value;
+      });
+
+      var streamedResponse = await request.send();
+      var response = await http.Response.fromStream(streamedResponse);
+
+      debugPrint("StatusCode ${response.statusCode}");
+      debugPrint("Response: ${response.body}");
+      return _checkResponse(response);
+    } on SocketException {
+      return ApiResponse(
+        done: false,
+        errorMsg: "Please check your connection",
+        responseString: null,
+      );
+    }
+  }
+
+
   static Future postApiWithTokenCall(String url, Map map) async {
     print(url);
     print("***Body: $map");

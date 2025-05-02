@@ -1,11 +1,11 @@
 class ApiRoutes{
-  static const String liveUrl = "https://anicsun.viion.net/api/";
+  static const String liveUrl = "https://mlcf.kmlg.com:4050/api/";
   static const String testUrl = "http://192.168.1.7:8080/api/";
   static const String baseUrl = liveUrl;
 
-  static const String apiLogin = "auth/login";
+  static const String apiLogin = "User/isValiduser";
   static const String apiLogout = "auth/logout";
-  static const String apiForgotPassword = "auth/forget-password";
+  static const String apiUpdateCredential = "User/UpdateCredential";
   static const String apiVerifyOtp = "auth/verify-otp";
   static const String apiResetPassword = "auth/reset-password";
   static const String apiSendOtp = "auth/send-otp";
