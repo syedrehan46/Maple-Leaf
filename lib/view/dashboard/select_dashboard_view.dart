@@ -41,9 +41,9 @@ class _SelectDashboardViewState extends State<SelectDashboardView> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  CustomButton(title: "ULE/POD/D2C", color: AppColors.redColor, navigateTo: UleDashboardView()),
+                  CustomButton(title: "ULE/POD/D2C", color: AppColors.primaryColor, navigateTo: UleDashboardView()),
                   SizedBox(height: 20.h),
-                  CustomButton(title: "FOS",background_color: AppColors.redColor, color: AppColors.whiteColor),
+                  CustomButton(title: "FOS",background_color: AppColors.primaryColor, color: AppColors.whiteColor),
 
                 ],
               ),

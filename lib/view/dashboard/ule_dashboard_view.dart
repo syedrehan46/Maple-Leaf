@@ -76,17 +76,10 @@ class _UleDashboardViewState extends State<UleDashboardView> {
                                 "Hello, Welcome 🎉",
                                 style: TextStyle(
                                   color: AppColors.whiteColor,
-                                  fontSize: 14.sp,
-                                ),
-                              ),
-                              Text(
-                                "Aftab Ahmad",
-                                style: TextStyle(
-                                  color: AppColors.whiteColor,
                                   fontSize: 16.sp,
-                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
+
                             ],
                           ),
                         ],

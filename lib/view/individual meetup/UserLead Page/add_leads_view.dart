@@ -3,9 +3,8 @@ import 'package:mapleleaf/utils/app_colors.dart';
 import 'package:mapleleaf/utils/custom%20widgets/custom_appbar.dart';
 
 class AddLeadsView extends StatefulWidget {
-  final String title;  // Declare the title field
+  final String title;
 
-  // Constructor to accept the title as a parameter
   const AddLeadsView({super.key, required this.title});
 
   @override
@@ -15,6 +14,7 @@ class AddLeadsView extends StatefulWidget {
 class _AddLeadsViewState extends State<AddLeadsView> {
   final TextEditingController customerNameEditingController = TextEditingController();
   final TextEditingController customerNumberEditingController = TextEditingController();
+  final TextEditingController searchController = TextEditingController();
 
   final List<String> locations = [
     'BAHLEEM',
@@ -24,107 +24,102 @@ class _AddLeadsViewState extends State<AddLeadsView> {
     'MAIN BAZAR',
     'PHURLARWAN'
   ];
+
   String selectedLocation = '';
-  final TextEditingController searchController = TextEditingController();
 
   void openLocationDialog() {
-    // Create a local filtered list that will be managed by the dialog's StatefulBuilder
-    List<String> dialogFilteredLocations = List.from(locations);
-
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        // Use StatefulBuilder to manage the dialog's own state
         return StatefulBuilder(
-            builder: (context, setDialogState) {
-              return Dialog(
-                backgroundColor: AppColors.whiteColor,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                child: SizedBox(
-                  height: 450,
-                  width: 550,
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text(
-                          'Select Item',
-                          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          builder: (context, setDialogState) {
+            List<String> dialogFilteredLocations = searchController.text.isEmpty
+                ? List.from(locations)
+                : locations
+                .where((item) => item.toLowerCase().contains(searchController.text.toLowerCase()))
+                .toList();
+
+            return Dialog(
+              backgroundColor: AppColors.whiteColor,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+              child: SizedBox(
+                height: 450,
+                width: 550,
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        'Select Item',
+                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                      ),
+                      const SizedBox(height: 8),
+                      TextField(
+                        controller: searchController,
+                        onChanged: (_) => setDialogState(() {}),
+                        decoration: const InputDecoration(
+                          hintText: 'Search...',
+                          prefixIcon: Icon(Icons.search),
+                          isDense: true,
                         ),
-                        const SizedBox(height: 8),
-                        TextField(
-                          controller: searchController,
-                          onChanged: (value) {
-                            // Use the dialog's setState to update the filtered list
-                            setDialogState(() {
-                              dialogFilteredLocations = locations
-                                  .where((item) => item.toLowerCase().contains(value.toLowerCase()))
-                                  .toList();
-                            });
-                          },
-                          decoration: const InputDecoration(
-                            hintText: 'Search...',
-                            prefixIcon: Icon(Icons.search),
-                            isDense: true,
-                          ),
-                        ),
-                        const SizedBox(height: 6),
-                        Expanded(
-                          child: ListView.builder(
-                            itemCount: dialogFilteredLocations.length,
-                            itemBuilder: (context, index) {
-                              return Column(
-                                children: [
-                                  ListTile(
-                                    dense: true,
-                                    contentPadding: EdgeInsets.zero,
-                                    title: Text(
-                                      dialogFilteredLocations[index],
-                                      style: const TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w300,
-                                      ),
+                      ),
+                      const SizedBox(height: 6),
+                      Expanded(
+                        child: dialogFilteredLocations.isEmpty
+                            ? const Center(child: Text("No results found"))
+                            : ListView.builder(
+                          itemCount: dialogFilteredLocations.length,
+                          itemBuilder: (context, index) {
+                            return Column(
+                              children: [
+                                ListTile(
+                                  dense: true,
+                                  contentPadding: EdgeInsets.zero,
+                                  title: Text(
+                                    dialogFilteredLocations[index],
+                                    style: const TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w300,
                                     ),
-                                    onTap: () {
-                                      // Update the selected location in the parent widget's state
-                                      setState(() {
-                                        selectedLocation = dialogFilteredLocations[index];
-                                      });
-                                      // Clear search when selection is made
-                                      searchController.clear();
-                                      Navigator.pop(context);
-                                    },
                                   ),
-                                  const Divider(height: 1, color: Colors.grey),
-                                ],
-                              );
-                            },
-                          ),
+                                  onTap: () {
+                                    setState(() {
+                                      selectedLocation = dialogFilteredLocations[index];
+                                    });
+                                    searchController.clear();
+                                    Navigator.pop(context);
+                                  },
+                                ),
+                                const Divider(height: 1, color: Colors.grey),
+                              ],
+                            );
+                          },
                         ),
-                        Align(
-                          alignment: Alignment.bottomRight,
-                          child: TextButton.icon(
-                            onPressed: () {
-                              // Clear search when dialog is closed
-                              searchController.clear();
-                              Navigator.pop(context);
-                            },
-                            label: const Text('CLOSE',
-                                style: TextStyle(
-                                    color: AppColors.redColor,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold
-                                )
+                      ),
+                      Align(
+                        alignment: Alignment.bottomRight,
+                        child: TextButton.icon(
+                          onPressed: () {
+                            searchController.clear();
+                            Navigator.pop(context);
+                          },
+                          label: const Text(
+                            'CLOSE',
+                            style: TextStyle(
+                              color: AppColors.redColor,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
-              );
-            }
+              ),
+            );
+          },
         );
       },
     );
@@ -133,10 +128,9 @@ class _AddLeadsViewState extends State<AddLeadsView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white, // Base background color
+      backgroundColor: Colors.white,
       body: Stack(
         children: [
-          // 🔽 Background Image
           Positioned.fill(
             child: Container(
               decoration: const BoxDecoration(
@@ -147,8 +141,6 @@ class _AddLeadsViewState extends State<AddLeadsView> {
               ),
             ),
           ),
-
-          // 🔼 Foreground Content
           Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
