@@ -101,6 +101,7 @@ class UiHelper {
   }
 
   static Widget customListItem({
+    required BuildContext context,
     required String title,
     required String phoneNumber,
     required String location,
@@ -111,7 +112,7 @@ class UiHelper {
       padding: EdgeInsets.only(top: padding, left: 12, right: 12),
       child: Container(
         height: 80,
-        width: double.infinity,
+        width:  MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
           color: AppColors.primaryColor,
           borderRadius: BorderRadius.circular(8),

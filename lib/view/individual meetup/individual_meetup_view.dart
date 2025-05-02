@@ -52,7 +52,7 @@ class _IndividualMeetupViewState extends State<IndividualMeetupView> {
                       padding: const EdgeInsets.symmetric(horizontal: 16.0),
                       child: SizedBox(
                         height: 60,
-                        width: double.infinity,
+                        width: MediaQuery.of(context).size.width,
                         child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
                             backgroundColor: AppColors.whiteColor,
