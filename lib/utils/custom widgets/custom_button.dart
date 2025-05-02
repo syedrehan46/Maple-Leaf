@@ -5,14 +5,17 @@ import 'package:mapleleaf/utils/app_colors.dart';
 class CustomButton extends StatelessWidget {
   final String title;
   final Color color;
-  final Widget navigateTo; // 👈 New parameter
+  final bool isShowContainer;
+  final Widget? navigateTo;
+  final Color background_color;
 
   const CustomButton({
     Key? key,
     required this.title,
     required this.color,
-
-    required this.navigateTo,
+    this.background_color = AppColors.whiteColor,
+    this.isShowContainer = false,
+     this.navigateTo,
   }) : super(key: key);
 
   @override
@@ -24,29 +27,46 @@ class CustomButton extends StatelessWidget {
         width: MediaQuery.of(context).size.width,
         child: ElevatedButton(
           style: ElevatedButton.styleFrom(
-            backgroundColor: AppColors.whiteColor,
-            side: BorderSide(color: Color(0xff006400), width: 2),
+            backgroundColor: background_color, // Use this if needed
+            side: const BorderSide(color: Color(0xff006400), width: 1),
           ),
           onPressed: () {
-            Get.to(navigateTo); // 👈 Navigate to the passed screen
+            Get.to(navigateTo);
           },
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Image.asset(
-               "assets/images/leaf_ic.png",
+                "assets/images/leaf_ic.png",
                 height: 30,
                 width: 30,
               ),
               const SizedBox(width: 10),
               Text(
                 title,
-                style:  TextStyle(
+                style: TextStyle(
                   color: color,
                   fontSize: 18,
                   fontWeight: FontWeight.w600,
                 ),
               ),
+              if (isShowContainer) ...[
+                const SizedBox(width: 10),
+                Container(
+                  height: 20,
+                  width: 20,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: AppColors.redColor,
+                  ),
+                  child: const Center(
+                    child: Text(
+                      "0",
+                      style: TextStyle(color: Colors.white, fontSize: 12),
+                    ),
+                  ),
+                ),
+              ],
             ],
           ),
         ),

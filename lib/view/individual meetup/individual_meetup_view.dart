@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:mapleleaf/utils/app_fonts.dart';
+import 'package:mapleleaf/utils/custom%20widgets/custom_button.dart';
 import 'package:mapleleaf/utils/ui_helper.dart';
 import 'package:mapleleaf/view/Labor%20Contractor%20Engament/labor_contractor_engagement_view.dart';
 import 'package:mapleleaf/view/individual%20meetup/Individual_meetup_painter.dart';
@@ -48,93 +49,11 @@ class _IndividualMeetupViewState extends State<IndividualMeetupView> {
                   mainAxisSize: MainAxisSize.min
                   ,
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                      child: SizedBox(
-                        height: 60,
-                        width: MediaQuery.of(context).size.width,
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: AppColors.whiteColor,
-                            side: const BorderSide(color: Color(0xff2DA94F), width: 2),
-                          ),
-                          onPressed: () {
-                            Get.to(IndividualMeetupPainter());
-                          },
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Image.asset(
-                                'assets/images/leaf_ic.png',
-                                height: 30,
-                                width: 30,
-                              ),
-                              const SizedBox(width: 10),
-                              const Text(
-                                "PAINTER",
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w600,
-                                ),
-
-                              ),
-                              SizedBox(width: 12,),
-                              Container(
-                                height: 20,
-                                width: 20,
-                                decoration: BoxDecoration(shape: BoxShape.circle,color: AppColors.redColor),
-                                child: Center(child: Text("0",style: TextStyle(color: Colors.white),)),
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
+                    CustomButton(title: "PAINTER", color: AppColors.blackColor, isShowContainer: true, navigateTo: IndividualMeetupPainter()),
                     const SizedBox(height: 20),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                      child: SizedBox(
-                        height: 60,
-                        width: double.infinity,
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: AppColors.whiteColor,
-                            side: const BorderSide(color: Color(0xff2DA94F), width: 2),
-                          ),
-                          onPressed: () {
-                            Get.to(IndividualMeetupLaborView());
-                          },
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Image.asset(
-                                'assets/images/leaf_ic.png',
-                                height: 30,
-                                width: 30,
-                              ),
-                              const SizedBox(width: 10),
-                              const Text(
-                                "LABORS CONTRACTOR",
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                              SizedBox(width: 12,),
-                              Container(
-                                height: 20,
-                                width: 20,
-                                decoration: BoxDecoration(shape: BoxShape.circle,color: AppColors.redColor),
-                                child: Center(child: Text("0",style: TextStyle(color: AppColors.whiteColor),)),
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
+                    CustomButton(title: "LABORS CONTRACTOR", color: AppColors.blackColor, isShowContainer: true, navigateTo: IndividualMeetupLaborView())
                   ],
+
 
                 ),
               ))

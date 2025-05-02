@@ -134,7 +134,7 @@ class _UleDashboardViewState extends State<UleDashboardView> {
                         children: [
                           _buildAvatar(
                               imagePath: "assets/images/ule_group.png",
-                              label: "GE",
+                              label: "IS",
                               onTap: () {Get.to(GroupManagementView());}),
                           SizedBox(width: 35.w),
                           _buildAvatar(

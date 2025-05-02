@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:mapleleaf/utils/app_colors.dart';
+import 'package:mapleleaf/utils/custom%20widgets/custom_button.dart';
 import 'package:mapleleaf/view/dashboard/ule_dashboard_view.dart';
 
 class SelectDashboardView extends StatefulWidget {
@@ -40,9 +41,10 @@ class _SelectDashboardViewState extends State<SelectDashboardView> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  _buildULEButton(),
+                  CustomButton(title: "ULE/POD/D2C", color: AppColors.redColor, navigateTo: UleDashboardView()),
                   SizedBox(height: 20.h),
-                  _buildFOSButton(),
+                  CustomButton(title: "FOS",background_color: AppColors.redColor, color: AppColors.whiteColor),
+
                 ],
               ),
             ),
@@ -50,75 +52,6 @@ class _SelectDashboardViewState extends State<SelectDashboardView> {
         ),
       ),
     );
-  }
+  }}
 
-  Widget _buildULEButton() {
-    return GestureDetector(
-      onTap: () => Get.offAll(() => const UleDashboardView()),
-      child: Padding(
-        padding: const EdgeInsets.all(6.0),
-        child: Container(
-          width: double.infinity,
-          padding: EdgeInsets.symmetric(vertical: 16.h),
-          decoration: BoxDecoration(
-            color: Colors.white.withOpacity(0.9),
-            borderRadius: BorderRadius.circular(40.r),
-            border: Border.all(color: Color(0xff2DA94F), width: 2),
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Image.asset("assets/images/leaf_ic.png", height: 30, width: 30),
-              SizedBox(width: 10.w),
-              Text(
-                "ULE/POD/D2C",
-                style: TextStyle(
-                  fontSize: 16.sp,
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.primaryColor,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
 
-  Widget _buildFOSButton() {
-    return GestureDetector(
-      onTap: () => print("FOS tapped"),
-      child: Padding(
-        padding: const EdgeInsets.only(left: 8.0, right: 8),
-        child: Container(
-          width: double.infinity,
-          padding: EdgeInsets.symmetric(vertical: 16),
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [Color(0xFF8B0000), Color(0xFFB22222)],
-            ),
-            borderRadius: BorderRadius.circular(40.r),
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Opacity(
-                opacity: 0.4,
-                child: Image.asset("assets/images/leaf_ic.png", height: 30, width: 30),
-              ),
-              SizedBox(width: 10.w),
-              Text(
-                "FOS",
-                style: TextStyle(
-                  fontSize: 16.sp,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
