@@ -185,7 +185,9 @@ class UnengagedPainter extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 20),
-          Expanded(child: Center(child: Text(('Please use the search or filter to view Painters'),style: TextStyle(color: AppColors.redColor,fontWeight: FontWeight.bold),),)),
+          Expanded(child: Center(child:
+          Text(('Please use the search or filter to view Painters'),
+            style: TextStyle(color: AppColors.redColor,fontWeight: FontWeight.bold),),)),
         ],
       ),
     );;
