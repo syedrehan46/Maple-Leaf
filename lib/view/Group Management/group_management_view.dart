@@ -18,7 +18,7 @@ class _GroupManagementViewState extends State<GroupManagementView> with SingleTi
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 2, vsync: this);
+
 
     // Add listener to force rebuild on animation changes for smooth transitions
     _tabController.animation!.addListener(() {
