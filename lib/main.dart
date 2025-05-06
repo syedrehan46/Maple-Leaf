@@ -88,7 +88,7 @@ class MyApp extends StatelessWidget {
           builder: EasyLoading.init(),
         );
       },
-      child: DashboardC2C(),
+      child: UleDashboardView(),
       // UleDashboardView(),
     );
   }

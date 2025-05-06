@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mapleleaf/utils/app_colors.dart';
 import 'package:mapleleaf/utils/custom%20widgets/custom_appbar.dart';
-import 'package:mapleleaf/view/individual%20meetup/UserLead%20Page/add_leads_view.dart';
 import 'package:mapleleaf/view/individual%20meetup/individual_meetup.dart';
-import '../../utils/app_fonts.dart';
 class SabContractorProfileView extends StatelessWidget {
   SabContractorProfileView({super.key});
   final TextEditingController textEditingController = TextEditingController();
@@ -58,77 +56,6 @@ class SabContractorProfileView extends StatelessWidget {
                   ),
                 ),
               ),
-
-              // GestureDetector(
-              //   onTap: (){
-              //     Get.to(AddLeadsView());
-              //   },
-              //   child: Padding(
-              //     padding: const EdgeInsets.symmetric(horizontal: 12.0,vertical: 16),
-              //     child: Container(
-              //       height: 60,
-              //       width: double.infinity,
-              //       decoration: BoxDecoration(
-              //           color:
-              //           AppColors.primaryColor,
-              //           borderRadius: BorderRadius.circular(30)
-              //       ),
-              //       child: Row(
-              //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //         children: [
-              //           Padding(padding: const EdgeInsets.only(left: 16),
-              //               child:  Text("MAPLE \n EMPLOYEE",style: TextStyle(fontSize: 16,color: Colors.white,fontWeight: FontWeight.bold),)),
-              //           Padding(
-              //             padding: const EdgeInsets.only(right: 14.0),
-              //             child: Row(
-              //               children: [
-              //                 Text("03164442036",style: TextStyle(fontSize: 16,color: Colors.white),),
-              //                 Icon(Icons.arrow_forward_ios,size: 25,color: Colors.white,),
-              //                 Container(height: 25,width: 25,decoration: BoxDecoration(shape: BoxShape.circle,color: Colors.white),child: Center(child: Text("1",style: TextStyle(color: AppColors.primaryColor),),),)
-              //
-              //               ],
-              //             ),
-              //           )
-              //         ],
-              //       ),
-              //     ),
-              //   ),
-              // ),
-              // Padding(
-              //   padding: const EdgeInsets.symmetric(horizontal: 12.0,vertical: 0),
-              //   child: GestureDetector(
-              //     onTap: (){Get.to(AddLeadsView());},
-              //     child: Container(
-              //       height: 60,
-              //       width: double.infinity,
-              //       decoration: BoxDecoration(
-              //           color:
-              //           AppColors.primaryColor,
-              //           borderRadius: BorderRadius.circular(30)
-              //       ),
-              //       child: Row(
-              //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //         children: [
-              //           Padding(padding: const EdgeInsets.only(left: 16),
-              //               child:  Text("YFFUR",style: TextStyle(fontSize: 16,color: Colors.white,fontWeight: FontWeight.bold),)),
-              //           Padding(
-              //             padding: const EdgeInsets.only(right: 14.0),
-              //             child: Row(
-              //               children: [
-              //                 Text("03242454646",style: TextStyle(fontSize: 16,color: Colors.white),),
-              //                 Icon(Icons.arrow_forward_ios,size: 25,color: Colors.white,),
-              //                 // Container(height: 25,width: 25,decoration: BoxDecoration(shape: BoxShape.circle,color: Colors.white),child: Center(child: Text("1",style: TextStyle(color: AppColors.primaryColor),),),)
-              //
-              //               ],
-              //             ),
-              //           )
-              //         ],
-              //       ),
-              //     ),
-              //   ),
-              // )
-
-              // Spacer to push the button to the bottom
             ],
           ),
         ],
@@ -139,7 +66,7 @@ class SabContractorProfileView extends StatelessWidget {
         onPressed: () {
           Get.to(IndividualMeetup());
         },
-        backgroundColor: const Color(0xff207E39),
+        backgroundColor: AppColors.readyForCollectionColor,
         child: const Icon(
           Icons.add,
           color: Colors.white,

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:mapleleaf/utils/app_fonts.dart';
-import 'package:mapleleaf/view/Group%20Management/group_management_view.dart';
 import 'package:mapleleaf/view/individual%20meetup/individual_meetup_view.dart';
+import 'package:mapleleaf/view/individual%20sites/individual_sites.dart';
 import 'package:mapleleaf/view/lead%20management/lead_management_view.dart';
 import 'package:mapleleaf/view/new%20painter%20induction/new_painter_induction_view.dart';
 import 'package:mapleleaf/view/painter%20engagement/painter_engagement_view.dart';
@@ -127,7 +127,7 @@ class _UleDashboardViewState extends State<UleDashboardView> {
                           _buildAvatar(
                               imagePath: "assets/images/ule_group.png",
                               label: "IS",
-                              onTap: () {Get.to(GroupManagementView());}),
+                              onTap: () {Get.to(IndividualSites());}),
                           SizedBox(width: 35.w),
                           _buildAvatar(
                               imagePath: "assets/images/ic_ima.png",
