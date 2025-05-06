@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:mapleleaf/utils/app_colors.dart';
 import 'package:get/get.dart';
-import 'package:mapleleaf/utils/app_fonts.dart';
 import '../../utils/custom widgets/custom_appbar.dart';
-class GroupManagementView extends StatefulWidget {
-  const GroupManagementView({super.key});
+class IndividualSites extends StatefulWidget {
+  const IndividualSites({super.key});
   @override
-  State<GroupManagementView> createState() => _GroupManagementViewState();
+  State<IndividualSites> createState() => _IndividualSitesState();
 }
-class _GroupManagementViewState extends State<GroupManagementView> with SingleTickerProviderStateMixin {
+class _IndividualSitesState extends State<IndividualSites> with SingleTickerProviderStateMixin {
   late final TabController _tabController;
   final RxInt selectedIndex = 0.obs;
   @override
@@ -47,7 +46,7 @@ class _GroupManagementViewState extends State<GroupManagementView> with SingleTi
           // Foreground Content
           Column(
             children: [
-              CustomAppbar(title: 'GROUP MANAGEMENT', timeLocationIsVisible: true),
+              CustomAppbar(title: 'INDIVIDUAL SITES', timeLocationIsVisible: true),
               const SizedBox(height: 20),
               // TabBar with animated slider
               Padding(
@@ -102,14 +101,12 @@ class _GroupManagementViewState extends State<GroupManagementView> with SingleTi
                             color: AppColors.blackColor,
                             fontSize: MediaQuery.of(context).size.width * 0.036,
                           ),
-
                           tabs: const [
-                            Tab(text: 'ENGAGED PAINTERS'),
-                            Tab(text: 'UNENGAGED PAINTERS'),
+                            Tab(text: 'CITY WISE'),
+                            Tab(text: 'AREA WISE'),
                           ],
                           labelPadding: const EdgeInsets.symmetric(horizontal: 4),
                           tabAlignment: TabAlignment.fill,
-
                           // Optional: Make tab transitions smoother
                         ),
                       ],
@@ -130,7 +127,6 @@ class _GroupManagementViewState extends State<GroupManagementView> with SingleTi
                     Center(
                       child: Text(
                         '',
-
                       ),
                     ),
 
@@ -144,9 +140,22 @@ class _GroupManagementViewState extends State<GroupManagementView> with SingleTi
                   ],
                 ),
               ),
+
             ],
           ),
+
         ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+        },
+        backgroundColor: AppColors.readyForCollectionColor,
+        child:  Icon(
+          Icons.add,
+          color: Colors.white,
+          size: 40,
+        ),
+        shape: const CircleBorder(),
       ),
     );
   }
