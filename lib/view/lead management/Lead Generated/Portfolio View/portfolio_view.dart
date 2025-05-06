@@ -2,17 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:mapleleaf/utils/app_colors.dart';
 import 'package:mapleleaf/utils/custom%20widgets/custom_appbar.dart';
-
 class PorfolioView extends StatefulWidget {
   const PorfolioView({super.key});
-
   @override
   State<PorfolioView> createState() => _PorfolioViewState();
 }
-
 class _PorfolioViewState extends State<PorfolioView> {
   String followUpDate = " * Follow up date";
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,7 +16,6 @@ class _PorfolioViewState extends State<PorfolioView> {
         children: [
           // Fixed Custom AppBar
           CustomAppbar(title: 'PORTFOLIO',),
-
           // Scrollable content below
           Expanded(
             child: SingleChildScrollView(
@@ -34,7 +29,6 @@ class _PorfolioViewState extends State<PorfolioView> {
                     ),
                   ),
 
-                  // Content container
                   Container(
                     width: MediaQuery.of(context).size.width * 0.9,
                     margin: const EdgeInsets.all(16),
@@ -42,6 +36,7 @@ class _PorfolioViewState extends State<PorfolioView> {
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(15),
                     ),
+
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
@@ -75,7 +70,6 @@ class _PorfolioViewState extends State<PorfolioView> {
                           "Yes",
                           "No"
                         ]),
-
                         // Follow-up section
                         Padding(
                           padding: const EdgeInsets.only(top: 8, bottom: 16),
@@ -100,7 +94,6 @@ class _PorfolioViewState extends State<PorfolioView> {
                             ],
                           ),
                         ),
-
                         // Update Button
                         Center(
                           child: SizedBox(
@@ -136,9 +129,7 @@ class _PorfolioViewState extends State<PorfolioView> {
         ],
       ),
     );
-
   }
-
   Widget buildTextField(String label, String initialValue, {int maxLines = 1}) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 16),
@@ -260,4 +251,5 @@ class _PorfolioViewState extends State<PorfolioView> {
       });
     }
   }
+
 }
