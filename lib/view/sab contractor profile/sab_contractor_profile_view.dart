@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mapleleaf/utils/app_colors.dart';
 import 'package:mapleleaf/utils/custom%20widgets/custom_appbar.dart';
+import 'package:mapleleaf/utils/custom%20widgets/floatingaction_button.dart';
 import 'package:mapleleaf/view/individual%20meetup/individual_meetup.dart';
 class SabContractorProfileView extends StatelessWidget {
   SabContractorProfileView({super.key});
@@ -12,7 +13,9 @@ class SabContractorProfileView extends StatelessWidget {
     return Scaffold(
       body: Stack(
         children: [
-          Positioned.fill(child: Image.asset("assets/images/menu_bg.png",fit: BoxFit.cover,)),
+          Positioned.fill(
+              child: Image.asset("assets/images/menu_bg.png",
+                fit: BoxFit.cover,)),
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -39,7 +42,6 @@ class SabContractorProfileView extends StatelessWidget {
                   ),
                 ),
               ),
-              // Placeholder for No Data Found
               Expanded(
                 child: Container(
                   width: double.infinity,
@@ -58,22 +60,10 @@ class SabContractorProfileView extends StatelessWidget {
               ),
             ],
           ),
+          
         ],
       ),
-
-      // Floating Action Button
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Get.to(IndividualMeetup());
-        },
-        backgroundColor: AppColors.readyForCollectionColor,
-        child: const Icon(
-          Icons.add,
-          color: Colors.white,
-          size: 40,
-        ),
-        shape: const CircleBorder(),
-      ),
+      floatingActionButton: CustomFloatingActionButton(onPressed: (){Get.to(IndividualMeetup());}),
     );
   }
 }

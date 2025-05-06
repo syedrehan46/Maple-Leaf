@@ -1,6 +1,4 @@
-
 import 'package:flutter/material.dart';
-
 class AppColors{
   static const primaryColor = Color(0xFFB31D1E);
   static const primaryDarkColor = Color(0xff004d40);
@@ -22,12 +20,11 @@ class AppColors{
   static const initialExaminationColor = Color(0xff565973);
   static const repairingColor = Color(0xffE78C24);
   static const testingColor = Color(0xffF16641);
-  static const readyForCollectionColor = Color(0xff006400);
+  static const readyForCollectionColor = Color(0xff338133);
   static const collectedColor = Color(0xff367CCD);
   static const approvedColor = Color(0xff34C759);
   static const blackColor = Colors.black;
   static const whiteColor = Colors.white;
   static const redColor = Color(0xFFB71C1C);
   static const lightOrange = Color(0xFFFF6F08);
-
 }

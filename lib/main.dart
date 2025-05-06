@@ -30,19 +30,33 @@ late String serialNumber;
 late String token;
 
 void main() async{
+
   WidgetsFlutterBinding.ensureInitialized();
+
   await SystemChrome.setPreferredOrientations([
+
     DeviceOrientation.portraitUp,
+
     DeviceOrientation.portraitDown,
+
   ]);
+
   myAppDir = await path_provider.getApplicationDocumentsDirectory();
+
   preferences = await SharedPreferences.getInstance();
+
   PackageInfo packageInfo = await PackageInfo.fromPlatform();
+
   appVersion = packageInfo.version;
+
   await fetchDeviceInfo();
+
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+
     statusBarColor: AppColors.primaryColor,
+
   ));
+
   runApp(const MyApp());
 }
 
@@ -88,7 +102,7 @@ class MyApp extends StatelessWidget {
           builder: EasyLoading.init(),
         );
       },
-      child: UleDashboardView(),
+      child: DashboardC2C(),
       // UleDashboardView(),
     );
   }

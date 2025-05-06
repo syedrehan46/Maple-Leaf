@@ -150,7 +150,7 @@ final List<DashboardItemModel> dashboardItems = [
   ),
   DashboardItemModel(
     icon: Icons.book,
-    title: 'Books',
+    title: 'Book',
   ),
   DashboardItemModel(
     icon: Icons.article,
@@ -162,11 +162,11 @@ final List<DashboardItemModel> dashboardItems = [
   ),
   DashboardItemModel(
     icon: Icons.video_library,
-    title: 'Videos',
+    title: 'Video',
   ),
   DashboardItemModel(
     icon: Icons.photo,
-    title: 'Photos',
+    title: 'Photo',
   ),
   DashboardItemModel(
     icon: Icons.file_copy,

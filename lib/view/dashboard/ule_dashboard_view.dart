@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:mapleleaf/utils/app_fonts.dart';
 import 'package:mapleleaf/view/individual%20meetup/individual_meetup_view.dart';
-import 'package:mapleleaf/view/individual%20sites/individual_sites.dart';
+import 'package:mapleleaf/view/individual%20sites/individual_sites_view.dart';
 import 'package:mapleleaf/view/lead%20management/lead_management_view.dart';
 import 'package:mapleleaf/view/new%20painter%20induction/new_painter_induction_view.dart';
 import 'package:mapleleaf/view/painter%20engagement/painter_engagement_view.dart';
