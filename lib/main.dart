@@ -8,6 +8,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:mapleleaf/utils/app_colors.dart';
 import 'package:mapleleaf/utils/app_strings.dart';
+import 'package:mapleleaf/view/dashboard/dashboardp2p.dart';
 import 'package:mapleleaf/view/dashboard/ule_dashboard_view.dart';
 import 'package:mapleleaf/view/painter%20engagement/Engaged%20Painter/Painter_list.dart';
 import 'package:mapleleaf/view/painter%20engagement/Engaged%20Painter/add_lead.dart';
@@ -65,7 +66,6 @@ fetchDeviceInfo() async{
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -88,12 +88,11 @@ class MyApp extends StatelessWidget {
           builder: EasyLoading.init(),
         );
       },
-      child: SplashView(),
+      child: DashboardC2C(),
       // UleDashboardView(),
     );
   }
 }
-
 class MyHttpOverrides extends HttpOverrides {
   @override
   HttpClient createHttpClient(SecurityContext? context) {
@@ -102,4 +101,3 @@ class MyHttpOverrides extends HttpOverrides {
           (X509Certificate cert, String host, int port) => true;
   }
 }
-

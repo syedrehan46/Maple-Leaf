@@ -2,30 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:mapleleaf/controller/auth_controller.dart';
-
 import '../../utils/app_colors.dart';
 import '../../utils/app_fonts.dart';
 import '../../utils/ui_helper.dart';
-
 class ChangePasswordView extends StatefulWidget {
   const ChangePasswordView({super.key});
-
   @override
   State<ChangePasswordView> createState() => _ChangePasswordViewState();
 }
-
 class _ChangePasswordViewState extends State<ChangePasswordView> {
   TextEditingController usernameController = TextEditingController();
   TextEditingController oldPasswordController = TextEditingController();
   TextEditingController newPasswordController = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
-
   bool _isVisivleOldPassoword=false;
   bool _isVisivleNewPassoword=false;
   bool _isVisivleConfirmPassoword=false;
-
   final _formKey=GlobalKey<FormState>();
-
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -165,3 +158,4 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
     );
   }
 }
+

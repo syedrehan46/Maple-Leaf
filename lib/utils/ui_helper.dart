@@ -5,10 +5,8 @@ import 'package:get/get.dart'; // Added for Obx and Rx usage
 import 'app_colors.dart';
 import 'app_fonts.dart';
 import 'app_images.dart';
-
 class UiHelper {
   // ========== Your Previous Code ==========
-
   static customContainer({
     required Color color,
     required double radius,
@@ -36,7 +34,6 @@ class UiHelper {
       child: child,
     );
   }
-
   static customButton({
     required double height,
     required String btnText,
@@ -59,7 +56,6 @@ class UiHelper {
       ),
     );
   }
-
   static customButtonWithCounter({
     required double height,
     required String btnText,
@@ -282,7 +278,6 @@ class UiHelper {
       validator: validator,
     );
   }
-
   static customTextField({
     required TextEditingController controller,
     required String labelText,
@@ -325,7 +320,6 @@ class UiHelper {
       ),
     );
   }
-
   // ============================
   // NEW: buildDropdown method
   // ============================
@@ -381,7 +375,6 @@ class UiHelper {
       ),
     );
   }
-
   // ============================
   // NEW: showCustomFilterDialog method
   // ============================

@@ -9,9 +9,7 @@ import 'package:http_parser/http_parser.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import '../../main.dart';
-
 String bearerToken = "";
-
 class NetworkCall{
   static Future<ApiResponse> getApiCall(String url) async {
     print(url);
@@ -25,7 +23,6 @@ class NetworkCall{
           responseString: null);
     }
   }
-
   static ApiResponse _checkResponse(http.Response response) {
     switch (response.statusCode) {
       case 201:
@@ -56,7 +53,6 @@ class NetworkCall{
             responseString: null);
     }
   }
-
   static Future<ApiResponse> checkStreamResponse(http.StreamedResponse response) async{
     print(await response.stream.bytesToString());
     switch (response.statusCode) {
@@ -85,7 +81,6 @@ class NetworkCall{
             responseString: null);
     }
   }
-
   static Future<ApiResponse> getApiCallWithToken(String url) async {
     print(url);
     try {
@@ -105,7 +100,6 @@ class NetworkCall{
           responseString: null);
     }
   }
-
   static Future postApiCall(String url, Map map) async {
     print("Api Url: $url");
     print("Body $map");
@@ -126,7 +120,6 @@ class NetworkCall{
           responseString: null);
     }
   }
-
   static Future<ApiResponse> postFormData(String url, Map map) async {
     print("API URL: $url");
     print("Form Data: $map");
@@ -150,8 +143,6 @@ class NetworkCall{
       );
     }
   }
-
-
   static Future postApiWithTokenCall(String url, Map map) async {
     print(url);
     print("***Body: $map");
@@ -174,7 +165,6 @@ class NetworkCall{
           responseString: null);
     }
   }
-
   static Future deleteApiWithTokenCall(String url) async {
     print(url);
     // print("***Body: $map");
@@ -197,8 +187,6 @@ class NetworkCall{
           responseString: null);
     }
   }
-
-
   static Future postMultipartCall(String url, Map map) async {
     print(url);
     print(map);
@@ -219,7 +207,6 @@ class NetworkCall{
           responseString: null);
     }
   }
-
   static Future<ApiResponse> uploadFile(
       {String? url, Map? map, String? imagePath}) async {
     try {
@@ -243,8 +230,6 @@ class NetworkCall{
           responseString: null);
     }
   }
-
-
   static Future<ApiResponse> multipartUploadFile(String url, Map? map, String imagePath) async{
     print(url);
     print(map);
@@ -300,7 +285,6 @@ class NetworkCall{
         }
 
   }
-
   static Future<ApiResponse> uploadFileWithToken(
       String url, Map map, String imagePath) async {
     try {
@@ -329,8 +313,6 @@ class NetworkCall{
           responseString: null);
     }
   }
-
-
   static Future<ApiResponse> uploadProfileFileWithToken(
       String url, Map map, String imagePath) async {
     try {
@@ -360,7 +342,6 @@ class NetworkCall{
           responseString: null);
     }
   }
-
   static Future<ApiResponse> uploadProfileFileWithTokenPath(
       String url, Map map, String imagePath) async {
     print("Api Url: $url");
@@ -387,7 +368,6 @@ class NetworkCall{
         // It's a real file path
         file = File(imagePath);
       }
-
       var postUri = Uri.parse(url);
       var request = http.MultipartRequest("POST", postUri);
       map.forEach((key, value) {
@@ -420,7 +400,6 @@ class NetworkCall{
       );
     }
   }
-
   static Future<ApiResponse> uploadProfileFileWithTokenPathOptional(
       String url, Map map, String imagePath) async {
     print("Api Url: $url");
@@ -484,7 +463,6 @@ class NetworkCall{
       );
     }
   }
-
   static Future<ApiResponse> uploadWarrantyFileWithTokenPath(
       String url, Map map, String imagePath) async {
     print("Api Url: $url");
@@ -514,6 +492,7 @@ class NetworkCall{
 
       var postUri = Uri.parse(url);
       var request = http.MultipartRequest("POST", postUri);
+
       map.forEach((key, value) {
         request.fields[key] = value;
       });
@@ -544,8 +523,6 @@ class NetworkCall{
       );
     }
   }
-
-
   static Future<ApiResponse> uploadFiles(
       {required String url,
         required Map<dynamic, dynamic> map,
@@ -557,11 +534,9 @@ class NetworkCall{
         'Content-Type': 'application/json',
         'Accept': 'application/json',
       };
-
       if (token) {
         headers['Authorization'] = 'Bearer $bearerToken';
       }
-
       var postUri = Uri.parse(url);
       var request = http.MultipartRequest("POST", postUri);
       map.forEach((key, value) {
@@ -576,7 +551,6 @@ class NetworkCall{
             contentType: MediaType('image', 'jpeg'));
         request.files.add(multipartFile);
             }
-
       request.headers.addAll(headers);
       var streamedResponse = await request.send();
       var response = await http.Response.fromStream(streamedResponse);
@@ -588,7 +562,6 @@ class NetworkCall{
           responseString: null);
     }
   }
-
   static Future<File> downloadAndSaveVideo(String videoUrl, String videoId) async {
     String url = videoUrl.replaceAll(" ", "%20");
     print(url);
@@ -602,7 +575,6 @@ class NetworkCall{
       throw Exception('Failed to download video. Status code: ${response.statusCode}');
     }
   }
-
   static Future<File> downloadAndSavePdf(String pdfUrl, String pdfId) async {
     final pdfFile = File('${myAppDir.path}/$pdfId.pdf');
     final url = pdfUrl.replaceAll(" ", "%20");
@@ -617,9 +589,7 @@ class NetworkCall{
       throw Exception("***Failed to download PDF: ${response.statusCode}***");
     }
   }
-
 }
-
 class ApiResponse {
   String? responseString;
   String? errorMsg;

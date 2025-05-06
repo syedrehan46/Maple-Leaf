@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mapleleaf/utils/app_colors.dart';
-
 class CustomButton extends StatelessWidget {
   final String title;
   final Color color;
   final bool isShowContainer;
   final Widget? navigateTo;
   final Color background_color;
-
   const CustomButton({
     Key? key,
     required this.title,

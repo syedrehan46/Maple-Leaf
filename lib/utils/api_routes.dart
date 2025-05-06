@@ -2,7 +2,6 @@ class ApiRoutes{
   static const String liveUrl = "https://mlcf.kmlg.com:4050/api/";
   static const String testUrl = "http://192.168.1.7:8080/api/";
   static const String baseUrl = liveUrl;
-
   static const String apiLogin = "User/isValiduser";
   static const String apiLogout = "auth/logout";
   static const String apiUpdateCredential = "User/UpdateCredential";
@@ -24,5 +23,4 @@ class ApiRoutes{
   static const String apiGetProfile = "user/";
   static const String apiUpdateProfile = "user/";
   static const String apiAccountDelete = "user/";
-
 }
