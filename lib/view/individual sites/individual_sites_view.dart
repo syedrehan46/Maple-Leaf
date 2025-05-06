@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mapleleaf/utils/app_colors.dart';
 import 'package:get/get.dart';
+import 'package:mapleleaf/utils/custom%20widgets/floatingaction_button.dart';
 import '../../utils/custom widgets/custom_appbar.dart';
 class IndividualSites extends StatefulWidget {
   const IndividualSites({super.key});
@@ -46,7 +47,7 @@ class _IndividualSitesState extends State<IndividualSites> with SingleTickerProv
           // Foreground Content
           Column(
             children: [
-              CustomAppbar(title: 'INDIVIDUAL SITES', timeLocationIsVisible: true),
+              CustomAppbar(title: 'GROUP MANAGEMENT', timeLocationIsVisible: true),
               const SizedBox(height: 20),
               // TabBar with animated slider
               Padding(
@@ -89,7 +90,6 @@ class _IndividualSitesState extends State<IndividualSites> with SingleTickerProv
                           dividerColor: Colors.transparent,
                           labelColor: Colors.white,
                           unselectedLabelColor: Colors.grey.shade600,
-
                           // Use MediaQuery for responsive font size
                           labelStyle: TextStyle(
                             fontWeight: FontWeight.bold,
@@ -140,23 +140,15 @@ class _IndividualSitesState extends State<IndividualSites> with SingleTickerProv
                   ],
                 ),
               ),
-
             ],
           ),
 
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-        },
-        backgroundColor: AppColors.readyForCollectionColor,
-        child:  Icon(
-          Icons.add,
-          color: Colors.white,
-          size: 40,
-        ),
-        shape: const CircleBorder(),
-      ),
+      floatingActionButton: CustomFloatingActionButton(onPressed: (){
+
+      }),
+
     );
   }
 }

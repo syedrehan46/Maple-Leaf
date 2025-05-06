@@ -4,6 +4,7 @@ import 'package:mapleleaf/utils/app_colors.dart';
 import 'package:get/get.dart';
 import 'package:mapleleaf/utils/app_fonts.dart';
 import 'package:mapleleaf/utils/custom%20widgets/custom_appbar.dart';
+import 'package:mapleleaf/utils/custom%20widgets/floatingaction_button.dart';
 import 'package:mapleleaf/view/individual%20meetup/UserLead%20Page/add_leads_view.dart';
 import 'package:mapleleaf/view/individual%20meetup/individual_meetup.dart';
 
@@ -148,16 +149,9 @@ class IndividualMeetingPainters extends StatelessWidget {
           ),
         ],
       ),
-
-      // ➕ Floating Action Button
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Get.to(IndividualMeetup());
-        },
-        backgroundColor: const Color(0xff207E39),
-        child: const Icon(Icons.add, color: Colors.white, size: 40),
-        shape: const CircleBorder(),
-      ),
+      floatingActionButton: CustomFloatingActionButton(onPressed: (){
+        Get.to(IndividualMeetup());
+      }),
     );
   }
 }
