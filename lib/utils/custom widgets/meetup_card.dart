@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
-
+import 'package:mapleleaf/utils/app_colors.dart';
 import '../../view/individual meetup/individual_meeting_painters.dart';
+
 class MeetupCard extends StatelessWidget {
   final String city;
-  final String subCity;
+  final String area;
   final int achieved;
   final int target;
   final int weeklyFreq;
@@ -15,7 +15,7 @@ class MeetupCard extends StatelessWidget {
   const MeetupCard({
     super.key,
     required this.city,
-    required this.subCity,
+    required this.area,
     required this.achieved,
     required this.target,
     required this.weeklyFreq,
@@ -27,10 +27,10 @@ class MeetupCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Get.to(() => IndividualMeetingPainters());
+        Get.to(() => IndividualMeetingPainters(city: city));
       },
       child: Card(
-        color: Colors.red.shade800,
+        color: AppColors.redColor,
         margin: EdgeInsets.fromLTRB(16, topPadding, 16, 4),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         child: Padding(
@@ -41,11 +41,11 @@ class MeetupCard extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    _buildItem("assets/images/ic_city.png", "CITY", city),
-                    const SizedBox(height: 8),
-                    _buildItem("assets/images/ic_sub_city.png", "SUB CITY", subCity),
-                    const SizedBox(height: 8),
-                    _buildItem("assets/images/ic_achievements.png", "ACH/TARGET", "$achieved/$target"),
+                    _buildItem(imagePath: "assets/images/ic_city.png", title: "CITY", value: city),
+                    const SizedBox(height: 15),
+                    _buildItem(imagePath: "assets/images/ic_sub_city.png", title: "AREA", value: area),
+                    const SizedBox(height: 15),
+                    _buildItem(imagePath: "assets/images/ic_achievements.png", title: "ACH/TARGET", value: "$achieved/$target"),
                   ],
                 ),
               ),
@@ -59,11 +59,11 @@ class MeetupCard extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    _buildItem("assets/images/ic_frequency.png", "WEEKLY FREQUENCY", "$weeklyFreq"),
-                    const SizedBox(height: 12),
+                    _buildItem(imagePath: "assets/images/ic_frequency.png", title: "WEEKLY FREQUENCY", value: "$weeklyFreq"),
+                    const SizedBox(height: 15),
                     Padding(
                       padding: const EdgeInsets.only(bottom: 30.0),
-                      child: _buildItem("assets/images/ic_calender.png", "MONTH", month),
+                      child: _buildItem(icon: Icons.calendar_month, title: "MONTH", value: month),
                     ),
                   ],
                 ),
@@ -74,11 +74,16 @@ class MeetupCard extends StatelessWidget {
       ),
     );
   }
-  Widget _buildItem(String imagePath, String title, String value) {
+
+  Widget _buildItem({String? imagePath, IconData? icon, required String title, required String value}) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Image.asset(imagePath, width: 18, height: 18, color: Colors.white),
+
+        if (imagePath != null)
+          Image.asset(imagePath, width: 18, height: 18, color: Colors.white)
+        else if (icon != null)
+          Icon(icon, size: 18, color: Colors.white),
         const SizedBox(width: 8),
         Expanded(
           child: RichText(

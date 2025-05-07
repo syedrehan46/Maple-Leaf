@@ -5,11 +5,13 @@ import 'package:get/get.dart';
 import 'package:mapleleaf/utils/app_fonts.dart';
 import 'package:mapleleaf/utils/custom%20widgets/custom_appbar.dart';
 import 'package:mapleleaf/utils/custom%20widgets/floatingaction_button.dart';
+import 'package:mapleleaf/utils/custom%20widgets/meetup_card.dart';
 import 'package:mapleleaf/view/individual%20meetup/UserLead%20Page/add_leads_view.dart';
 import 'package:mapleleaf/view/individual%20meetup/individual_meetup.dart';
 
 class IndividualMeetingPainters extends StatelessWidget {
-  IndividualMeetingPainters({super.key});
+  String? city;
+  IndividualMeetingPainters({super.key, this.city});
 
   final TextEditingController textEditingController = TextEditingController();
 
@@ -150,7 +152,7 @@ class IndividualMeetingPainters extends StatelessWidget {
         ],
       ),
       floatingActionButton: CustomFloatingActionButton(onPressed: (){
-        Get.to(IndividualMeetup());
+        Get.to(IndividualMeetup(city:city));
       }),
     );
   }
