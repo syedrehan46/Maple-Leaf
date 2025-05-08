@@ -7,16 +7,16 @@ import 'package:mapleleaf/utils/custom%20widgets/forget_password_custom_design.d
 import '../../utils/app_colors.dart';
 import '../../utils/app_fonts.dart';// <-- Import your custom widget
 
-class ForgetPasswordView extends StatefulWidget {
-  const ForgetPasswordView({super.key});
+class ForgetPasswordChangeView extends StatefulWidget {
+  const ForgetPasswordChangeView({super.key});
 
   @override
-  State<ForgetPasswordView> createState() => _ForgotPasswordViewState();
+  State<ForgetPasswordChangeView> createState() => _ForgotPasswordViewState();
 }
 
-class _ForgotPasswordViewState extends State<ForgetPasswordView> {
+class _ForgotPasswordViewState extends State<ForgetPasswordChangeView> {
   final TextEditingController employeeController = TextEditingController();
-  final TextEditingController cnicController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +45,7 @@ class _ForgotPasswordViewState extends State<ForgetPasswordView> {
                     ),
                     SizedBox(height: 20.h),
                     Text(
-                      "Forget Password",
+                      "Change Password",
                       style: AppFonts.styleHarmoniaBold31W600(AppColors.blackColor),
                     ),
                     SizedBox(height: 100.h),
@@ -53,16 +53,16 @@ class _ForgotPasswordViewState extends State<ForgetPasswordView> {
                     /// ✅ Reusable form section
                     CustomTwoInputForm(
                       controller1: employeeController,
-                      controller2: cnicController,
+                      controller2: passwordController,
                       labelText1: "Employee ID",
-                      labelText2: "Cnic",
-                      buttonText: "Verify",
+                      labelText2: "Password",
+                      buttonText: "Change Password",
                       onTap: () {
                         if (employeeController.text.isNotEmpty &&
-                            cnicController.text.isNotEmpty) {
+                            passwordController.text.isNotEmpty) {
                           Get.find<AuthController>().apiChangePassword(
                             empNo: employeeController.text,
-                            password: cnicController.text,
+                            password: passwordController.text,
                           );
                         } else {
                           print("Error: Fields are empty");

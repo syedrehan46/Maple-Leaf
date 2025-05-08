@@ -176,7 +176,7 @@ class _SignInViewState extends State<SignInView> {
                                 Center(
                                   child: GestureDetector(
                                     onTap: () {
-                                      Get.to(() => const ForgotPasswordView());
+                                      Get.to(() => const ForgetPasswordView());
                                     },
                                     child: Text(
                                       "Forgot the Password?",

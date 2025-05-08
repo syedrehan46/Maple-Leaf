@@ -9,6 +9,8 @@ import 'package:get/get.dart';
 import 'package:mapleleaf/utils/app_colors.dart';
 import 'package:mapleleaf/utils/app_strings.dart';
 import 'package:mapleleaf/view/Mapping/mapping_view.dart';
+import 'package:mapleleaf/view/auth/forget_password_change_view.dart';
+import 'package:mapleleaf/view/auth/forgot_password_view.dart';
 import 'package:mapleleaf/view/dashboard/dashboardp2p.dart';
 import 'package:mapleleaf/view/dashboard/ule_dashboard_view.dart';
 import 'package:mapleleaf/view/painter%20engagement/Engaged%20Painter/Painter_list.dart';
@@ -103,7 +105,7 @@ class MyApp extends StatelessWidget {
           builder: EasyLoading.init(),
         );
       },
-      child: MappingView(),
+      child: ForgetPasswordChangeView(),
       // UleDashboardView(),
     );
   }
