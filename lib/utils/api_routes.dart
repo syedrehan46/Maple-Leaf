@@ -5,8 +5,8 @@ class ApiRoutes{
   static const String apiLogin = "User/isValiduser";
   static const String apiLogout = "auth/logout";
   static const String apiUpdateCredential = "User/UpdateCredential";
-  static const String apiVerifyOtp = "auth/verify-otp";
-  static const String apiResetPassword = "auth/reset-password";
+  static const String apiVerifyPassword = "User/VerifyEmployeeInfoForPasswordChange";
+  static const String apiChangePassword = "User/ChangePasswordAfterVerification";
   static const String apiSendOtp = "auth/send-otp";
   static const String apiSignUp = "auth/user";
   static const String apiFeedBack = "feedback";
@@ -23,4 +23,5 @@ class ApiRoutes{
   static const String apiGetProfile = "user/";
   static const String apiUpdateProfile = "user/";
   static const String apiAccountDelete = "user/";
+  static const String apiAddLead = "Opa/AddLeadDetail";
 }

@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_udid/flutter_udid.dart';
 import 'package:get/get.dart';
+import 'package:mapleleaf/view/auth/change_password_view.dart';
 import 'package:mapleleaf/view/auth/sign_in_view.dart';
 import 'package:mapleleaf/view/dashboard/select_dashboard_view.dart';
 import '../main.dart';
@@ -69,6 +72,73 @@ class AuthController extends GetxController implements GetxService{
 
     else{
       print("Error ${apiResponse.errorMsg}");
+    }
+
+  }
+  Future<void> apiVerifyPassword({
+    required String empNo,
+    required String cnic,
+  }) async {
+    String serialNumber = await FlutterUdid.udid;
+    EasyLoading.show();
+
+    Map<String, dynamic> body = {
+      "empNo": empNo,
+      "cnic": cnic,
+      "deviceId": serialNumber,
+    };
+
+    ApiResponse apiResponse = await NetworkCall.postFormData(
+      ApiRoutes.baseUrl + ApiRoutes.apiVerifyPassword,
+      body,
+    );
+
+    EasyLoading.dismiss();
+
+    if (apiResponse.done ?? false) {
+      // Assume the response confirms verification
+      var result = jsonDecode(apiResponse.responseString ?? '{}');
+
+      if (result['success'] == "1") {
+        // Navigate to new password entry screen
+        Get.to(() =>  ChangePasswordView());
+      }
+    } else {
+      print("Error ${apiResponse.errorMsg}");
+
+    }
+  }
+  Future<void> apiChangePassword({
+    required String empNo,
+    required String password,
+  }) async {
+    String serialNumber = await FlutterUdid.udid;
+    EasyLoading.show();
+
+    Map<String, dynamic> body = {
+      "empNo": empNo,
+      "password": password,
+      "deviceId": serialNumber,
+    };
+
+    ApiResponse apiResponse = await NetworkCall.postFormData(
+      ApiRoutes.baseUrl + ApiRoutes.apiChangePassword,
+      body,
+    );
+
+    EasyLoading.dismiss();
+
+    if (apiResponse.done ?? false) {
+      // Assume the response confirms verification
+      var result = jsonDecode(apiResponse.responseString ?? '{}');
+
+      if (result['success'] == "1") {
+        // Navigate to new password entry screen
+        Get.to(() =>  SignInView());
+      }
+    } else {
+      print("Error ${apiResponse.errorMsg}");
+
     }
   }
 

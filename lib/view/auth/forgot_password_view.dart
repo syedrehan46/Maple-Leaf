@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:mapleleaf/controller/auth_controller.dart';
 
 import '../../utils/app_colors.dart';
 import '../../utils/app_fonts.dart';
@@ -70,7 +71,13 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                         fontColor: Colors.white,
                         btnText: "Verify",
                         onTap: () {
-                          print("fill button");
+    if (employeeController.text.isNotEmpty &&
+    cnicController.text.isNotEmpty) {
+    Get.find<AuthController>().apiVerifyPassword(empNo: employeeController.text, cnic: cnicController.text);
+    }
+    else {
+    print("Error");
+    }
                         },
                       ),
                     ),
