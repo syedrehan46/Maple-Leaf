@@ -3,6 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mapleleaf/utils/app_colors.dart';
 import 'package:get/get.dart';
 import 'package:mapleleaf/utils/app_fonts.dart';
+import 'package:mapleleaf/utils/custom%20widgets/Custom_Toaste.dart';
+import 'package:mapleleaf/utils/custom%20widgets/background_image.dart';
 import 'package:mapleleaf/utils/custom%20widgets/custom_appbar.dart';
 import 'package:mapleleaf/utils/custom%20widgets/floatingaction_button.dart';
 import 'package:mapleleaf/utils/custom%20widgets/meetup_card.dart';
@@ -22,14 +24,7 @@ class IndividualMeetingPainters extends StatelessWidget {
         children: [
           // 🔽 Background image
           Positioned.fill(
-            child: Container(
-              decoration: const BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage("assets/images/menu_bg.png"),
-                  fit: BoxFit.cover,
-                ),
-              ),
-            ),
+            child: BackgroundImage()
           ),
 
           // 🔼 Foreground content

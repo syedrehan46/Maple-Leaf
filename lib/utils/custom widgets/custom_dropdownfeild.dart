@@ -46,7 +46,7 @@ class _CustomDropdownFeildState extends State<CustomDropdownFeild> {
             style: const TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 16,
-              color: Color(0xFF434343), // AppColors.black434343
+              color: AppColors.blackColor // AppColors.black434343
             ),
           ),
         const SizedBox(height: 6),
@@ -56,7 +56,7 @@ class _CustomDropdownFeildState extends State<CustomDropdownFeild> {
           height: 50,
           width :(widget.width),
           decoration: BoxDecoration(
-            color: const Color(0xffD2F6F9FB),
+            color: Colors.grey.shade200,
             borderRadius: BorderRadius.circular(8),
           ),
           padding: const EdgeInsets.symmetric(horizontal: 12),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:mapleleaf/utils/app_colors.dart';
 import 'package:mapleleaf/utils/custom%20widgets/custom_appbar.dart';
@@ -49,28 +50,46 @@ class _IndividualMeetupState extends State<IndividualMeetup> {
   void showSelectOptionsMessage() {
     // Check which options need to be selected
     String message = "";
+    bool locationMissing = selectedLocation == null || selectedLocation == 'Please Select Location';
+    bool giveawayMissing = selectedGiveaway == null || selectedGiveaway == 'Please Select Giveaway';
 
-    if (selectedLocation == null || selectedLocation == 'Please Select Location') {
-      message += "Please select a location";
+    // Three possible cases:
+    // 1. Both missing
+    if (locationMissing && giveawayMissing) {
+      message = "Please select Location and Giveaways";
+    }
+    // 2. Only location missing
+    else if (locationMissing) {
+      message = "Please select Location";
+    }
+    // 3. Only giveaway missing
+    else if (giveawayMissing) {
+      message = "Please select a Giveaways";
     }
 
-    if (selectedGiveaway == null || selectedGiveaway == 'Please Select Giveaway') {
-      if (message.isNotEmpty) {
-        message += " and ";
-      }
-      message += "Please select a giveaway";
-    }
+    // For debugging
+    print("Showing toast message: $message");
 
-    // Show message
-    Get.snackbar(
-      '',
-      message,
-      titleText: Container(), // Hide the title
-      backgroundColor: Colors.transparent,
-      colorText: Colors.black,
-      snackPosition: SnackPosition.BOTTOM,
-      margin: EdgeInsets.all(100),
-      duration: Duration(seconds: 1),
+    // Try different approach for toast
+    FToast fToast = FToast();
+    fToast.init(context);
+
+    Widget toast = Container(
+      padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(25.0),
+        color: Colors.grey.shade700,
+      ),
+      child: Text(
+        message,
+        style: TextStyle(color: Colors.white),
+      ),
+    );
+
+    fToast.showToast(
+      child: toast,
+      gravity: ToastGravity.BOTTOM,
+      toastDuration: Duration(milliseconds: 1200),
     );
   }
 
@@ -169,7 +188,6 @@ class _IndividualMeetupState extends State<IndividualMeetup> {
                                 ),
                               );
                             } else {
-                              // Show message to select options
                               showSelectOptionsMessage();
                             }
                           },

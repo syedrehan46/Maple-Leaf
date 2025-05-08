@@ -3,6 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:mapleleaf/utils/app_colors.dart';
 
+import '../../utils/custom widgets/custom_textfeild.dart';
+
 class PainterCardAllocationView extends StatefulWidget {
   const PainterCardAllocationView({super.key});
 
@@ -164,7 +166,7 @@ class _AddLeadsViewState extends State<PainterCardAllocationView> {
               children: [
                 Center(
                   child: Text(
-                    'SUB CONTRACTOR PROFILE kkkkkkkkkkkkkkkkkkkk',
+                    'SUB CONTRACTOR PROFILE',
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
@@ -252,68 +254,4 @@ class _AddLeadsViewState extends State<PainterCardAllocationView> {
   }
 }
 
-class CustomTextField extends StatefulWidget {
-  final String label;
-  final TextEditingController controller;
-  final int? maxLength;
-  final TextInputType? keyboardType;
 
-  const CustomTextField({
-    Key? key,
-    required this.label,
-    required this.controller,
-    this.maxLength,
-    this.keyboardType,
-  }) : super(key: key);
-
-  @override
-  State<CustomTextField> createState() => _CustomTextFieldState();
-}
-
-class _CustomTextFieldState extends State<CustomTextField> {
-  late FocusNode _focusNode;
-
-  @override
-  void initState() {
-    super.initState();
-    _focusNode = FocusNode();
-    _focusNode.addListener(() => setState(() {}));
-  }
-
-  @override
-  void dispose() {
-    _focusNode.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final String displayText = "* ${widget.label}";
-
-    return TextField(
-      controller: widget.controller,
-      focusNode: _focusNode,
-      keyboardType: widget.keyboardType,
-      maxLength: widget.maxLength,
-      decoration: InputDecoration(
-
-        hintText: !_focusNode.hasFocus ? displayText : null,
-        labelStyle: const TextStyle(color: Color(0xff504E4E)),
-        labelText: _focusNode.hasFocus ? displayText : null,
-        counterText: "",
-        contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(color: Colors.grey),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
-          borderSide: BorderSide(color: AppColors.primaryColor),
-        ),
-      ),
-    );
-  }
-}
