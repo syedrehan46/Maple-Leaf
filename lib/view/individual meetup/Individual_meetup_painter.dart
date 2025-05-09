@@ -1,11 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:mapleleaf/utils/app_colors.dart';
-import 'package:mapleleaf/utils/ui_helper.dart'; // <<-- Make sure to import this
-import 'package:mapleleaf/view/individual%20meetup/individual_meeting_painters.dart';
-
-import '../../utils/app_fonts.dart';
+import 'package:intl/intl.dart';
 import '../../utils/custom widgets/custom_appbar.dart';
 import '../../utils/custom widgets/meetup_card.dart';
 
@@ -18,6 +13,9 @@ class IndividualMeetupPainter extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    DateTime now = DateTime.now();
+    String monthName = DateFormat('MMMM').format(now);
+    String upperCaseMonthName = monthName.toUpperCase();
     return Scaffold(
       backgroundColor: Colors.white,
       body: Column(
@@ -26,14 +24,14 @@ class IndividualMeetupPainter extends StatelessWidget {
           Expanded(
             child: ListView(
               padding: const EdgeInsets.symmetric(vertical: 8),
-              children: const [
-                MeetupCard(city: "DANDI DARA", subCity: "DANDI DARA", achieved: 2, target: 30, weeklyFreq: 8, month: "APRIL", topPadding: 16),
-                MeetupCard(city: "KOTLA", subCity: "KOTLA", achieved: 0, target: 30, weeklyFreq: 8, month: "APRIL"),
-                MeetupCard(city: "CHARHOI", subCity: "CHARHOI", achieved: 0, target: 30, weeklyFreq: 8, month: "APRIL"),
-                MeetupCard(city: "SARAI ALAMGIR", subCity: "SARAI ALAMGIR", achieved: 0, target: 30, weeklyFreq: 9, month: "APRIL"),
-                MeetupCard(city: "KOTLA", subCity: "KOTLA", achieved: 0, target: 30, weeklyFreq: 8, month: "APRIL"),
-                MeetupCard(city: "CHARHOI", subCity: "CHARHOI", achieved: 0, target: 30, weeklyFreq: 8, month: "APRIL"),
-                MeetupCard(city: "SARAI ALAMGIR", subCity: "SARAI ALAMGIR", achieved: 0, target: 30, weeklyFreq: 9, month: "APRIL"),
+              children: [
+                MeetupCard(city: "LAHORE", area: "LAHORE", achieved: 2, target: 5, weeklyFreq: 2, month: upperCaseMonthName, topPadding: 16,),
+                MeetupCard(city: "KOTLA", area: "KOTLA", achieved: 0, target: 5, weeklyFreq: 2, month: upperCaseMonthName),
+                MeetupCard(city: "CHARHOI", area: "CHARHOI", achieved: 0, target: 5, weeklyFreq: 2, month: upperCaseMonthName),
+                MeetupCard(city: "SARAI ALAMGIR", area: "SARAI ALAMGIR", achieved: 0, target: 5, weeklyFreq: 2, month: upperCaseMonthName),
+                MeetupCard(city: "KOTLA", area: "KOTLA", achieved: 0, target: 5, weeklyFreq: 2, month: upperCaseMonthName),
+                MeetupCard(city: "CHARHOI", area: "CHARHOI", achieved: 0, target: 5, weeklyFreq: 2, month:upperCaseMonthName),
+                MeetupCard(city: "SARAI ALAMGIR",area: "SARAI ALAMGIR", achieved: 0, target: 5, weeklyFreq: 2, month: upperCaseMonthName),
               ],
             ),
           ),
