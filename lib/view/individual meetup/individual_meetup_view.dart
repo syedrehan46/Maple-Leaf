@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:mapleleaf/controller/painter_controller.dart';
 import 'package:mapleleaf/utils/app_fonts.dart';
 import 'package:mapleleaf/utils/custom%20widgets/custom_button.dart';
 import 'package:mapleleaf/utils/ui_helper.dart';
@@ -49,7 +50,7 @@ class _IndividualMeetupViewState extends State<IndividualMeetupView> {
                   mainAxisSize: MainAxisSize.min
                   ,
                   children: [
-                    CustomButton(title: "PAINTER", color: AppColors.blackColor, isShowContainer: true, navigateTo: IndividualMeetupPainter()),
+                    CustomButton(title: "PAINTER", color: AppColors.blackColor, isShowContainer: true, navigateTo: IndividualMeetupPainter(city: '',)),
                     const SizedBox(height: 20),
                     CustomButton(title: "LABORS CONTRACTOR", color: AppColors.blackColor, isShowContainer: true, navigateTo: IndividualMeetupLaborView())
                   ],

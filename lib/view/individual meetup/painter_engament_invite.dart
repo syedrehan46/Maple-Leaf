@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:mapleleaf/controller/painter_controller.dart';
 import 'package:mapleleaf/utils/custom%20widgets/background_image.dart';
 import 'package:mapleleaf/utils/custom%20widgets/custom_button1.dart';
 import 'package:mapleleaf/utils/custom%20widgets/custom_dropdownfeild.dart';
@@ -13,27 +14,22 @@ import '../../utils/custom widgets/custom_textfeild.dart';
 import 'individual_meeting_painters.dart';
 
 class PainterEngamentInvite extends StatefulWidget {
-  String? city;
-  String? location;
-  String? giveaway;
   PainterEngamentInvite({
     super.key,
-    this.city,
-    this.location,
-    this.giveaway
   });
   @override
   State<PainterEngamentInvite> createState() => _PainterEngamentInviteState();
 }
 
 class _PainterEngamentInviteState extends State<PainterEngamentInvite> {
+  final painterDataController = Get.find<PainterDataController>();
   final TextEditingController phoneNumberEditingController = TextEditingController();
   final TextEditingController painterNameEditingController = TextEditingController();
   final TextEditingController cardNumberEditingController = TextEditingController();
   late FToast fToast;
   bool showAdditionalFields = false;
-  String? selectedType;
-  String? selectedArea;
+  String? Type;
+  String? Area;
 
   @override
   void initState() {
@@ -47,27 +43,6 @@ class _PainterEngamentInviteState extends State<PainterEngamentInvite> {
       // Show the "Add Detail Successful" toast
       CustomToastText('Add Detail Successful');
     });
-  }
-
-  // Custom toast implementation
-  void showCustomToast(String message) {
-    Widget toast = Container(
-      padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(25.0),
-        color: Colors.grey.shade700,
-      ),
-      child: Text(
-        message,
-        style: TextStyle(color: Colors.white),
-      ),
-    );
-
-    fToast.showToast(
-      child: toast,
-      gravity: ToastGravity.BOTTOM,
-      toastDuration: Duration(milliseconds: 1200),
-    );
   }
 
   // Function to handle search button press
@@ -90,41 +65,46 @@ class _PainterEngamentInviteState extends State<PainterEngamentInvite> {
       });
     }
   }
-  // Function to handle ADD PAINTER button press
   void handleAddPainter() {
-    // Get values
-    String cardNumber = cardNumberEditingController.text.trim();
-    String painterNumber = phoneNumberEditingController.text.trim();
+    String phoneNumber = phoneNumberEditingController.text.trim();
     String painterName = painterNameEditingController.text.trim();
 
-    // Validate all together
-    if (painterNumber.isEmpty ||
-        painterName.isEmpty ||
-        selectedType == 'Please Select Type' ||
-        selectedArea == 'Please Select Area') {
-
-      // Show appropriate messages based on what’s missing
-      if (painterNumber.isEmpty) {
-        CustomToastText('Please enter Phone number');
-      } else if (painterName.isEmpty) {
-        CustomToastText('Please enter Painter name');
-      } else if (selectedType == 'Please Select Type') {
-        CustomToastText('Please select Type');
-      } else if (selectedArea == 'Please Select Area') {
-        CustomToastText('Please select Area');
-      }
+    // Validate phone number
+    if (phoneNumber.isEmpty || phoneNumber.length != 11 || !phoneNumber.startsWith('03')) {
+      CustomToastText('Please enter a valid phone number (e.g., 03210089760 - 11 digits)');
       return;
     }
 
-    // All fields are valid, navigate
+    // Validate painter name
+    if (painterName.isEmpty) {
+      CustomToastText('Please enter painter name');
+      return;
+    }
 
-      Get.to(PainterEngagementInvite1(
-        city: widget.city,
-        painterName: painterName,
-        painterNumber: painterNumber,
-      ));
+    // Validate type
+    if (Type != 'PAINTER' && Type != 'LAB CONTRACTOR') {
+      CustomToastText('Please select Type');
+      return;
+    }
 
+    // Validate area
+    if (Area == null || Area == 'Please Select Area') {
+      CustomToastText('Please select Area');
+      return;
+    }
+
+    // All validations passed, navigate
+    painterDataController.cardNumber.value=cardNumberEditingController.text.trim();
+    painterDataController.phoneNumber.value=phoneNumberEditingController.text.trim();
+    painterDataController.painterName.value=painterNameEditingController.text.trim();
+    painterDataController.cardNumber.value=cardNumberEditingController.text.trim();
+    painterDataController.type.value=Type!;
+    painterDataController.cardNumber.value=Area!;
+
+    Get.to(PainterEngagementInvite1(
+    ));
   }
+
 
 
   List<String> type = [
@@ -185,7 +165,7 @@ class _PainterEngamentInviteState extends State<PainterEngamentInvite> {
                   SizedBox(height: 10),
                   Center(
                     child: Text(
-                      "${widget.city ?? ''} ${widget.city != null ? '(${widget.city})' : ''}",
+                      "${painterDataController.city.value} (${painterDataController.city.value})",
                       style: TextStyle(
                         color: AppColors.redColor,
                         fontSize: 16,
@@ -272,7 +252,7 @@ class _PainterEngamentInviteState extends State<PainterEngamentInvite> {
                                 onChanged: (s){
                                   if (s != null) {
                                     setState(() {
-                                      selectedType = s;
+                                      Type = s;
                                     });
                                   }
                                 }
@@ -290,7 +270,7 @@ class _PainterEngamentInviteState extends State<PainterEngamentInvite> {
                                 onChanged: (s){
                                   if (s != null) {
                                     setState(() {
-                                      selectedArea = s;
+                                      Area = s;
                                     });
                                   }
                                 }
