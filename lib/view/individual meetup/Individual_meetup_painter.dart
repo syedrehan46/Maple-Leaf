@@ -5,6 +5,7 @@ import '../../controller/painter_controller.dart';
 import '../../utils/custom widgets/custom_appbar.dart';
 import '../../utils/custom widgets/meetup_card.dart';
 import 'individual_meeting_painters.dart';
+import 'individual_meetup_view.dart';
 
 class IndividualMeetupPainter extends StatelessWidget {
   String city;
@@ -24,7 +25,7 @@ class IndividualMeetupPainter extends StatelessWidget {
       painterDataController.city.value = city;
     }
 
-    return Scaffold(
+    return WillPopScope(child: Scaffold(
         backgroundColor: Colors.white,
         body: Column(
           children: [
@@ -59,7 +60,10 @@ class IndividualMeetupPainter extends StatelessWidget {
             ),
           ],
         )
-    );
+    ), onWillPop: () async {
+      Get.offAll(() => IndividualMeetupView());
+      return false;
+    },);
   }
 
   Widget _buildAppBar(BuildContext context) {

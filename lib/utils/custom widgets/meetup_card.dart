@@ -32,7 +32,7 @@ class MeetupCard extends StatelessWidget {
       onTap: onTap, // Use the callback passed from parent
       child: Card(
         // Change card color based on selection state
-        color: isSelected ? Colors.orange : AppColors.redColor,
+        color: AppColors.redColor,
         margin: EdgeInsets.fromLTRB(16, topPadding, 16, 4),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         child: Padding(

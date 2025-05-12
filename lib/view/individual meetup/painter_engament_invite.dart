@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:mapleleaf/controller/painter_controller.dart';
 import 'package:mapleleaf/utils/custom%20widgets/background_image.dart';
+import 'package:mapleleaf/utils/custom%20widgets/custom_appbar.dart';
 import 'package:mapleleaf/utils/custom%20widgets/custom_button1.dart';
 import 'package:mapleleaf/utils/custom%20widgets/custom_dropdownfeild.dart';
 import 'package:mapleleaf/view/individual%20meetup/painter_engagement_invite1.dart';
@@ -135,33 +136,9 @@ class _PainterEngamentInviteState extends State<PainterEngamentInvite> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   // App Bar
-                  Container(
-                    height: 80,
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      color: AppColors.redColor,
-                      borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(15),
-                        bottomRight: Radius.circular(15),
-                      ),
-                    ),
-                    child: Column(
-                      children: [
-                        SizedBox(height: 30,),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 10,right: 20),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              IconButton(onPressed: (){Get.off(IndividualMeetingPainters());}, icon: Icon(Icons.arrow_back_ios,color: Colors.white,size: 20,)),
-                              Text('PAINTER ENGAGEMENT',style: AppFonts.styleHarmoniaBold18W600()),
-                              SizedBox(width: MediaQuery.of(context).size.width*(10/360),)
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                  CustomAppbar(title: 'painter engagement',onPreesed: () {
+    Get.offAll(IndividualMeetingPainters());
+                  }),
                   SizedBox(height: 10),
                   Center(
                     child: Text(

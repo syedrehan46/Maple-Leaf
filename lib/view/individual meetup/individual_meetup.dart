@@ -114,7 +114,6 @@ class _IndividualMeetupState extends State<IndividualMeetup> {
           ),
           // Content layer
           Column(
-
             children: [
               // App bar at the top
               CustomAppbar(title: 'INDIVIDUAL MEETUPS'),
