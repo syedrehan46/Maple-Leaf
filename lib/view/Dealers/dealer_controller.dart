@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 
-class MappingController extends GetxController {
+class DealerController extends GetxController {
   RxList<String> cities = [
     'B - KARACHI',
     'BOLHARI',
@@ -15,7 +15,7 @@ class MappingController extends GetxController {
     'KUNRI',
   ].obs;
 
-  RxList<String> dealers = ['Ayesha Khan',
+  RxList<String> dealers = [
     'Dealer',
     'Distributor',
 

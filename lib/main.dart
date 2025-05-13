@@ -8,7 +8,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:mapleleaf/utils/app_colors.dart';
 import 'package:mapleleaf/utils/app_strings.dart';
+import 'package:mapleleaf/view/Dealers/dealer_custom_design.dart';
+import 'package:mapleleaf/view/Dealers/dealer_select_view.dart';
+import 'package:mapleleaf/view/Dealers/job_view.dart';
+import 'package:mapleleaf/view/Dealers/lead_sign_up.dart';
+import 'package:mapleleaf/view/Dealers/maple_lead_signin.dart';
 import 'package:mapleleaf/view/Mapping/mapping_view.dart';
+import 'package:mapleleaf/view/Mapping/remapping_view.dart';
 import 'package:mapleleaf/view/auth/forget_password_change_view.dart';
 import 'package:mapleleaf/view/auth/forgot_password_view.dart';
 import 'package:mapleleaf/view/dashboard/dashboardp2p.dart';
@@ -105,7 +111,8 @@ class MyApp extends StatelessWidget {
           builder: EasyLoading.init(),
         );
       },
-      child: UleDashboardView(),
+      child:
+      LoginScreen(),
       // UleDashboardView(),
     );
   }

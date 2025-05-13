@@ -22,7 +22,7 @@ class AppColors{
   static const testingColor = Color(0xffF16641);
   static const readyForCollectionColor = Color(0xff338133);
   static const collectedColor = Color(0xff367CCD);
-  static const approvedColor = Color(0xff34C759);
+  static const approvedColor = Color(0xff0f722a);
   static const blackColor = Colors.black;
   static const whiteColor = Colors.white;
   static const redColor = Color(0xFFB71C1C);

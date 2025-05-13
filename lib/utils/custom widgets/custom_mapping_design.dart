@@ -8,7 +8,9 @@ import 'package:mapleleaf/utils/app_colors.dart';
 class MappingCustomDesign extends StatelessWidget {
   final MappingController controller = Get.put(MappingController());
   final String title;
-  MappingCustomDesign({super.key,required this.title});
+  final bool isAreaShow;
+  MappingCustomDesign({super.key,required this.title,this.isAreaShow=false
+  });
   @override
   Widget build(BuildContext context) {
     return Container(
