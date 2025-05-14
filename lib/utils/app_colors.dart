@@ -21,7 +21,7 @@ class AppColors{
   static const repairingColor = Color(0xffE78C24);
   static const testingColor = Color(0xffF16641);
   static const readyForCollectionColor = Color(0xff338133);
-  static const collectedColor = Color(0xff367CCD);
+  static const collectedColor = Color(0xff66a3ee);
   static const approvedColor = Color(0xff0f722a);
   static const blackColor = Colors.black;
   static const whiteColor = Colors.white;

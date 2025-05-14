@@ -1,0 +1,17 @@
+import 'package:get/get_state_manager/src/simple/get_controllers.dart';
+import 'package:get/get.dart';
+class MyController extends GetxController {
+  RxString selectedSecondTypePerson = ''.obs;
+  RxString selectedthirdTypePerson = ''.obs;
+  RxString selectedSampleApplied = ''.obs;
+  RxString selectedConvertedToSale = ''.obs;
+  RxString selectedProjectToSale = ''.obs;
+  RxString selectedPainterObliged = ''.obs;
+
+  RxList<String> secondTypePersonList = ['LABOR CONTRACTOR', 'SUB CONTRACTOR', 'PAINTER',"ARCHITECT","ATTENDENT"].obs;
+  RxList<String> thirdTypePersonList =  ['LABOR CONTRACTOR', 'SUB CONTRACTOR', 'PAINTER',"ARCHITECT","ATTENDENT"].obs;
+  RxList<String> selectedSampledList = ["YES","NO"].obs;
+  RxList<String> selectedConvertedToSaleList =  ["YES","NO","IN PROCESS"].obs;
+  RxList<String> selectedProjectToSaleList = ["PAINT NOT DUE (BRICK STAGE),","PLASTER IN PROGRESS","READY TO PAINT","PARTIALLY PAINTED","CEILING LEFT","PAINT COMPLETED"].obs;
+  RxList<String> selectedPainterObligedList =  ["YES","NO"].obs;
+}

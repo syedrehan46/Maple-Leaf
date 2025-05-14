@@ -10,9 +10,15 @@ void CustomToastText(String message) {
       borderRadius: BorderRadius.circular(25.0),
       color: Colors.grey.shade700,
     ),
-    child: Text(
-      message,
-      style: TextStyle(color: Colors.white),
+    child: Row(
+      children: [
+        Image.asset("assets/images/leaf_ic.png",height: 20,width: 20,),
+        SizedBox(width: 20,),
+        Text(
+          message,
+          style: TextStyle(color: Colors.white),
+        ),
+      ],
     ),
   );
 
