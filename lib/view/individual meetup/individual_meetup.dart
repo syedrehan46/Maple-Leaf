@@ -1,22 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:mapleleaf/controller/painter_controller.dart';
 import 'package:mapleleaf/utils/app_colors.dart';
 import 'package:mapleleaf/utils/custom%20widgets/custom_appbar.dart';
 import 'package:mapleleaf/utils/custom%20widgets/custom_dropdownfeild.dart';
 import 'package:mapleleaf/view/individual%20meetup/painter_engament_invite.dart';
 
 class IndividualMeetup extends StatefulWidget {
-  String? city;
-  IndividualMeetup({super.key, this.city});
+
+  IndividualMeetup({super.key});
+
 
   @override
   State<IndividualMeetup> createState() => _IndividualMeetupState();
 }
 
 class _IndividualMeetupState extends State<IndividualMeetup> {
-  String? selectedLocation;
-  String? selectedGiveaway;
+  final painterDataController = Get.find<PainterDataController>();
+  String? location;
+  String? giveaway;
   bool isFormValid = false;
 
   final List<String> locations = [
@@ -39,10 +42,10 @@ class _IndividualMeetupState extends State<IndividualMeetup> {
   void validateForm() {
     // Check if both dropdowns have valid selections (not the first option)
     setState(() {
-      isFormValid = selectedLocation != null &&
-          selectedLocation != 'Please Select Location' &&
-          selectedGiveaway != null &&
-          selectedGiveaway != 'Please Select Giveaway';
+      isFormValid = location != null &&
+          location != 'Please Select Location' &&
+          giveaway != null &&
+          giveaway != 'Please Select Giveaway';
     });
   }
 
@@ -50,8 +53,8 @@ class _IndividualMeetupState extends State<IndividualMeetup> {
   void showSelectOptionsMessage() {
     // Check which options need to be selected
     String message = "";
-    bool locationMissing = selectedLocation == null || selectedLocation == 'Please Select Location';
-    bool giveawayMissing = selectedGiveaway == null || selectedGiveaway == 'Please Select Giveaway';
+    bool locationMissing = location == null || location == 'Please Select Location';
+    bool giveawayMissing = giveaway == null || giveaway == 'Please Select Giveaway';
 
     // Three possible cases:
     // 1. Both missing
@@ -111,7 +114,6 @@ class _IndividualMeetupState extends State<IndividualMeetup> {
           ),
           // Content layer
           Column(
-
             children: [
               // App bar at the top
               CustomAppbar(title: 'INDIVIDUAL MEETUPS'),
@@ -123,7 +125,7 @@ class _IndividualMeetupState extends State<IndividualMeetup> {
                     children: [
                       Center(
                         child: Text(
-                          "${widget.city} (${widget.city})",
+                          "${painterDataController.city.value} (${painterDataController.city.value})",
                           style: TextStyle(
                             color: AppColors.redColor,
                             fontSize: 16,
@@ -139,7 +141,7 @@ class _IndividualMeetupState extends State<IndividualMeetup> {
                         items: locations,
                         onChanged: (value) {
                           setState(() {
-                            selectedLocation = value;
+                            location = value;
                             validateForm();
                           });
                         },
@@ -155,7 +157,7 @@ class _IndividualMeetupState extends State<IndividualMeetup> {
                         items: giveaways,
                         onChanged: (value) {
                           setState(() {
-                            selectedGiveaway = value;
+                            giveaway = value;
                             validateForm();
                           });
                         },
@@ -180,11 +182,10 @@ class _IndividualMeetupState extends State<IndividualMeetup> {
                             // Check if form is valid
                             if (isFormValid) {
                               // Navigate to next screen with selected values
+                              painterDataController.location.value=location!;
+                              painterDataController.giveaway.value=giveaway!;
                               Get.to(
                                 PainterEngamentInvite(
-                                  city: widget.city,
-                                  location: selectedLocation,
-                                  giveaway: selectedGiveaway,
                                 ),
                               );
                             } else {

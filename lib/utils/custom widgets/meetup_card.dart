@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mapleleaf/utils/app_colors.dart';
-import '../../view/individual meetup/individual_meeting_painters.dart';
+import '../../utils/app_colors.dart';
 
 class MeetupCard extends StatelessWidget {
   final String city;
@@ -11,8 +10,10 @@ class MeetupCard extends StatelessWidget {
   final int weeklyFreq;
   final String month;
   final double topPadding;
+  final Function()? onTap; // Add onTap callback
+  final bool isSelected; // Add selection state
 
-  const MeetupCard({
+  MeetupCard({
     super.key,
     required this.city,
     required this.area,
@@ -21,15 +22,16 @@ class MeetupCard extends StatelessWidget {
     required this.weeklyFreq,
     required this.month,
     this.topPadding = 8,
+    this.onTap,
+    this.isSelected = false,
   });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        Get.to(() => IndividualMeetingPainters(city: city));
-      },
+      onTap: onTap, // Use the callback passed from parent
       child: Card(
+        // Change card color based on selection state
         color: AppColors.redColor,
         margin: EdgeInsets.fromLTRB(16, topPadding, 16, 4),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
@@ -79,7 +81,6 @@ class MeetupCard extends StatelessWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-
         if (imagePath != null)
           Image.asset(imagePath, width: 18, height: 18, color: Colors.white)
         else if (icon != null)

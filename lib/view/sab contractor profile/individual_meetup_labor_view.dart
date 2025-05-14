@@ -200,7 +200,7 @@ class IndividualMeetupLaborView extends StatelessWidget {
               Expanded(
                 child: ListView(
                   padding: const EdgeInsets.symmetric(vertical: 8),
-                  children: const [
+                  children: [
                     MeetupCard(city: "DANDI DARA", area: "DANDI DARA", achieved: 2, target: 30, weeklyFreq: 8, month: "APRIL", topPadding: 16),
                     MeetupCard(city: "KOTLA", area: "KOTLA", achieved: 0, target: 30, weeklyFreq: 8, month: "APRIL"),
                     MeetupCard(city: "CHARHOI", area: "CHARHOI", achieved: 0, target: 30, weeklyFreq: 8, month: "APRIL"),

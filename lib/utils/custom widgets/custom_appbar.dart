@@ -8,7 +8,8 @@ class CustomAppbar extends StatelessWidget {
   final String title;
   final bool timeLocationIsVisible;
   final bool isshowSummary;
-  CustomAppbar({super.key,required this.title, this.timeLocationIsVisible=false, this.isshowSummary=true});
+  final onPreesed;
+  CustomAppbar({super.key,required this.title, this.timeLocationIsVisible=false, this.isshowSummary=true,this.onPreesed});
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -34,7 +35,10 @@ class CustomAppbar extends StatelessWidget {
                   // alignment: Alignment.center,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    IconButton(onPressed: (){Get.back();}, icon: Icon(Icons.arrow_back_ios,color: Colors.white,size: 20,)),
+                    IconButton(
+                      onPressed: onPreesed != null ? onPreesed : () => Get.back(),
+                      icon: Icon(Icons.arrow_back_ios, color: Colors.white, size: 20),
+                    ),
                     Text("${title.toUpperCase()}",style: AppFonts.styleHarmoniaBold18W600()),
                     if(timeLocationIsVisible)
                     GestureDetector(

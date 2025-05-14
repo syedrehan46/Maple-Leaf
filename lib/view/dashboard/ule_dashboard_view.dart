@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:mapleleaf/utils/app_fonts.dart';
 import 'package:mapleleaf/view/individual%20meetup/individual_meetup_view.dart';
 import 'package:mapleleaf/view/individual%20sites/individual_sites_view.dart';
+import 'package:mapleleaf/view/jobs/jobs_view.dart';
 import 'package:mapleleaf/view/lead%20management/lead_management_view.dart';
 import 'package:mapleleaf/view/new%20painter%20induction/new_painter_induction_view.dart';
 import 'package:mapleleaf/view/painter%20engagement/painter_engagement_view.dart';
@@ -184,6 +185,20 @@ class _UleDashboardViewState extends State<UleDashboardView> {
                             label: "SCP",
                             onTap: () {Get.to(SabContractorProfileView());}),
                       ],
+                    ),
+                    SizedBox(height: 30.h),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 30),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          _buildAvatar(
+                              imagePath: "assets/images/ic_ima.png",
+                              label: "JOBS",
+                              onTap: () {Get.to(JobsView());}),
+                          SizedBox(width: 35.w),
+                        ],
+                      ),
                     ),
                   ],
                 ),

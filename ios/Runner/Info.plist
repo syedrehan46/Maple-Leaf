@@ -4,6 +4,8 @@
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
+	<key>NSCameraUsageDescription</key>
+    <string>This app needs camera access to take pictures for painter attachments</string>
 	<key>CFBundleDisplayName</key>
 	<string>Maplefauj</string>
 	<key>CFBundleExecutable</key>
