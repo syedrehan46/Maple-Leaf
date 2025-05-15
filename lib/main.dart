@@ -8,10 +8,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:mapleleaf/utils/app_colors.dart';
 import 'package:mapleleaf/utils/app_strings.dart';
+import 'package:mapleleaf/view/Dealers/Dealer%20Induction/Add%20Dealer/add_dealer_view.dart';
+import 'package:mapleleaf/view/Dealers/Dealer%20Induction/Add%20Dealer/custom_dealer.dart';
+import 'package:mapleleaf/view/Dealers/Dealer%20Induction/Update%20Dealer/update_dealer_view.dart';
 import 'package:mapleleaf/view/Dealers/Job%20Detail/add_image_view.dart';
+import 'package:mapleleaf/view/Dealers/Job%20Detail/custom_confirmation.dart';
 import 'package:mapleleaf/view/Dealers/Job%20Detail/general_customer_view.dart';
 import 'package:mapleleaf/view/Dealers/dealer_custom_design.dart';
-import 'package:mapleleaf/view/Dealers/dealer_select_view.dart';
+import 'package:mapleleaf/view/Dealers/Dealer%20Induction/dealer_select_view.dart';
 import 'package:mapleleaf/view/Dealers/Job%20Detail/job_view.dart';
 import 'package:mapleleaf/view/Dealers/lead_sign_up.dart';
 import 'package:mapleleaf/view/Dealers/maple_lead_signin.dart';
@@ -113,7 +117,7 @@ class MyApp extends StatelessWidget {
           builder: EasyLoading.init(),
         );
       },
-      child:JobView()
+      child:DealerDesign(),
       // UleDashboardView(),
     );
   }

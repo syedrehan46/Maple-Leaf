@@ -4,6 +4,7 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:mapleleaf/utils/app_colors.dart';
 import 'package:mapleleaf/utils/app_fonts.dart';
 import 'package:mapleleaf/utils/custom%20widgets/custom_dropdownfeild.dart';
+import 'package:mapleleaf/view/Dealers/Job%20Detail/custom_confirmation.dart';
 import 'package:mapleleaf/view/Dealers/Job%20Detail/custom_textfiledd.dart';
 import 'package:mapleleaf/view/Dealers/Job%20Detail/job_controller.dart';
 import 'package:mapleleaf/view/Dealers/Job%20Detail/job_view.dart';
@@ -57,6 +58,7 @@ class _GeneralCustomerViewState extends State<GeneralCustomerView> {
     secondPersontypeController.text = "SUB CONTRACTOR";
   }
 
+
   @override
   void dispose() {
     // Dispose the controllers when no longer needed
@@ -79,6 +81,12 @@ class _GeneralCustomerViewState extends State<GeneralCustomerView> {
     final MyController controller=Get.put(MyController());
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          onPressed: () {
+            Get.back();
+          },
+          icon: Icon(Icons.arrow_back_ios, size: 20, color: AppColors.whiteColor),
+        ),
         backgroundColor: AppColors.primaryColor,
         centerTitle: true,
         title: Text(
@@ -86,47 +94,48 @@ class _GeneralCustomerViewState extends State<GeneralCustomerView> {
           style: AppFonts.styleHarmoniaBold18W600(),
         ),
       ),
+
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
-            CustomTextField(
+            CustomTextFieldS(
               controller: customerNameController,
               title: "Customer Name and Address",
               readOnly: false,
             ),
-            CustomTextField(
+            CustomTextFieldS(
               controller: customerContactNoController,
               title: "Customer Contact No",
               keyboardType: TextInputType.number,
               readOnly: false,
             ),
-            CustomTextField(
+            CustomTextFieldS(
               controller: secondPersontypeController,
               title: "Second Person Type",
             ),
-            CustomTextField(
+            CustomTextFieldS(
               controller: secondPersonNoController,
               title: "Second Person Number",
               keyboardType: TextInputType.number,
               readOnly: false,
             ),
-            CustomTextField(
+            CustomTextFieldS(
               controller: thirdPersonTypeController,
               title: "Third Person Type",
               readOnly: true,
             ),
-            CustomTextField(
+            CustomTextFieldS(
               controller: thirdPersonNoController,
               title: "Third Person Number",
               keyboardType: TextInputType.number,
               readOnly: false,
             ),
-            CustomTextField(
+            CustomTextFieldS(
               controller: leadFromController,
               title: "Lead From",
             ),
-            CustomTextField(
+            CustomTextFieldS(
               controller: viaController,
               title: "Via",
             ),
@@ -144,9 +153,21 @@ class _GeneralCustomerViewState extends State<GeneralCustomerView> {
               items: controller.thirdTypePersonList,
               parentContext: context,
             ),
-            SizedBox(height: MediaQuery.of(context).size.height*(0.02)),
-            GestureDetector(onTap: (){},
-                child: CustomButton(bc_color: AppColors.primaryColor, title: "UPDATE INFORMATION", ToNavigate: JobView())),
+      SizedBox(height: MediaQuery.of(context).size.height*(0.03),),
+             CustomButtons(
+                bc_color: AppColors.primaryColor,
+                title: "UPDATE INFORMATION",
+               onPressed: () {
+                 Get.dialog(
+                   ConfirmationPopup(label: "UPDATE INFORMATION"),
+                   barrierDismissible: false, // optional: prevent closing on outside tap
+                 );
+               },
+
+             ),
+
+
+
             SizedBox(height: MediaQuery.of(context).size.height*(0.06)),
             Container(
               height: 50,
@@ -199,7 +220,7 @@ class _GeneralCustomerViewState extends State<GeneralCustomerView> {
             ),
             SizedBox(height: 6,),
             selectedValue == "YES"
-                ? CustomTextField(
+                ? CustomTextFieldS(
               controller: tokenNumberController,
               title: "Enter Token Number",
               readOnly: false,
@@ -237,8 +258,17 @@ class _GeneralCustomerViewState extends State<GeneralCustomerView> {
               parentContext: context,
             ),
             SizedBox(height: MediaQuery.of(context).size.height*(0.03)),
-            GestureDetector(onTap: (){},
-                child: CustomButton(bc_color: AppColors.primaryColor, title: "PROCEED FEEDBACK", ToNavigate: JobView())),
+            CustomButtons(
+              bc_color: AppColors.primaryColor,
+              title: "PROCEED FEEDBACK",
+              onPressed: () {
+                Get.dialog(
+                  ConfirmationPopup(label: "FEED BACK"),
+                  barrierDismissible: false, // optional: prevent closing on outside tap
+                );
+              },
+
+            ),
           ],
         ),
       ),

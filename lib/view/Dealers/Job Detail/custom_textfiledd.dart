@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class CustomTextField extends StatelessWidget {
+class CustomTextFieldS extends StatelessWidget {
   final String title;
   final TextEditingController controller;
   final TextInputType keyboardType;
   final bool readOnly;
   final int maxLength;
 
-  const CustomTextField({
+  const CustomTextFieldS({
     Key? key,
     required this.title,
     required this.controller,

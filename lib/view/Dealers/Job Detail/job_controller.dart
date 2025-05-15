@@ -7,6 +7,9 @@ class MyController extends GetxController {
   RxString selectedConvertedToSale = ''.obs;
   RxString selectedProjectToSale = ''.obs;
   RxString selectedPainterObliged = ''.obs;
+  RxString selectCity = ''.obs;
+  RxString selectArea = ''.obs;
+  RxString selectDealerrType = ''.obs;
 
   RxList<String> secondTypePersonList = ['LABOR CONTRACTOR', 'SUB CONTRACTOR', 'PAINTER',"ARCHITECT","ATTENDENT"].obs;
   RxList<String> thirdTypePersonList =  ['LABOR CONTRACTOR', 'SUB CONTRACTOR', 'PAINTER',"ARCHITECT","ATTENDENT"].obs;
@@ -14,4 +17,7 @@ class MyController extends GetxController {
   RxList<String> selectedConvertedToSaleList =  ["YES","NO","IN PROCESS"].obs;
   RxList<String> selectedProjectToSaleList = ["PAINT NOT DUE (BRICK STAGE),","PLASTER IN PROGRESS","READY TO PAINT","PARTIALLY PAINTED","CEILING LEFT","PAINT COMPLETED"].obs;
   RxList<String> selectedPainterObligedList =  ["YES","NO"].obs;
+  RxList<String> selectCityList =  ["B-KARACHI","BOLHARI","BULRI SAH KARIM","CHACHRO","GOLRACHI"].obs;
+  RxList<String> selectAreaList =  ["B-KARACHI","BOLHARI","BULRI SAH KARIM","CHACHRO","GOLRACHI"].obs;
+  RxList<String> selectDealerList =  ["Dealer","Distributor"].obs;
 }
