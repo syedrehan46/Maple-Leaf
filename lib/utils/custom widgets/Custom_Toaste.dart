@@ -5,7 +5,8 @@ late FToast fToast;
 void CustomToastText(
     String message, {
       required BuildContext context,
-      String iconPath = 'assets/images/leaf_ic.png', // default value
+      bool isShowIcon = false,
+      String iconPath = 'assets/images/leaf_ic.png',
     }) {
   fToast = FToast();
   fToast.init(context);
@@ -18,8 +19,8 @@ void CustomToastText(
     ),
     child: Row(
       children: [
-        Image.asset(iconPath, height: 20, width: 20),
-        const SizedBox(width: 20),
+        if (isShowIcon) Image.asset(iconPath, height: 20, width: 20),
+        if (isShowIcon) const SizedBox(width: 20),
         Expanded(
           child: Text(
             message,

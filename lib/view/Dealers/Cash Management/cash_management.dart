@@ -71,23 +71,23 @@ class _CashManagementState extends State<CashManagement> {
     }
 
     if (receiptNumberController.text.trim().isEmpty) {
-      CustomToastText('Please enter Receipt Number',context: context,iconPath: iconPath);
+      CustomToastText('Please enter Receipt Number',context: context,iconPath: "assets/images/ic_launcher.png");
       return;
     }
 
     if (amountController.text.trim().isEmpty) {
-      CustomToastText('Please enter Amount',context: context,iconPath: iconPath);
+      CustomToastText('Please enter Amount',context: context,iconPath: "assets/images/ic_launcher.png");
       return;
     }
 
     if (dobController.text.trim().isEmpty) {
-      CustomToastText('Please select Date',context: context,iconPath: iconPath);
+      CustomToastText('Please select Date',context: context,iconPath: "assets/images/ic_launcher.png");
       return;
     }
 
     // You can add the image check here if needed
 
-    CustomToastText("Form Submitted Successfully",context: context,iconPath: iconPath);
+    CustomToastText("Form Submitted Successfully",context: context,iconPath: "assets/images/ic_launcher.png");
   }
 
   @override
