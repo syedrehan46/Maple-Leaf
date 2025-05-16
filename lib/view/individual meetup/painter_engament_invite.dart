@@ -42,7 +42,7 @@ class _PainterEngamentInviteState extends State<PainterEngamentInvite> {
       fToast.init(context);
 
       // Show the "Add Detail Successful" toast
-      CustomToastText('Add Detail Successful');
+      CustomToastText('Add Detail Successful',context: context);
     });
   }
 
@@ -53,15 +53,15 @@ class _PainterEngamentInviteState extends State<PainterEngamentInvite> {
     if ((cardNumber.isEmpty && phoneNumber.isEmpty) ||
         (cardNumber.length < 16 && phoneNumber.length < 11)) {
       // Case 1 & 2: Both are empty OR both are incomplete
-      CustomToastText('Please enter a valid card number or phone number');
+      CustomToastText('Please enter a valid card number or phone number',context: context);
     } else if (phoneNumber.isNotEmpty && phoneNumber.length == 11 && !phoneNumber.startsWith('03')) {
       // Case 3: Phone number does NOT start with 03
-      CustomToastText('Please Enter Painter Number 03210089760 (11 Digit)');
+      CustomToastText('Please Enter Painter Number 03210089760 (11 Digit)',context: context);
     } else if ((phoneNumber.length == 11 && phoneNumber.startsWith('03')) ||
         cardNumber.length == 16) {
       // Case 4 & 5: Phone number is valid OR card number is complete
       setState(() {
-        CustomToastText('This number is not exist in system please fill the fields');
+        CustomToastText('This number is not exist in system please fill the fields',context: context);
         showAdditionalFields = true;
       });
     }
@@ -72,25 +72,25 @@ class _PainterEngamentInviteState extends State<PainterEngamentInvite> {
 
     // Validate phone number
     if (phoneNumber.isEmpty || phoneNumber.length != 11 || !phoneNumber.startsWith('03')) {
-      CustomToastText('Please enter a valid phone number (e.g., 03210089760 - 11 digits)');
+      CustomToastText('Please enter a valid phone number (e.g., 03210089760 - 11 digits)',context: context);
       return;
     }
 
     // Validate painter name
     if (painterName.isEmpty) {
-      CustomToastText('Please enter painter name');
+      CustomToastText('Please enter painter name',context: context);
       return;
     }
 
     // Validate type
     if (Type != 'PAINTER' && Type != 'LAB CONTRACTOR') {
-      CustomToastText('Please select Type');
+      CustomToastText('Please select Type',context: context);
       return;
     }
 
     // Validate area
     if (Area == null || Area == 'Please Select Area') {
-      CustomToastText('Please select Area');
+      CustomToastText('Please select Area',context: context);
       return;
     }
 

@@ -8,6 +8,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:mapleleaf/utils/app_colors.dart';
 import 'package:mapleleaf/utils/app_strings.dart';
+import 'package:mapleleaf/view/Dealers/Cash%20Management/cash_management.dart';
 import 'package:mapleleaf/view/Dealers/Dealer%20Induction/Add%20Dealer/add_dealer_view.dart';
 import 'package:mapleleaf/view/Dealers/Dealer%20Induction/Add%20Dealer/custom_dealer.dart';
 import 'package:mapleleaf/view/Dealers/Dealer%20Induction/Update%20Dealer/update_dealer_view.dart';
@@ -117,7 +118,7 @@ class MyApp extends StatelessWidget {
           builder: EasyLoading.init(),
         );
       },
-      child:DealerDesign(),
+      child:CashManagement(),
       // UleDashboardView(),
     );
   }

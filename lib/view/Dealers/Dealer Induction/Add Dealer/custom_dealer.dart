@@ -3,24 +3,28 @@ import 'package:get/get.dart';
 import 'package:mapleleaf/utils/app_colors.dart';
 import 'package:mapleleaf/utils/app_fonts.dart';
 import 'package:mapleleaf/utils/custom%20widgets/custom_button.dart';
-import 'package:mapleleaf/utils/custom%20widgets/custom_button1.dart';
 import 'package:mapleleaf/view/Dealers/Dealer%20Induction/Add%20Dealer/custom_datepicker_button.dart';
 import 'package:mapleleaf/view/Dealers/Job%20Detail/custom_radio_button.dart';
 import 'package:mapleleaf/view/Dealers/Job%20Detail/custom_textfiledd.dart';
 import 'package:mapleleaf/view/Dealers/Job%20Detail/job_controller.dart';
-import 'package:mapleleaf/view/Dealers/custom_button1.dart';
 import '../../Job Detail/custom_dropdown_view.dart';
+import '../../custom_button1.dart';
 
 class DealerDesign extends StatefulWidget {
   final bool isShowDropdown;
+  final bool isShowArea;
   final bool isShowRadio;
   final bool isShowCheckbox;
+  final bool isShowDealer;
 
   const DealerDesign({
     super.key,
     this.isShowDropdown = true,
     this.isShowRadio = true,
     this.isShowCheckbox = true,
+    this.isShowDealer = false,
+    this.isShowArea = true,
+
   });
 
   @override
@@ -42,10 +46,8 @@ class _DealerDesignState extends State<DealerDesign> {
 
   String dealerRetailerCum = "";
 
-  // Removed single selectedProduct, added multi-selection Set:
   Set<String> selectedProductSet = {};
 
-  // List of product options
   Map<String, bool> selectedProducts = {
     "White Cement": false,
     "Wall Coat": false,
@@ -73,25 +75,29 @@ class _DealerDesignState extends State<DealerDesign> {
     final MyController controller = Get.put(MyController());
     final media = MediaQuery.of(context).size;
 
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: AppColors.primaryColor,
-        centerTitle: true,
-        title: Text("ADD DEALER", style: AppFonts.styleHarmoniaBold18W600()),
-      ),
-      body: SingleChildScrollView(
+    return SafeArea(
+      child: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             CustomDropdownField(
-              label: 'City',
+              label: '* City',
               selectedValue: controller.selectCity,
               items: controller.selectCityList,
               parentContext: context,
             ),
             const SizedBox(height: 12),
+            if (widget.isShowDealer)
+              CustomDropdownField(
+                label: '* Dealer',
+                selectedValue: controller.selectDealerrType,
+                items: controller.selectDealerList,
+                parentContext: context,
+              ),
+            if (widget.isShowArea)
             CustomDropdownField(
-              label: 'Area',
+              label: '* Area',
               selectedValue: controller.selectArea,
               items: controller.selectAreaList,
               parentContext: context,
@@ -170,8 +176,7 @@ class _DealerDesignState extends State<DealerDesign> {
               keyboardType: TextInputType.number,
             ),
             CustomTextFieldS(title: "Enter Address", controller: addressController, readOnly: false),
-
-            /// Product Selection (Checkbox for multi-selection)
+        if(widget.isShowCheckbox)
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 2.0, vertical: 12),
               child: Container(
@@ -183,19 +188,16 @@ class _DealerDesignState extends State<DealerDesign> {
                     Padding(
                       padding: const EdgeInsets.only(left: 12, right: 12, top: 10, bottom: 10),
                       child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Expanded(
                             child: Text(
                               "Product",
-                              style: AppFonts.styleHarmoniaBold18W600()
-                                  .copyWith(color: AppColors.blackColor),
+                              style: AppFonts.styleHarmoniaBold18W600().copyWith(color: AppColors.blackColor),
                             ),
                           ),
                           Text(
                             "Select",
-                            style: AppFonts.styleHarmoniaBold18W600()
-                                .copyWith(color: AppColors.blackColor),
+                            style: AppFonts.styleHarmoniaBold18W600().copyWith(color: AppColors.blackColor),
                           ),
                         ],
                       ),
@@ -214,10 +216,7 @@ class _DealerDesignState extends State<DealerDesign> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text(
-                                  productName,
-                                  style: const TextStyle(fontSize: 16, color: Colors.black),
-                                ),
+                                Text(productName, style: const TextStyle(fontSize: 16, color: Colors.black)),
                                 GestureDetector(
                                   onTap: () {
                                     setState(() {
@@ -269,11 +268,8 @@ class _DealerDesignState extends State<DealerDesign> {
               ),
             ),
 
-
-
             const SizedBox(height: 10),
 
-            /// Dealer Cum Retailer Radio Section
             if (widget.isShowRadio)
               CustomRadioButton(
                 title: "Dealer Cum Retailer",
@@ -285,13 +281,14 @@ class _DealerDesignState extends State<DealerDesign> {
                 showSecondaryRadio: dealerRetailerCum == "YES",
               ),
 
-            SizedBox(height: MediaQuery.of(context).size.height * 0.04),
+            const SizedBox(height: 20),
 
-            /// ADD Button
             CustomButtons(
-              bc_color: AppColors.primaryColor,
               title: "ADD",
-            ),
+              padding: 1,
+              bc_color: AppColors.primaryColor,
+              onPressed: () {},
+            )
           ],
         ),
       ),

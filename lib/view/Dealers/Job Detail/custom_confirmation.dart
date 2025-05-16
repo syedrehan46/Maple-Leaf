@@ -36,7 +36,7 @@ class ConfirmationPopup extends StatelessWidget {
         TextButton(
           onPressed: () {
             Navigator.of(context).pop(); // Close dialog
-           CustomToastText("General Custom Updated Succefully");
+           CustomToastText("General Custom Updated Succefully",context: context);
 
             // Delay to ensure navigation completes before showing the toast
 

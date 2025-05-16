@@ -6,33 +6,31 @@ class CustomButtons extends StatelessWidget {
   final Color bc_color;
   final String title;
   final VoidCallback? onPressed;
+  final double padding; // ✅ Changed from Float to double
 
   const CustomButtons({
-    this.bc_color = const Color(0xFFB31D1E), // ✅ Proper default value
+    this.bc_color = const Color(0xFFB31D1E),
     required this.title,
     this.onPressed,
+     this.padding=24.0,
     super.key,
   });
 
   @override
   Widget build(BuildContext context) {
+    final media = MediaQuery.of(context).size;
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 2),
+      padding: EdgeInsets.symmetric(horizontal: padding), // ✅ Works with double
       child: SizedBox(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height * 0.06,
+        height: media.height * 0.08,
+        width: media.width,
         child: ElevatedButton(
-          onPressed: onPressed,
           style: ElevatedButton.styleFrom(
             backgroundColor: bc_color,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
-            ),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
           ),
-          child: Text(
-            title,
-            style: AppFonts.styleHarmoniaBold16W600(Colors.white),
-          ),
+          onPressed: onPressed,
+          child: Text(title, style: AppFonts.styleHarmoniaBold18W600()),
         ),
       ),
     );

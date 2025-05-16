@@ -10,6 +10,8 @@ class MyController extends GetxController {
   RxString selectCity = ''.obs;
   RxString selectArea = ''.obs;
   RxString selectDealerrType = ''.obs;
+  RxString selectRecieptType = ''.obs;
+  RxString selectMinor = ''.obs;
 
   RxList<String> secondTypePersonList = ['LABOR CONTRACTOR', 'SUB CONTRACTOR', 'PAINTER',"ARCHITECT","ATTENDENT"].obs;
   RxList<String> thirdTypePersonList =  ['LABOR CONTRACTOR', 'SUB CONTRACTOR', 'PAINTER',"ARCHITECT","ATTENDENT"].obs;
@@ -20,4 +22,6 @@ class MyController extends GetxController {
   RxList<String> selectCityList =  ["B-KARACHI","BOLHARI","BULRI SAH KARIM","CHACHRO","GOLRACHI"].obs;
   RxList<String> selectAreaList =  ["B-KARACHI","BOLHARI","BULRI SAH KARIM","CHACHRO","GOLRACHI"].obs;
   RxList<String> selectDealerList =  ["Dealer","Distributor"].obs;
+  RxList<String> selectRecieptTypeList=["Cheque","DD","Pay Order","Bank Reciept","Online Transaction","Cash At Bank"].obs;
+  RxList<String> selectMinorList=["Minor","wfefh","jwehf"].obs;
 }
