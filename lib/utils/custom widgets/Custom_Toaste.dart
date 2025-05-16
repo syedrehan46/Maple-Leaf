@@ -5,8 +5,6 @@ late FToast fToast;
 void CustomToastText(
     String message, {
       required BuildContext context,
-      bool isShowIcon = false,
-      String iconPath = 'assets/images/leaf_ic.png',
     }) {
   fToast = FToast();
   fToast.init(context);
@@ -14,13 +12,11 @@ void CustomToastText(
   Widget toast = Container(
     padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
     decoration: BoxDecoration(
-      borderRadius: BorderRadius.circular(25.0),
+      borderRadius: BorderRadius.circular(25),
       color: Colors.grey.shade700,
     ),
     child: Row(
       children: [
-        if (isShowIcon) Image.asset(iconPath, height: 20, width: 20),
-        if (isShowIcon) const SizedBox(width: 20),
         Expanded(
           child: Text(
             message,
@@ -33,7 +29,7 @@ void CustomToastText(
 
   fToast.showToast(
     child: toast,
-    gravity: ToastGravity.CENTER,
+    gravity: ToastGravity.BOTTOM,
     toastDuration: const Duration(milliseconds: 1200),
   );
 }

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mapleleaf/utils/app_colors.dart';
@@ -9,6 +11,7 @@ import '../../../utils/custom widgets/Custom_Toaste.dart';
 import '../Dealer Induction/Add Dealer/custom_datepicker_button.dart';
 import '../Job Detail/custom_dropdown_view.dart';
 import '../Job Detail/custom_textfiledd.dart';
+import '../Job Detail/custom_toast.dart';
 
 class CashManagement extends StatefulWidget {
   const CashManagement({super.key});
@@ -26,6 +29,8 @@ class _CashManagementState extends State<CashManagement> {
   final receiptNumberController = TextEditingController();
   final amountController = TextEditingController();
   final dobController = TextEditingController();
+  File? _selectedImage;
+
 
   @override
   void dispose() {
@@ -41,53 +46,53 @@ class _CashManagementState extends State<CashManagement> {
     print('Submit Pressed');
 
     if (controller.selectCity=='' || controller.selectCity=='Please select City') {
-      CustomToastText('Please select City',context: context,iconPath: "assets/images/ic_launcher.png");
+      CustomToast('Please select City',context: context);
       return;
     }
 
     if (controller.selectDealerrType == '' ||controller.selectDealerrType == 'Please select Dealer' ) {
-      CustomToastText('Please select Dealer',context: context,iconPath: "assets/images/ic_launcher.png");
+      CustomToast('Please select Dealer',context: context);
       return;
     }
 
     if (controller.selectRecieptType=='' || controller.selectRecieptType == 'Please select Receipt Type') {
-      CustomToastText('Please select Receipt Type',context: context,iconPath: "assets/images/ic_launcher.png");
+      CustomToastText('Please select Receipt Type',context: context);
       return;
     }
 
     if (controller.selectMinor=='' ||controller.selectMinor=='Please select Minor' ) {
-      CustomToastText('Please select Minor',context: context,iconPath: "assets/images/ic_launcher.png");
+      CustomToastText('Please select Minor',context: context);
       return;
     }
 
     if (bankNameController.text.trim().isEmpty) {
-      CustomToastText('Please enter Bank Name',context: context,iconPath: "assets/images/ic_launcher.png");
+      CustomToastText('Please enter Bank Name',context: context);
       return;
     }
 
     if (bankBranchController.text.trim().isEmpty) {
-      CustomToastText('Please enter Bank Branch',context: context,iconPath: "assets/images/ic_launcher.png");
+      CustomToastText('Please enter Bank Branch',context: context);
       return;
     }
 
     if (receiptNumberController.text.trim().isEmpty) {
-      CustomToastText('Please enter Receipt Number',context: context,iconPath: "assets/images/ic_launcher.png");
+      CustomToastText('Please enter Receipt Number',context: context);
       return;
     }
 
     if (amountController.text.trim().isEmpty) {
-      CustomToastText('Please enter Amount',context: context,iconPath: "assets/images/ic_launcher.png");
+      CustomToastText('Please enter Amount',context: context);
       return;
     }
 
     if (dobController.text.trim().isEmpty) {
-      CustomToastText('Please select Date',context: context,iconPath: "assets/images/ic_launcher.png");
+      CustomToastText('Please select Date',context: context);
       return;
     }
 
     // You can add the image check here if needed
 
-    CustomToastText("Form Submitted Successfully",context: context,iconPath: "assets/images/ic_launcher.png");
+    CustomToastText("Form Submitted Successfully",context: context);
   }
 
   @override
@@ -189,7 +194,14 @@ class _CashManagementState extends State<CashManagement> {
 
               SizedBox(height: media.height * 0.08),
 
-              ImagePickerRow(),
+
+              ImagePickerRow(
+                onImageSelected: (File image) {
+                  setState(() {
+                    _selectedImage = image;
+                  });
+                },
+              ),
 
               SizedBox(height: media.height * 0.12),
 

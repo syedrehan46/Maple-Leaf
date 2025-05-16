@@ -6,6 +6,7 @@ import 'package:mapleleaf/utils/app_fonts.dart';
 import 'package:mapleleaf/utils/custom%20widgets/custom_dropdownfeild.dart';
 import 'package:mapleleaf/view/Dealers/Job%20Detail/custom_confirmation.dart';
 import 'package:mapleleaf/view/Dealers/Job%20Detail/custom_textfiledd.dart';
+import 'package:mapleleaf/view/Dealers/Job%20Detail/custom_toast.dart';
 import 'package:mapleleaf/view/Dealers/Job%20Detail/job_controller.dart';
 import 'package:mapleleaf/view/Dealers/Job%20Detail/job_view.dart';
 import 'package:mapleleaf/view/Dealers/custom_button1.dart';
@@ -34,6 +35,7 @@ class GeneralCustomerView extends StatefulWidget {
 
 class _GeneralCustomerViewState extends State<GeneralCustomerView> {
   String selectedValue="";
+  final MyController controller=Get.put(MyController());
   // TextControllers with initial values from parameters
   final TextEditingController customerNameController = TextEditingController();
   final TextEditingController customerContactNoController = TextEditingController();
@@ -73,12 +75,61 @@ class _GeneralCustomerViewState extends State<GeneralCustomerView> {
     tokenNumberController.dispose();
     super.dispose();
   }
+  bool updateInformation() {
+    print('Submit Pressed');
+
+    if (thirdPersonNoController.text.trim().isEmpty) {
+      CustomToast('Please Enter Third Person Number', context: context);
+      return false;
+    }
+    if (controller.selectedSecondTypePerson == '' || controller.selectedSecondTypePerson == "") {
+      CustomToast('Please Select Second Person Type', context: context);
+      return false;
+    }
+    if (controller.selectedthirdTypePerson == '' || controller.selectedthirdTypePerson == "Please Select Third Person Type") {
+      CustomToast('Please Select Third Person Type', context: context);
+      return false;
+    }
+
+    // You can add the image check here if needed
+
+    return true;  // add this return true when validation passes
+  }
+  bool feedbackProceed() {
+    print('Submit Pressed');
+
+    if (selectedValue == "YES" && tokenNumberController.text.trim().isEmpty) {
+      CustomToast('Please Enter Token Number', context: context);
+      return false;
+    }
+
+    if (controller.selectedSampleApplied == '' || controller.selectedSampleApplied == "Please Select Sample Applied") {
+      CustomToast('Please Select Sample Applied', context: context);
+      return false;
+    }
+    if (controller.selectedConvertedToSale == '' || controller.selectedConvertedToSale == "Please Select Converted To Sale") {
+      CustomToast('Please Select Converted To Sale', context: context);
+      return false;
+    }
+    if (controller.selectedProjectToSale == '' || controller.selectedProjectToSale == "Please Select Project Stage") {
+      CustomToast('Please Select Project Stage', context: context);
+      return false;
+    }
+    if (controller.selectedPainterObliged == '' || controller.selectedPainterObliged == "Please Select Painter Obliged") {
+      CustomToast('Please Select Painter Obliged', context: context);
+      return false;
+    }
+
+    // You can add the image check here if needed
+
+    return true;  // add this return true when validation passes
+  }
 
   @override
   Widget build(BuildContext context) {
 
     List<String>options=["YES","NO"];
-    final MyController controller=Get.put(MyController());
+
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -154,17 +205,19 @@ class _GeneralCustomerViewState extends State<GeneralCustomerView> {
               parentContext: context,
             ),
       SizedBox(height: MediaQuery.of(context).size.height*(0.03),),
-             CustomButtons(
-                bc_color: AppColors.primaryColor,
-                title: "UPDATE INFORMATION",
-               onPressed: () {
-                 Get.dialog(
-                   ConfirmationPopup(label: "UPDATE INFORMATION"),
-                   barrierDismissible: false, // optional: prevent closing on outside tap
-                 );
-               },
+            CustomButtons(
+              bc_color: AppColors.primaryColor,
+              title: "UPDATE INFORMATION",
+              onPressed: () {
+                if (updateInformation()) {
+                  Get.dialog(
+                    ConfirmationPopup(label: "UPDATE INFORMATION"),
+                    barrierDismissible: false,
+                  );
+                }
+              },
+            ),
 
-             ),
 
 
 
@@ -245,7 +298,7 @@ class _GeneralCustomerViewState extends State<GeneralCustomerView> {
             ),
             SizedBox(height: 6),
             CustomDropdownField(
-              label: 'Select Project Stage',
+              label: 'Project Stage',
               selectedValue: controller.selectedProjectToSale,
               items: controller.selectedProjectToSaleList,
               parentContext: context,
@@ -262,6 +315,7 @@ class _GeneralCustomerViewState extends State<GeneralCustomerView> {
               bc_color: AppColors.primaryColor,
               title: "PROCEED FEEDBACK",
               onPressed: () {
+                if(feedbackProceed())
                 Get.dialog(
                   ConfirmationPopup(label: "FEED BACK"),
                   barrierDismissible: false, // optional: prevent closing on outside tap

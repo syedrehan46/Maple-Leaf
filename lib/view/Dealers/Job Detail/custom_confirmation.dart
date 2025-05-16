@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mapleleaf/utils/app_fonts.dart';
-import 'package:mapleleaf/utils/custom widgets/Custom_Toaste.dart'; // Make sure this is your correct path
+import 'package:mapleleaf/utils/custom widgets/Custom_Toaste.dart';
+import 'package:mapleleaf/view/Dealers/Job%20Detail/custom_toast.dart'; // Make sure this is your correct path
 
 class ConfirmationPopup extends StatelessWidget {
   final String label;
@@ -36,7 +37,7 @@ class ConfirmationPopup extends StatelessWidget {
         TextButton(
           onPressed: () {
             Navigator.of(context).pop(); // Close dialog
-           CustomToastText("General Custom Updated Succefully",context: context);
+           CustomToast("General Custom Updated Succefully",context: context);
 
             // Delay to ensure navigation completes before showing the toast
 

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mapleleaf/utils/app_colors.dart';
 import 'package:mapleleaf/utils/app_fonts.dart';
 
 class CustomButtons extends StatelessWidget {
@@ -9,10 +10,10 @@ class CustomButtons extends StatelessWidget {
   final double padding; // ✅ Changed from Float to double
 
   const CustomButtons({
-    this.bc_color = const Color(0xFFB31D1E),
+    this.bc_color = Colors.red,
     required this.title,
     this.onPressed,
-     this.padding=24.0,
+    this.padding=24,
     super.key,
   });
 

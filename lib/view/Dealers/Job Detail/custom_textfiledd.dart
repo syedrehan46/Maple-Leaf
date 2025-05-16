@@ -13,43 +13,41 @@ class CustomTextFieldS extends StatelessWidget {
     required this.controller,
     this.keyboardType = TextInputType.text,
     this.readOnly = true,
-    this.maxLength=11,
+    this.maxLength = 11,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final isNumber = keyboardType == TextInputType.number || keyboardType == TextInputType.phone;
+
+    Widget textField = TextField(
+      controller: controller,
+      readOnly: false, // Always false because we will control interaction via IgnorePointer
+      keyboardType: keyboardType,
+      maxLength: maxLength,
+      decoration: InputDecoration(
+        labelText: title,
+        labelStyle: const TextStyle(fontSize: 16, color: Colors.black),
+        floatingLabelBehavior: FloatingLabelBehavior.auto,
+        counterText: '',
+        focusedBorder: UnderlineInputBorder(
+          borderSide: BorderSide(color: Theme.of(context).primaryColor),
+        ),
+        enabledBorder: const UnderlineInputBorder(
+          borderSide: BorderSide(color: Colors.grey),
+        ),
+      ),
+      style: const TextStyle(fontSize: 16),
+    );
+
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 2.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Title above the field
-
-
           const SizedBox(height: 4),
-
-          // TextField
-          TextField(
-            controller: controller,
-            readOnly: readOnly,
-            keyboardType: keyboardType,
-            maxLength: maxLength != null ? maxLength : (isNumber ? 11 : null),
-            decoration: InputDecoration(
-              labelText: title,
-              labelStyle: TextStyle(fontSize: 16,color: Colors.black),
-              // ✅ Added this line
-              floatingLabelBehavior: FloatingLabelBehavior.auto,
-              counterText: '',
-              focusedBorder: UnderlineInputBorder(
-                borderSide: BorderSide(color: Theme.of(context).primaryColor),
-              ),
-              enabledBorder: UnderlineInputBorder(
-                borderSide: BorderSide(color: Colors.grey),
-              ),
-            ),
-            style: TextStyle(fontSize: 16),
-          ),
+          // Wrap with IgnorePointer only when readOnly is true
+          readOnly ? IgnorePointer(child: textField) : textField,
         ],
       ),
     );
