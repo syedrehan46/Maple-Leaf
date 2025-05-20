@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mapleleaf/utils/app_colors.dart';
 import 'package:mapleleaf/utils/app_fonts.dart';
-import 'package:mapleleaf/view/Dealers/Job%20Detail/general_customer_view.dart';
+
+import 'general_customer_view.dart';
+
 
 class JobView extends StatelessWidget {
   final List<Map<String, String>> jobs = [

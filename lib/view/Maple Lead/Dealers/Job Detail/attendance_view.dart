@@ -2,15 +2,16 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:mapleleaf/view/Dealers/Job%20Detail/custom_toast.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:mapleleaf/utils/app_colors.dart';
 import 'package:mapleleaf/utils/app_fonts.dart';
 import 'package:mapleleaf/utils/custom%20widgets/Custom_Toaste.dart';
-import 'package:mapleleaf/view/Dealers/Job%20Detail/job_view.dart';
-import 'package:mapleleaf/view/Dealers/custom_button1.dart';
+
 
 import '../Cash Management/custom_image_picker.dart';
+import '../custom_button1.dart';
+import 'custom_toast.dart';
+import 'job_view.dart';
 
 class AttendanceView extends StatefulWidget {
   const AttendanceView({super.key});

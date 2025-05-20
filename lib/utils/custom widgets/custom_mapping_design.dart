@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:mapleleaf/utils/app_fonts.dart';
-import 'package:mapleleaf/view/Mapping/mapping_controller.dart';
 import 'package:mapleleaf/utils/app_colors.dart';
+
+import '../../view/Maple Lead/Dealers/Mapping/mapping_controller.dart';
 
 class MappingCustomDesign extends StatelessWidget {
   final MappingController controller = Get.put(MappingController());

@@ -4,15 +4,14 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:mapleleaf/utils/app_colors.dart';
 import 'package:mapleleaf/utils/app_fonts.dart';
 import 'package:mapleleaf/utils/custom%20widgets/custom_dropdownfeild.dart';
-import 'package:mapleleaf/view/Dealers/Job%20Detail/custom_confirmation.dart';
-import 'package:mapleleaf/view/Dealers/Job%20Detail/custom_textfiledd.dart';
-import 'package:mapleleaf/view/Dealers/Job%20Detail/custom_toast.dart';
-import 'package:mapleleaf/view/Dealers/Job%20Detail/job_controller.dart';
-import 'package:mapleleaf/view/Dealers/Job%20Detail/job_view.dart';
-import 'package:mapleleaf/view/Dealers/custom_button1.dart';
-import 'package:mapleleaf/view/Dealers/custom_textfield.dart';
 
+
+import '../custom_button1.dart';
+import 'custom_confirmation.dart';
 import 'custom_dropdown_view.dart';
+import 'custom_textfiledd.dart';
+import 'custom_toast.dart';
+import 'job_controller.dart';
 
 class GeneralCustomerView extends StatefulWidget {
 

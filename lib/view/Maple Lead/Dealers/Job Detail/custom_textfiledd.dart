@@ -6,6 +6,7 @@ class CustomTextFieldS extends StatelessWidget {
   final TextInputType keyboardType;
   final bool readOnly;
   final int maxLength;
+  final bool centerLabel; // New flag to control alignment
 
   const CustomTextFieldS({
     Key? key,
@@ -14,6 +15,7 @@ class CustomTextFieldS extends StatelessWidget {
     this.keyboardType = TextInputType.text,
     this.readOnly = true,
     this.maxLength = 11,
+    this.centerLabel = false, // default to false
   }) : super(key: key);
 
   @override
@@ -22,12 +24,17 @@ class CustomTextFieldS extends StatelessWidget {
 
     Widget textField = TextField(
       controller: controller,
-      readOnly: false, // Always false because we will control interaction via IgnorePointer
+      readOnly: false,
       keyboardType: keyboardType,
       maxLength: maxLength,
       decoration: InputDecoration(
-        labelText: title,
-        labelStyle: const TextStyle(fontSize: 16, color: Colors.black),
+        label: Align(
+          alignment: centerLabel ? Alignment.center : Alignment.centerLeft,
+          child: Text(
+            title,
+            style: const TextStyle(fontSize: 18, color: Colors.black),
+          ),
+        ),
         floatingLabelBehavior: FloatingLabelBehavior.auto,
         counterText: '',
         focusedBorder: UnderlineInputBorder(
@@ -46,7 +53,6 @@ class CustomTextFieldS extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const SizedBox(height: 4),
-          // Wrap with IgnorePointer only when readOnly is true
           readOnly ? IgnorePointer(child: textField) : textField,
         ],
       ),

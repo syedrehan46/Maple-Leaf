@@ -5,12 +5,14 @@ class CustomButton extends StatelessWidget {
   final String title;
   final Color color;
   final bool isShowContainer;
+  // final bool isShowImage;
   final Widget? navigateTo;
   final Color background_color;
   const CustomButton({
     Key? key,
     required this.title,
     required this.color,
+    // this.isShowImage=false,
     this.background_color = AppColors.whiteColor,
     this.isShowContainer = false,
      this.navigateTo,

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mapleleaf/view/Dealers/sign_up_controller.dart';
-import '../../utils/app_colors.dart';
+import 'package:mapleleaf/view/Maple%20Lead/Dealers/sign_up_controller.dart';
+
+import '../../../utils/app_colors.dart';
+
 
 class BuildTextField extends StatelessWidget {
   final TextEditingController controller;

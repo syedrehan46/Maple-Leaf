@@ -8,23 +8,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:mapleleaf/utils/app_colors.dart';
 import 'package:mapleleaf/utils/app_strings.dart';
-import 'package:mapleleaf/view/Dealers/Cash%20Management/cash_management.dart';
-import 'package:mapleleaf/view/Dealers/Dealer%20Induction/Add%20Dealer/add_dealer_view.dart';
-import 'package:mapleleaf/view/Dealers/Dealer%20Induction/Add%20Dealer/custom_dealer.dart';
-import 'package:mapleleaf/view/Dealers/Dealer%20Induction/Update%20Dealer/update_dealer_view.dart';
-import 'package:mapleleaf/view/Dealers/Job%20Detail/attendance_view.dart';
-import 'package:mapleleaf/view/Dealers/Job%20Detail/custom_confirmation.dart';
-import 'package:mapleleaf/view/Dealers/Job%20Detail/general_customer_view.dart';
-import 'package:mapleleaf/view/Dealers/Retailer/add_retailer_view.dart';
-import 'package:mapleleaf/view/Dealers/Retailer/update_retailer_view.dart';
-import 'package:mapleleaf/view/Dealers/dealer_custom_design.dart';
-import 'package:mapleleaf/view/Dealers/Dealer%20Induction/dealer_select_view.dart';
-import 'package:mapleleaf/view/Dealers/Job%20Detail/job_view.dart';
-import 'package:mapleleaf/view/Dealers/lead_sign_up.dart';
-import 'package:mapleleaf/view/Dealers/maple_lead_signin.dart';
-import 'package:mapleleaf/view/Dealers/Retailer/reatailer_select_view.dart';
-import 'package:mapleleaf/view/Mapping/mapping_view.dart';
-import 'package:mapleleaf/view/Mapping/remapping_view.dart';
+import 'package:mapleleaf/view/Maple%20Lead/Dealers/Dealer%20Intake/dealer_orders_view.dart';
+import 'package:mapleleaf/view/Maple%20Lead/Dealers/Dealer%20Intake/distribute_intake_view.dart';
+import 'package:mapleleaf/view/Maple%20Lead/Dealers/Dealer%20Intake/intake_select_view.dart';
+import 'package:mapleleaf/view/Maple%20Lead/Dealers/QR%20Code/qr_code_view.dart';
 import 'package:mapleleaf/view/auth/forget_password_change_view.dart';
 import 'package:mapleleaf/view/auth/forgot_password_view.dart';
 import 'package:mapleleaf/view/dashboard/dashboardp2p.dart';
@@ -121,7 +108,7 @@ class MyApp extends StatelessWidget {
           builder: EasyLoading.init(),
         );
       },
-      child:UpdateRetailerView(),
+        child:QrCodeView(),
       // UleDashboardView(),
     );
   }

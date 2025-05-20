@@ -1,8 +1,10 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:mapleleaf/utils/app_colors.dart';
 
-// custom_image_picker.dart
+// Define your light orange color (replace with your AppColors if needed)
+const Color lightOrange = Color(0xFFFFA726); // Example light orange
 
 class ImagePickerRow extends StatefulWidget {
   final bool isShowGallery;
@@ -53,14 +55,20 @@ class _ImagePickerRowState extends State<ImagePickerRow> {
           imageFile != null
               ? ClipRRect(
             borderRadius: BorderRadius.circular(8.0),
-            child: Image.file(
-              imageFile,
-              width: 50,
-              height: 50,
-              fit: BoxFit.cover,
+            child: ColorFiltered(
+              colorFilter: const ColorFilter.mode(
+                lightOrange,
+                BlendMode.modulate, // Try `overlay`, `modulate`, or `multiply`
+              ),
+              child: Image.file(
+                imageFile,
+                width: 50,
+                height: 50,
+                fit: BoxFit.cover,
+              ),
             ),
           )
-              : Icon(icon, size: 50.0),
+              : Icon(icon, size: 50.0, color: AppColors.blackColor),
           const SizedBox(height: 8.0),
           Text(label),
         ],
@@ -94,6 +102,3 @@ class _ImagePickerRowState extends State<ImagePickerRow> {
     );
   }
 }
-
-
-

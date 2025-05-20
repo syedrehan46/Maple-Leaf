@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mapleleaf/utils/app_colors.dart';
 
 class CustomDropdownField extends StatelessWidget {
   final String label;
@@ -26,12 +27,14 @@ class CustomDropdownField extends StatelessWidget {
             padding: const EdgeInsets.only(
                 top: 34, bottom: 25, left: 16, right: 16),
             decoration: BoxDecoration(
-              color: Colors.grey[300],
+              color: AppColors.grey9E9EA2Color,
               borderRadius: BorderRadius.circular(8),
             ),
+
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
+
                 Text(
                   selectedValue.value.isEmpty
                       ? "Please Select $label"

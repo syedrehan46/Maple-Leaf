@@ -4,14 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mapleleaf/utils/app_colors.dart';
 import 'package:mapleleaf/utils/app_fonts.dart';
-import 'package:mapleleaf/view/Dealers/Cash%20Management/custom_image_picker.dart';
-import 'package:mapleleaf/view/Dealers/Job%20Detail/job_controller.dart';
-import 'package:mapleleaf/view/Dealers/custom_button1.dart';
-import '../../../utils/custom widgets/Custom_Toaste.dart';
+
+import '../../../../utils/custom widgets/Custom_Toaste.dart';
 import '../Dealer Induction/Add Dealer/custom_datepicker_button.dart';
 import '../Job Detail/custom_dropdown_view.dart';
 import '../Job Detail/custom_textfiledd.dart';
 import '../Job Detail/custom_toast.dart';
+import '../Job Detail/job_controller.dart';
+import '../custom_button1.dart';
+import 'custom_image_picker.dart';
 
 class CashManagement extends StatefulWidget {
   const CashManagement({super.key});

@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mapleleaf/utils/app_fonts.dart';
 import 'package:mapleleaf/utils/custom widgets/Custom_Toaste.dart';
-import 'package:mapleleaf/view/Dealers/Job%20Detail/custom_toast.dart'; // Make sure this is your correct path
+
+import 'custom_toast.dart'; // Make sure this is your correct path
 
 class ConfirmationPopup extends StatelessWidget {
   final String label;

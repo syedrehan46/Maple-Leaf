@@ -3,12 +3,12 @@ import 'package:get/get.dart';
 import 'package:mapleleaf/utils/app_colors.dart';
 import 'package:mapleleaf/utils/app_fonts.dart';
 import 'package:mapleleaf/utils/custom%20widgets/custom_button.dart';
-import 'package:mapleleaf/view/Dealers/Dealer%20Induction/Add%20Dealer/custom_datepicker_button.dart';
-import 'package:mapleleaf/view/Dealers/Job%20Detail/custom_radio_button.dart';
-import 'package:mapleleaf/view/Dealers/Job%20Detail/custom_textfiledd.dart';
-import 'package:mapleleaf/view/Dealers/Job%20Detail/job_controller.dart';
 import '../../Job Detail/custom_dropdown_view.dart';
+import '../../Job Detail/custom_radio_button.dart';
+import '../../Job Detail/custom_textfiledd.dart';
+import '../../Job Detail/job_controller.dart';
 import '../../custom_button1.dart';
+import 'custom_datepicker_button.dart';
 
 class DealerDesign extends StatefulWidget {
   final bool isShowDropdown;

@@ -9,10 +9,21 @@ class MyController extends GetxController {
   RxString selectedPainterObliged = ''.obs;
   RxString selectCity = ''.obs;
   RxString selectArea = ''.obs;
+  RxString selectLinkedReailer = ''.obs;
+  RxString selectReailer = ''.obs;
   RxString selectDealerrType = ''.obs;
   RxString selectRecieptType = ''.obs;
   RxString selectMinor = ''.obs;
   RxString selectZone = ''.obs;
+  RxString selectDistributionCity=''.obs;
+  RxString selectBrand=''.obs;
+  RxString selectDeliveryDate=''.obs;
+  RxString selectDispatchType=''.obs;
+  RxString selectOrderType=''.obs;
+  RxString selectLinkedRetailer=''.obs;
+  RxString selectSubZone=''.obs;
+
+
 
 
   RxList<String> secondTypePersonList = ['LABOR CONTRACTOR', 'SUB CONTRACTOR', 'PAINTER',"ARCHITECT","ATTENDENT"].obs;
@@ -23,8 +34,17 @@ class MyController extends GetxController {
   RxList<String> selectedPainterObligedList =  ["YES","NO"].obs;
   RxList<String> selectCityList =  ["B-KARACHI","BOLHARI","BULRI SAH KARIM","CHACHRO","GOLRACHI"].obs;
   RxList<String> selectAreaList =  ["B-KARACHI","BOLHARI","BULRI SAH KARIM","CHACHRO","GOLRACHI"].obs;
+  RxList<String> selectRetailerList =  [""].obs;
   RxList<String> selectDealerList =  ["Dealer","Distributor"].obs;
   RxList<String> selectRecieptTypeList=["Cheque","DD","Pay Order","Bank Reciept","Online Transaction","Cash At Bank"].obs;
   RxList<String> selectMinorList=["Minor","wfefh","jwehf"].obs;
   RxList<String> selectZoneList=["Islamabad","London ","New York"].obs;
+  RxList<String> selectDistributionCityList =  [""].obs;
+  RxList<String> selectSubZoneList =  ["Dealer","Distributor"].obs;
+  RxList<String> selectBrandList=["Cheque","DD","Pay Order","Bank Reciept","Online Transaction","Cash At Bank"].obs;
+  RxList<String> selectDelievrDateList=["Minor","wfefh","jwehf"].obs;
+  RxList<String> selectDispatchList=["Wharehouse Dispatch ","Factory Dispatch"].obs;
+  RxList<String> selectOrderTypeList=["Distributor Wharehouse ","Retailer Dispatch"].obs;
+  RxList<String> selectLinkedReatailerList=["Distributor Wharehouse ","Retailer Dispatch"].obs;
+
 }
