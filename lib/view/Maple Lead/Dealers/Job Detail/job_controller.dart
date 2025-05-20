@@ -23,6 +23,8 @@ class MyController extends GetxController {
   RxString selectLinkedRetailer=''.obs;
   RxString selectSubZone=''.obs;
 
+  RxString selectShop=''.obs;
+
 
 
 
@@ -46,5 +48,6 @@ class MyController extends GetxController {
   RxList<String> selectDispatchList=["Wharehouse Dispatch ","Factory Dispatch"].obs;
   RxList<String> selectOrderTypeList=["Distributor Wharehouse ","Retailer Dispatch"].obs;
   RxList<String> selectLinkedReatailerList=["Distributor Wharehouse ","Retailer Dispatch"].obs;
+  RxList<String> selectShopList=[" "].obs;
 
 }

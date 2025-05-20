@@ -12,6 +12,8 @@ import 'package:mapleleaf/view/Maple%20Lead/Dealers/Dealer%20Intake/dealer_order
 import 'package:mapleleaf/view/Maple%20Lead/Dealers/Dealer%20Intake/distribute_intake_view.dart';
 import 'package:mapleleaf/view/Maple%20Lead/Dealers/Dealer%20Intake/intake_select_view.dart';
 import 'package:mapleleaf/view/Maple%20Lead/Dealers/QR%20Code/qr_code_view.dart';
+import 'package:mapleleaf/view/Maple%20Lead/Dealers/Retailer%20Intake/retailer_select_view.dart';
+import 'package:mapleleaf/view/Maple%20Lead/Dealers/Retailer%20Intake/secondary_sales_view.dart';
 import 'package:mapleleaf/view/auth/forget_password_change_view.dart';
 import 'package:mapleleaf/view/auth/forgot_password_view.dart';
 import 'package:mapleleaf/view/dashboard/dashboardp2p.dart';
@@ -108,7 +110,7 @@ class MyApp extends StatelessWidget {
           builder: EasyLoading.init(),
         );
       },
-        child:QrCodeView(),
+        child:RetailerSelectView(),
       // UleDashboardView(),
     );
   }

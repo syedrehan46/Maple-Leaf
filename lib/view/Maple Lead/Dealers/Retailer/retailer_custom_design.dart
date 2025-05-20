@@ -4,6 +4,7 @@ import 'package:mapleleaf/utils/custom%20widgets/custom_button1.dart';
 import 'package:mapleleaf/utils/custom%20widgets/custom_dropdownfeild.dart';
 import '../../../../utils/app_colors.dart';
 import '../../../../utils/app_fonts.dart';
+import '../Custom Widgets/custom_container2.dart';
 import '../Dealer Induction/Add Dealer/custom_datepicker_button.dart';
 import '../Job Detail/custom_dropdown_view.dart';
 import '../Job Detail/custom_textfiledd.dart';
@@ -105,20 +106,7 @@ class _AddRetailerViewState extends State<RetailerCustomDesign> {
                 parentContext: context,
               ),
             if (widget.isShowContainer)
-              Container(
-                height: 80,
-                width: media.width,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8),
-                  color: AppColors.greyF7F7F7Color,
-                ),
-                child: Center(
-                  child: Text(
-                    "Sales Target",
-                    style: AppFonts.styleHarmoniaBold16W600(AppColors.primaryColor),
-                  ),
-                ),
-              ),
+              CustomContainer2(title: "Sales Target"),
             const SizedBox(height: 12),
             CustomTextFieldS(controller: shopNameController, title: "Shop Name", readOnly: false),
             const SizedBox(height: 12),

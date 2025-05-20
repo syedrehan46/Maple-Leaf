@@ -66,14 +66,14 @@ class _QrCodeViewState extends State<QrCodeView> {
                     SizedBox(height: media.height*(0.05),),
                     Row(
                       children: [
-                        Expanded(child: Divider(color: AppColors.blackColor,thickness: 2,)),
+                        Expanded(child: Divider(color: AppColors.blackColor,thickness: 1,)),
                         SizedBox(width: 6,),
                         Text("OR"),
                         SizedBox(width: 6,),
-                        Expanded(child: Divider(color: AppColors.blackColor,thickness: 2,)),
+                        Expanded(child: Divider(color: AppColors.blackColor,thickness: 1,)),
                       ],
                     ),
-
+        SizedBox(height: 16,),
                     ImagePickerRow(
                       onImageSelected: (File image) {
                         setState(() {
