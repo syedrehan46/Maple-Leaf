@@ -81,7 +81,7 @@ class DealerIntakeCustomDesign extends StatelessWidget {
               items: controller.selectOrderTypeList,
               parentContext: context,
             ),
-
+          SizedBox(height: 12),
           if (isShowSubZone)
 
             CustomDropdownField(

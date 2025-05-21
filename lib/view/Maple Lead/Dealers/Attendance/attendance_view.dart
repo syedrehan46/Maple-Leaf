@@ -10,8 +10,8 @@ import 'package:mapleleaf/utils/custom%20widgets/Custom_Toaste.dart';
 
 import '../Cash Management/custom_image_picker.dart';
 import '../custom_button1.dart';
-import 'custom_toast.dart';
-import 'job_view.dart';
+import '../Job Detail/custom_toast.dart';
+import '../Job Detail/job_view.dart';
 
 class AttendanceView extends StatefulWidget {
   const AttendanceView({super.key});
@@ -58,7 +58,7 @@ class _AddImageViewState extends State<AttendanceView> {
 
               CustomButtons(
                 bc_color: AppColors.primaryColor,
-                padding: 2,
+                padding: 8,
                 title: "SUBMIT",
                 onPressed: () {
                   if (_selectedImage == null) {
@@ -70,7 +70,7 @@ class _AddImageViewState extends State<AttendanceView> {
               ),
               SizedBox(height: MediaQuery.of(context).size.height * 0.02),
               CustomButtons(
-                padding: 2,
+                padding: 8,
                 bc_color: AppColors.blue0094D6Color,
                 title: "NOT NOW",
                 onPressed: () {

@@ -3,7 +3,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:mapleleaf/utils/app_fonts.dart';
 import 'package:mapleleaf/utils/app_colors.dart';
+import 'package:mapleleaf/view/Maple%20Lead/Dealers/Job%20Detail/custom_toast.dart';
 
+import '../../view/Maple Lead/Dealers/Job Detail/custom_dropdown_view.dart';
 import '../../view/Maple Lead/Dealers/Mapping/mapping_controller.dart';
 
 class MappingCustomDesign extends StatelessWidget {
@@ -12,6 +14,18 @@ class MappingCustomDesign extends StatelessWidget {
   final bool isAreaShow;
   MappingCustomDesign({super.key,required this.title,this.isAreaShow=false
   });
+ void handleTag(BuildContext context){
+   if(controller.selectedCity.isEmpty || controller.selectedCity == "Please Select * City"){
+     CustomToast("Please Select City ", context: context);
+     return;
+   }
+   if(controller.selectedDealer.isEmpty || controller.selectedDealer == "Please Select * City"){
+     CustomToast("Please Select Dealer ", context: context);
+     return;
+   }else{
+     CustomToast("Dealer is Tagged ", context: context);
+   }
+ }
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -74,86 +88,22 @@ class MappingCustomDesign extends StatelessWidget {
                     const SizedBox(height: 16),
 
                     // Custom City Dropdown
-                    GestureDetector(
-                      onTap: () => _showCityDropdown(context),
-                      child: Obx(() => Stack(
-                        alignment: Alignment.center,
-                        children: [
-                          Container(
-                            padding: const EdgeInsets.only(top: 34, bottom: 25, left: 16, right: 16),
-                            decoration: BoxDecoration(
-                              color: Colors.grey,
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  controller.selectedCity.value.isEmpty
-                                      ? "Please Select City"
-                                      : controller.selectedCity.value,
-                                  style: const TextStyle(color: AppColors.blackColor),
-                                ),
-                                const Icon(Icons.arrow_drop_down),
-                              ],
-                            ),
-                          ),
-                          Positioned(
-                            top: 4,
-                            left: 0,
-                            right: 0,
-                            child: Center(
-                              child: Text(
-                                  'City',
-                                  style: AppFonts.styleHarmoniaBold16W600(Color(0xFFFF6F08))
-                              ),
-                            ),
-                          ),
-                        ],
-                      )),
+                    CustomDropdownField(
+                      label: '* City',
+                      selectedValue: controller.selectedCity,
+                      items: controller.cities,
+                      parentContext: context,
                     ),
 
 
                     const SizedBox(height: 16),
 
                     // Custom Dealer Dropdown (similar to the City dropdown)
-                    GestureDetector(
-                      onTap: () => _showDealerDropdown(context),
-                      child: Obx(() => Stack(
-                        alignment: Alignment.center,
-                        children: [
-                          Container(
-                            padding: const EdgeInsets.only(top: 34, bottom: 25, left: 16, right: 16),
-                            decoration: BoxDecoration(
-                              color: Colors.grey,
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  controller.selectedDealer.value.isEmpty
-                                      ? "Please Select Dealer"
-                                      : controller.selectedDealer.value,
-                                  style: const TextStyle(color: AppColors.blackColor),
-                                ),
-                                const Icon(Icons.arrow_drop_down),
-                              ],
-                            ),
-                          ),
-                          Positioned(
-                            top: 4,
-                            left: 0,
-                            right: 0,
-                            child: Center(
-                              child: Text(
-                                  'Dealer',
-                                  style: AppFonts.styleHarmoniaBold16W600(Color(0xFFFF6F08))
-                              ),
-                            ),
-                          ),
-                        ],
-                      )),
+                    CustomDropdownField(
+                      label: '* Dealer',
+                      selectedValue: controller.selectedDealer,
+                      items: controller.dealers,
+                      parentContext: context,
                     ),
 
 
@@ -173,7 +123,7 @@ class MappingCustomDesign extends StatelessWidget {
                     SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {handleTag(context);},
                         style: ElevatedButton.styleFrom(
                           backgroundColor: AppColors.lightOrange,
                           padding: const EdgeInsets.symmetric(vertical: 14),
@@ -200,180 +150,5 @@ class MappingCustomDesign extends StatelessWidget {
   }
 
   // City Dropdown
-  void _showCityDropdown(BuildContext context) {
-    final RxString searchText = ''.obs;
 
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      builder: (_) {
-        return Padding(
-          padding: const EdgeInsets.fromLTRB(16, 100, 16, 32),
-          child: Container(
-            decoration: BoxDecoration(
-              color: Colors.white,
-            ),
-            padding: const EdgeInsets.all(16),
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    "Select a City",
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black),
-                  ),
-                  const SizedBox(height: 12),
-                  TextField(
-                    onChanged: (value) => searchText.value = value.toLowerCase(),
-                    style: const TextStyle(color: Colors.black),
-                    decoration: InputDecoration(
-                      hintText: "Search City",
-                      hintStyle: const TextStyle(color: Colors.black45),
-                      prefixIcon: const Icon(Icons.search, color: AppColors.grey8E8E8EColor),
-                      filled: true,
-                      fillColor: Colors.white,
-                      contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide: BorderSide.none,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  const Divider(color: Colors.grey),
-                  const SizedBox(height: 12),
-                  Obx(() {
-                    final filtered = controller.cities
-                        .where((city) => city.toLowerCase().contains(searchText.value))
-                        .toList();
-
-                    return ConstrainedBox(
-                      constraints: const BoxConstraints(maxHeight: 300),
-                      child: ListView.separated(
-                        shrinkWrap: true,
-                        itemCount: filtered.length,
-                        itemBuilder: (_, index) {
-                          final city = filtered[index];
-                          return ListTile(
-                            title: Text(city, style: const TextStyle(color: Colors.black)),
-                            onTap: () {
-                              controller.selectedCity.value = city;
-                              Navigator.pop(context);
-                            },
-                          );
-                        },
-                        separatorBuilder: (_, __) => const Divider(color: Colors.grey),
-                      ),
-                    );
-                  }),
-                  const SizedBox(height: 8),
-                  Align(
-                    alignment: Alignment.bottomRight,
-                    child: TextButton(
-                      onPressed: () => Navigator.pop(context),
-                      child: const Text(
-                        "Close",
-                        style: TextStyle(color: AppColors.redColor, fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        );
-      },
-    );
-  }
-
-  // Dealer Dropdown
-  void _showDealerDropdown(BuildContext context) {
-    final RxString searchText = ''.obs;
-
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      builder: (_) {
-        return Padding(
-          padding: const EdgeInsets.fromLTRB(16, 100, 16, 32),
-          child: Container(
-            decoration: BoxDecoration(
-              color: Colors.white,
-            ),
-            padding: const EdgeInsets.all(16),
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    "Select a Dealer",
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black),
-                  ),
-                  const SizedBox(height: 12),
-                  TextField(
-                    onChanged: (value) => searchText.value = value.toLowerCase(),
-                    style: const TextStyle(color: Colors.black),
-                    decoration: InputDecoration(
-                      hintText: "Search Dealer",
-                      hintStyle: const TextStyle(color: Colors.black45),
-                      prefixIcon: const Icon(Icons.search, color: AppColors.grey8E8E8EColor),
-                      filled: true,
-                      fillColor: Colors.white,
-                      contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide: BorderSide.none,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  const Divider(color: Colors.grey),
-                  const SizedBox(height: 12),
-                  Obx(() {
-                    final filtered = controller.dealers
-                        .where((dealer) => dealer.toLowerCase().contains(searchText.value))
-                        .toList();
-
-                    return ConstrainedBox(
-                      constraints: const BoxConstraints(maxHeight: 300),
-                      child: ListView.separated(
-                        shrinkWrap: true,
-                        itemCount: filtered.length,
-                        itemBuilder: (_, index) {
-                          final dealer = filtered[index];
-                          return ListTile(
-                            title: Text(dealer, style: const TextStyle(color: Colors.black)),
-                            onTap: () {
-                              controller.selectedDealer.value = dealer;
-                              Navigator.pop(context);
-                            },
-                          );
-                        },
-                        separatorBuilder: (_, __) => const Divider(color: Colors.grey),
-                      ),
-                    );
-                  }),
-                  const SizedBox(height: 8),
-                  Align(
-                    alignment: Alignment.bottomRight,
-                    child: TextButton(
-                      onPressed: () => Navigator.pop(context),
-                      child: const Text(
-                        "Close",
-                        style: TextStyle(color: AppColors.redColor, fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        );
-      },
-    );
-  }
 }

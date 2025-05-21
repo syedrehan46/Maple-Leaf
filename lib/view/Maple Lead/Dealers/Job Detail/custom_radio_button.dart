@@ -99,7 +99,7 @@ class _CustomYesNoRadioState extends State<CustomRadioButton> {
                       style: AppFonts.styleHarmoniaBold14W600(const Color(0xFFB31D1E)),
                     ),
                   ),
-                  const SizedBox(width: 10),
+                  const SizedBox(width: 39),
                   Row(
                     children: [
                       Row(

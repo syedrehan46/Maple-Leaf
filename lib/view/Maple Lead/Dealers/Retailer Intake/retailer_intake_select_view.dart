@@ -6,11 +6,12 @@ import 'package:mapleleaf/view/Maple%20Lead/Dealers/Custom%20Widgets/custom_apba
 import 'package:mapleleaf/view/Maple%20Lead/Dealers/Retailer%20Intake/gc_invester_sales_view.dart';
 import 'package:mapleleaf/view/Maple%20Lead/Dealers/Retailer%20Intake/invester_sales_view.dart';
 import 'package:mapleleaf/view/Maple%20Lead/Dealers/Retailer%20Intake/secondary_sales_view.dart';
+import 'package:mapleleaf/view/Maple%20Lead/Dealers/Retailer/reatailer_select_view.dart';
 
 import '../../../../utils/app_colors.dart';
 
-class RetailerSelectView extends StatelessWidget {
-  const RetailerSelectView({super.key});
+class RetailerIntakeSelectView extends StatelessWidget {
+  const RetailerIntakeSelectView({super.key});
 
   @override
   Widget build(BuildContext context) {

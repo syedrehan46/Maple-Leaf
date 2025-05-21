@@ -6,7 +6,7 @@ class CustomTextFieldS extends StatelessWidget {
   final TextInputType keyboardType;
   final bool readOnly;
   final int maxLength;
-  final bool centerLabel; // New flag to control alignment
+  final bool centerLabel;
 
   const CustomTextFieldS({
     Key? key,
@@ -15,7 +15,7 @@ class CustomTextFieldS extends StatelessWidget {
     this.keyboardType = TextInputType.text,
     this.readOnly = true,
     this.maxLength = 11,
-    this.centerLabel = false, // default to false
+    this.centerLabel = false,
   }) : super(key: key);
 
   @override
@@ -54,6 +54,22 @@ class CustomTextFieldS extends StatelessWidget {
         children: [
           const SizedBox(height: 4),
           readOnly ? IgnorePointer(child: textField) : textField,
+          if (!readOnly && isNumber)
+            ValueListenableBuilder<TextEditingValue>(
+              valueListenable: controller,
+              builder: (context, value, child) {
+                return Padding(
+                  padding: const EdgeInsets.only(top: 4.0, right: 4.0),
+                  child: Align(
+                    alignment: Alignment.centerRight,
+                    child: Text(
+                      "${value.text.length}/${maxLength}",
+                      style: const TextStyle(fontSize: 12, color: Colors.grey),
+                    ),
+                  ),
+                );
+              },
+            ),
         ],
       ),
     );

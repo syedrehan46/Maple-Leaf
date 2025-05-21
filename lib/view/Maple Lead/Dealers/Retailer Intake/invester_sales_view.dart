@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mapleleaf/view/Maple%20Lead/Dealers/Custom%20Widgets/custom_apbar_view.dart';
-import 'package:mapleleaf/view/Maple%20Lead/Dealers/Retailer%20Intake/customer_retailer_design.dart';
+import 'package:mapleleaf/view/Maple%20Lead/Dealers/Retailer%20Intake/customer_retaile_intaker_design.dart';
 
 class InvesterSalesView extends StatelessWidget {
   const InvesterSalesView({super.key});
@@ -8,11 +8,11 @@ class InvesterSalesView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(title: "RETAILER INTAKE",showBack: false,),
+      appBar: CustomAppBar(title: "RETAILER INTAKE",showBack: true,),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            CustomerRetailerDesign(isShowFieldaAndButton: true,)
+            CustomerRetaileIntakerDesign(isShowFieldAndButton: true,isShowContainer: true,)
           ],
         ),
       ),
