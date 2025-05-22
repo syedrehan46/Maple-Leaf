@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mapleleaf/utils/custom%20widgets/custom_button1.dart';
 import 'package:mapleleaf/utils/custom%20widgets/custom_dropdownfeild.dart';
+import 'package:mapleleaf/view/Maple%20Lead/Dealers/Job%20Detail/custom_toast.dart';
 import '../../../../utils/app_colors.dart';
 import '../../../../utils/app_fonts.dart';
 import '../Custom Widgets/custom_container2.dart';
@@ -17,14 +18,11 @@ class RetailerCustomDesign extends StatefulWidget {
   final bool isShowButton;
   final bool isShowArea;
   final bool isShowRetailer;
-  // final bool isShowProductDetail;
 
   const RetailerCustomDesign({
     super.key,
     this.isShowZone = false,
-
     this.isShowContainer = false,
-    // this.isShowProductDetail = false,
     this.isShowButton = false,
     this.isShowDropdown = false,
     this.isShowArea = false,
@@ -48,6 +46,11 @@ class _AddRetailerViewState extends State<RetailerCustomDesign> {
   final TextEditingController whiteCapacityController = TextEditingController();
   final TextEditingController kgController = TextEditingController();
   final TextEditingController tonController = TextEditingController();
+  final MyController controller = Get.put(MyController());
+
+  bool get isShowDealerAssociation =>
+      controller.selectDealerrType.value.isNotEmpty &&
+          controller.selectDealerrType.value != "Please Select * Dealer";
 
   @override
   void dispose() {
@@ -64,11 +67,74 @@ class _AddRetailerViewState extends State<RetailerCustomDesign> {
     super.dispose();
   }
 
+  void handleSubmit() {
+    if (controller.selectCity.isEmpty || controller.selectCity == "Please Select * City") {
+      CustomToast("Please select * City", context: context);
+      return;
+    }
+
+    if (widget.isShowZone && (controller.selectZone.isEmpty || controller.selectZone == "Please Select * Zone")) {
+      CustomToast("Please select * Zone", context: context);
+      return;
+    }
+    if (widget.isShowArea && (controller.selectArea.isEmpty || controller.selectArea == "Please Select * Area")) {
+      CustomToast("Please select * Area", context: context);
+      return;
+    }
+
+    if (widget.isShowRetailer && (controller.selectReailer.isEmpty || controller.selectReailer == "Please Select * Retailer")) {
+      CustomToast("Please select * Retailer ", context: context);
+      return;
+    }
+    if (shopNameController.text.trim().isEmpty) {
+      CustomToast("Please enter Shop Name", context: context);
+      return;
+    }
+    if (personNameController.text.trim().isEmpty) {
+      CustomToast("Please enter Person Name", context: context);
+      return;
+    }
+    if (cnicNumberController.text.trim().isEmpty || !cnicNumberController.text.startsWith("36")) {
+      CustomToast("Please enter a valid CNIC starting with 36", context: context);
+      return;
+    }
+    if (dobController.text.trim().isEmpty) {
+      CustomToast("Please select Date of Birth", context: context);
+      return;
+    }
+    if (emailController.text.trim().isEmpty) {
+      CustomToast("Please enter Address", context: context);
+      return;
+    }
+    if (phone1Controller.text.trim().isEmpty || !phone1Controller.text.startsWith("03")) {
+      CustomToast("Phone 1 must start with 03", context: context);
+      return;
+    }
+    if (phone2Controller.text.isNotEmpty && !phone2Controller.text.startsWith("03")) {
+      CustomToast("Phone 2 must start with 03 (if provided)", context: context);
+      return;
+    }
+    if (wallPuttyCapacityController.text.trim().isEmpty) {
+      CustomToast("Please enter WallPutty Capacity", context: context);
+      return;
+    }
+    if (wallCoatCapacityController.text.trim().isEmpty) {
+      CustomToast("Please enter Wallcoat Capacity", context: context);
+      return;
+    }
+    if (whiteCapacityController.text.trim().isEmpty) {
+      CustomToast("Please enter White Capacity", context: context);
+      return;
+    }
+    if (widget.isShowDropdown) {
+      CustomToast("Dealer is Added Successfully", context: context);
+      return;
+    }
+    CustomToast("Retailer added successfully!", context: context);
+  }
+
   @override
   Widget build(BuildContext context) {
-    final MyController controller = Get.put(MyController());
-    final media = MediaQuery.of(context).size;
-
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -164,6 +230,7 @@ class _AddRetailerViewState extends State<RetailerCustomDesign> {
                     controller: wallPuttyCapacityController,
                     readOnly: false,
                     keyboardType: TextInputType.number,
+                    maxLength: 4,
                   ),
                 ),
                 const SizedBox(width: 12),
@@ -182,6 +249,7 @@ class _AddRetailerViewState extends State<RetailerCustomDesign> {
                     controller: wallCoatCapacityController,
                     readOnly: false,
                     keyboardType: TextInputType.number,
+                    maxLength: 4,
                   ),
                 ),
                 const SizedBox(width: 12),
@@ -200,6 +268,7 @@ class _AddRetailerViewState extends State<RetailerCustomDesign> {
                     controller: whiteCapacityController,
                     readOnly: false,
                     keyboardType: TextInputType.number,
+                    maxLength: 4,
                   ),
                 ),
                 const SizedBox(width: 12),
@@ -213,11 +282,15 @@ class _AddRetailerViewState extends State<RetailerCustomDesign> {
               Column(
                 children: [
                   const SizedBox(height: 12),
-                  CustomButton1(text: "SUBMIT",backgroundColor: AppColors.primaryColor, onPressed: () {  },),
+                  CustomButton1(
+                    text: "SUBMIT",
+                    backgroundColor: AppColors.primaryColor,
+                    onPressed: handleSubmit,
+                  ),
                   const SizedBox(height: 20),
                 ],
               ),
-            SizedBox(height: 12,),
+            const SizedBox(height: 12),
             if (widget.isShowDropdown) ...[
               Center(
                 child: Text(
@@ -234,10 +307,8 @@ class _AddRetailerViewState extends State<RetailerCustomDesign> {
               ),
             ],
             const SizedBox(height: 10),
-
             Obx(() {
-              if (controller.selectDealerrType.value.isNotEmpty &&
-                  controller.selectDealerrType.value != "Please Select * Dealer") {
+              if (isShowDealerAssociation) {
                 return Column(
                   children: [
                     const SizedBox(height: 20),
@@ -282,7 +353,7 @@ class _AddRetailerViewState extends State<RetailerCustomDesign> {
                                 alignment: Alignment.bottomLeft,
                                 child: Text(
                                   controller.selectDealerrType.value,
-                                  style:AppFonts.styleHarmoniaBold16W600(Colors.black)
+                                  style: AppFonts.styleHarmoniaBold16W600(Colors.black),
                                 ),
                               ),
                             ),
@@ -291,13 +362,16 @@ class _AddRetailerViewState extends State<RetailerCustomDesign> {
                       ),
                     ),
                     const SizedBox(height: 20),
-                    CustomButton1(text: "ADD DEALER",backgroundColor: AppColors.primaryColor, onPressed: () {  },),
+                    CustomButton1(
+                      text: "ADD DEALER",
+                      backgroundColor: AppColors.primaryColor,
+                      onPressed: () {handleSubmit();},
+                    ),
                     const SizedBox(height: 30),
                   ],
                 );
-              } else {
-                return const SizedBox.shrink();
               }
+              return const SizedBox.shrink();
             }),
           ],
         ),

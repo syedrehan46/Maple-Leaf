@@ -31,14 +31,14 @@ class _AddImageViewState extends State<AttendanceView> {
           Positioned.fill(child: Image.asset("assets/images/menu_bg.png", fit: BoxFit.cover)),
           Column(
             children: [
-              SizedBox(height: MediaQuery.of(context).size.height * 0.1),
+              SizedBox(height: MediaQuery.of(context).size.height * 0.08),
               Center(
                 child: Text(
                   "START YOUR DAY",
                   style: AppFonts.styleHarmoniaBold31W600(Colors.black).copyWith(fontSize: 24),
                 ),
               ),
-              SizedBox(height: MediaQuery.of(context).size.height * 0.06),
+              SizedBox(height: MediaQuery.of(context).size.height * 0.1),
 
               /// Use custom ImagePickerRow
               ImagePickerRow(isShowGallery: false,
@@ -54,7 +54,7 @@ class _AddImageViewState extends State<AttendanceView> {
                 Image.file(_selectedImage!, height: 120),
               ],
 
-              SizedBox(height: MediaQuery.of(context).size.height * 0.08),
+              SizedBox(height: MediaQuery.of(context).size.height * 0.12),
 
               CustomButtons(
                 bc_color: AppColors.primaryColor,
@@ -75,7 +75,7 @@ class _AddImageViewState extends State<AttendanceView> {
                 title: "NOT NOW",
                 onPressed: () {
                   CustomToast('Login Successful', context: context);
-                  Future.delayed(const Duration(seconds: 3), () {
+                  Future.delayed(const Duration(seconds: 1), () {
                     Get.to(() => JobView());
                   });
                 },

@@ -37,7 +37,7 @@ class MyController extends GetxController {
   RxList<String> selectedPainterObligedList =  ["YES","NO"].obs;
   RxList<String> selectCityList =  ["B-KARACHI","BOLHARI","BULRI SAH KARIM","CHACHRO","GOLRACHI"].obs;
   RxList<String> selectAreaList =  ["B-KARACHI","BOLHARI","BULRI SAH KARIM","CHACHRO","GOLRACHI"].obs;
-  RxList<String> selectRetailerList =  [""].obs;
+  RxList<String> selectRetailerList =  ["jkk"].obs;
   RxList<String> selectDealerList =  ["Dealer","Distributor"].obs;
   RxList<String> selectRecieptTypeList=["Cheque","DD","Pay Order","Bank Reciept","Online Transaction","Cash At Bank"].obs;
   RxList<String> selectMinorList=["Minor","wfefh","jwehf"].obs;
@@ -49,7 +49,7 @@ class MyController extends GetxController {
   RxList<String> selectDispatchList=["Wharehouse Dispatch ","Factory Dispatch"].obs;
   RxList<String> selectOrderTypeList=["Distributor Wharehouse ","Retailer Dispatch"].obs;
   RxList<String> selectLinkedReatailerList=["Distributor Wharehouse ","Retailer Dispatch"].obs;
-  RxList<String> selectShopList=[" "].obs;
+  RxList<String> selectShopList=["gugu "].obs;
   RxList<String> selectCustomerTypeList=[" fjg"].obs;
 
 }

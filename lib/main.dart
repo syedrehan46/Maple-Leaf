@@ -119,7 +119,7 @@ class MyApp extends StatelessWidget {
           builder: EasyLoading.init(),
         );
       },
-        child:ReatailerSelectView(),
+        child:RetailerIntakeSelectView(),
       // UleDashboardVRew(),
     );
   }

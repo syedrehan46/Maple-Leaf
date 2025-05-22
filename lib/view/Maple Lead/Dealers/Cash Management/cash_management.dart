@@ -90,6 +90,10 @@ class _CashManagementState extends State<CashManagement> {
       CustomToastText('Please select Date',context: context);
       return;
     }
+    if (_selectedImage.isNull) {
+      CustomToastText('Please Select or Capture Image',context: context);
+      return;
+    }
 
     // You can add the image check here if needed
 
