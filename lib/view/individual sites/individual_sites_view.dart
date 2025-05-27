@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:mapleleaf/model/login_model.dart';
 import 'package:mapleleaf/utils/app_colors.dart';
 import 'package:get/get.dart';
 import 'package:mapleleaf/utils/custom%20widgets/floatingaction_button.dart';
+import '../../controller/IS/is_controller.dart';
 import '../../utils/custom widgets/custom_appbar.dart';
 class IndividualSites extends StatefulWidget {
   const IndividualSites({super.key});
@@ -11,12 +13,15 @@ class IndividualSites extends StatefulWidget {
 class _IndividualSitesState extends State<IndividualSites> with SingleTickerProviderStateMixin {
   late final TabController _tabController;
   final RxInt selectedIndex = 0.obs;
+  PlanController planController=Get.put(PlanController());
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
     // Add listener to force rebuild on animation changes for smooth transitions
     _tabController.animation!.addListener(() {
+
+
       setState(() {});
     });
   }
