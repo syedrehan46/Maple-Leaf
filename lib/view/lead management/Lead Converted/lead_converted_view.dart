@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:mapleleaf/model/LM/Lead Converted/lead_converted_model.dart';
+import 'package:mapleleaf/model/login_model.dart';
 import 'package:mapleleaf/utils/app_colors.dart';
-import 'package:mapleleaf/utils/custom%20widgets/custom_appbar.dart';
-import 'package:mapleleaf/view/lead%20management/Lead%20Converted/feedback_view.dart';
+import 'package:mapleleaf/utils/app_fonts.dart';
+import 'package:mapleleaf/utils/custom widgets/custom_appbar.dart';
+import 'package:mapleleaf/view/lead management/Lead Converted/feedback_view.dart';
+
+import '../../../controller/LM/lead_converted_controller.dart';
 
 class LeadConvertedView extends StatefulWidget {
   const LeadConvertedView({super.key});
@@ -17,40 +22,17 @@ class _LeadConvertedViewState extends State<LeadConvertedView> {
   final RxString selectedCity = ''.obs;
   final RxString selectedStatus = ''.obs;
 
-  final List<Map<String, dynamic>> leads = [
-    {
-      'id': '17686',
-      'phone': '03219876543',
-      'name': 'Sara',
-      'color': AppColors.activeColor,
-      'date': DateFormat('dd-MMM-yyyy').format(DateTime.now()),
-    },
-    {
-      'id': '17687',
-      'phone': '03219833543',
-      'name': 'Ayesha',
-      'color': AppColors.activeColor,
-      'date': DateFormat('dd-MMM-yyyy').format(DateTime.now()),
-    },
-    {
-      'id': '17688',
-      'phone': '03219876534S',
-      'name': 'Rehan',
-      'color': AppColors.activeColor,
-      'date': DateFormat('dd-MMM-yyyy').format(DateTime.now()),
-    },
-    {
-      'id': '17689',
-      'phone': '03219216543',
-      'name': 'AHMED',
-      'color': AppColors.activeColor,
-      'date': DateFormat('dd-MMM-yyyy').format(DateTime.now()),
-    },
-  ];
+  final LeadConvertedController controller = Get.put(LeadConvertedController());
+
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   controller.fetchLeadConvertedData();
+  // }
+
 
   Widget buildDropdown(String label, List<String> items, RxString selectedValue) {
     String dropdownValue = items.first;
-
     return StatefulBuilder(
       builder: (context, setState) {
         return Padding(
@@ -58,13 +40,7 @@ class _LeadConvertedViewState extends State<LeadConvertedView> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                " $label",
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16,
-                ),
-              ),
+              Text(" $label", style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
               const SizedBox(height: 8),
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 12),
@@ -85,12 +61,7 @@ class _LeadConvertedViewState extends State<LeadConvertedView> {
                     },
                     selectedItemBuilder: (BuildContext context) {
                       return items.map((String value) {
-                        return Text(
-                          value,
-                          style: TextStyle(
-                            color: Colors.black,
-                          ),
-                        );
+                        return Text(value, style: const TextStyle(color: Colors.black));
                       }).toList();
                     },
                     items: items.map<DropdownMenuItem<String>>((String value) {
@@ -133,98 +104,38 @@ class _LeadConvertedViewState extends State<LeadConvertedView> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text("Month",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 18)),
+                      const Text("Month", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
                       GestureDetector(
                         onTap: () => Navigator.pop(context),
                         child: Container(
-                          decoration: const BoxDecoration(
-                              color: AppColors.primaryColor, shape: BoxShape.circle),
+                          decoration: const BoxDecoration(color: AppColors.primaryColor, shape: BoxShape.circle),
                           padding: const EdgeInsets.all(4),
-                          child: const Icon(Icons.close,
-                              color: Colors.white, size: 16),
+                          child: const Icon(Icons.close, color: Colors.white, size: 16),
                         ),
                       ),
                     ],
                   ),
                   const SizedBox(height: 20),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Obx(() => ElevatedButton(
-                        onPressed: () {
-                          selectedIndex.value = 0;
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.white,
-                          foregroundColor: Colors.black,
-                          side: BorderSide(
-                            color: selectedIndex.value == 0
-                                ? Colors.red
-                                : Colors.black,
-                            width: 1.5,
+                    children: List.generate(3, (index) {
+                      final labels = ["This Month", "Since Last Month", "Since Last Two Month"];
+                      return Padding(
+                        padding: const EdgeInsets.only(right: 16.0),
+                        child: Obx(() => ElevatedButton(
+                          onPressed: () => selectedIndex.value = index,
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.white,
+                            foregroundColor: Colors.black,
+                            side: BorderSide(
+                              color: selectedIndex.value == index ? Colors.red : Colors.black,
+                              width: 1.5,
+                            ),
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
                           ),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30),
-                          ),
-                          padding:  EdgeInsets.symmetric(
-                              horizontal: 6, vertical: 0),
-                        ),
-                        child: const Text("This Month"),
-                      )),
-
-                      const SizedBox(width: 16),
-                      Obx(() => ElevatedButton(
-                        onPressed: () {
-                          selectedIndex.value = 1;
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.white,
-                          foregroundColor: Colors.black,
-                          side: BorderSide(
-                            color: selectedIndex.value == 1
-                                ? Colors.red
-                                : Colors.black,
-                            width: 1.5,
-                          ),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30),
-                          ),
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 8, vertical: 0),
-                        ),
-                        child: const Text("Since Last Month"),
-                      )),
-
-                    ],
-                  ),
-                  const SizedBox(height: 8),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Obx(() => ElevatedButton(
-                        onPressed: () {
-                          selectedIndex.value = 2;
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.white,
-                          foregroundColor: Colors.black,
-                          side: BorderSide(
-                            color: selectedIndex.value == 2
-                                ? Colors.red
-                                : Colors.black,
-                            width: 1.5,
-                          ),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30),
-                          ),
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 8, vertical: 0),
-                        ),
-                        child: const Text("Since Last Two Month"),
-                      )),
-                    ],
+                          child: Text(labels[index]),
+                        )),
+                      );
+                    }),
                   ),
                   const SizedBox(height: 20),
                   buildDropdown("City", ["Please Select City", "CHARHOI", "DANDI DARA", "DINA", "JHEUM", "KHARIAN", "KOTLA", "SARAI ALAMGIR"], selectedCity),
@@ -234,16 +145,13 @@ class _LeadConvertedViewState extends State<LeadConvertedView> {
                   Row(
                     children: [
                       ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.primaryColor,
-                        ),
+                        style: ElevatedButton.styleFrom(backgroundColor: AppColors.primaryColor),
                         onPressed: () {
                           Navigator.pop(context);
                         },
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 12.0),
-                          child: const Text("SHOW RESULT",
-                              style: TextStyle(color: Colors.white)),
+                        child: const Padding(
+                          padding: EdgeInsets.symmetric(vertical: 12.0),
+                          child: Text("SHOW RESULT", style: TextStyle(color: Colors.white)),
                         ),
                       ),
                       const SizedBox(width: 12),
@@ -251,17 +159,14 @@ class _LeadConvertedViewState extends State<LeadConvertedView> {
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.white,
                           side: const BorderSide(color: AppColors.primaryColor, width: 2),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(25),
-                          ),
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
                         ),
                         onPressed: () {
                           selectedIndex.value = -1;
-                          selectedCity.value = ''; // Reset to empty string
-                          selectedStatus.value = ''; // Reset to empty string
+                          selectedCity.value = '';
+                          selectedStatus.value = '';
                         },
-                        child: const Text("CLEAR",
-                            style: TextStyle(color:  AppColors.primaryColor)),
+                        child: const Text("CLEAR", style: TextStyle(color: AppColors.primaryColor)),
                       ),
                     ],
                   ),
@@ -276,118 +181,76 @@ class _LeadConvertedViewState extends State<LeadConvertedView> {
 
   @override
   Widget build(BuildContext context) {
-    final String currentDate =
-    DateFormat('dd-MMM-yyyy').format(DateTime.now()).toUpperCase();
-
     return Scaffold(
-      // appBar: AppBar(
-      //   backgroundColor: AppColors.primaryColor,
-      //   title: const Text(
-      //     "Lead Converted",
-      //     style: TextStyle(color: Color(0xFFF7F7F7)),
-      //   ),
-      //   centerTitle: true,
-      //   leading: IconButton(
-      //     onPressed: () {
-      //       Navigator.pop(context);
-      //     },
-      //     icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
-      //   ),
-      //   actions: [
-      //     IconButton(
-      //       onPressed: () {
-      //         showCustomFilterDialog(context); // open filter dialog
-      //       },
-      //       icon: Image.asset(
-      //         'assets/images/ic_filter.png',
-      //         height: 24,
-      //         width: 24,
-      //         color: Colors.white,
-      //       ),
-      //     ),
-      //   ],
-      //   shape: const OutlineInputBorder(
-      //     borderRadius: BorderRadius.only(
-      //       bottomRight: Radius.circular(20),
-      //       bottomLeft: Radius.circular(20),
-      //     ),
-      //   ),
-      // ),
-
       body: Column(
         children: [
-          CustomAppbar(title: 'Lead Converted',timeLocationIsVisible: true,),
-          Stack(
-            children: [
-              Positioned.fill(
-                child: Image.asset(
-                  'assets/images/menu_bg.png', // Use your background image path here
-                  fit: BoxFit.cover,
+
+          CustomAppbar(title: 'Lead Converted', timeLocationIsVisible: true),
+          Expanded(
+            child: Stack(
+              children: [
+                Positioned.fill(
+                  child: Image.asset(
+                    'assets/images/menu_bg.png',
+                    fit: BoxFit.cover,
+                  ),
                 ),
-              ),
-              ListView.builder(
-                shrinkWrap: true,
-                itemCount: leads.length,
-                itemBuilder: (BuildContext context, int index) {
-                  final lead = leads[index];
-                  return Padding(
-                    padding: EdgeInsets.fromLTRB(
-                      12,
-                      index == 0 ? 22 : 6, // double the top padding for the first item
-                      12,
-                      4,
-                    ),
-                    child: GestureDetector(
-                      onTap: () {
-                        Get.to(FeedbackScreen());
-                      },
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8),
-                          color: lead['color'],
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Row(
+                Obx(() {
+                  if (controller.leadConvertedList.isEmpty && controller.errorMessage.isEmpty) {
+                    return const Center(child: CircularProgressIndicator());
+                  } else if (controller.errorMessage.isNotEmpty) {
+                    return Center(child: Text(controller.errorMessage.value));
+                  }
+
+                  return ListView.builder(
+                    padding: const EdgeInsets.only(top: 12),
+                    itemCount: controller.leadConvertedList.length,
+                    itemBuilder: (context, index) {
+                      final lead = controller.leadConvertedList[index];
+                      // final leadDate = DateFormat('dd-MMM-yyyy').format(
+                      //     DateTime.tryParse(lead.leadConvertedDate ?? '') ?? DateTime.now());
+
+                      return Padding(
+                        padding: EdgeInsets.fromLTRB(12, index == 0 ? 22 : 6, 12, 4),
+                        child: GestureDetector(
+                          onTap: () => Get.to(() =>  FeedbackScreen(lead: lead,)),
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8),
+                              color: lead.leadStatus =="CONVERTED"? AppColors.readyForCollectionColor :AppColors.pendingColor,
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(
-                                  lead['id'],
-                                  style: const TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold),
+                                Row(
+                                  children: [
+                                    Text(
+                                      "${lead.generalCustomerId }",
+                                      style: AppFonts.styleHarmoniaBold14W600(AppColors.whiteColor),
+                                    ),
+                                    SizedBox(width: 58,),
+                                    Text(
+                                      "${lead.leadConvertedDate}",
+                                      style: AppFonts.styleHarmoniaBold14W600(AppColors.whiteColor),
+                                    ),
+                                  ],
                                 ),
-                                const SizedBox(width: 40),
+                                const SizedBox(height: 10),
                                 Text(
-                                  lead['date'],
-                                  style: const TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold),
+                                  "${lead.customerPhone }   ${lead.customerName}",
+                                  style: AppFonts.styleHarmoniaBold14W600(AppColors.whiteColor),
                                 ),
                               ],
                             ),
-                            const SizedBox(height: 10),
-                            Align(
-                              alignment: Alignment.centerLeft,
-                              child: Text(
-                                "${lead['phone']} - ${lead['name']}",
-                                style: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                          ],
+                          ),
                         ),
-                      ),
-                    ),
+                      );
+                    },
                   );
-                },
-              ),
-            ],
+                }),
+              ],
+            ),
           ),
         ],
       ),

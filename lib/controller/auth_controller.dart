@@ -14,69 +14,75 @@ import '../network/network_call.dart';
 import '../utils/api_routes.dart';
 import '../utils/shared_keys.dart';
 import '../view/auth/select_account_view.dart';
-class AuthController extends GetxController implements GetxService{
-  apiLogin({required String userName, required String password,bool fromSplash = false}) async{
+
+class AuthController extends GetxController implements GetxService {
+  LoginModel? loginModel; // <-- Added this field to store login data
+
+  void saveLoginData(String responseJson) {
+    loginModel = LoginModel.fromRawJson(responseJson);
+  }
+
+  String get salesForceId => loginModel?.user?.salesForceId ?? "";
+
+  // Existing methods below
+
+  apiLogin({required String userName, required String password, bool fromSplash = false}) async {
     String serialNumber = await FlutterUdid.udid;
-    if(!fromSplash){
+    if (!fromSplash) {
       EasyLoading.show();
     }
     Map body = {
       "username": userName,
       "password": password,
-      "deviceId":serialNumber,
+      "deviceId": serialNumber,
     };
     ApiResponse apiResponse = await NetworkCall.postFormData(ApiRoutes.baseUrl + ApiRoutes.apiLogin, body);
-    // print(apiResponse.responseString);
     EasyLoading.dismiss();
-    if(apiResponse.done ?? false){
-      LoginModel loginModel = LoginModel.fromRawJson(apiResponse.responseString ?? "");
-      if(loginModel.success == "2"){
-        preferences.setString(SharedKeys.keyUsername, loginModel.user?.username ?? "");
+
+    if (apiResponse.done ?? false) {
+      LoginModel loginModelLocal = LoginModel.fromRawJson(apiResponse.responseString ?? "");
+      // Save to the controller's loginModel field as well
+      saveLoginData(apiResponse.responseString ?? "");
+
+      if (loginModelLocal.success == "2") {
+        preferences.setString(SharedKeys.keyUsername, loginModelLocal.user?.username ?? "");
         preferences.setString(SharedKeys.keyPswd, password);
-        Get.offAll(()=> const SelectDashboardView());
+        Get.offAll(() => const SelectDashboardView());
+      } else {
+        Get.offAll(() => const SignInView());
       }
-      else{
-        Get.offAll(()=> const SignInView());
-      }
-    }
-    else{
+    } else {
       print("Error ${apiResponse.errorMsg}");
     }
   }
-  apiUpdateCredential({required String userName, required String oldPassword, required String newPassword,}) async{
+
+  apiUpdateCredential({required String userName, required String oldPassword, required String newPassword}) async {
     String serialNumber = await FlutterUdid.udid;
     EasyLoading.show();
     Map body = {
       "username": userName,
       "oldPassword": oldPassword,
       "newPassword": newPassword,
-      "deviceId":serialNumber,
+      "deviceId": serialNumber,
     };
     ApiResponse apiResponse = await NetworkCall.postFormData(ApiRoutes.baseUrl + ApiRoutes.apiUpdateCredential, body);
-    // print(apiResponse.responseString);
     EasyLoading.dismiss();
 
-    if(apiResponse.done ?? false){
+    if (apiResponse.done ?? false) {
+      LoginModel loginModelLocal = LoginModel.fromRawJson(apiResponse.responseString ?? "");
+      // Optionally update controller's loginModel if needed
+      saveLoginData(apiResponse.responseString ?? "");
 
-      LoginModel loginModel = LoginModel.fromRawJson(apiResponse.responseString ?? "");
-
-      if(loginModel.success == "1"){
-
-        Get.offAll(()=> const SelectDashboardView());
-
+      if (loginModelLocal.success == "1") {
+        Get.offAll(() => const SelectDashboardView());
+      } else {
+        Get.offAll(() => const SignInView());
       }
-
-      else{
-
-        Get.offAll(()=> const SignInView());
-      }
-    }
-
-    else{
+    } else {
       print("Error ${apiResponse.errorMsg}");
     }
-
   }
+
   Future<void> apiVerifyPassword({
     required String empNo,
     required String cnic,
@@ -98,21 +104,16 @@ class AuthController extends GetxController implements GetxService{
     EasyLoading.dismiss();
 
     if (apiResponse.done ?? false) {
-      // Assume the response confirms verification
-      var result=jsonDecode(apiResponse.responseString ??"{}");//it means if the resoinse is true than
-      // convert json in dart object if not assign {} so the result wont be null
+      var result = jsonDecode(apiResponse.responseString ?? "{}");
 
       if (result['success'] == "1") {
-        // Navigate to new password entry screWhat this function does:
-        // This function checks if the employee number and CNIC are correct by sending them to the server. If they are correct, it navigates to the Change Password screen.en
-        Get.to(()=>ForgetPasswordView());
-
+        Get.to(() => ForgetPasswordView());
       }
     } else {
-     print("Error ${apiResponse.errorMsg}");
-
+      print("Error ${apiResponse.errorMsg}");
     }
   }
+
   Future<void> apiChangePassword({
     required String empNo,
     required String password,
@@ -134,17 +135,13 @@ class AuthController extends GetxController implements GetxService{
     EasyLoading.dismiss();
 
     if (apiResponse.done ?? false) {
-      // Assume the response confirms verification
       var result = jsonDecode(apiResponse.responseString ?? '{}');
 
       if (result['success'] == "1") {
-        // Navigate to new password entry screen
-        Get.to(() =>  SignInView());
+        Get.to(() => SignInView());
       }
     } else {
       print("Error ${apiResponse.errorMsg}");
-
     }
   }
-
 }

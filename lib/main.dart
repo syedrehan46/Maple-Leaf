@@ -25,6 +25,7 @@ import 'package:mapleleaf/view/Maple%20Lead/Dealers/Retailer%20Intake/secondary_
 import 'package:mapleleaf/view/Maple%20Lead/Dealers/Retailer/reatailer_select_view.dart';
 import 'package:mapleleaf/view/auth/forget_password_change_view.dart';
 import 'package:mapleleaf/view/auth/forgot_password_view.dart';
+import 'package:mapleleaf/view/auth/sign_in_view.dart';
 import 'package:mapleleaf/view/dashboard/dashboardp2p.dart';
 import 'package:mapleleaf/view/dashboard/ule_dashboard_view.dart';
 import 'package:mapleleaf/view/painter%20engagement/Engaged%20Painter/Painter_list.dart';
@@ -119,7 +120,7 @@ class MyApp extends StatelessWidget {
           builder: EasyLoading.init(),
         );
       },
-        child:RetailerIntakeSelectView(),
+        child:SignInView(),
       // UleDashboardVRew(),
     );
   }

@@ -205,7 +205,7 @@ class _GeneralCustomerViewState extends State<GeneralCustomerView> {
             ),
       SizedBox(height: MediaQuery.of(context).size.height*(0.03),),
             CustomButtons(
-              bc_color: AppColors.primaryColor,
+              bc_color: AppColors.lightOrange,
               title: "UPDATE INFORMATION",
               onPressed: () {
                 if (updateInformation()) {

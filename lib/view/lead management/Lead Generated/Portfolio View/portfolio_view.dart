@@ -106,7 +106,7 @@ class _PorfolioViewState extends State<PorfolioView> {
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.red[700],
                                 padding: const EdgeInsets.symmetric(
-                                    horizontal: 32, vertical: 14),
+                                    horizontal: 8, vertical: 14),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(30),
                                 ),

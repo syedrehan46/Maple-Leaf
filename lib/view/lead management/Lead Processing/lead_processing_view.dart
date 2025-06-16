@@ -1,35 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:mapleleaf/controller/LM/lead_processing_controller.dart';
 import 'package:mapleleaf/utils/app_colors.dart';
 import 'package:mapleleaf/utils/custom%20widgets/custom_appbar.dart';
 import 'package:mapleleaf/view/lead%20management/Lead%20Converted/feedback_view.dart';
+
+import '../../../utils/app_fonts.dart';
 
 class LeadProcessingView extends StatefulWidget {
   const LeadProcessingView({super.key});
 
   @override
-  State<LeadProcessingView> createState() => _LeadGeneratedViewState();
+  State<LeadProcessingView> createState() => _LeadProcessingViewState();
 }
 
-class _LeadGeneratedViewState extends State<LeadProcessingView> {
+class _LeadProcessingViewState extends State<LeadProcessingView> {
   final RxInt selectedIndex = 0.obs;
   final RxString selectedCity = ''.obs;
   final RxString selectedStatus = ''.obs;
-
-  final List<Map<String, dynamic>> leads = [
-    {
-      'id': '17686',
-      'phone': '03219876543',
-      'name': 'Sara',
-      'color': AppColors.activeColor,
-      'date': DateFormat('dd-MMM-yyyy').format(DateTime.now()),
-    }
-  ];
+  final LeadProcessingController controller = Get.put(LeadProcessingController());
 
   Widget buildDropdown(String label, List<String> items, RxString selectedValue) {
     String dropdownValue = items.first;
-
     return StatefulBuilder(
       builder: (context, setState) {
         return Padding(
@@ -37,13 +30,7 @@ class _LeadGeneratedViewState extends State<LeadProcessingView> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                " $label",
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16,
-                ),
-              ),
+              Text(" $label", style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
               const SizedBox(height: 8),
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 12),
@@ -66,9 +53,7 @@ class _LeadGeneratedViewState extends State<LeadProcessingView> {
                       return items.map((String value) {
                         return Text(
                           value,
-                          style: TextStyle(
-                            color: Colors.black, // Always black when dropdown is closed
-                          ),
+                          style: const TextStyle(color: Colors.black),
                         );
                       }).toList();
                     },
@@ -112,17 +97,14 @@ class _LeadGeneratedViewState extends State<LeadProcessingView> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text("Month",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 18)),
+                      const Text("Month", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
                       GestureDetector(
                         onTap: () => Navigator.pop(context),
                         child: Container(
                           decoration: const BoxDecoration(
                               color: AppColors.primaryColor, shape: BoxShape.circle),
                           padding: const EdgeInsets.all(4),
-                          child: const Icon(Icons.close,
-                              color: Colors.white, size: 16),
+                          child: const Icon(Icons.close, color: Colors.white, size: 16),
                         ),
                       ),
                     ],
@@ -139,16 +121,11 @@ class _LeadGeneratedViewState extends State<LeadProcessingView> {
                           backgroundColor: Colors.white,
                           foregroundColor: Colors.black,
                           side: BorderSide(
-                            color: selectedIndex.value == 0
-                                ? Colors.red
-                                : Colors.black,
+                            color: selectedIndex.value == 0 ? Colors.red : Colors.black,
                             width: 1.5,
                           ),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30),
-                          ),
-                          padding:  EdgeInsets.symmetric(
-                              horizontal: 6, vertical: 0),
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+                          padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 0),
                         ),
                         child: const Text("This Month"),
                       )),
@@ -161,16 +138,11 @@ class _LeadGeneratedViewState extends State<LeadProcessingView> {
                           backgroundColor: Colors.white,
                           foregroundColor: Colors.black,
                           side: BorderSide(
-                            color: selectedIndex.value == 1
-                                ? Colors.red
-                                : Colors.black,
+                            color: selectedIndex.value == 1 ? Colors.red : Colors.black,
                             width: 1.5,
                           ),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30),
-                          ),
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 8, vertical: 0),
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
                         ),
                         child: const Text("Since Last Month"),
                       )),
@@ -188,39 +160,31 @@ class _LeadGeneratedViewState extends State<LeadProcessingView> {
                           backgroundColor: Colors.white,
                           foregroundColor: Colors.black,
                           side: BorderSide(
-                            color: selectedIndex.value == 2
-                                ? Colors.red
-                                : Colors.black,
+                            color: selectedIndex.value == 2 ? Colors.red : Colors.black,
                             width: 1.5,
                           ),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30),
-                          ),
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 8, vertical: 0),
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
                         ),
                         child: const Text("Since Last Two Month"),
                       )),
                     ],
                   ),
                   const SizedBox(height: 20),
-                  buildDropdown("City", ["Please Select City","CHARHOI", "DANDI DARA", "DINA", "JHEUM", "KHARIAN", "KOTLA", "SARAI ALAMGIR"], selectedCity),
+                  buildDropdown("City", ["Please Select City", "CHARHOI", "DANDI DARA", "DINA", "JHEUM", "KHARIAN", "KOTLA", "SARAI ALAMGIR"], selectedCity),
                   const SizedBox(height: 16),
-                  buildDropdown("Status", ["Please Select Status","LEAD GENERATED", "PROCESSED", "CONVERTED", "CLOSE"], selectedStatus),
+                  buildDropdown("Status", ["Please Select Status", "LEAD GENERATED", "PROCESSED", "CONVERTED", "CLOSE"], selectedStatus),
                   const SizedBox(height: 16),
                   Row(
                     children: [
                       ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.primaryColor,
-                        ),
+                        style: ElevatedButton.styleFrom(backgroundColor: AppColors.primaryColor),
                         onPressed: () {
                           Navigator.pop(context);
                         },
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 12.0),
-                          child: const Text("SHOW RESULT",
-                              style: TextStyle(color: Colors.white)),
+                        child: const Padding(
+                          padding: EdgeInsets.symmetric(vertical: 12.0),
+                          child: Text("SHOW RESULT", style: TextStyle(color: Colors.white)),
                         ),
                       ),
                       const SizedBox(width: 12),
@@ -228,17 +192,14 @@ class _LeadGeneratedViewState extends State<LeadProcessingView> {
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.white,
                           side: const BorderSide(color: AppColors.primaryColor, width: 2),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(25),
-                          ),
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
                         ),
                         onPressed: () {
                           selectedIndex.value = -1;
-                          selectedCity.value = ''; // Reset to empty string
-                          selectedStatus.value = ''; // Reset to empty string
+                          selectedCity.value = '';
+                          selectedStatus.value = '';
                         },
-                        child: const Text("CLEAR",
-                            style: TextStyle(color:  AppColors.primaryColor)),
+                        child: const Text("CLEAR", style: TextStyle(color: AppColors.primaryColor)),
                       ),
                     ],
                   ),
@@ -253,79 +214,74 @@ class _LeadGeneratedViewState extends State<LeadProcessingView> {
 
   @override
   Widget build(BuildContext context) {
-    final String currentDate =
-    DateFormat('dd-MMM-yyyy').format(DateTime.now()).toUpperCase();
-
     return Scaffold(
-
       body: Stack(
         children: [
           Positioned.fill(child: Image.asset("assets/images/menu_bg.png", fit: BoxFit.cover)),
           Column(
             children: [
-              CustomAppbar(title: 'Lead Processing',timeLocationIsVisible: true,),
-              ListView.builder(
-                shrinkWrap: true,
-                itemCount: leads.length,
-                itemBuilder: (BuildContext context, int index) {
-                  final lead = leads[index];
-                  return Padding(
-                    padding: EdgeInsets.fromLTRB(
-                      12,
-                      index == 0 ? 22 : 6, // double the top padding for the first item
-                      12,
-                      4,
-                    ),
-                    child: GestureDetector(
-                      onTap: () {
-                        Get.to(FeedbackScreen());
-                      },
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8),
-                          color: lead['color'],
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Row(
+              CustomAppbar(title: 'Lead Processing', timeLocationIsVisible: true),
+              Obx(() {
+                if (controller.leadProcessingList.isEmpty && controller.errorMessage.isEmpty) {
+                  return const Expanded(child: Center(child: CircularProgressIndicator()));
+                } else if (controller.errorMessage.isNotEmpty) {
+                  return Expanded(child: Center(child: Text(controller.errorMessage.value)));
+                }
+
+                return Expanded(
+                  child: ListView.builder(
+                    padding: const EdgeInsets.only(top: 12),
+                    itemCount: controller.leadProcessingList.length,
+                    itemBuilder: (context, index) {
+                      final lead = controller.leadProcessingList[index];
+
+                      return Padding(
+                        padding: EdgeInsets.fromLTRB(12, index == 0 ? 22 : 6, 12, 4),
+                        child: GestureDetector(
+                          // onTap: () => Get.to(() => FeedbackScreen()),
+                          onTap: (){},
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8),
+                              color: lead.leadStatus == "PROCESSED"
+                                  ? AppColors.readyForCollectionColor
+                                  : AppColors.primaryColor,
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(
-                                  lead['id'],
-                                  style: const TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold),
+                                Row(
+                                  children: [
+                                    Text(
+                                      "${lead.customerName}",
+                                      style: AppFonts.styleHarmoniaBold16W600(Colors.white),
+                                    ),
+                                    const SizedBox(width: 45),
+                                    Text(
+                                      "${lead.leadConvertedDate}",
+                                      style: AppFonts.styleHarmoniaBold14W600(Colors.white),
+                                    ),
+                                  ],
                                 ),
-                                const SizedBox(width: 40),
+                                const SizedBox(height: 10),
                                 Text(
-                                  lead['date'],
+                                  "${lead.customerPhone}   ${lead.customerName}",
                                   style: const TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold),
+                                    color: Colors.white,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
                               ],
                             ),
-                            const SizedBox(height: 10),
-                            Align(
-                              alignment: Alignment.centerLeft,
-                              child: Text(
-                                "${lead['phone']} ${lead['name']}",
-                                style: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                          ],
+                          ),
                         ),
-                      ),
-                    ),
-                  );
-                },
-              ),
+                      );
+                    },
+                  ),
+                );
+              }),
             ],
           ),
         ],

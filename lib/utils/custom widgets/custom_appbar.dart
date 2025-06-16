@@ -9,7 +9,8 @@ class CustomAppbar extends StatelessWidget {
   final bool timeLocationIsVisible;
   final bool isshowSummary;
   final onPreesed;
-  CustomAppbar({super.key,required this.title, this.timeLocationIsVisible=false, this.isshowSummary=true,this.onPreesed});
+  final Widget? widget;
+  CustomAppbar({super.key,required this.title, this.timeLocationIsVisible=false, this.isshowSummary=true,this.onPreesed,this.widget});
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -41,17 +42,20 @@ class CustomAppbar extends StatelessWidget {
                     ),
                     Text("${title.toUpperCase()}",style: AppFonts.styleHarmoniaBold18W600()),
                     if(timeLocationIsVisible)
-                    GestureDetector(
-                      onTap: () {
-                        showCustomFilterDialog(context);
-                      },
-                      child: Image.asset(
-                        "assets/images/ic_filter.png",
-                        height: 20,
-                        width: 20,
-                        color: Colors.white, // optional: tint the icon if needed
+                      SizedBox(
+                        child: widget,
                       ),
-                    ),
+                    // GestureDetector(
+                    //   onTap: () {
+                    //     showCustomFilterDialog(context);
+                    //   },
+                    //   child: Image.asset(
+                    //     "assets/images/ic_filter.png",
+                    //     height: 20,
+                    //     width: 20,
+                    //     color: Colors.white, // optional: tint the icon if needed
+                    //   ),
+                    // ),
                     if(!timeLocationIsVisible)
                       SizedBox(width: MediaQuery.of(context).size.width*(10/360),)
                   ],

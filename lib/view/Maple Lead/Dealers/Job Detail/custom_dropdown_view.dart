@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mapleleaf/utils/app_colors.dart';
+import 'package:mapleleaf/utils/app_fonts.dart';
 
 class CustomDropdownField extends StatelessWidget {
   final String label;
@@ -52,10 +53,7 @@ class CustomDropdownField extends StatelessWidget {
             child: Center(
               child: Text(
                 label,
-                style: const TextStyle(
-                    color: Colors.red,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16),
+                style: AppFonts.styleHarmoniaBold16W600(AppColors.lightOrange),
               ),
             ),
           ),

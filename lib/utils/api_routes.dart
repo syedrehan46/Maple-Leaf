@@ -21,6 +21,34 @@ class ApiRoutes{
   static const String apiIsGetRetailer = "$baseUrl/Leads/GetRetailersBySalesForceIdForFosV1";
   static const String apiIsGetRetailerByCities = "$baseUrl/Leads/GetRetailerByCities";
   static const String apiIsGetAlGiftForMkt = "$baseUrl/Leads/GetGiftsOfMKT";
+
+  static const String apiLmConvertedTwoWeeks = "$baseUrl/LeadEngine/GetTwoWeekLeaConvertedDetail";
+  static const String apiLmConvertedLastThirtyDays = "$baseUrl/LeadEngine/LastThirtyDaysLeadConvertedDetail";
+  static const String apiLmConvertedLastMonth= "$baseUrl/LeadEngine/SinceLastMonthLeadConvertedDetail";
+  static const String apiLmConvertedLastTwoMonth= "$baseUrl/LeadEngine/SinceLastTwoMonthLeadConvertedDetailV1";
+  static const String apiLmConvertedLeadStatus= "$baseUrl/LeadEngine/GetLeadStatus";
+  static const String apiLmConvertedFilterAllCities= "$baseUrl/LeadEngine/GetAllCitiesByLeadManager";
+  static const String apiLmConvertedFilteredConverted= "$baseUrl/Leads/GetAllLeadConvertedByMonthTypeV1";
+  static const String apiLmProcessingTwoWeeks = "$baseUrl/LeadEngine/GetTwoWeekLeadCovnertedProcessedandNotProcessed";
+  static const String apiLmProcessingLastThirtyDays = "$baseUrl/LeadEngine/LastThirtyDaysLeadCovnertedProcessedandNotProcessed";
+  static const String apiLmProcessingLastMonth= "$baseUrl/LeadEngine/SinceLastMonthLeadCovnertedProcessedandNotProcessed";
+  static const String apiLmProcessingLastTwoMonth= "$baseUrl/LeadEngine/GetAllLeadProcessedByMonthType";
+  static const String apiLmProcessingFiltersCity= "$baseUrl/LeadEngine/GetAllCitiesByLeadManager";
+  static const String apiLmProcessingFilterStatus = "$baseUrl/LeadEngine/GetAllCitiesByLeadManager";
+  static const String apiLmProcessingFilteredProcessed= "$baseUrl/LeadEngine/GetAllLeadProcessedByMonthTypeV1";
+  static const String apiLmProcessingLeadProcessed= "$baseUrl/LeadEngine/GetLeadProcessed";
+  static const String apiLmGeneratedTwoWeeks = "$baseUrl/LeadEngine/GetTwoWeekLeadGeneratedDetailV1";
+  static const String apiLmGeneratedLastThirtyDays = "$baseUrl/LeadEngine/LastThirtyDaysLeadGeneratedDetail";
+  static const String apiLmGeneratedLastMonth= "$baseUrl/LeadEngine/SinceLastMonthLeadGeneratedDetail";
+  static const String apiLmGeneratedLastTwoMonth= "$baseUrl/LeadEngine/SinceLastTwoMonthLeadGeneratedDetail";
+  static const String apiLmGeneratedFiltersCity= "$baseUrl/LeadEngine/GetAllCitiesByLeadManager";
+  static const String apiLmGeneratedFilterStatus = "$baseUrl/LeadEngine/GetLeadStatus";
+  static const String apiLmGeneratedLeadGenertedByMonyhType = "$baseUrl/LeadEngine/GetAllLeadGeneratedByMonthType";
+  static const String apiLmPorfolioFormRetailerByUser = "$baseUrl/LeadEngine/GetRetailerByUser";
+  static const String apiLmPorfolioFormRetailerStockes = "$baseUrl/LeadEngine/GetRetailerStock";
+  static const String apiLmPorfolioFormProductSold = "$baseUrl/LeadEngine/GetProductSold";
+  static const String apiLmPorfolioFormLeadProcessed = "$baseUrl/LeadEngine/GetLeadProcessed";
+
   static const String apiSendOtp = "auth/send-otp";
   static const String apiSignUp = "auth/user";
   static const String apiFeedBack = "feedback";
