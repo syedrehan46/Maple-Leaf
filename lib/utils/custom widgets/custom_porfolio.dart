@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mapleleaf/model/LM/Lead%20Converted/lead_converted_model.dart';
 import 'package:mapleleaf/utils/app_colors.dart';
 import 'package:mapleleaf/utils/app_fonts.dart';
 import 'package:mapleleaf/utils/custom widgets/custom_dropdownfeild.dart';
@@ -13,7 +14,7 @@ import '../../view/Maple Lead/Dealers/Job Detail/job_controller.dart';
 import '../../view/Maple Lead/Dealers/custom_button1.dart';
 
 class CustomPorfolio extends StatefulWidget {
-  final LeadGeneratedModel lead;
+  final LeadConvertedModel lead;
 
   const CustomPorfolio({
     required this.lead,
@@ -44,11 +45,13 @@ class _CustomPorfolioState extends State<CustomPorfolio> {
 
     customerNameController = TextEditingController(text: widget.lead.customerName ?? "");
     customerContactNoController = TextEditingController(text: widget.lead.customerPhone ?? "");
-    secondPersontypeController = TextEditingController(text: "SUB CONTRACTOR"); // default value
-    secondPersonNoController = TextEditingController(text: "03214546737");      // default value
+    secondPersontypeController = TextEditingController(text: "SUB CONTRACTOR");
+    secondPersonNoController = TextEditingController(text: "03214546737");
+    thirdPersonTypeController = TextEditingController();
+    thirdPersonNoController = TextEditingController();
     leadFromController = TextEditingController(text: widget.lead.leadFrom ?? "");
     viaController = TextEditingController(text: widget.lead.via ?? "");
-
+    tokenNumberController = TextEditingController();
   }
 
   @override
@@ -121,21 +124,21 @@ class _CustomPorfolioState extends State<CustomPorfolio> {
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
-            CustomTextFieldS(controller: customerNameController, title: "Customer Name and Address"),
-            CustomTextFieldS(controller: customerContactNoController, title: "Customer Contact No", keyboardType: TextInputType.number),
-            CustomTextFieldS(controller: secondPersontypeController, title: "Second Person Type"),
-            CustomTextFieldS(controller: secondPersonNoController, title: "Second Person Number", keyboardType: TextInputType.number),
-            CustomTextFieldS(controller: thirdPersonTypeController, title: "Third Person Type", readOnly: true),
-            CustomTextFieldS(controller: thirdPersonNoController, title: "Third Person Number", keyboardType: TextInputType.number),
-            CustomTextFieldS(controller: leadFromController, title: "Lead From"),
-            CustomTextFieldS(controller: viaController, title: "Via"),
+            CustomTextFieldS(controller: customerNameController, title: "Customer Name and Address",isAddborder: true,),
+            CustomTextFieldS(controller: customerContactNoController, title: "Customer Contact No", keyboardType: TextInputType.number,isAddborder: true,),
+            CustomTextFieldS(controller: secondPersontypeController, title: "Second Person Type",isAddborder: true),
+            CustomTextFieldS(controller: secondPersonNoController, title: "Second Person Number", keyboardType: TextInputType.number,isAddborder: true),
+            CustomTextFieldS(controller: thirdPersonTypeController, title: "Third Person Type", readOnly: true,isAddborder: true),
+            CustomTextFieldS(controller: thirdPersonNoController, title: "Third Person Number", keyboardType: TextInputType.number,isAddborder: true),
+            CustomTextFieldS(controller: leadFromController, title: "Lead From",isAddborder: true),
+            CustomTextFieldS(controller: viaController, title: "Via",isAddborder: true),
             SizedBox(height: 6),
             CustomDropdownField(label: 'Second Person Type', selectedValue: controller.selectedSecondTypePerson, items: controller.secondTypePersonList, parentContext: context),
             SizedBox(height: 6),
             CustomDropdownField(label: 'Third Person Type', selectedValue: controller.selectedthirdTypePerson, items: controller.thirdTypePersonList, parentContext: context),
             SizedBox(height: MediaQuery.of(context).size.height * 0.03),
             CustomButtons(
-              bc_color: AppColors.lightOrange,
+              bc_color: AppColors.primaryColor,
               padding: 2,
               title: "UPDATE INFORMATION",
               onPressed: () {
@@ -146,16 +149,22 @@ class _CustomPorfolioState extends State<CustomPorfolio> {
             ),
             SizedBox(height: MediaQuery.of(context).size.height * 0.06),
             Container(
-              height: 50,
+              height: 60,
               width: double.infinity,
-              color: AppColors.grey9E9EA2Color,
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: Colors.grey,
+                  width: 1.0, // 👈 This is correct
+                ),
+                borderRadius: BorderRadius.circular(6),
+              ),
               child: Row(
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(left: 2.0),
+                    padding: const EdgeInsets.only(left: 6.0),
                     child: Text(
                       "Painter Token Provided",
-                      style: AppFonts.styleHarmoniaBold14W600(Color(0xFFB31D1E)),
+                      style: AppFonts.styleHarmoniaBold14W600(AppColors.lightOrange),
                     ),
                   ),
                   SizedBox(width: 10),
@@ -181,8 +190,9 @@ class _CustomPorfolioState extends State<CustomPorfolio> {
             SizedBox(height: 6),
             if (selectedValue == "YES")
               CustomTextFieldS(
+                isAddborder: true,
                 controller: tokenNumberController,
-                title: "Enter Token Number",
+                title: "* Enter Token Number",
                 readOnly: false,
                 keyboardType: TextInputType.number,
                 maxLength: 10,
@@ -197,7 +207,7 @@ class _CustomPorfolioState extends State<CustomPorfolio> {
             CustomDropdownField(label: 'Painter Obliged', selectedValue: controller.selectedPainterObliged, items: controller.selectedPainterObligedList, parentContext: context),
             SizedBox(height: MediaQuery.of(context).size.height * 0.03),
             CustomButtons(
-              bc_color: AppColors.lightOrange,
+              bc_color: AppColors.primaryColor,
               padding: 2,
               title: "PROCEED FEEDBACK",
               onPressed: () {

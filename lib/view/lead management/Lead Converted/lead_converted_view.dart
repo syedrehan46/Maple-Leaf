@@ -207,42 +207,95 @@ class _LeadConvertedViewState extends State<LeadConvertedView> {
                     itemCount: controller.leadConvertedList.length,
                     itemBuilder: (context, index) {
                       final lead = controller.leadConvertedList[index];
+                   final Color textColor= lead.leadStatus == "PROCESSED" ? AppColors.blackColor :AppColors.whiteColor;
                       // final leadDate = DateFormat('dd-MMM-yyyy').format(
                       //     DateTime.tryParse(lead.leadConvertedDate ?? '') ?? DateTime.now());
 
                       return Padding(
                         padding: EdgeInsets.fromLTRB(12, index == 0 ? 22 : 6, 12, 4),
-                        child: GestureDetector(
-                          onTap: () => Get.to(() =>  FeedbackScreen(lead: lead,)),
+                        child:GestureDetector(
+                            onTap: () {
+                              if (lead.leadStatus == "PROCESSED") {
+                                Get.to(
+                                  FeedbackScreen(
+                                    lead: lead,
+                                    isShowButton: false,
+                                    isShowDropdown: false,
+                                  ),
+                                );
+                              }else{
+                                Get.to(
+                                    FeedbackScreen(
+                                      lead: lead,
+
+                                    ));
+                              }
+                            },
+
+
                           child: Container(
                             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(8),
                               color: lead.leadStatus =="CONVERTED"? AppColors.readyForCollectionColor :AppColors.pendingColor,
                             ),
-                            child: Column(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Row(
                                   children: [
-                                    Text(
-                                      "${lead.generalCustomerId }",
-                                      style: AppFonts.styleHarmoniaBold14W600(AppColors.whiteColor),
+
+                                    // Left Column (ID and Phone)
+                                    Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start, // align left
+                                      children: [
+                                        Text(
+                                          "${lead.generalCustomerId}",
+                                          style: AppFonts.styleHarmoniaBold16W600(textColor),
+                                        ),
+                                        const SizedBox(height: 4), // spacing between ID and phone
+                                        Text(
+                                          "${lead.customerPhone}",
+                                          style: AppFonts.styleHarmoniaBold14W600(textColor),
+                                        ),
+                                      ],
                                     ),
-                                    SizedBox(width: 58,),
-                                    Text(
-                                      "${lead.leadConvertedDate}",
-                                      style: AppFonts.styleHarmoniaBold14W600(AppColors.whiteColor),
+
+                                    const SizedBox(width: 16),
+
+
+                                    Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+
+                                        Text(
+                                          "${lead.leadCreationDate ?? ''}",
+                                          style: AppFonts.styleHarmoniaBold14W600(textColor),
+                                        ),
+                                        const SizedBox(height: 8),
+                                        Text(
+                                          "${lead.customerName ?? ''}",
+                                          style: AppFonts.styleHarmoniaBold14W600(textColor),
+                                        ),
+                                      ],
                                     ),
                                   ],
                                 ),
-                                const SizedBox(height: 10),
-                                Text(
-                                  "${lead.customerPhone }   ${lead.customerName}",
-                                  style: AppFonts.styleHarmoniaBold14W600(AppColors.whiteColor),
+
+                              if(lead.leadStatus == "PROCESSED")
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 10.0),
+                                  child: Image.asset(
+                                    "assets/images/ule_group.png",
+                                    height: 20,
+                                    width: 20,
+                                    color: AppColors.whiteColor,
+                                  ),
                                 ),
                               ],
                             ),
+
                           ),
                         ),
                       );

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:mapleleaf/controller/LM/lead_processing_controller.dart';
@@ -238,41 +239,44 @@ class _LeadProcessingViewState extends State<LeadProcessingView> {
                       return Padding(
                         padding: EdgeInsets.fromLTRB(12, index == 0 ? 22 : 6, 12, 4),
                         child: GestureDetector(
-                          // onTap: () => Get.to(() => FeedbackScreen()),
-                          onTap: (){},
+                          onTap: () => Get.to(() => FeedbackScreen(lead:lead,isShowButton: false,isShowDropdown: false,)),
+
                           child: Container(
                             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(8),
                               color: lead.leadStatus == "PROCESSED"
-                                  ? AppColors.readyForCollectionColor
+                                  ? AppColors.activeColor
                                   : AppColors.primaryColor,
                             ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Row(
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text(
-                                      "${lead.customerName}",
-                                      style: AppFonts.styleHarmoniaBold16W600(Colors.white),
+                                    Row(
+                                      children: [
+                                        Text(
+                                          "${lead.generalCustomerId}",
+                                          style: AppFonts.styleHarmoniaBold14W600(Colors.white),
+                                        ),
+                                        const SizedBox(width: 52),
+                                        Text(
+                                          "${lead.leadConvertedDate}",
+                                          style: AppFonts.styleHarmoniaBold14W600(Colors.white),
+                                        ),
+                                      ],
                                     ),
-                                    const SizedBox(width: 45),
+                                    const SizedBox(height: 10),
                                     Text(
-                                      "${lead.leadConvertedDate}",
-                                      style: AppFonts.styleHarmoniaBold14W600(Colors.white),
+                                        "${lead.customerPhone}   ${lead.customerName}",
+                                        style: AppFonts.styleHarmoniaBold14W600(AppColors.whiteColor)
                                     ),
+                                
                                   ],
                                 ),
-                                const SizedBox(height: 10),
-                                Text(
-                                  "${lead.customerPhone}   ${lead.customerName}",
-                                  style: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
+
                               ],
                             ),
                           ),

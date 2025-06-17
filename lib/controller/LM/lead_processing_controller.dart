@@ -10,7 +10,7 @@ import '../auth_controller.dart';
 class LeadProcessingController extends GetxController implements GetxService {
   final AuthController authController = Get.find<AuthController>();
 
-  RxList<LeadProcessingModel> leadProcessingList = <LeadProcessingModel>[].obs;
+  RxList<LeadConvertedModel> leadProcessingList = <LeadConvertedModel>[].obs;
   RxString errorMessage = ''.obs;
 
   Future<void> fetchLeadProcessingData() async {
@@ -24,7 +24,7 @@ class LeadProcessingController extends GetxController implements GetxService {
 
       if ((response.done ?? false) && response.responseString != null) {
         final List<dynamic> data = jsonDecode(response.responseString!);
-        leadProcessingList.value = data.map((e) => LeadProcessingModel.fromJson(e)).toList();
+        leadProcessingList.value = data.map((e) => LeadConvertedModel.fromJson(e)).toList();
         print(leadProcessingList.value);
       } else {
         errorMessage.value = response.errorMsg ?? 'Unknown error occurred';

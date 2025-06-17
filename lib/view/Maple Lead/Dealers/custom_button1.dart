@@ -23,9 +23,9 @@ class CustomButtons extends StatelessWidget {
   Widget build(BuildContext context) {
     final media = MediaQuery.of(context).size;
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: padding), // ✅ Works with double
+      padding: EdgeInsets.symmetric(horizontal: padding ), // ✅ Works with double
       child: SizedBox(
-        height: media.height * 0.08,
+        height: media.height * 0.07,
         width: media.width,
         child: ElevatedButton(
           style: ElevatedButton.styleFrom(

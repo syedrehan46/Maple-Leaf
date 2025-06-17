@@ -4,6 +4,7 @@ import 'package:mapleleaf/utils/app_colors.dart';
 import 'package:mapleleaf/utils/app_fonts.dart';
 import 'package:mapleleaf/utils/custom%20widgets/custom_appbar.dart';
 import 'package:mapleleaf/utils/custom%20widgets/custom_porfolio.dart';
+import 'package:mapleleaf/view/lead%20management/Lead%20Converted/feedback_view.dart';
 import 'package:mapleleaf/view/lead%20management/Lead%20Generated/Portfolio%20View/porfolio_two_view.dart';
 import 'package:mapleleaf/view/lead%20management/Lead%20Generated/Portfolio%20View/portfolio_view.dart';
 
@@ -222,8 +223,13 @@ class _LeadGeneratedViewState extends State<LeadGeneratedView> {
                   ),
                   child: GestureDetector(
                     onTap: () {
-                      Get.to(
-                          PorfolioTwoView(lead: lead,));
+                      if(lead.leadStatus =="PROCESSED"){
+                    Get.to(FeedbackScreen(lead: lead,isShowFiveFields: false,title: "PORTFOLIO",isShowButton: false,isShowDropdown: false,
+                    isShowPlanType: true,moveSalesSectionToBottom:true,moveExpectedKgsBelowRetailer:true
+                    ));
+                      }else{
+                        Get.to(PorfolioTwoView(lead: lead));
+                      }
                     },
                     child: Container(
                       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
@@ -238,37 +244,59 @@ class _LeadGeneratedViewState extends State<LeadGeneratedView> {
                       ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Row(
                             children: [
+                              // Left Column (ID and Phone)
                               Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start, // align left
                                 children: [
-                                  Align(
-                                    child: Text(
-                                      "${lead.generalCustomerId}",
-                                      style: AppFonts.styleHarmoniaBold16W600(Colors.white),),
+                                  Text(
+                                    "${lead.generalCustomerId}",
+                                    style: AppFonts.styleHarmoniaBold16W600(Colors.white),
                                   ),
-                                  const SizedBox(width: 45),
+                                  const SizedBox(height: 4), // spacing between ID and phone
                                   Text(
                                     "${lead.customerPhone}",
-                                    style:AppFonts.styleHarmoniaBold14W600(Colors.white),),
+                                    style: AppFonts.styleHarmoniaBold14W600(Colors.white),
+                                  ),
                                 ],
                               ),
-                              const SizedBox(width: 16,),
+
+                              const SizedBox(width: 16),
+
+                              // Right Column (Date and Name)
                               Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text("${lead.leadCreationDate ?? ''}", style:AppFonts.styleHarmoniaBold14W600(Colors.white),),
-                                  SizedBox(height: 8,),
-                                  Text("${lead.customerName ?? ''}", style:AppFonts.styleHarmoniaBold14W600(Colors.white),),
+                                  Text(
+                                    "${lead.leadCreationDate ?? ''}",
+                                    style: AppFonts.styleHarmoniaBold14W600(Colors.white),
+                                  ),
+                                  const SizedBox(height: 8),
+                                  Text(
+                                    "${lead.customerName ?? ''}",
+                                    style: AppFonts.styleHarmoniaBold14W600(Colors.white),
+                                  ),
                                 ],
                               ),
                             ],
                           ),
-                          Image.asset("assets/images/ule_group.png",height: 25,width: 25,color: AppColors.whiteColor,)
-                        ],
 
+                          if(lead.leadStatus != "PROCESSED")
+                          Padding(
+                            padding: const EdgeInsets.only(top: 10.0),
+                            child: Image.asset(
+                              "assets/images/ule_group.png",
+                              height: 20,
+                              width: 20,
+                              color: AppColors.whiteColor,
+                            ),
+                          ),
+                        ],
                       ),
+
                     ),
                   ),
                 );
