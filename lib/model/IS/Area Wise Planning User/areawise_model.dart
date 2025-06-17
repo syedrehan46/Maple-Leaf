@@ -1,8 +1,8 @@
 class PlanModel {
   final String activeMonth;
-  final int areaId;
-  final String areaName;
-  final int cityId;
+  final int? areaId;
+  final dynamic areaName;
+  final int? cityId;
   final String cityName;
   final dynamic userPlanning;
   final dynamic createdBy;

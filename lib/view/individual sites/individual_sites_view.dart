@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:mapleleaf/utils/custom%20widgets/floatingaction_button.dart';
 import '../../controller/IS/is_controller.dart';
 import '../../utils/custom widgets/custom_appbar.dart';
+import 'citiywise_view.dart';
 class IndividualSites extends StatefulWidget {
   const IndividualSites({super.key});
   @override
@@ -20,8 +21,6 @@ class _IndividualSitesState extends State<IndividualSites> with SingleTickerProv
     _tabController = TabController(length: 2, vsync: this);
     // Add listener to force rebuild on animation changes for smooth transitions
     _tabController.animation!.addListener(() {
-
-
       setState(() {});
     });
   }
@@ -56,7 +55,7 @@ class _IndividualSitesState extends State<IndividualSites> with SingleTickerProv
               const SizedBox(height: 20),
               // TabBar with animated slider
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
+                padding: const EdgeInsets.symmetric(horizontal: 10,),
                 child: Container(
                   height: 45,
                   width: media.width,
@@ -119,35 +118,26 @@ class _IndividualSitesState extends State<IndividualSites> with SingleTickerProv
                   ),
                 ),
               ),
-              // tabBarView - Content Area
+              // tabBarView
+              // - Content Area
+              SizedBox(height: 10),
               Expanded(
-                child: TabBarView(
-                  controller: _tabController,
-                  physics: BouncingScrollPhysics(
-                      parent: AlwaysScrollableScrollPhysics()
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 20,left: 2,right: 2),
+                  child: TabBarView(
+                    controller: _tabController,
+                    physics: BouncingScrollPhysics(
+                        parent: AlwaysScrollableScrollPhysics()
+                    ),
+                    children: [
+                      CityWiseView(),
+                      Text('')
+                    ],
                   ),
-                  children: [
-                    // Engaged Painters Tab Content
-                    // Replace with your actual content widget or builder
-                    Center(
-                      child: Text(
-                        '',
-                      ),
-                    ),
-
-                    // Unengaged Painters Tab Content
-                    // Replace with your actual content widget or builder
-                    Center(
-                      child: Text(
-                        '',
-                      ),
-                    ),
-                  ],
                 ),
               ),
             ],
           ),
-
         ],
       ),
       floatingActionButton: CustomFloatingActionButton(onPressed: (){

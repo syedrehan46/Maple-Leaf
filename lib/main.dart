@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'package:device_info_plus/device_info_plus.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -8,31 +7,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:mapleleaf/utils/app_colors.dart';
 import 'package:mapleleaf/utils/app_strings.dart';
-import 'package:mapleleaf/view/Maple%20Lead/Dealers/Attendance/attendance_view.dart';
-import 'package:mapleleaf/view/Maple%20Lead/Dealers/Cash%20Management/cash_management.dart';
-import 'package:mapleleaf/view/Maple%20Lead/Dealers/Dealer%20Induction/dealer_select_view.dart';
-import 'package:mapleleaf/view/Maple%20Lead/Dealers/Dealer%20Intake/dealer_orders_view.dart';
-import 'package:mapleleaf/view/Maple%20Lead/Dealers/Dealer%20Intake/distribute_intake_view.dart';
-import 'package:mapleleaf/view/Maple%20Lead/Dealers/Dealer%20Intake/intake_select_view.dart';
-import 'package:mapleleaf/view/Maple%20Lead/Dealers/Job%20Detail/job_view.dart';
-import 'package:mapleleaf/view/Maple%20Lead/Dealers/Mapping/mapping_view.dart';
-import 'package:mapleleaf/view/Maple%20Lead/Dealers/Mapping/remapping_view.dart';
-import 'package:mapleleaf/view/Maple%20Lead/Dealers/Marking%20%20Activity/marketing_activity_view.dart';
-import 'package:mapleleaf/view/Maple%20Lead/Dealers/QR%20Code/qr_code_view.dart';
-import 'package:mapleleaf/view/Maple%20Lead/Dealers/Retailer%20Intake/gc_invester_sales_view.dart';
-import 'package:mapleleaf/view/Maple%20Lead/Dealers/Retailer%20Intake/retailer_intake_select_view.dart';
-import 'package:mapleleaf/view/Maple%20Lead/Dealers/Retailer%20Intake/secondary_sales_view.dart';
-import 'package:mapleleaf/view/Maple%20Lead/Dealers/Retailer/reatailer_select_view.dart';
-import 'package:mapleleaf/view/auth/forget_password_change_view.dart';
-import 'package:mapleleaf/view/auth/forgot_password_view.dart';
 import 'package:mapleleaf/view/auth/sign_in_view.dart';
-import 'package:mapleleaf/view/dashboard/dashboardp2p.dart';
 import 'package:mapleleaf/view/dashboard/ule_dashboard_view.dart';
-import 'package:mapleleaf/view/painter%20engagement/Engaged%20Painter/Painter_list.dart';
-import 'package:mapleleaf/view/painter%20engagement/Engaged%20Painter/add_lead.dart';
-import 'package:mapleleaf/view/painter%20engagement/Engaged%20Painter/engaged_painter.dart';
-import 'package:mapleleaf/view/painter%20engagement/painter_engagement_view.dart';
-import 'package:mapleleaf/view/splash_view.dart';
+import 'package:mapleleaf/view/individual%20sites/citiywise_view.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:path_provider/path_provider.dart' as path_provider;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -120,7 +97,7 @@ class MyApp extends StatelessWidget {
           builder: EasyLoading.init(),
         );
       },
-        child:SignInView(),
+        child:UleDashboardView(),
       // UleDashboardVRew(),
     );
   }

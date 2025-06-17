@@ -5,25 +5,28 @@ import '../../utils/app_colors.dart';
 class MeetupCard extends StatelessWidget {
   final String city;
   final String area;
-  final int achieved;
-  final int target;
+  var achieved;
+  final int? target;
   final int weeklyFreq;
   final String month;
   final double topPadding;
   final Function()? onTap; // Add onTap callback
-  final bool isSelected; // Add selection state
+  final bool isSelected;
+
+  String? subCity; // Add selection state
 
   MeetupCard({
     super.key,
     required this.city,
     required this.area,
     required this.achieved,
-    required this.target,
+    this.target,
     required this.weeklyFreq,
     required this.month,
     this.topPadding = 8,
     this.onTap,
     this.isSelected = false,
+    this.subCity
   });
 
   @override
@@ -47,7 +50,7 @@ class MeetupCard extends StatelessWidget {
                     const SizedBox(height: 15),
                     _buildItem(imagePath: "assets/images/ic_sub_city.png", title: "AREA", value: area),
                     const SizedBox(height: 15),
-                    _buildItem(imagePath: "assets/images/ic_achievements.png", title: "ACH/TARGET", value: "$achieved/$target"),
+                    _buildItem(imagePath: "assets/images/ic_achievements.png", title: "ACH/TARGET", value: "$achieved"),
                   ],
                 ),
               ),
