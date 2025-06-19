@@ -1,113 +1,89 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:mapleleaf/utils/app_colors.dart';
 import 'package:get/get.dart';
-import 'package:mapleleaf/utils/app_fonts.dart';
-import 'package:mapleleaf/utils/custom%20widgets/Custom_Toaste.dart';
-import 'package:mapleleaf/utils/custom%20widgets/background_image.dart';
-import 'package:mapleleaf/utils/custom%20widgets/custom_appbar.dart';
-import 'package:mapleleaf/utils/custom%20widgets/floatingaction_button.dart';
-import 'package:mapleleaf/utils/custom%20widgets/meetup_card.dart';
-import 'package:mapleleaf/view/individual%20meetup/UserLead%20Page/add_leads_view.dart';
-import 'package:mapleleaf/view/individual%20meetup/individual_meetup.dart';
-import 'package:mapleleaf/view/individual%20meetup/painter_engagement_invite1.dart';
+import 'package:mapleleaf/utils/app_colors.dart';
+import 'package:mapleleaf/utils/custom widgets/background_image.dart';
+import 'package:mapleleaf/utils/custom widgets/custom_appbar.dart';
+import 'package:mapleleaf/utils/custom widgets/floatingaction_button.dart';
+import 'package:mapleleaf/view/individual meetup/UserLead Page/add_leads_view.dart';
+import 'package:mapleleaf/view/individual meetup/individual_meetup.dart';
+import 'package:mapleleaf/view/individual meetup/painter_engagement_invite1.dart';
 import '../../controller/painter_controller.dart';
+import '../../model/IM/indivdual_painter_model.dart';
 import 'Individual_meetup_painter.dart';
 import 'individual_meetup_view.dart';
 
-class PainterEntry {
-  final String name;
-  final String phoneNumber;
-  final String type; // "MAPLE LEAF" or "YFFUR" or custom type
-  PainterEntry({required this.name, required this.phoneNumber, required this.type});
-}
 class IndividualMeetingPainters extends StatelessWidget {
-  IndividualMeetingPainters({super.key});
+  final List<IndivdualPainterModel>? painters;
+
+  IndividualMeetingPainters({super.key, this.painters});
+
   final TextEditingController textEditingController = TextEditingController();
-  final PainterDataController painterController = Get.find<PainterDataController>();
+  final PainterDataController painterController = Get.put(PainterDataController());
+
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(child: Scaffold(
-      body: Stack(
-        children: [
-          // 🔽 Background image
-          Positioned.fill(
-              child: BackgroundImage()
-          ),
-          // 🔼 Foreground content
-          Column(
-            children: [
-              CustomAppbar(title: "INDIVIDUAL MEETUPS PAINTER",onPreesed: (){
-                Get.offAll(IndividualMeetupView());
-              },),
-              Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: TextField(
-                  controller: textEditingController,
-                  textAlign: TextAlign.center,
-                  decoration: InputDecoration(
-                    hintText: "Search",
-                    filled: true,
-                    fillColor: Colors.grey[100],
-                    contentPadding: const EdgeInsets.symmetric(vertical: 12),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      borderSide: BorderSide.none,
+    return WillPopScope(
+      onWillPop: () async {
+        Get.offAll(() => IndividualMeetupPainter(city: ''));
+        return false;
+      },
+      child: Scaffold(
+        body: Stack(
+          children: [
+            Positioned.fill(child: BackgroundImage()),
+            Column(
+              children: [
+                CustomAppbar(
+                  title: "INDIVIDUAL MEETUPS PAINTER",
+                  onPreesed: () {
+                    Get.offAll(() => IndividualMeetupView());
+                  },
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: TextField(
+                    controller: textEditingController,
+                    textAlign: TextAlign.center,
+                    decoration: InputDecoration(
+                      hintText: "Search",
+                      filled: true,
+                      fillColor: Colors.grey[100],
+                      contentPadding: const EdgeInsets.symmetric(vertical: 12),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide: BorderSide.none,
+                      ),
                     ),
                   ),
                 ),
-              ),
-              // Create an Obx widget to observe changes to the painter entries list
-              Obx(() {
-                // Create a list to store all painter entries including static ones
-                List<PainterEntry> allEntries = [
-                ];
-                // Add dynamic entries from the controller if they exist
-                if (painterController.painterName.value.isNotEmpty &&
-                    painterController.phoneNumber.value.isNotEmpty) {
-                  // Check if this painter is already in the list to avoid duplicates
-                  bool alreadyExists = false;
-                  for (var entry in allEntries) {
-                    if (entry.name == painterController.painterName.value &&
-                        entry.phoneNumber == painterController.phoneNumber.value) {
-                      alreadyExists = true;
-                      break;
-                    }
-                  }
-                  if (!alreadyExists) {
-                    // Add new painter to the list
-                    allEntries.add(PainterEntry(
-                        name: painterController.painterName.value,
-                        phoneNumber: painterController.phoneNumber.value,
-                        type: "PAINTER" // You can set a specific type or use a dynamic value
-                    ));
-                  }
-                }
-                return Expanded(
+                Expanded(
                   child: ListView.builder(
-                    itemCount: allEntries.length,
+                    itemCount: painters?.length ?? 0,
                     padding: const EdgeInsets.symmetric(horizontal: 12.0),
                     itemBuilder: (context, index) {
-                      final entry = allEntries[index];
-                      // Determine the color based on the type
-                      AppColors.redColor;
+                      final painter = painters?[index];
 
                       return GestureDetector(
                         onTap: () {
-                          if(painterController.painterAttachmentImage.value!=null){
-                            Get.to(AddLeadsView(title: entry.type));
-                          }else{
-                            Get.to(PainterEngagementInvite1());
+                          if (painterController.painterAttachmentImage.value == null) {
+                            Get.to(() => AddLeadsView(
+                              title: painter?.planType ?? '',
+                              painter: painter,
+                            ));
+                          } else {
+                            Get.to(() => PainterEngagementInvite1());
                           }
-
                         },
+
                         child: Padding(
                           padding: const EdgeInsets.symmetric(vertical: 8.0),
                           child: Container(
                             height: 60,
                             width: double.infinity,
                             decoration: BoxDecoration(
-                              color: painterController.painterAttachmentImage.value==null ? AppColors.pendingColor : AppColors.redColor,
+                              color: painterController.painterAttachmentImage.value == null
+                                  ? AppColors.redColor
+                                  : AppColors.redColor,
                               borderRadius: BorderRadius.circular(30),
                             ),
                             child: Row(
@@ -116,11 +92,11 @@ class IndividualMeetingPainters extends StatelessWidget {
                                 Padding(
                                   padding: const EdgeInsets.only(left: 16),
                                   child: Text(
-                                    entry.name,
+                                    painter?.planType ?? 'No Name',
                                     style: const TextStyle(
-                                        fontSize: 16,
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold
+                                      fontSize: 16,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
                                     ),
                                   ),
                                 ),
@@ -129,22 +105,19 @@ class IndividualMeetingPainters extends StatelessWidget {
                                   child: Row(
                                     children: [
                                       Text(
-                                          entry.phoneNumber,
-                                          style: const TextStyle(
-                                              fontSize: 16,
-                                              color: Colors.white
-                                          )
+                                        painter?.phoneNumber ?? 'wehehj',
+                                        style: const TextStyle(
+                                          fontSize: 16,
+                                          color: Colors.white,
+                                        ),
                                       ),
-                                      const Icon(
-                                          Icons.arrow_forward_ios,
-                                          size: 25,
-                                          color: Colors.white
-                                      ),
-                                      // Only add the counter bubble for the first item (MAPLE EMPLOYEE)
+                                      const SizedBox(width: 8),
+                                      const Icon(Icons.arrow_forward_ios, size: 25, color: Colors.white),
                                       if (index == 0)
                                         Container(
                                           height: 25,
                                           width: 25,
+                                          margin: const EdgeInsets.only(left: 8),
                                           decoration: const BoxDecoration(
                                             shape: BoxShape.circle,
                                             color: Colors.white,
@@ -166,18 +139,17 @@ class IndividualMeetingPainters extends StatelessWidget {
                       );
                     },
                   ),
-                );
-              }),
-            ],
-          ),
-        ],
+                ),
+              ],
+            ),
+          ],
+        ),
+        floatingActionButton: CustomFloatingActionButton(
+          onPressed: () {
+            Get.to(() => IndividualMeetup());
+          },
+        ),
       ),
-      floatingActionButton: CustomFloatingActionButton(onPressed: (){
-        Get.to(IndividualMeetup());
-      }),
-    ), onWillPop: () async {
-      Get.offAll(() => IndividualMeetupPainter(city: '',));
-      return false;
-    },);
+    );
   }
 }

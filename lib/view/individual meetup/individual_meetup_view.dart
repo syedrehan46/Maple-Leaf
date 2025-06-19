@@ -22,6 +22,8 @@ class IndividualMeetupView extends StatefulWidget {
 }
 
 class _IndividualMeetupViewState extends State<IndividualMeetupView> {
+
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(child:  Scaffold(
@@ -57,7 +59,7 @@ class _IndividualMeetupViewState extends State<IndividualMeetupView> {
                   mainAxisSize: MainAxisSize.min
                   ,
                   children: [
-                    CustomButton(title: "PAINTER", color: AppColors.blackColor, isShowContainer: true, navigateTo: IndividualMeetupPainter(city: '',)),
+                    CustomButton(title: "PAINTER", color: AppColors.blackColor, isShowContainer: true, navigateTo: IndividualMeetupPainter(city: '32',)),
                     const SizedBox(height: 20),
                     CustomButton(title: "LABORS CONTRACTOR", color: AppColors.blackColor, isShowContainer: true, navigateTo: IndividualMeetupLaborView())
                   ],

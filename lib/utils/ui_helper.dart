@@ -103,6 +103,7 @@ class UiHelper {
     required String location,
     required String date,
     required double padding,
+    required String city
   }) {
     return Padding(
       padding: EdgeInsets.only(top: padding, left: 12, right: 12),
@@ -154,7 +155,7 @@ class UiHelper {
             Padding(
               padding: const EdgeInsets.only(left: 8.0),
               child: Text(
-                location,
+                "$location($city)",
                 style: TextStyle(
                   color: AppColors.whiteColor,
                   fontSize: 16,

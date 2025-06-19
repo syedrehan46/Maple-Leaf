@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:mapleleaf/utils/app_colors.dart';
 import 'package:mapleleaf/utils/custom%20widgets/custom_appbar.dart';
+import '../../../controller/IM/Individual Painter/all_paniter_detail_controller.dart';
+import '../../../model/IM/indivdual_painter_model.dart';
 
 class AddLeadsView extends StatefulWidget {
-  final String title;
+  final String? title;
+  final IndivdualPainterModel? painter;
 
-  const AddLeadsView({super.key, required this.title});
+  const AddLeadsView({super.key, this.title, this.painter});
 
   @override
   State<AddLeadsView> createState() => _AddLeadsViewState();
@@ -16,16 +20,16 @@ class _AddLeadsViewState extends State<AddLeadsView> {
   final TextEditingController customerNumberEditingController = TextEditingController();
   final TextEditingController searchController = TextEditingController();
 
-  final List<String> locations = [
-    'BAHLEEM',
-    'DANDI KULIYAN',
-    'DANDI NIZAM',
-    'KUND',
-    'MAIN BAZAR',
-    'PHURLARWAN'
-  ];
+  final AllPaniterDetailController allPainterController = Get.put(AllPaniterDetailController());
 
   String selectedLocation = '';
+
+  @override
+  void initState() {
+    super.initState();
+    customerNameEditingController.text = widget.painter?.painterName ?? '';
+    customerNumberEditingController.text = widget.painter?.phoneNumber ?? '';
+  }
 
   void openLocationDialog() {
     showDialog(
@@ -34,8 +38,8 @@ class _AddLeadsViewState extends State<AddLeadsView> {
         return StatefulBuilder(
           builder: (context, setDialogState) {
             List<String> dialogFilteredLocations = searchController.text.isEmpty
-                ? List.from(locations)
-                : locations
+                ? List.from(allPainterController.areaNameList)
+                : allPainterController.areaNameList
                 .where((item) => item.toLowerCase().contains(searchController.text.toLowerCase()))
                 .toList();
 
@@ -112,6 +116,7 @@ class _AddLeadsViewState extends State<AddLeadsView> {
                               fontWeight: FontWeight.bold,
                             ),
                           ),
+                          icon: const Icon(Icons.close, color: AppColors.redColor),
                         ),
                       ),
                     ],
@@ -144,7 +149,7 @@ class _AddLeadsViewState extends State<AddLeadsView> {
           Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Center(child: CustomAppbar(title: widget.title)),
+              Center(child: CustomAppbar(title: widget.title ?? "Add lead")),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
                 child: Column(
@@ -152,7 +157,7 @@ class _AddLeadsViewState extends State<AddLeadsView> {
                   children: [
                     Center(
                       child: Text(
-                        widget.title,
+                        widget.title ?? "",
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
+import '../../controller/IM/Individual Painter/individual_painter_controller.dart';
 import '../../controller/painter_controller.dart';
 import '../../utils/custom widgets/custom_appbar.dart';
 import '../../utils/custom widgets/meetup_card.dart';
@@ -8,70 +8,160 @@ import 'individual_meeting_painters.dart';
 import 'individual_meetup_view.dart';
 
 class IndividualMeetupPainter extends StatelessWidget {
-  String city;
+  final String city;
   IndividualMeetupPainter({super.key, required this.city});
-
-  // Make sure the controller is registered as a singleton
-  final painterDataController = Get.put(PainterDataController(), permanent: true);
+  final IndividualPainterController controller = Get.put(IndividualPainterController());
   final RxInt selectedIndex = 0.obs;
-  final RxString selectedCity = ''.obs;
-  final RxString selectedStatus = ''.obs;
 
   @override
   Widget build(BuildContext context) {
-    // Don't override the city value here as it will reset the selected city
-    // Only set it initially if it's empty
-    if (painterDataController.city.value.isEmpty) {
-      painterDataController.city.value = city;
-    }
-
-    return WillPopScope(child: Scaffold(
-        backgroundColor: Colors.white,
+    return WillPopScope(
+      onWillPop: () async {
+        Get.offAll(() => IndividualMeetupView());
+        return false;
+      },
+      child: Scaffold(
         body: Column(
           children: [
-            _buildAppBar(context),
+            _buildAppBar(),
             Expanded(
-              child: Obx(() => ListView.builder(
-                padding: const EdgeInsets.symmetric(vertical: 8),
-                itemCount: painterDataController.meetupCards.length,
-                itemBuilder: (context, index) {
-                  final card = painterDataController.meetupCards[index];
-                  return MeetupCard(
-                    city: card.city,
-                    area: card.area,
-                    achieved: card.achieved,
-                    target: card.target,
-                    weeklyFreq: card.weeklyFreq,
-                    month: card.month,
-                    topPadding: index == 0 ? 16 : 8,
-                    // Check if this card is selected
-                    isSelected: painterDataController.isCardSelected(index),
-                    onTap: () {
-                      // Update the selected card info in the controller
-                      painterDataController.updateSelectedCard(index, card);
-                      // Make sure the city value is updated from the card
-                      print("Card tapped with city: ${card.city}");
-                      // Navigate to IndividualMeetingPainters screen
-                      Get.to(() => IndividualMeetingPainters());
-                    },
-                  );
-                },
-              )),
-            ),
+              child: Obx(() {
+                if (controller.meetupCardList.isEmpty) {
+                  return Center(child: Text("No data available"));
+                }
+                return ListView.builder(
+                  padding: const EdgeInsets.symmetric(vertical: 8),
+                  itemCount: controller.meetupCardList.length,
+                  itemBuilder: (context, index) {
+                    final card = controller.meetupCardList[index];
+                    return MeetupCard(
+                      city: card.cityName ?? '',
+                      area: card.subGroupName ?? '',
+                      achieved: card.achievement?.toString() ?? '0',
+                      target: card.target ?? 0,
+                      weeklyFreq: card.weeklyFrequency ?? 0,
+                      month: card.activeMonth ?? '',
+                      topPadding: index == 0 ? 16 : 8,
+                      onTap: () {
+                        Get.to(IndividualMeetingPainters(painters: [card],));
+                      },
+                    );
+                  },
+                );
+              }),
+            )
           ],
-        )
-    ), onWillPop: () async {
-      Get.offAll(() => IndividualMeetupView());
-      return false;
-    },);
+        ),
+      ),
+    );
   }
 
-  Widget _buildAppBar(BuildContext context) {
+  Widget _buildAppBar() {
     return Column(
       children: [
-        CustomAppbar(title: 'INDIVIDUAL MEETUPS PAINTER', timeLocationIsVisible: true,),
+        CustomAppbar(
+          title: 'INDIVIDUAL MEETUPS PAINTER',
+          timeLocationIsVisible: true,
+        ),
       ],
     );
   }
 }
 
+// class IndividualMeetupPainter extends StatelessWidget {
+//   final String city;
+//   IndividualMeetupPainter({super.key, required this.city});
+//
+//   // final painterDataController =
+//   //     Get.put(IndividualPainterController(), permanent: true);
+//   //final controller = Get.put(IndividualPainterController());
+//   final RxInt selectedIndex = 0.obs;
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return WillPopScope(
+//         onWillPop: () async {
+//           Get.offAll(() => IndividualMeetupView());
+//           return false;
+//         },
+//         child: Scaffold(
+//           body: Column(
+//             children: [
+//               _buildAppBar(),
+//               Expanded(
+//                 child: Obx(() {
+//                   if (controller.meetupCardList.isEmpty) {
+//                     return Center(child: Text("No data available"));
+//                   }
+//                   return ListView.builder(
+//                     padding: const EdgeInsets.symmetric(vertical: 8),
+//                     itemCount: controller.meetupCardList.length,
+//                     itemBuilder: (context, index) {
+//                       final card = controller.meetupCardList[index];
+//                       return MeetupCard(
+//                         city: card.cityName ?? '',
+//                         area: card.subGroupName ?? '',
+//                         achieved: card.achievement?.toString() ?? '0',
+//                         target: card.target ?? 0,
+//                         weeklyFreq: card.weeklyFrequency ?? 0,
+//                         month: card.activeMonth ?? '',
+//                         topPadding: index == 0 ? 16 : 8,
+//                         onTap: () {
+//                           Get.to(IndividualMeetingPainters());
+//                         },
+//                       );
+//                     },
+//                   );
+//                 }),
+//               )
+//
+//             ],
+//           ),
+//           // Scaffold(
+//           //   backgroundColor: Colors.white,
+//           //   body: Column(
+//           //     children: [
+//           //       _buildAppBar(),
+//           //       Expanded(
+//           //         child: Obx(() {
+//           //           return ListView.builder(
+//           //             padding: const EdgeInsets.symmetric(vertical: 8),
+//           //             itemCount: controller.meetupCardList.length,
+//           //             itemBuilder: (context, index) {
+//           //               print("Check check ");
+//           //               final card = controller.meetupCardList[index];
+//           //               return MeetupCard(
+//           //                 city: card.cityName ?? '',
+//           //                 area: card.subGroupName ?? '',
+//           //                 achieved: card.achievement?.toString() ?? '0',
+//           //                 target: card.target?? 0,
+//           //                 weeklyFreq: card.weeklyFrequency ?? 0,
+//           //                 month: card.activeMonth ?? '',
+//           //                 topPadding: index == 0 ? 16 : 8,
+//           //                 isSelected: painterDataController.isCardSelected(index),
+//           //                 onTap: () {
+//           //                   print("Card tapped with city: ${card.cityName}");
+//           //                   Get.to(() => IndividualMeetingPainters());
+//           //                 },
+//           //               );
+//           //             },
+//           //           );
+//           //         }),
+//           //       ),
+//           //     ],
+//           //   ),
+//           // ),
+//         ));
+//   }
+//
+//   Widget _buildAppBar() {
+//     return Column(
+//       children: [
+//         CustomAppbar(
+//           title: 'INDIVIDUAL MEETUPS PAINTER',
+//           timeLocationIsVisible: true,
+//         ),
+//       ],
+//     );
+//   }
+// }

@@ -48,6 +48,14 @@ class ApiRoutes{
   static const String apiLmPorfolioFormRetailerStockes = "$baseUrl/LeadEngine/GetRetailerStock";
   static const String apiLmPorfolioFormProductSold = "$baseUrl/LeadEngine/GetProductSold";
   static const String apiLmPorfolioFormLeadProcessed = "$baseUrl/LeadEngine/GetLeadProcessed";
+  //Individual Painter
+  static const String apiEngamentPlanDetail = "$baseUrl/LeadEngine/GetEngagementPlanDetail";
+  static const String apiEngamentPlanDetailLabor = "$baseUrl/LeadEngine/GetEngagementPlanDetail";
+  static const String apiAllPainterDetail = "$baseUrl/LeadEngine/GetAllLaborContractorDetail";
+
+  // new painter induction
+  static const String apiNewPainterInduction = "$baseUrl/LeadEngine/GetAllNewPainterDetailsForAlotingCards";
+
 
   static const String apiSendOtp = "auth/send-otp";
   static const String apiSignUp = "auth/user";

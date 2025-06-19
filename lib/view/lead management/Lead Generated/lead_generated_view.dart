@@ -133,7 +133,7 @@ class _LeadGeneratedViewState extends State<LeadGeneratedView> {
                   Obx(() => _filterButton("Since Last Two Month", 2)),
                   const SizedBox(height: 20),
                   buildDropdown("City", ["Please Select City", "CHARHOI", "DANDI DARA", "DINA", "JHEUM", "KHARIAN", "KOTLA", "SARAI ALAMGIR"], selectedCity),
-                  buildDropdown("Status", ["Please Select Status", "LEAD GENERATED", "PROCESSED", "CONVERTED", "CLOSE"], selectedStatus),
+                  buildDropdown("Status",controller.statusList, selectedStatus),
                   const SizedBox(height: 16),
                   Row(
                     children: [
@@ -222,13 +222,15 @@ class _LeadGeneratedViewState extends State<LeadGeneratedView> {
                     4,
                   ),
                   child: GestureDetector(
-                    onTap: () {
+                    onTap: ()  {
                       if(lead.leadStatus =="PROCESSED"){
                     Get.to(FeedbackScreen(lead: lead,isShowFiveFields: false,title: "PORTFOLIO",isShowButton: false,isShowDropdown: false,
                     isShowPlanType: true,moveSalesSectionToBottom:true,moveExpectedKgsBelowRetailer:true
                     ));
-                      }else{
-                        Get.to(PorfolioTwoView(lead: lead));
+                      }
+
+                      else{
+                        Get.to(PorfolioTwoView(lead: lead),);
                       }
                     },
                     child: Container(

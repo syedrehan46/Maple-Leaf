@@ -3,15 +3,21 @@ import 'package:mapleleaf/utils/app_colors.dart';
 import 'package:get/get.dart';
 import 'package:mapleleaf/utils/ui_helper.dart';
 import 'package:mapleleaf/view/individual%20meetup/UserLead%20Page/add_leads_view.dart';
+import 'package:mapleleaf/view/new%20painter%20induction/painter_card_allocation_view.dart';
 
+import '../../controller/IM/Individual Painter/individual_painter_controller.dart';
+import '../../controller/NPI/new_painter_induction_controller.dart';
 import '../../utils/custom widgets/custom_appbar.dart';
+import '../../utils/custom widgets/painter_card_allocation_custom.dart';
 
 class NewPainterInductionView extends StatelessWidget {
   NewPainterInductionView({super.key});
+
   final RxInt selectedIndex = 0.obs;
   final RxString selectedCity = "Please Select City".obs;
   final RxString selectedStatus = "Please Select Status".obs;
   final TextEditingController textEditingController = TextEditingController();
+  final controller = Get.put(NewPainterInductionController());
 
   Widget buildDropdown(String label, List<String> items, RxString selectedValue) {
     String dropdownValue = items.first;
@@ -98,8 +104,7 @@ class NewPainterInductionView extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       const Text("Month",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 18)),
+                          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
                       GestureDetector(
                         onTap: () => Navigator.pop(context),
                         child: Container(
@@ -114,7 +119,6 @@ class NewPainterInductionView extends StatelessWidget {
                   ),
                   const SizedBox(height: 20),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Obx(() => ElevatedButton(
                         onPressed: () {
@@ -124,20 +128,16 @@ class NewPainterInductionView extends StatelessWidget {
                           backgroundColor: Colors.white,
                           foregroundColor: Colors.black,
                           side: BorderSide(
-                            color: selectedIndex.value == 0
-                                ? Colors.red
-                                : Colors.black,
+                            color: selectedIndex.value == 0 ? Colors.red : Colors.black,
                             width: 1.5,
                           ),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(30),
                           ),
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 6, vertical: 0),
+                          padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 0),
                         ),
                         child: const Text("This Month"),
                       )),
-
                       const SizedBox(width: 16),
                       Obx(() => ElevatedButton(
                         onPressed: () {
@@ -147,16 +147,13 @@ class NewPainterInductionView extends StatelessWidget {
                           backgroundColor: Colors.white,
                           foregroundColor: Colors.black,
                           side: BorderSide(
-                            color: selectedIndex.value == 1
-                                ? Colors.red
-                                : Colors.black,
+                            color: selectedIndex.value == 1 ? Colors.red : Colors.black,
                             width: 1.5,
                           ),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(30),
                           ),
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 8, vertical: 0),
+                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
                         ),
                         child: const Text("Since Last Month"),
                       )),
@@ -164,7 +161,6 @@ class NewPainterInductionView extends StatelessWidget {
                   ),
                   const SizedBox(height: 8),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Obx(() => ElevatedButton(
                         onPressed: () {
@@ -174,16 +170,13 @@ class NewPainterInductionView extends StatelessWidget {
                           backgroundColor: Colors.white,
                           foregroundColor: Colors.black,
                           side: BorderSide(
-                            color: selectedIndex.value == 2
-                                ? Colors.red
-                                : Colors.black,
+                            color: selectedIndex.value == 2 ? Colors.red : Colors.black,
                             width: 1.5,
                           ),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(30),
                           ),
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 8, vertical: 0),
+                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
                         ),
                         child: const Text("Since Last Two Month"),
                       )),
@@ -201,8 +194,6 @@ class NewPainterInductionView extends StatelessWidget {
                     "SARAI ALAMGIR"
                   ], selectedCity),
                   const SizedBox(height: 20),
-
-                  /// Final button row
                   ElevatedButton(
                     onPressed: () {
                       print("SHOW SUMMARY tapped");
@@ -213,35 +204,29 @@ class NewPainterInductionView extends StatelessWidget {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30),
                       ),
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 20, vertical: 12),
+                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
                     ),
                     child: const Text("SHOW SUMMARY"),
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      /// SHOW SUMMARY
-                      /// SHOW RESULT + CLEAR
                       Row(
                         children: [
-                          Align(
-                            alignment: Alignment.centerLeft,
-                            child: ElevatedButton(
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: AppColors.primaryColor,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(30),
-                                ),
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 20, vertical: 12),
+                          ElevatedButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: AppColors.primaryColor,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30),
                               ),
-                              child: const Text("SHOW RESULT",
-                                  style: TextStyle(color: Colors.white)),
+                              padding:
+                              const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
                             ),
+                            child: const Text("SHOW RESULT",
+                                style: TextStyle(color: Colors.white)),
                           ),
                           const SizedBox(width: 12),
                           ElevatedButton(
@@ -257,12 +242,11 @@ class NewPainterInductionView extends StatelessWidget {
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(25),
                               ),
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 20, vertical: 12),
+                              padding:
+                              const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
                             ),
                             child: const Text("CLEAR",
-                                style:
-                                TextStyle(color: AppColors.primaryColor)),
+                                style: TextStyle(color: AppColors.primaryColor)),
                           ),
                         ],
                       ),
@@ -282,7 +266,6 @@ class NewPainterInductionView extends StatelessWidget {
     return Scaffold(
       body: Stack(
         children: [
-          // Background Image
           Positioned.fill(
             child: Image.asset(
               'assets/images/menu_bg.png',
@@ -291,15 +274,38 @@ class NewPainterInductionView extends StatelessWidget {
           ),
           Column(
             children: [
-              CustomAppbar(title: 'NEW PAINTER INDUCTION',timeLocationIsVisible: true,),
+              CustomAppbar(
+                title: 'NEW PAINTER INDUCTION',
+                timeLocationIsVisible: true,
+              ),
 
+              Expanded(
+                child: Obx(() {
+                  return ListView.builder(
+                    itemCount: controller.newPainterInductionList.length,
+                    itemBuilder: (context, index) {
+                      final painter = controller.newPainterInductionList[index];
 
-              GestureDetector(onTap: (){Get.to(AddLeadsView(title: "YFFUR",));},
-                  child: UiHelper.customListItem(context: context,title: "YFFUR", phoneNumber: "03242454646", location: "KUND(DANDI DARA)", date: "10-APR-2025", padding: 36)),
-              GestureDetector(onTap: (){Get.to(AddLeadsView(title: "WAHEED",));}
-                  ,child: UiHelper.customListItem(context: context,title: "", phoneNumber: "03205129246", location: "SATELITTE(JHELUM)", date: "12-APR-2025", padding: 12)),
-              GestureDetector(onTap: (){Get.to(AddLeadsView(title: "AHMED",));}
-                  ,child: UiHelper.customListItem(context: context,title: "AHMED", phoneNumber: "03465782246", location: "SATELITTE(JHELUM)", date: "12-APR-2025", padding: 12)),
+                      return GestureDetector(
+                        onTap: () {
+                          Get.to(PainterCardAllocationCustom(
+                            painterinduction: painter,
+                          ));
+                        },
+                        child: UiHelper.customListItem(
+                          context: context,
+                          title: painter.painterName ?? '',
+                          phoneNumber: painter.phoneNumber ?? '',
+                          location: painter.areaName ?? '',
+                          date: painter.creationDate ?? '',
+                          city: painter.cityName ?? '',
+                          padding: 12,
+                        ),
+                      );
+                    },
+                  );
+                }),
+              ),
             ],
           ),
         ],

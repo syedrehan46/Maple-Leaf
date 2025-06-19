@@ -6,7 +6,9 @@ import 'package:mapleleaf/model/login_model.dart';
 import 'package:mapleleaf/utils/app_colors.dart';
 import 'package:mapleleaf/utils/app_fonts.dart';
 import 'package:mapleleaf/utils/custom widgets/custom_appbar.dart';
+import 'package:mapleleaf/utils/custom%20widgets/custom_porfolio.dart';
 import 'package:mapleleaf/view/lead management/Lead Converted/feedback_view.dart';
+import 'package:mapleleaf/view/lead%20management/Lead%20Generated/Portfolio%20View/porfolio_two_view.dart';
 
 import '../../../controller/LM/lead_converted_controller.dart';
 
@@ -207,7 +209,7 @@ class _LeadConvertedViewState extends State<LeadConvertedView> {
                     itemCount: controller.leadConvertedList.length,
                     itemBuilder: (context, index) {
                       final lead = controller.leadConvertedList[index];
-                   final Color textColor= lead.leadStatus == "PROCESSED" ? AppColors.blackColor :AppColors.whiteColor;
+                   final Color textColor= lead.leadStatus == "PROCESSED" ? AppColors.whiteColor :AppColors.blackColor;
                       // final leadDate = DateFormat('dd-MMM-yyyy').format(
                       //     DateTime.tryParse(lead.leadConvertedDate ?? '') ?? DateTime.now());
 
@@ -223,12 +225,18 @@ class _LeadConvertedViewState extends State<LeadConvertedView> {
                                     isShowDropdown: false,
                                   ),
                                 );
+                              }else if(lead.leadStatus == "GENERATED"){
+                                Get.to(
+                                   CustomPorfolio(lead: lead,isShowFields: true,isremovedFields: true,));
+
                               }else{
                                 Get.to(
-                                    FeedbackScreen(
-                                      lead: lead,
-
-                                    ));
+                                  FeedbackScreen(
+                                    lead: lead,
+                                    isShowButton: false,
+                                    isShowDropdown: false,
+                                  ),
+                                );
                               }
                             },
 
@@ -237,7 +245,7 @@ class _LeadConvertedViewState extends State<LeadConvertedView> {
                             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(8),
-                              color: lead.leadStatus =="CONVERTED"? AppColors.readyForCollectionColor :AppColors.pendingColor,
+                              color: lead.leadStatus =="PROCESSED"? AppColors.readyForCollectionColor :AppColors.pendingColor,
                             ),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -283,7 +291,7 @@ class _LeadConvertedViewState extends State<LeadConvertedView> {
                                   ],
                                 ),
 
-                              if(lead.leadStatus == "PROCESSED")
+                              if(lead.leadStatus == "GENERATED")
                                 Padding(
                                   padding: const EdgeInsets.only(top: 10.0),
                                   child: Image.asset(

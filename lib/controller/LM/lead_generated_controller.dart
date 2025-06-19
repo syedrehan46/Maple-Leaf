@@ -11,42 +11,62 @@ import '../auth_controller.dart';
 class LeadGeneratedController extends GetxController implements GetxService {
   final AuthController authController = Get.find<AuthController>();
 
+  RxList<LeadConvertedModel> allLeads = <LeadConvertedModel>[].obs;
   RxList<LeadConvertedModel> leadGeneratedList = <LeadConvertedModel>[].obs;
   RxString errorMessage = ''.obs;
 
-  Future<void> fetchLeadGeneratedData(int selectedMonthIndex) async {
+  // Filters
+  RxString selectedCity = ''.obs;
+  RxString selectedStatus = ''.obs;
+  RxInt selectedMonthIndex = 0.obs;
+
+
+  // Dynamic filter options
+  RxList<String> cityList = [''].obs;
+  RxList<String> statusList = [''].obs;
+
+  Future<void> fetchLeadGeneratedData(int selectedMonth) async {
     EasyLoading.show(status: 'Loading...');
     try {
       String salesForceId = authController.salesForceId;
       String url;
 
-      switch (selectedMonthIndex) {
+      String areaId = selectedCity.value.trim(); // or selectedAreaId if more appropriate
+      String leadStatus = selectedStatus.value.trim();
 
+      switch (selectedMonth) {
         case 0:
-          print("Executed ....Rehan");
           url =
-              "${ApiRoutes.apiLmGeneratedTwoWeeks}?salesForceId=$salesForceId";
+          "${ApiRoutes.apiLmGeneratedTwoWeeks}?salesForceId=$salesForceId&customerAreaId=$areaId&leadStatus=$leadStatus";
           break;
         case 1:
           url =
-              "${ApiRoutes.apiLmGeneratedLastThirtyDays}?salesForceId=$salesForceId";
+          "${ApiRoutes.apiLmGeneratedLastThirtyDays}?salesForceId=$salesForceId&leadStatus=$leadStatus";
           break;
         case 2:
           url =
-              "${ApiRoutes.apiLmGeneratedLastTwoMonth}?salesForceId=$salesForceId";
+          "${ApiRoutes.apiLmGeneratedLastTwoMonth}?salesForceId=$salesForceId&leadStatus=$leadStatus";
           break;
         default:
           url =
-              "${ApiRoutes.apiLmGeneratedTwoWeeks}?salesForceId=$salesForceId";
+          "${ApiRoutes.apiLmGeneratedTwoWeeks}?salesForceId=$salesForceId&leadStatus=$leadStatus";
       }
+
 
       ApiResponse response = await NetworkCall.getApiCallWithToken(url);
       EasyLoading.dismiss();
 
       if ((response.done ?? false) && response.responseString != null) {
         final List<dynamic> data = jsonDecode(response.responseString!);
-        leadGeneratedList.value =
-            data.map((e) => LeadConvertedModel.fromJson(e)).toList();
+        allLeads.value = data.map((e) => LeadConvertedModel.fromJson(e)).toList();
+
+        // Populate city and status lists dynamically
+        final Set<String> cities = allLeads.map((e) => (e.cityName ?? '').toUpperCase()).toSet();
+        final Set<String> statuses = allLeads.map((e) => (e.leadStatus ?? '').toUpperCase()).toSet();
+        cityList.value = [''] + cities.toList();
+        statusList.value = [''] + statuses.toList();
+
+        applyFilters();
       } else {
         errorMessage.value = response.errorMsg ?? 'Unknown error occurred';
       }
@@ -57,11 +77,24 @@ class LeadGeneratedController extends GetxController implements GetxService {
     }
   }
 
+  void applyFilters() {
+    final String city = selectedCity.value.trim().toUpperCase();
+    final String status = selectedStatus.value.trim().toUpperCase();
+
+    leadGeneratedList.value = allLeads.where((lead) {
+      final leadCity = (lead.cityName ?? '').trim().toUpperCase();
+      final leadStatus = (lead.leadStatus ?? '').trim().toUpperCase();
+
+      final cityMatches = city.isEmpty || leadCity == city;
+      final statusMatches = status.isEmpty || leadStatus == status;
+
+      return cityMatches && statusMatches;
+    }).toList();
+  }
+
   @override
   void onInit() {
-    // TODO: implement onInit
     fetchLeadGeneratedData(0);
-
     super.onInit();
   }
 }

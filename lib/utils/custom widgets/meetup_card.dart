@@ -50,7 +50,7 @@ class MeetupCard extends StatelessWidget {
                     const SizedBox(height: 15),
                     _buildItem(imagePath: "assets/images/ic_sub_city.png", title: "AREA", value: area),
                     const SizedBox(height: 15),
-                    _buildItem(imagePath: "assets/images/ic_achievements.png", title: "ACH/TARGET", value: "$achieved"),
+                    _buildItem(imagePath: "assets/images/ic_achievements.png", title: "ACH/TARGET", value: "$achieved/$target"),
                   ],
                 ),
               ),

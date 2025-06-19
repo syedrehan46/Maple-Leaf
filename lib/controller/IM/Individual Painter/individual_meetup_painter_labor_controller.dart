@@ -8,7 +8,7 @@ import '../../../network/network_call.dart';
 import '../../../utils/api_routes.dart';
 import '../../auth_controller.dart';
 
-class IndividualPainterController extends GetxController implements GetxService {
+class IndividualMeetupPainterLaborController extends GetxController implements GetxService {
   RxList<IndivdualPainterModel> meetupCardList = <IndivdualPainterModel>[].obs;
   RxString errorMessage = ''.obs;
   RxString salesForceId = ''.obs;
@@ -20,7 +20,7 @@ class IndividualPainterController extends GetxController implements GetxService 
 
     EasyLoading.show();
 
-    String url = "${ApiRoutes.apiEngamentPlanDetail}?salesForceId=$salesForceId";
+    String url = "${ApiRoutes.apiEngamentPlanDetailLabor}?salesForceId=$salesForceId";
     print("URL>> $url");
 
     ApiResponse response = await NetworkCall.getApiCallWithToken(url);
@@ -52,39 +52,3 @@ class IndividualPainterController extends GetxController implements GetxService 
     fetchPainetrDetail(); // Call your data-fetching method/ ✅ now it's called!
   }
 }
-
-//
-// class IndividualPainterController extends GetxController implements GetxService {
-//   RxList<IndivdualPainterModel> meetupCardList = <IndivdualPainterModel>[].obs;
-//   RxString errorMessage = ''.obs;
-//   Future<void> fetchPainetrDetail(String salesForceId) async {
-//     EasyLoading.show();
-//
-//     String url = "${ApiRoutes.apiEngamentPlanDetail}?salesForceId=$salesForceId";
-// print("URL>> $url");
-//     ApiResponse response = await NetworkCall.getApiCallWithToken(url);
-//
-//     EasyLoading.dismiss();
-//
-//     if ((response.done ?? false) && response.responseString != null) {
-//       try {
-//         final List<dynamic> data = jsonDecode(response.responseString!);
-//         meetupCardList.value = data.map((e) => IndivdualPainterModel.fromJson(e)).toList();
-//         print("Painter response >>> ${meetupCardList.value}");
-//       } catch (e) {
-//         errorMessage.value = 'Failed to parse data';
-//         print("Parse Error: $e");
-//       }
-//     } else {
-//       errorMessage.value = response.errorMsg ?? 'Unknown error';
-//       print("API Error: ${response.errorMsg}");
-//     }
-//   }
-//   @override
-//   void onInit() {
-//     print("check>>");
-//     // fetchPainetrDetail("0");
-//     super.onInit();
-//   }
-//
-// }

@@ -5,8 +5,10 @@ import '../../../../utils/custom widgets/custom_porfolio.dart';
 
 class PorfolioTwoView extends StatelessWidget {
   final LeadConvertedModel lead;
+  final bool isremovedFields;
+  final bool isShowFields;
 
-  const PorfolioTwoView({Key? key, required this.lead}) : super(key: key);
+  const PorfolioTwoView({Key? key, required this.lead,this.isShowFields=false,this.isremovedFields=false}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
