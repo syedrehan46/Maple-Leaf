@@ -5,17 +5,17 @@ import '../../utils/app_colors.dart';
 class MeetupCard extends StatelessWidget {
   final String city;
   final String area;
-  var achieved;
+  final dynamic achieved;
   final int? target;
   final int weeklyFreq;
   final String month;
   final double topPadding;
-  final Function()? onTap; // Add onTap callback
+  final Function()? onTap;
   final bool isSelected;
+  final String? subCity;
+  final bool showTarget; // ✅ New optional flag
 
-  String? subCity; // Add selection state
-
-  MeetupCard({
+  const MeetupCard({
     super.key,
     required this.city,
     required this.area,
@@ -26,15 +26,15 @@ class MeetupCard extends StatelessWidget {
     this.topPadding = 8,
     this.onTap,
     this.isSelected = false,
-    this.subCity
+    this.subCity,
+    this.showTarget = true, // ✅ Default to true (i.e., show both)
   });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onTap, // Use the callback passed from parent
+      onTap: onTap,
       child: Card(
-        // Change card color based on selection state
         color: AppColors.redColor,
         margin: EdgeInsets.fromLTRB(16, topPadding, 16, 4),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
@@ -46,11 +46,23 @@ class MeetupCard extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    _buildItem(imagePath: "assets/images/ic_city.png", title: "CITY", value: city),
+                    _buildItem(
+                        imagePath: "assets/images/ic_city.png",
+                        title: "CITY",
+                        value: city),
                     const SizedBox(height: 15),
-                    _buildItem(imagePath: "assets/images/ic_sub_city.png", title: "AREA", value: area),
+                    _buildItem(
+                        imagePath: "assets/images/ic_sub_city.png",
+                        title: "AREA",
+                        value: area),
                     const SizedBox(height: 15),
-                    _buildItem(imagePath: "assets/images/ic_achievements.png", title: "ACH/TARGET", value: "$achieved/$target"),
+                    _buildItem(
+                      imagePath: "assets/images/ic_achievements.png",
+                      title: "ACH/TARGET",
+                      value: showTarget
+                          ? "$achieved/$target"
+                          : "$achieved", // ✅ Conditional display
+                    ),
                   ],
                 ),
               ),
@@ -64,11 +76,17 @@ class MeetupCard extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    _buildItem(imagePath: "assets/images/ic_frequency.png", title: "WEEKLY FREQUENCY", value: "$weeklyFreq"),
+                    _buildItem(
+                        imagePath: "assets/images/ic_frequency.png",
+                        title: "WEEKLY FREQUENCY",
+                        value: "$weeklyFreq"),
                     const SizedBox(height: 15),
                     Padding(
                       padding: const EdgeInsets.only(bottom: 30.0),
-                      child: _buildItem(icon: Icons.calendar_month, title: "MONTH", value: month),
+                      child: _buildItem(
+                          icon: Icons.calendar_month,
+                          title: "MONTH",
+                          value: month),
                     ),
                   ],
                 ),
@@ -80,7 +98,8 @@ class MeetupCard extends StatelessWidget {
     );
   }
 
-  Widget _buildItem({String? imagePath, IconData? icon, required String title, required String value}) {
+  Widget _buildItem(
+      {String? imagePath, IconData? icon, required String title, required String value}) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -93,11 +112,15 @@ class MeetupCard extends StatelessWidget {
           child: RichText(
             text: TextSpan(
               text: "$title\n",
-              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),
+              style: const TextStyle(
+                  fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),
               children: [
                 TextSpan(
                   text: value,
-                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.normal),
+                  style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.normal,
+                      color: Colors.white),
                 ),
               ],
             ),

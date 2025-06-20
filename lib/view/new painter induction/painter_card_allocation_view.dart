@@ -177,7 +177,7 @@ class _AddLeadsViewState extends State<PainterCardAllocationView> {
                 const SizedBox(height: 45),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                  child: CustomTextField(
+                  child: CustomTextField1(
                     label: "Painter Name",
                     controller: painterNameEditingController,
                   ),
@@ -185,7 +185,7 @@ class _AddLeadsViewState extends State<PainterCardAllocationView> {
                 const SizedBox(height: 20),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                  child: CustomTextField(
+                  child: CustomTextField1(
                     label: "Painter  Number",
                     controller: painterNumberEditingController,
                     maxLength: 11,

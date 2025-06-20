@@ -15,10 +15,12 @@ class CityWiseView extends StatelessWidget {
       removeTop: true,
       child: ListView.builder(
         itemCount: controller.cityWisePlanList.length,
+
         itemBuilder: (context, index) {
           final item = controller.cityWisePlanList[index];
-      
+
           return MeetupCard(
+            showTarget: false,
             city: item.cityName,
             achieved: "${item.achievement}/${item.noOfVisits}",
             weeklyFreq: item.weeklyFrequency,

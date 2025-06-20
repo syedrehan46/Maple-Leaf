@@ -1,26 +1,28 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:mapleleaf/utils/app_colors.dart';
-import 'package:mapleleaf/utils/app_fonts.dart';
+import 'package:get/get_rx/src/rx_types/rx_types.dart';
+import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 
-class CustomDropdownField extends StatelessWidget {
+import '../app_colors.dart';
+import '../app_fonts.dart';
+
+
+class CustomDropdown1 extends StatelessWidget {
   final String label;
   final RxString selectedValue;
   final List<String> items;
   final BuildContext parentContext;
   final double? width;
   final double? height;
-  final dynamic labelColor;
 
-  const CustomDropdownField({
+  const CustomDropdown1({
     Key? key,
-    this.height,
-    this.width,
     required this.label,
     required this.selectedValue,
     required this.items,
     required this.parentContext,
-    this.labelColor = AppColors.lightOrange,
+    this.width,
+    this.height,
   }) : super(key: key);
 
   @override
@@ -28,7 +30,7 @@ class CustomDropdownField extends StatelessWidget {
     return GestureDetector(
       onTap: () => _showDropdown(parentContext),
       child: Obx(() => SizedBox(
-        height: height ?? MediaQuery.of(context).size.height,
+        height: height ?? 65,
         width: width ?? MediaQuery.of(context).size.width,
         child: Stack(
           alignment: Alignment.center,
@@ -41,18 +43,15 @@ class CustomDropdownField extends StatelessWidget {
                 borderRadius: BorderRadius.circular(8),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.1), // Shadow color
-                    spreadRadius: 2, // How much the shadow spreads
-                     // Soften the shadow
-                    offset: Offset(0, 3), // X and Y axis movement
-                  ),
-                ]
-              ),
+                    color: Colors.black.withOpacity(0.1),
+                    spreadRadius: 2,
 
+                  ),
+                ],
+              ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-
                   Text(
                     selectedValue.value.isEmpty
                         ? "Please Select $label"
@@ -70,7 +69,7 @@ class CustomDropdownField extends StatelessWidget {
               child: Center(
                 child: Text(
                   label,
-                  style: AppFonts.styleHarmoniaBold16W600(labelColor),
+                  style: AppFonts.styleHarmoniaBold16W600(AppColors.primaryColor),
                 ),
               ),
             ),
@@ -100,9 +99,10 @@ class CustomDropdownField extends StatelessWidget {
                 const Text(
                   "Select Item",
                   style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black),
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
                 ),
                 const SizedBox(height: 12),
                 TextField(
@@ -112,8 +112,8 @@ class CustomDropdownField extends StatelessWidget {
                     prefixIcon: const Icon(Icons.search, color: Colors.grey),
                     filled: true,
                     fillColor: Colors.white,
-                    contentPadding:
-                    const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                    contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 12, vertical: 12),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
                       borderSide: BorderSide.none,
@@ -127,7 +127,6 @@ class CustomDropdownField extends StatelessWidget {
                   endIndent: 10,
                 ),
                 const SizedBox(height: 12),
-                // Make only the list scrollable inside a Flexible widget
                 Flexible(
                   child: Obx(() {
                     final filtered = items
@@ -149,20 +148,23 @@ class CustomDropdownField extends StatelessWidget {
                           },
                         );
                       },
-                      separatorBuilder: (_, __) => const Divider(color: Colors.grey),
+                      separatorBuilder: (_, __) =>
+                      const Divider(color: Colors.grey),
                     );
                   }),
                 ),
                 const SizedBox(height: 8),
-                // Close button fixed at bottom right
                 Align(
                   alignment: Alignment.bottomRight,
                   child: TextButton(
                     onPressed: () => Navigator.pop(context),
                     child: const Text(
                       "Close",
-                      style: TextStyle(fontSize: 16,
-                          color: Colors.red, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.red,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ),
@@ -173,5 +175,4 @@ class CustomDropdownField extends StatelessWidget {
       },
     );
   }
-
 }

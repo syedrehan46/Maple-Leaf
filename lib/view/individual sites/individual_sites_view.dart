@@ -3,6 +3,7 @@ import 'package:mapleleaf/model/login_model.dart';
 import 'package:mapleleaf/utils/app_colors.dart';
 import 'package:get/get.dart';
 import 'package:mapleleaf/utils/custom%20widgets/floatingaction_button.dart';
+import 'package:mapleleaf/view/individual%20sites/IS_form.dart';
 import '../../controller/IS/is_controller.dart';
 import '../../utils/custom widgets/custom_appbar.dart';
 import 'citiywise_view.dart';
@@ -141,7 +142,7 @@ class _IndividualSitesState extends State<IndividualSites> with SingleTickerProv
         ],
       ),
       floatingActionButton: CustomFloatingActionButton(onPressed: (){
-
+        Get.to(IsForm());
       }),
 
     );

@@ -167,7 +167,7 @@ class _PainterEngamentInviteState extends State<PainterEngamentInvite> {
                               padding: const EdgeInsets.symmetric(horizontal: 8.0),
                               child: Container(
                                 width: MediaQuery.of(context).size.width * (0.7),
-                                child: CustomTextField(
+                                child: CustomTextField1(
                                   keyboardType: TextInputType.phone,
                                   maxLength: 16,
                                   label: " Card Number",
@@ -194,7 +194,7 @@ class _PainterEngamentInviteState extends State<PainterEngamentInvite> {
                         // Phone Number field
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                          child: CustomTextField(
+                          child: CustomTextField1(
                             keyboardType: TextInputType.phone,
                             maxLength: 11,
                             showCharCount: true,
@@ -205,7 +205,7 @@ class _PainterEngamentInviteState extends State<PainterEngamentInvite> {
                         const SizedBox(height: 20),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                          child: CustomTextField(
+                          child: CustomTextField1(
                             keyboardType: TextInputType.name,
                             maxLength: 20,
                             showCharCount: false,

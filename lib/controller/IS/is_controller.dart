@@ -4,9 +4,17 @@ import 'package:get/get.dart';
 import '../../model/IS/Area Wise Planning User/areawise_model.dart';
 import '../../network/network_call.dart';
 import '../../utils/api_routes.dart';
+import '../auth_controller.dart';
 
 class PlanController extends GetxController implements GetxService {
-
+  final AuthController authController = Get.find<AuthController>();
+  @override
+  void onInit() {
+    super.onInit();
+    String salesForceId = "${authController.salesForceId}";
+    fetchPlanDataCityWise(salesForceId);
+    fetchPlanDataAreaWise(salesForceId);
+  }
   RxList<PlanModel> cityWisePlanList = <PlanModel>[].obs;
   RxList<PlanModel> areaWisePlanList = <PlanModel>[].obs;
 
@@ -14,12 +22,10 @@ class PlanController extends GetxController implements GetxService {
 
   Future<void> fetchPlanDataCityWise(String salesForceId) async {
     EasyLoading.show();
-
-    String url = "${ApiRoutes.apiIsPlanDetailCityWise}?salesForceId=$salesForceId";
+    String salesForceId = authController.salesForceId;
+    String url = "${ApiRoutes.apiIsPlanDetailCityWise}?salesForceId=${salesForceId}";
     ApiResponse response = await NetworkCall.getApiCallWithToken(url);
-
     EasyLoading.dismiss();
-
     if ((response.done ?? false) && response.responseString != null) {
       try {
         final List<dynamic> data = jsonDecode(response.responseString!);
@@ -27,6 +33,7 @@ class PlanController extends GetxController implements GetxService {
         for (var item in cityWisePlanList) {
           print("City ${item.achievement}, Plan ID: ${item.planId}, Month: ${item.activeMonth}");
         }
+
       } catch (e) {
         errorMessage.value = 'Failed to parse city-wise data';
         print("City Parse Error: $e");
@@ -39,12 +46,9 @@ class PlanController extends GetxController implements GetxService {
 
   Future<void> fetchPlanDataAreaWise(String salesForceId) async {
     EasyLoading.show();
-
     String url = "${ApiRoutes.apiIsPlanDetailAreaWise}?salesForceId=$salesForceId";
     ApiResponse response = await NetworkCall.getApiCallWithToken(url);
-
     EasyLoading.dismiss();
-
     if ((response.done ?? false) && response.responseString != null) {
       try {
         final List<dynamic> data = jsonDecode(response.responseString!);
