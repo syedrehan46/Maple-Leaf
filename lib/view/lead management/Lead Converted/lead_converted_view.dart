@@ -11,6 +11,7 @@ import 'package:mapleleaf/view/lead management/Lead Converted/feedback_view.dart
 import 'package:mapleleaf/view/lead%20management/Lead%20Generated/Portfolio%20View/porfolio_two_view.dart';
 
 import '../../../controller/LM/lead_converted_controller.dart';
+import '../../../utils/custom widgets/custom_filter.dart';
 
 class LeadConvertedView extends StatefulWidget {
   const LeadConvertedView({super.key});
@@ -23,6 +24,7 @@ class _LeadConvertedViewState extends State<LeadConvertedView> {
   final RxInt selectedIndex = 0.obs;
   final RxString selectedCity = ''.obs;
   final RxString selectedStatus = ''.obs;
+  final RxInt selectedMonthIndex = (-1).obs;
 
   final LeadConvertedController controller = Get.put(LeadConvertedController());
 
@@ -87,107 +89,49 @@ class _LeadConvertedViewState extends State<LeadConvertedView> {
     );
   }
 
-  void showCustomFilterDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return Dialog(
-          insetPadding: const EdgeInsets.all(20),
-          child: Container(
-            padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(15),
-              color: AppColors.whiteColor,
-            ),
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Text("Month", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
-                      GestureDetector(
-                        onTap: () => Navigator.pop(context),
-                        child: Container(
-                          decoration: const BoxDecoration(color: AppColors.primaryColor, shape: BoxShape.circle),
-                          padding: const EdgeInsets.all(4),
-                          child: const Icon(Icons.close, color: Colors.white, size: 16),
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 20),
-                  Row(
-                    children: List.generate(3, (index) {
-                      final labels = ["This Month", "Since Last Month", "Since Last Two Month"];
-                      return Padding(
-                        padding: const EdgeInsets.only(right: 16.0),
-                        child: Obx(() => ElevatedButton(
-                          onPressed: () => selectedIndex.value = index,
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.white,
-                            foregroundColor: Colors.black,
-                            side: BorderSide(
-                              color: selectedIndex.value == index ? Colors.red : Colors.black,
-                              width: 1.5,
-                            ),
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-                          ),
-                          child: Text(labels[index]),
-                        )),
-                      );
-                    }),
-                  ),
-                  const SizedBox(height: 20),
-                  buildDropdown("City", ["Please Select City", "CHARHOI", "DANDI DARA", "DINA", "JHEUM", "KHARIAN", "KOTLA", "SARAI ALAMGIR"], selectedCity),
-                  const SizedBox(height: 16),
-                  buildDropdown("Status", ["Please Select Status", "LEAD GENERATED", "PROCESSED", "CONVERTED", "CLOSE"], selectedStatus),
-                  const SizedBox(height: 16),
-                  Row(
-                    children: [
-                      ElevatedButton(
-                        style: ElevatedButton.styleFrom(backgroundColor: AppColors.primaryColor),
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        child: const Padding(
-                          padding: EdgeInsets.symmetric(vertical: 12.0),
-                          child: Text("SHOW RESULT", style: TextStyle(color: Colors.white)),
-                        ),
-                      ),
-                      const SizedBox(width: 12),
-                      ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.white,
-                          side: const BorderSide(color: AppColors.primaryColor, width: 2),
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
-                        ),
-                        onPressed: () {
-                          selectedIndex.value = -1;
-                          selectedCity.value = '';
-                          selectedStatus.value = '';
-                        },
-                        child: const Text("CLEAR", style: TextStyle(color: AppColors.primaryColor)),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ),
-        );
-      },
-    );
-  }
-
-  @override
+ @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
         children: [
 
-          CustomAppbar(title: 'Lead Converted', timeLocationIsVisible: true),
+          CustomAppbar(
+            title: 'Lead Converted',
+            timeLocationIsVisible: true,
+            widget: GestureDetector(
+              onTap: () {
+                print(" ${controller.cityList}");
+                print("Selected Status: ${controller.statusList}");
+                print("Selected Month Index: ${selectedMonthIndex}");
+
+                selectedMonthIndex.value = 0;
+
+                showCustomFilterDialog(
+                  context: context,
+                  cityList: controller.cityNameList,
+                  statusList: controller.statusList,
+                  selectedCity: selectedCity,
+                  selectedStatus: selectedStatus,
+                  selectedMonthIndex: selectedMonthIndex,
+                  onApply: () {
+                    print("Helloo Rehan");
+                    controller.fetchLeadConvertedData(
+                      selectedMonthIndex.value,
+                      status: selectedStatus.value,
+                      city: selectedCity.value,
+                    );
+                  },
+                );
+              },
+              child: Image.asset(
+                "assets/images/ic_filter.png",
+                height: 20,
+                width: 20,
+                color: Colors.white,
+              ),
+            ),
+          ),
+
           Expanded(
             child: Stack(
               children: [

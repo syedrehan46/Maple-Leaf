@@ -9,6 +9,7 @@ import 'package:mapleleaf/view/lead%20management/Lead%20Generated/Portfolio%20Vi
 import 'package:mapleleaf/view/lead%20management/Lead%20Generated/Portfolio%20View/portfolio_view.dart';
 
 import '../../../controller/LM/lead_generated_controller.dart';
+import '../../../utils/custom widgets/custom_filter.dart';
 
 class LeadGeneratedView extends StatefulWidget {
   const LeadGeneratedView({super.key});
@@ -21,161 +22,11 @@ class _LeadGeneratedViewState extends State<LeadGeneratedView> {
   final RxInt selectedIndex = 0.obs;
   final RxString selectedCity = ''.obs;
   final RxString selectedStatus = ''.obs;
+  final RxInt selectedMonthIndex = (-1).obs;
 
   final LeadGeneratedController controller = Get.put(LeadGeneratedController());
 
-  Widget buildDropdown(String label, List<String> items, RxString selectedValue) {
-    String dropdownValue = items.first;
 
-    return StatefulBuilder(
-      builder: (context, setState) {
-        return Padding(
-          padding: const EdgeInsets.only(bottom: 16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                " $label",
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16,
-                ),
-              ),
-              const SizedBox(height: 8),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12),
-                decoration: BoxDecoration(
-                  color: const Color(0xffD2F6F9FB),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: DropdownButtonHideUnderline(
-                  child: DropdownButton<String>(
-                    value: dropdownValue,
-                    isExpanded: true,
-                    icon: const Icon(Icons.arrow_drop_down),
-                    onChanged: (String? newValue) {
-                      setState(() {
-                        dropdownValue = newValue!;
-                        selectedValue.value = dropdownValue;
-                      });
-                    },
-                    selectedItemBuilder: (BuildContext context) {
-                      return items.map((String value) {
-                        return Text(
-                          value,
-                          style: const TextStyle(color: Colors.black),
-                        );
-                      }).toList();
-                    },
-                    items: items.map<DropdownMenuItem<String>>((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(
-                          value,
-                          style: TextStyle(
-                            color: value == items.first ? Colors.red : Colors.black,
-                          ),
-                        ),
-                      );
-                    }).toList(),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        );
-      },
-    );
-  }
-
-  void showCustomFilterDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return Dialog(
-          insetPadding: const EdgeInsets.all(20),
-          child: Container(
-            padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(15),
-              color: AppColors.whiteColor,
-            ),
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Text("Month",
-                          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
-                      GestureDetector(
-                        onTap: () => Navigator.pop(context),
-                        child: Container(
-                          decoration: const BoxDecoration(
-                              color: AppColors.primaryColor, shape: BoxShape.circle),
-                          padding: const EdgeInsets.all(4),
-                          child: const Icon(Icons.close, color: Colors.white, size: 16),
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 20),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Obx(() => _filterButton("This Month", 0)),
-                      const SizedBox(width: 16),
-                      Obx(() => _filterButton("Since Last Month", 1)),
-                    ],
-                  ),
-                  const SizedBox(height: 8),
-                  Obx(() => _filterButton("Since Last Two Month", 2)),
-                  const SizedBox(height: 20),
-                  buildDropdown("City", ["Please Select City", "CHARHOI", "DANDI DARA", "DINA", "JHEUM", "KHARIAN", "KOTLA", "SARAI ALAMGIR"], selectedCity),
-                  buildDropdown("Status",controller.statusList, selectedStatus),
-                  const SizedBox(height: 16),
-                  Row(
-                    children: [
-                      ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.primaryColor,
-                        ),
-                        onPressed: () {
-                          Navigator.pop(context);
-                          controller.fetchLeadGeneratedData(0); // Optional: Refresh data
-                        },
-                        child: const Padding(
-                          padding: EdgeInsets.symmetric(vertical: 12.0),
-                          child: Text("SHOW RESULT", style: TextStyle(color: Colors.white)),
-                        ),
-                      ),
-                      const SizedBox(width: 12),
-                      ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.white,
-                          side: const BorderSide(color: AppColors.primaryColor, width: 2),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(25),
-                          ),
-                        ),
-                        onPressed: () {
-                          selectedIndex.value = -1;
-                          selectedCity.value = '';
-                          selectedStatus.value = '';
-                        },
-                        child: const Text("CLEAR", style: TextStyle(color: AppColors.primaryColor)),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ),
-        );
-      },
-    );
-  }
 
   Widget _filterButton(String label, int index) {
     return ElevatedButton(
@@ -308,8 +159,30 @@ class _LeadGeneratedViewState extends State<LeadGeneratedView> {
         ),
         CustomAppbar(title: 'Lead Generated', timeLocationIsVisible: true, isshowSummary: false,widget: GestureDetector(
           onTap: () {
-            showCustomFilterDialog(context);
+
+            // 👇 Add your API/filter logic here
+            print(" ${controller.cityList}");
+            print("Selected Status: ${controller.statusList}");
+            print("Selected Month Index: ${selectedMonthIndex}");
+            selectedMonthIndex.value = 0;
+            showCustomFilterDialog(
+              context: context,
+              cityList: controller.cityNameList,
+              statusList: controller.statusList,
+              selectedCity: selectedCity,
+              selectedStatus: selectedStatus,
+              selectedMonthIndex: selectedMonthIndex,
+                onApply: () {
+                print("Helloo Rehan");
+                  controller.fetchLeadGeneratedData(
+                    controller.selectedMonthIndex.value,
+                    status: controller.selectedStatus.value,
+                    city: controller.selectedCity.value,
+                  );
+                }
+            );
           },
+
           child: Image.asset(
             "assets/images/ic_filter.png",
             height: 20,

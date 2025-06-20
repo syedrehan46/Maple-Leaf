@@ -1,9 +1,7 @@
 import 'dart:convert';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
-import 'package:mapleleaf/model/LM/Lead%20Generated/lead_generated_model.dart';
-import 'package:mapleleaf/model/LM/Lead%20Processing/lead_processing_model.dart';
-import '../../model/LM/Lead Converted/lead_converted_model.dart';
+import 'package:mapleleaf/model/LM/Lead%20Converted/lead_converted_model.dart';
 import '../../network/network_call.dart';
 import '../../utils/api_routes.dart';
 import '../auth_controller.dart';
@@ -13,6 +11,7 @@ class LeadGeneratedController extends GetxController implements GetxService {
 
   RxList<LeadConvertedModel> allLeads = <LeadConvertedModel>[].obs;
   RxList<LeadConvertedModel> leadGeneratedList = <LeadConvertedModel>[].obs;
+
   RxString errorMessage = ''.obs;
 
   // Filters
@@ -20,53 +19,65 @@ class LeadGeneratedController extends GetxController implements GetxService {
   RxString selectedStatus = ''.obs;
   RxInt selectedMonthIndex = 0.obs;
 
-
-  // Dynamic filter options
   RxList<String> cityList = [''].obs;
   RxList<String> statusList = [''].obs;
 
-  Future<void> fetchLeadGeneratedData(int selectedMonth) async {
+  /// ✅ Fetch data with optional filters
+  Future<void> fetchLeadGeneratedData(
+      int selectedMonth, {
+        String? city,
+        String? status,
+      }) async {
     EasyLoading.show(status: 'Loading...');
     try {
       String salesForceId = authController.salesForceId;
-      String url;
+      String baseUrl;
 
-      String areaId = selectedCity.value.trim(); // or selectedAreaId if more appropriate
-      String leadStatus = selectedStatus.value.trim();
-
+      // Choose API based on selected month
       switch (selectedMonth) {
         case 0:
-          url =
-          "${ApiRoutes.apiLmGeneratedTwoWeeks}?salesForceId=$salesForceId&customerAreaId=$areaId&leadStatus=$leadStatus";
+          baseUrl = ApiRoutes.apiLmGeneratedTwoWeeks;
           break;
         case 1:
-          url =
-          "${ApiRoutes.apiLmGeneratedLastThirtyDays}?salesForceId=$salesForceId&leadStatus=$leadStatus";
+          baseUrl = ApiRoutes.apiLmGeneratedLastThirtyDays;
           break;
         case 2:
-          url =
-          "${ApiRoutes.apiLmGeneratedLastTwoMonth}?salesForceId=$salesForceId&leadStatus=$leadStatus";
+          baseUrl = ApiRoutes.apiLmGeneratedLastTwoMonth;
           break;
         default:
-          url =
-          "${ApiRoutes.apiLmGeneratedTwoWeeks}?salesForceId=$salesForceId&leadStatus=$leadStatus";
+          baseUrl = ApiRoutes.apiLmGeneratedTwoWeeks;
       }
 
+      // Build dynamic query parameters
+      final queryParams = {
+        'salesForceId': salesForceId,
+        if (status != null && status.isNotEmpty && !status.contains("Please"))
+          'status': status,
+        if (city != null && city.isNotEmpty && !city.contains("Please"))
+          'city': city,
+      };
 
+      final queryString = Uri(queryParameters: queryParams).query;
+      final url = "$baseUrl?$queryString";
+      print("Final API URL: $url");
+
+      // API Call
       ApiResponse response = await NetworkCall.getApiCallWithToken(url);
       EasyLoading.dismiss();
 
       if ((response.done ?? false) && response.responseString != null) {
         final List<dynamic> data = jsonDecode(response.responseString!);
-        allLeads.value = data.map((e) => LeadConvertedModel.fromJson(e)).toList();
+        print("Data coming >> $data");
 
-        // Populate city and status lists dynamically
-        final Set<String> cities = allLeads.map((e) => (e.cityName ?? '').toUpperCase()).toSet();
-        final Set<String> statuses = allLeads.map((e) => (e.leadStatus ?? '').toUpperCase()).toSet();
-        cityList.value = [''] + cities.toList();
-        statusList.value = [''] + statuses.toList();
+        allLeads.value =
+            data.map((e) => LeadConvertedModel.fromJson(e)).toList();
+        leadGeneratedList.value = allLeads;
 
-        applyFilters();
+        final Set<String> statuses = allLeads
+            .map((e) => (e.leadStatus ?? '').toUpperCase())
+            .toSet();
+
+        statusList.value = statuses.toList();
       } else {
         errorMessage.value = response.errorMsg ?? 'Unknown error occurred';
       }
@@ -77,12 +88,13 @@ class LeadGeneratedController extends GetxController implements GetxService {
     }
   }
 
+  // ✅ Optional — only used if you want to filter locally instead of from API
   void applyFilters() {
     final String city = selectedCity.value.trim().toUpperCase();
     final String status = selectedStatus.value.trim().toUpperCase();
 
     leadGeneratedList.value = allLeads.where((lead) {
-      final leadCity = (lead.cityName ?? '').trim().toUpperCase();
+      final leadCity = (lead.customerName ?? '').trim().toUpperCase();
       final leadStatus = (lead.leadStatus ?? '').trim().toUpperCase();
 
       final cityMatches = city.isEmpty || leadCity == city;
@@ -92,9 +104,46 @@ class LeadGeneratedController extends GetxController implements GetxService {
     }).toList();
   }
 
+  // ✅ Fetch city names for dropdown
+  RxList<String> cityNameList = <String>[].obs;
+  RxList<LeadConvertedModel> cityDetail = <LeadConvertedModel>[].obs;
+
+  Future<void> fetchCityDetail() async {
+    EasyLoading.show(status: 'Loading...');
+    try {
+      String lmSalesId = authController.salesForceId;
+      String url = "${ApiRoutes.apiLmCityList}?lmSalesId=$lmSalesId";
+
+      ApiResponse response = await NetworkCall.getApiCallWithToken(url);
+      EasyLoading.dismiss();
+
+      if ((response.done ?? false) && response.responseString != null) {
+        final List<dynamic> data = jsonDecode(response.responseString!);
+
+        cityDetail.value =
+            data.map((e) => LeadConvertedModel.fromJson(e)).toList();
+
+        cityNameList.value = data
+            .map((e) => e['CITY_NAME']?.toString() ?? '')
+            .where((name) => name.isNotEmpty)
+            .toSet()
+            .toList();
+
+        print("City Names: $cityNameList");
+      } else {
+        errorMessage.value = response.errorMsg ?? 'Unknown error occurred';
+      }
+    } catch (e) {
+      EasyLoading.dismiss();
+      errorMessage.value = 'An error occurred: $e';
+      print('Fetch Error: $e');
+    }
+  }
+
   @override
   void onInit() {
     fetchLeadGeneratedData(0);
+    fetchCityDetail();
     super.onInit();
   }
 }
