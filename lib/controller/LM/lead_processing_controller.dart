@@ -62,6 +62,7 @@ class LeadProcessingController extends GetxController implements GetxService {
       print("Final API URL: $url");
 
       ApiResponse response = await NetworkCall.getApiCallWithToken(url);
+      print("DATA IS COMMING ==>${response.responseString} ");
       EasyLoading.dismiss();
 
       if ((response.done ?? false) && response.responseString != null) {

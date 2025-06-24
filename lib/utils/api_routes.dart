@@ -26,7 +26,7 @@ class ApiRoutes{
   static const String apiLmConvertedTwoWeeks = "$baseUrl/LeadEngine/GetTwoWeekLeaConvertedDetail";
   static const String apiLmConvertedLastThirtyDays = "$baseUrl/LeadEngine/LastThirtyDaysLeadConvertedDetail";
   static const String apiLmConvertedLastMonth= "$baseUrl/LeadEngine/SinceLastMonthLeadConvertedDetail";
-  static const String apiLmConvertedLastTwoMonth= "$baseUrl/LeadEngine/SinceLastTwoMonthLeadConvertedDetailV1";
+  static const String apiLmConvertedLastTwoMonth= "$baseUrl/Leads/SinceLastTwoMonthLeadConvertedDetailV1";
   static const String apiLmConvertedLeadStatus= "$baseUrl/LeadEngine/GetLeadStatus";
   static const String apiLmConvertedFilterAllCities= "$baseUrl/LeadEngine/GetAllCitiesByLeadManager";
   static const String apiLmConvertedFilteredConverted= "$baseUrl/Leads/GetAllLeadConvertedByMonthTypeV1";
@@ -35,7 +35,7 @@ class ApiRoutes{
   static const String apiLmProcessingTwoWeeks = "$baseUrl/LeadEngine/GetTwoWeekLeadCovnertedProcessedandNotProcessed";
   static const String apiLmProcessingLastThirtyDays = "$baseUrl/LeadEngine/LastThirtyDaysLeadCovnertedProcessedandNotProcessed";
   static const String apiLmProcessingLastMonth= "$baseUrl/LeadEngine/SinceLastMonthLeadCovnertedProcessedandNotProcessed";
-  static const String  apiLmProcessingLastTwoMonth= "$baseUrl/LeadEngine/GetAllLeadProcessedByMonthType";
+  static const String  apiLmProcessingLastTwoMonth= "$baseUrl//LeadEngine/SinceLastTwoMonthLeadCovnertedProcessedandNotProcessed";
   static const String apiLmProcessingFiltersCity= "$baseUrl/LeadEngine/GetAllCitiesByLeadManager";
   static const String apiLmProcessingFilterStatus = "$baseUrl/LeadEngine/GetAllCitiesByLeadManager";
   static const String apiLmProcessingFilteredProcessed= "$baseUrl/LeadEngine/GetAllLeadProcessedByMonthTypeV1";
@@ -79,4 +79,9 @@ class ApiRoutes{
   static const String apiUpdateProfile = "user/";
   static const String apiAccountDelete = "user/";
   static const String apiAddLead = "Opa/AddLeadDetail";
+
+  //FEEDBACK POST API
+  // static const String apiAddLead = "Opa/AddLeadDetail";
+  static const String apifeedback = "$baseUrl/LeadEngine/AddLeadFeedback";
+
 }

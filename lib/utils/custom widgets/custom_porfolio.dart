@@ -3,15 +3,12 @@ import 'package:get/get.dart';
 import 'package:mapleleaf/model/LM/Lead%20Converted/lead_converted_model.dart';
 import 'package:mapleleaf/utils/app_colors.dart';
 import 'package:mapleleaf/utils/app_fonts.dart';
-import 'package:mapleleaf/utils/custom widgets/custom_dropdownfeild.dart';
-
-import '../../model/LM/Lead Generated/lead_generated_model.dart';
-import '../../view/Maple Lead/Dealers/Job Detail/custom_confirmation.dart';
-import '../../view/Maple Lead/Dealers/Job Detail/custom_dropdown_view.dart';
-import '../../view/Maple Lead/Dealers/Job Detail/custom_textfiledd.dart';
-import '../../view/Maple Lead/Dealers/Job Detail/custom_toast.dart';
-import '../../view/Maple Lead/Dealers/Job Detail/job_controller.dart';
-import '../../view/Maple Lead/Dealers/custom_button1.dart';
+import 'package:mapleleaf/view/Maple%20Lead/Dealers/Job%20Detail/custom_confirmation.dart';
+import 'package:mapleleaf/view/Maple%20Lead/Dealers/Job%20Detail/custom_textfiledd.dart';
+import 'package:mapleleaf/view/Maple%20Lead/Dealers/Job%20Detail/custom_toast.dart';
+import 'package:mapleleaf/view/Maple%20Lead/Dealers/Job%20Detail/job_controller.dart';
+import 'package:mapleleaf/view/Maple%20Lead/Dealers/custom_button1.dart';
+import 'custom_dropdown1.dart';
 
 class CustomPorfolio extends StatefulWidget {
   final LeadConvertedModel lead;
@@ -64,12 +61,10 @@ class _CustomPorfolioState extends State<CustomPorfolio> {
   @override
   void initState() {
     super.initState();
-
-    // 📌 Initialize and assign values from model
     customerNameController = TextEditingController(text: widget.lead.customerName ?? "");
     customerContactNoController = TextEditingController(text: widget.lead.customerPhone ?? "");
-    secondPersontypeController = TextEditingController();
-    secondPersonNoController = TextEditingController();
+    secondPersontypeController = TextEditingController(text: "PAINTER");
+    secondPersonNoController = TextEditingController(text: "03214338421");
     thirdPersonTypeController = TextEditingController();
     thirdPersonNoController = TextEditingController();
     leadFromController = TextEditingController(text: widget.lead.leadFrom ?? "");
@@ -94,7 +89,6 @@ class _CustomPorfolioState extends State<CustomPorfolio> {
     twentyKgReguController.text = widget.lead.noOfBags20KgSkimCoat?.toString() ?? "0.0";
     twentyKgReguTotalController.text = widget.lead.total20KgSkimCoat?.toString() ?? "0.0";
 
-    // 🔁 Add listeners to keep total KGs updated when bag count changes
     fiveKgPuttyController.addListener(() => _updateKgTotal(fiveKgPuttyController, fiveKgTotalController, 5));
     twentyKgPuttyController.addListener(() => _updateKgTotal(twentyKgPuttyController, twentyKgTotalController, 20));
     twentyKgRegularController.addListener(() => _updateKgTotal(twentyKgRegularController, twentyKgRegularTotalController, 20));
@@ -105,79 +99,6 @@ class _CustomPorfolioState extends State<CustomPorfolio> {
   void _updateKgTotal(TextEditingController bagsController, TextEditingController kgController, int multiplier) {
     int bags = int.tryParse(bagsController.text) ?? 0;
     kgController.text = (bags * multiplier).toStringAsFixed(1);
-  }
-
-  @override
-  void dispose() {
-    fiveKgPuttyController.dispose();
-    fiveKgTotalController.dispose();
-    twentyKgPuttyController.dispose();
-    twentyKgTotalController.dispose();
-    twentyKgRegularController.dispose();
-    twentyKgRegularTotalController.dispose();
-    twentyKgExpController.dispose();
-    twentyKgExpTotalController.dispose();
-    twentyKgReguController.dispose();
-    twentyKgReguTotalController.dispose();
-    sampleAppliedController.dispose();
-    convertedToSaleController.dispose();
-    super.dispose();
-  }
-
-  bool updateInformation() {
-    if (thirdPersonNoController.text.trim().isEmpty) {
-      CustomToast('Please Enter Third Person Number', context: context);
-      return false;
-    }
-    if (controller.selectedSecondTypePerson.isEmpty) {
-      CustomToast('Please Select Second Person Type', context: context);
-      return false;
-    }
-    if (controller.selectedthirdTypePerson.isEmpty ||
-        controller.selectedthirdTypePerson == "Please Select Third Person Type") {
-      CustomToast('Please Select Third Person Type', context: context);
-      return false;
-    }
-    return true;
-  }
-
-  bool feedbackProceed() {
-    if (selectedValue == "YES" && tokenNumberController.text.trim().isEmpty) {
-      CustomToast('Please Enter Token Number', context: context);
-      return false;
-    }
-    if (controller.selectedSampleApplied.isEmpty ||
-        controller.selectedSampleApplied == "Please Select Sample Applied") {
-      CustomToast('Please Select Sample Applied', context: context);
-      return false;
-    }
-    if (controller.selectedConvertedToSale.isEmpty ||
-        controller.selectedConvertedToSale == "Please Select Converted To Sale") {
-      CustomToast('Please Select Converted To Sale', context: context);
-      return false;
-    }
-    if (controller.selectedProjectToSale.isEmpty ||
-        controller.selectedProjectToSale == "Please Select Project Stage") {
-      CustomToast('Please Select Project Stage', context: context);
-      return false;
-    }
-    if (controller.selectedPainterObliged.isEmpty ||
-        controller.selectedPainterObliged == "Please Select Painter Obliged") {
-      CustomToast('Please Select Painter Obliged', context: context);
-      return false;
-    }
-    return true;
-  }
-
-  Widget _buildTextfield(String title, TextEditingController controller,
-      {bool isNumber = false, bool readOnly = false}) {
-    return CustomTextFieldS(
-      title: title,
-      controller: controller,
-      keyboardType: isNumber ? TextInputType.number : TextInputType.text,
-      readOnly: readOnly,
-      isAddborder: true,
-    );
   }
 
   @override
@@ -196,44 +117,52 @@ class _CustomPorfolioState extends State<CustomPorfolio> {
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
-            CustomTextFieldS(controller: customerNameController, title: "Customer Name and Address", isAddborder: true),
-            CustomTextFieldS(controller: customerContactNoController, title: "Customer Contact No", keyboardType: TextInputType.number, isAddborder: true),
+            CustomTextFieldS(controller: customerNameController, title: "Customer Name and Address", isAddborder: true,readOnly: false,),
+            SizedBox(height: 10,),
+            CustomTextFieldS(controller: customerContactNoController, title: "Customer Contact No", keyboardType: TextInputType.number, isAddborder: true,readOnly: false,),
+            SizedBox(height: 10,),
             CustomTextFieldS(controller: secondPersontypeController, title: "Second Person Type", isAddborder: true),
-            CustomTextFieldS(controller: secondPersonNoController, title: "Second Person Number", keyboardType: TextInputType.number, isAddborder: true),
+            SizedBox(height: 10,),
+            CustomTextFieldS(controller: secondPersonNoController, title: "Second Person Number", keyboardType: TextInputType.number, isAddborder: true,readOnly: false,),
+            SizedBox(height: 10,),
             CustomTextFieldS(controller: thirdPersonTypeController, title: "Third Person Type", readOnly: true, isAddborder: true),
+            SizedBox(height: 10,),
             CustomTextFieldS(controller: thirdPersonNoController, title: "Third Person Number", keyboardType: TextInputType.number, isAddborder: true),
+            SizedBox(height: 10,),
             CustomTextFieldS(controller: leadFromController, title: "Lead From", isAddborder: true),
-            CustomTextFieldS(controller: viaController, title: "Via", isAddborder: true),
+            SizedBox(height: 10,),
+            CustomTextFieldS(controller: viaController, title: "Via", isAddborder: true,readOnly: false,),
             const SizedBox(height: 6),
 
             if (!widget.isremovedFields)
               Column(
                 children: [
-                  CustomDropdownField(
-                    label: 'Second Person Type',
-                    selectedValue: controller.selectedSecondTypePerson,
-                    items: controller.secondTypePersonList,
-                    parentContext: context,
-                  ),
-                  const SizedBox(height: 6),
-                  CustomDropdownField(
-                    label: 'Third Person Type',
-                    selectedValue: controller.selectedthirdTypePerson,
-                    items: controller.thirdTypePersonList,
-                    parentContext: context,
-                  ),
+                  CustomDropdown1(label: 'Second Person Type', items: controller.secondTypePersonList, selectedValue: controller.selectedSecondTypePerson, parentContext: context, width: double.infinity, height: 80,titleColor: AppColors.lightOrange,),
+                  SizedBox(height: 12,),
+                  CustomDropdown1(label: 'Third Person Type', items: controller.thirdTypePersonList, selectedValue: controller.selectedthirdTypePerson, parentContext: context, width: double.infinity, height: 80,titleColor: AppColors.lightOrange,),
                   SizedBox(height: MediaQuery.of(context).size.height * 0.03),
                   CustomButtons(
+                    height: 0.05,
                     bc_color: AppColors.primaryColor,
-                    padding: 2,
-                    title: "UPDATE INFORMATION",
+                    padding: 0,
+                    title: "UPDATE  INFORMATION",
                     onPressed: () {
-                      if (updateInformation()) {
-                        Get.dialog(ConfirmationPopup(label: "UPDATE INFORMATION"), barrierDismissible: false);
+                      if (feedbackProceed()) {
+                        Get.dialog(ConfirmationPopup(label: "FEED BACK"), barrierDismissible: false);
                       }
                     },
                   ),
                   SizedBox(height: MediaQuery.of(context).size.height * 0.06),
+                  CustomDropdown1(label: '* Sample Applied ', items: controller.selectedSampledList, selectedValue: controller.selectedSampleApplied, parentContext: context, width: double.infinity, height: 80,titleColor: AppColors.lightOrange,),
+                  SizedBox(height: 12,),
+                  CustomDropdown1(label: '* Converted To Sale', items: controller.selectedConvertedToSaleList, selectedValue: controller.selectedConvertedToSale, parentContext: context, width: double.infinity, height: 80,titleColor: AppColors.lightOrange,),
+                  SizedBox(height: 12,),
+                  CustomDropdown1(label: '*  Project Stage', items: controller.selectedProjectToSaleList, selectedValue: controller.selectedProjectToSale, parentContext: context, width: double.infinity, height: 80,titleColor: AppColors.lightOrange,),
+                  SizedBox(height: 12,),
+                  CustomDropdown1(label: '* Painter Obliged', items: controller.selectedPainterObligedList, selectedValue: controller.selectedPainterObliged, parentContext: context, width: double.infinity, height: 80,titleColor: AppColors.lightOrange,),
+                  SizedBox(height: 12,),
+                  const SizedBox(height: 6),
+
                   Container(
                     height: 60,
                     width: double.infinity,
@@ -267,7 +196,7 @@ class _CustomPorfolioState extends State<CustomPorfolio> {
                       ],
                     ),
                   ),
-                  const SizedBox(height: 6),
+
                   if (selectedValue == "YES")
                     CustomTextFieldS(
                       isAddborder: true,
@@ -277,18 +206,13 @@ class _CustomPorfolioState extends State<CustomPorfolio> {
                       keyboardType: TextInputType.number,
                       maxLength: 10,
                     ),
-                  const SizedBox(height: 6),
-                  CustomDropdownField(label: 'Sample Applied', selectedValue: controller.selectedSampleApplied, items: controller.selectedSampledList, parentContext: context),
-                  const SizedBox(height: 6),
-                  CustomDropdownField(label: 'Converted To Sale', selectedValue: controller.selectedConvertedToSale, items: controller.selectedConvertedToSaleList, parentContext: context),
-                  const SizedBox(height: 6),
-                  CustomDropdownField(label: 'Project Stage', selectedValue: controller.selectedProjectToSale, items: controller.selectedProjectToSaleList, parentContext: context),
-                  const SizedBox(height: 6),
-                  CustomDropdownField(label: 'Painter Obliged', selectedValue: controller.selectedPainterObliged, items: controller.selectedPainterObligedList, parentContext: context),
-                  SizedBox(height: MediaQuery.of(context).size.height * 0.03),
+
+                  SizedBox(height: MediaQuery.of(context).size.height * 0.04),
+
                   CustomButtons(
                     bc_color: AppColors.primaryColor,
-                    padding: 2,
+                    height: 0.05,
+                    padding: 0,
                     title: "PROCEED FEEDBACK",
                     onPressed: () {
                       if (feedbackProceed()) {
@@ -349,6 +273,56 @@ class _CustomPorfolioState extends State<CustomPorfolio> {
           ],
         ),
       ),
+    );
+  }
+
+  bool updateInformation() {
+    if (thirdPersonNoController.text.trim().isEmpty) {
+      CustomToast('Please Enter Third Person Number', context: context);
+      return false;
+    }
+    if (controller.selectedSecondTypePerson.isEmpty) {
+      CustomToast('Please Select Second Person Type', context: context);
+      return false;
+    }
+    if (controller.selectedthirdTypePerson.isEmpty || controller.selectedthirdTypePerson == "Please Select Third Person Type") {
+      CustomToast('Please Select Third Person Type', context: context);
+      return false;
+    }
+    return true;
+  }
+
+  bool feedbackProceed() {
+    if (selectedValue == "YES" && tokenNumberController.text.trim().isEmpty) {
+      CustomToast('Please Enter Token Number', context: context);
+      return false;
+    }
+    if (controller.selectedSampleApplied.isEmpty || controller.selectedSampleApplied == "Please Select Sample Applied") {
+      CustomToast('Please Select Sample Applied', context: context);
+      return false;
+    }
+    if (controller.selectedConvertedToSale.isEmpty || controller.selectedConvertedToSale == "Please Select Converted To Sale") {
+      CustomToast('Please Select Converted To Sale', context: context);
+      return false;
+    }
+    if (controller.selectedProjectToSale.isEmpty || controller.selectedProjectToSale == "Please Select Project Stage") {
+      CustomToast('Please Select Project Stage', context: context);
+      return false;
+    }
+    if (controller.selectedPainterObliged.isEmpty || controller.selectedPainterObliged == "Please Select Painter Obliged") {
+      CustomToast('Please Select Painter Obliged', context: context);
+      return false;
+    }
+    return true;
+  }
+
+  Widget _buildTextfield(String title, TextEditingController controller, {bool isNumber = false, bool readOnly = false}) {
+    return CustomTextFieldS(
+      title: title,
+      controller: controller,
+      keyboardType: isNumber ? TextInputType.number : TextInputType.text,
+      readOnly: readOnly,
+      isAddborder: true,
     );
   }
 }

@@ -37,24 +37,29 @@ class LeadGeneratedController extends GetxController implements GetxService {
       switch (selectedMonth) {
         case 0:
           baseUrl = ApiRoutes.apiLmGeneratedTwoWeeks;
+          print("Api 1 city: $city, status: $status");
           break;
         case 1:
-          baseUrl = ApiRoutes.apiLmGeneratedLastThirtyDays;
+          baseUrl = ApiRoutes.apiLmGeneratedLastMonth;
+          print("Api 2 city: $city, status: $status");
           break;
         case 2:
           baseUrl = ApiRoutes.apiLmGeneratedLastTwoMonth;
+          print("Api 3 city: $city, status: $status");
           break;
         default:
           baseUrl = ApiRoutes.apiLmGeneratedTwoWeeks;
+          print("Default API used. City: $city, Status: $status");
       }
+
 
       // Build dynamic query parameters
       final queryParams = {
         'salesForceId': salesForceId,
         if (status != null && status.isNotEmpty && !status.contains("Please"))
-          'status': status,
-        if (city != null && city.isNotEmpty && !city.contains("Please"))
-          'city': city,
+          'LEAD_STATUS': status,
+        // if (city != null && city.isNotEmpty && !city.contains("Please"))
+        //   'CITY_NAME': city,
       };
 
       final queryString = Uri(queryParameters: queryParams).query;

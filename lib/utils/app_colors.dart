@@ -12,7 +12,7 @@ class AppColors{
   static const blue0094D6Color = Color(0xff0094D6);
   static const blackShadow = Color(0xff000040);
   static const black434343 = Color(0xff434343);
-  static const activeColor = Color(0xff3b8a5f);
+  static const activeColor = Color(0xff2d8d3f);
   static const expireColor = Color(0xffD14848);
   static const pendingColor = Color(0xffe8d92f);
   static const rejectedColor = Color(0xff696969);
