@@ -137,13 +137,14 @@ class _CustomPorfolioState extends State<CustomPorfolio> {
             if (!widget.isremovedFields)
               Column(
                 children: [
-                  CustomDropdown1(label: '*Second Person Type', items: controller.secondTypePersonList, selectedValue: controller.selectedSecondTypePerson, parentContext: context, width: double.infinity, height: 80),
+                  CustomDropdown1(label: 'Second Person Type', items: controller.secondTypePersonList, selectedValue: controller.selectedSecondTypePerson, parentContext: context, width: double.infinity, height: 80,titleColor: AppColors.lightOrange,),
                   SizedBox(height: 12,),
-                  CustomDropdown1(label: 'Third Person Type', items: controller.thirdTypePersonList, selectedValue: controller.selectedthirdTypePerson, parentContext: context, width: double.infinity, height: 80),
-                  SizedBox(height: 12,),
+                  CustomDropdown1(label: 'Third Person Type', items: controller.thirdTypePersonList, selectedValue: controller.selectedthirdTypePerson, parentContext: context, width: double.infinity, height: 80,titleColor: AppColors.lightOrange,),
+                  SizedBox(height: MediaQuery.of(context).size.height * 0.03),
                   CustomButtons(
+                    height: 0.05,
                     bc_color: AppColors.primaryColor,
-                    padding: 2,
+                    padding: 0,
                     title: "UPDATE  INFORMATION",
                     onPressed: () {
                       if (feedbackProceed()) {
@@ -151,14 +152,14 @@ class _CustomPorfolioState extends State<CustomPorfolio> {
                       }
                     },
                   ),
+                  SizedBox(height: MediaQuery.of(context).size.height * 0.06),
+                  CustomDropdown1(label: '* Sample Applied ', items: controller.selectedSampledList, selectedValue: controller.selectedSampleApplied, parentContext: context, width: double.infinity, height: 80,titleColor: AppColors.lightOrange,),
                   SizedBox(height: 12,),
-                  CustomDropdown1(label: 'Sample Applied', items: controller.selectedSampledList, selectedValue: controller.selectedSampleApplied, parentContext: context, width: double.infinity, height: 80),
+                  CustomDropdown1(label: '* Converted To Sale', items: controller.selectedConvertedToSaleList, selectedValue: controller.selectedConvertedToSale, parentContext: context, width: double.infinity, height: 80,titleColor: AppColors.lightOrange,),
                   SizedBox(height: 12,),
-                  CustomDropdown1(label: 'Converted To Sale', items: controller.selectedConvertedToSaleList, selectedValue: controller.selectedConvertedToSale, parentContext: context, width: double.infinity, height: 80),
+                  CustomDropdown1(label: '*  Project Stage', items: controller.selectedProjectToSaleList, selectedValue: controller.selectedProjectToSale, parentContext: context, width: double.infinity, height: 80,titleColor: AppColors.lightOrange,),
                   SizedBox(height: 12,),
-                  CustomDropdown1(label: 'Project Stage', items: controller.selectedProjectToSaleList, selectedValue: controller.selectedProjectToSale, parentContext: context, width: double.infinity, height: 80),
-                  SizedBox(height: 12,),
-                  CustomDropdown1(label: 'Painter Obliged', items: controller.selectedPainterObligedList, selectedValue: controller.selectedPainterObliged, parentContext: context, width: double.infinity, height: 80),
+                  CustomDropdown1(label: '* Painter Obliged', items: controller.selectedPainterObligedList, selectedValue: controller.selectedPainterObliged, parentContext: context, width: double.infinity, height: 80,titleColor: AppColors.lightOrange,),
                   SizedBox(height: 12,),
                   const SizedBox(height: 6),
 
@@ -206,11 +207,12 @@ class _CustomPorfolioState extends State<CustomPorfolio> {
                       maxLength: 10,
                     ),
 
-                  SizedBox(height: MediaQuery.of(context).size.height * 0.03),
+                  SizedBox(height: MediaQuery.of(context).size.height * 0.04),
 
                   CustomButtons(
                     bc_color: AppColors.primaryColor,
-                    padding: 2,
+                    height: 0.05,
+                    padding: 0,
                     title: "PROCEED FEEDBACK",
                     onPressed: () {
                       if (feedbackProceed()) {

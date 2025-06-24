@@ -1,11 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get_rx/src/rx_types/rx_types.dart';
-import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
-
+import 'package:get/get.dart';
 import '../app_colors.dart';
 import '../app_fonts.dart';
-
 
 class CustomDropdown1 extends StatelessWidget {
   final String label;
@@ -14,6 +10,7 @@ class CustomDropdown1 extends StatelessWidget {
   final BuildContext parentContext;
   final double? width;
   final double? height;
+  final Color? titleColor; // optional title color only
 
   const CustomDropdown1({
     Key? key,
@@ -23,10 +20,13 @@ class CustomDropdown1 extends StatelessWidget {
     required this.parentContext,
     this.width,
     this.height,
+    this.titleColor, // use for title only
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final Color labelColor = titleColor ?? AppColors.primaryColor;
+
     return GestureDetector(
       onTap: () => _showDropdown(parentContext),
       child: Obx(() => SizedBox(
@@ -36,8 +36,7 @@ class CustomDropdown1 extends StatelessWidget {
           alignment: Alignment.center,
           children: [
             Container(
-              padding: const EdgeInsets.only(
-                  top: 34, bottom: 25, left: 16, right: 16),
+              padding: const EdgeInsets.only(top: 34, bottom: 25, left: 16, right: 16),
               decoration: BoxDecoration(
                 color: AppColors.grey9E9EA2Color,
                 borderRadius: BorderRadius.circular(8),
@@ -45,7 +44,6 @@ class CustomDropdown1 extends StatelessWidget {
                   BoxShadow(
                     color: Colors.black.withOpacity(0.1),
                     spreadRadius: 2,
-
                   ),
                 ],
               ),
@@ -54,7 +52,7 @@ class CustomDropdown1 extends StatelessWidget {
                 children: [
                   Text(
                     selectedValue.value.isEmpty
-                        ? "Please Select $label"
+                        ? " Select $label"
                         : selectedValue.value,
                     style: const TextStyle(color: Colors.black),
                   ),
@@ -69,7 +67,7 @@ class CustomDropdown1 extends StatelessWidget {
               child: Center(
                 child: Text(
                   label,
-                  style: AppFonts.styleHarmoniaBold16W600(AppColors.primaryColor),
+                  style: AppFonts.styleHarmoniaBold14W600(AppColors.lightOrange),
                 ),
               ),
             ),
@@ -112,8 +110,7 @@ class CustomDropdown1 extends StatelessWidget {
                     prefixIcon: const Icon(Icons.search, color: Colors.grey),
                     filled: true,
                     fillColor: Colors.white,
-                    contentPadding: const EdgeInsets.symmetric(
-                        horizontal: 12, vertical: 12),
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
                       borderSide: BorderSide.none,
@@ -130,8 +127,7 @@ class CustomDropdown1 extends StatelessWidget {
                 Flexible(
                   child: Obx(() {
                     final filtered = items
-                        .where((item) =>
-                        item.toLowerCase().contains(searchText.value))
+                        .where((item) => item.toLowerCase().contains(searchText.value))
                         .toList();
 
                     return ListView.separated(
@@ -140,16 +136,14 @@ class CustomDropdown1 extends StatelessWidget {
                       itemBuilder: (_, index) {
                         final item = filtered[index];
                         return ListTile(
-                          title: Text(item,
-                              style: const TextStyle(color: Colors.black)),
+                          title: Text(item, style: const TextStyle(color: Colors.black)),
                           onTap: () {
                             selectedValue.value = item;
                             Navigator.pop(context);
                           },
                         );
                       },
-                      separatorBuilder: (_, __) =>
-                      const Divider(color: Colors.grey),
+                      separatorBuilder: (_, __) => const Divider(color: Colors.grey),
                     );
                   }),
                 ),

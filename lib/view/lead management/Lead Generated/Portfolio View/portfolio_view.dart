@@ -135,8 +135,7 @@ class _PorfolioViewState extends State<PorfolioView> {
                               TextButton(
                                 onPressed: () => _selectDate(context),
                                 style: TextButton.styleFrom(
-                                  backgroundColor: Colors.red[700],
-                                  foregroundColor: Colors.white,
+
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(8),
                                   ),

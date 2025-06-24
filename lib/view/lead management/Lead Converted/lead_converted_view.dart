@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:mapleleaf/model/LM/Lead Converted/lead_converted_model.dart';
@@ -197,7 +198,7 @@ class _LeadConvertedViewState extends State<LeadConvertedView> {
                             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(8),
-                              color: lead.leadStatus =="PROCESSED"? AppColors.readyForCollectionColor :AppColors.pendingColor,
+                              color: lead.leadStatus =="PROCESSED"? AppColors.activeColor :AppColors.pendingColor,
                             ),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -243,16 +244,16 @@ class _LeadConvertedViewState extends State<LeadConvertedView> {
                                   ],
                                 ),
 
-                              if(lead.leadStatus == "GENERATED")
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 10.0),
-                                  child: Image.asset(
-                                    "assets/images/ule_group.png",
-                                    height: 20,
-                                    width: 20,
-                                    color: AppColors.whiteColor,
+                                if(lead.leadStatus != "PROCESSED")
+                                  Padding(
+                                    padding: const EdgeInsets.only(top: 10.0),
+                                    child: Image.asset(
+                                      "assets/images/ule_group.png",
+                                      height: 30.h,
+                                      width: 30.w,
+                                      color: AppColors.whiteColor,
+                                    ),
                                   ),
-                                ),
                               ],
                             ),
 

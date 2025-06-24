@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:mapleleaf/utils/app_colors.dart';
 import 'package:mapleleaf/utils/app_fonts.dart';
@@ -73,85 +74,94 @@ class _LeadGeneratedViewState extends State<LeadGeneratedView> {
                     4,
                   ),
                   child: GestureDetector(
-                    onTap: ()  {
-                      if(lead.leadStatus =="PROCESSED"){
-                    Get.to(FeedbackScreen(lead: lead,isShowFiveFields: false,title: "PORTFOLIO",isShowButton: false,isShowDropdown: false,
-                    isShowPlanType: true,moveSalesSectionToBottom:true,moveExpectedKgsBelowRetailer:true
-                    ));
-                      }
-
-                      else{
-                        Get.to(PorfolioTwoView(lead: lead),);
+                    onTap: () {
+                      if (lead.leadStatus == "PROCESSED") {
+                        Get.to(FeedbackScreen(
+                          lead: lead,
+                          isShowFiveFields: false,
+                          title: "PORTFOLIO",
+                          isShowButton: false,
+                          isShowDropdown: false,
+                          isShowPlanType: true,
+                          moveSalesSectionToBottom: true,
+                          moveExpectedKgsBelowRetailer: true,
+                        ));
+                      } else {
+                        Get.to(PorfolioTwoView(lead: lead));
                       }
                     },
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8),
-                        color: lead.leadStatus == "PROCESSED"
-                            ? Colors.green
-                            : lead.leadStatus == "CONVERTED"
-                            ? AppColors.pendingColor
-                            :AppColors.primaryColor,
+                    child: Builder(
+                      builder: (context) {
+                        final bool isConverted = lead.leadStatus == "CONVERTED";
+                        final Color textColor = isConverted ? Colors.black : Colors.white;
 
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
+                        return Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8),
+                            color: lead.leadStatus == "PROCESSED"
+                                ? AppColors.activeColor
+                                : isConverted
+                                ? AppColors.pendingColor
+                                : AppColors.primaryColor,
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              // Left Column (ID and Phone)
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start, // align left
+                              Row(
                                 children: [
-                                  Text(
-                                    "${lead.generalCustomerId}",
-                                    style: AppFonts.styleHarmoniaBold16W600(Colors.white),
+                                  // Left Column (ID and Phone)
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "${lead.generalCustomerId}",
+                                        style: AppFonts.styleHarmoniaBold16W600(textColor),
+                                      ),
+                                      const SizedBox(height: 4),
+                                      Text(
+                                        "${lead.customerPhone}",
+                                        style: AppFonts.styleHarmoniaBold14W600(textColor),
+                                      ),
+                                    ],
                                   ),
-                                  const SizedBox(height: 4), // spacing between ID and phone
-                                  Text(
-                                    "${lead.customerPhone}",
-                                    style: AppFonts.styleHarmoniaBold14W600(Colors.white),
+                                  const SizedBox(width: 16),
+
+                                  // Right Column (Date and Name)
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "${lead.leadCreationDate ?? ''}",
+                                        style: AppFonts.styleHarmoniaBold14W600(textColor),
+                                      ),
+                                      const SizedBox(height: 8),
+                                      Text(
+                                        "${lead.customerName ?? ''}",
+                                        style: AppFonts.styleHarmoniaBold14W600(textColor),
+                                      ),
+                                    ],
                                   ),
                                 ],
                               ),
-
-                              const SizedBox(width: 16),
-
-                              // Right Column (Date and Name)
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "${lead.leadCreationDate ?? ''}",
-                                    style: AppFonts.styleHarmoniaBold14W600(Colors.white),
+                              if (lead.leadStatus != "PROCESSED")
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 10.0),
+                                  child: Image.asset(
+                                    "assets/images/ule_group.png",
+                                    height: 30.h,
+                                    width: 30.w,
+                                    color: AppColors.whiteColor,
                                   ),
-                                  const SizedBox(height: 8),
-                                  Text(
-                                    "${lead.customerName ?? ''}",
-                                    style: AppFonts.styleHarmoniaBold14W600(Colors.white),
-                                  ),
-                                ],
-                              ),
+                                ),
                             ],
                           ),
-
-                          if(lead.leadStatus != "PROCESSED")
-                          Padding(
-                            padding: const EdgeInsets.only(top: 10.0),
-                            child: Image.asset(
-                              "assets/images/ule_group.png",
-                              height: 20,
-                              width: 20,
-                              color: AppColors.whiteColor,
-                            ),
-                          ),
-                        ],
-                      ),
-
+                        );
+                      },
                     ),
                   ),
+
                 );
               },
             );

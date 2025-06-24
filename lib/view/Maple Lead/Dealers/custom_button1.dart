@@ -6,6 +6,8 @@ import 'package:mapleleaf/utils/app_fonts.dart';
 class CustomButtons extends StatelessWidget {
   final Color bc_color;
   final String title;
+  final double height;
+
   final double circular;
   final VoidCallback? onPressed;
   final double padding; // ✅ Changed from Float to double
@@ -16,6 +18,7 @@ class CustomButtons extends StatelessWidget {
     this.onPressed,
     this.padding=24,
     this.circular=12,
+    this.height=0.07,
     super.key,
   });
 
@@ -25,7 +28,7 @@ class CustomButtons extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: padding ), // ✅ Works with double
       child: SizedBox(
-        height: media.height * 0.07,
+        height: media.height * height,
         width: media.width,
         child: ElevatedButton(
           style: ElevatedButton.styleFrom(
@@ -33,9 +36,9 @@ class CustomButtons extends StatelessWidget {
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(circular)),
           ),
           onPressed: onPressed,
-          child: Text(title, style: AppFonts.styleHarmoniaBold18W600()),
+          child: Text(title, style: AppFonts.styleHarmoniaBold16W600(AppColors.whiteColor),
         ),
-      ),
+      ),),
     );
   }
 }

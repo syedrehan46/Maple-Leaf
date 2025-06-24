@@ -60,7 +60,7 @@ class _UleDashboardViewState extends State<UleDashboardView> {
                   alignment: Alignment.centerLeft,
                   child: Text(
                     "Our Menu",
-                    style: TextStyle(fontSize: 22.sp, fontWeight: FontWeight.w600),
+                    style: TextStyle(fontSize: 22.sp, fontWeight: FontWeight.w800),
                   ),
                 ),
               ),
@@ -120,8 +120,8 @@ class _UleDashboardViewState extends State<UleDashboardView> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("Hello, Welcome 🎉", style: TextStyle(color: AppColors.whiteColor, fontSize: 18.sp)),
-                    Text(employeeName, style: TextStyle(color: AppColors.whiteColor, fontSize: 22.sp)),
+                    Text("Hello, Welcome 🎉", style: TextStyle(color: AppColors.whiteColor, fontSize: 14.sp)),
+                    Text(employeeName, style: TextStyle(color: AppColors.whiteColor, fontSize: 17.sp)),
                   ],
                 ),
               ],
@@ -192,7 +192,15 @@ class _UleDashboardViewState extends State<UleDashboardView> {
           ),
         ),
         SizedBox(height: 8.h),
-        Text(item.label, style: AppFonts.styleHarmoniaBold14W600(AppColors.blackColor)),
+        Text(
+          item.label,
+          style: TextStyle(
+            fontSize: 14.sp,
+            fontWeight: FontWeight.w100,
+            color:Color(0xff1A1A1A),
+          ),
+        )
+
       ],
     );
   }
