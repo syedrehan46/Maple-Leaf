@@ -121,7 +121,7 @@ class _IsFormState extends State<IsForm> {
                       isReferralSelected.value = false;
                       selectedReferralArea.value = '';
                       selectedSalesOfficer.value = '';
-                    },
+                    }, titleColor: AppColors.primaryColor,
                   ),
                   const SizedBox(height: 20),
                   CustomTextField1(
@@ -139,6 +139,7 @@ class _IsFormState extends State<IsForm> {
                   ),
                   const SizedBox(height: 10),
                   CustomDropdown1(
+                    titleColor: AppColors.primaryColor,
                     label: '*City',
                     items: controller.cityNameList,
                     selectedValue: selectedCity,
@@ -157,9 +158,10 @@ class _IsFormState extends State<IsForm> {
                         if (cityDetails != null) {
                           // Call fetchAreasByZoneAndCity with the city's zone and city ID
                           controller.fetchAreasByZoneAndCity(
+
                             salesForceId: authController.salesForceId,
-                            zoneId: cityDetails.zoneId ,
-                            cityId: cityDetails.cityId ,
+                            zoneId: cityDetails.zoneId,
+                            cityId: cityDetails.cityId,
                           );
                           controller.fetchReferalAreasByZoneAndCity(
                             salesForceId: authController.salesForceId,
@@ -172,12 +174,15 @@ class _IsFormState extends State<IsForm> {
                   ),
                   const SizedBox(height: 10),
                   CustomDropdown1(
+                    titleColor: AppColors.primaryColor,
                     label: '*Area',
                     items: controller.areaNameList,
                     selectedValue: selectedArea,
                     parentContext: context,
                     width: media1,
-                    height: 80,
+                    height: 80, ontap: () {
+
+                  },
                   ),
                   const SizedBox(height: 10),
                   // Conditionally show referral widget only when selectedVia is NOT "MARKETING ACTIVITIES"
@@ -234,6 +239,7 @@ class _IsFormState extends State<IsForm> {
                           ? Column(
                         children: [
                           CustomDropdown1(
+                            titleColor: AppColors.primaryColor,
                             label: '*Referral Areas',
                             items: controller.referralAreaNameList,
                             selectedValue: selectedReferralArea,
@@ -257,12 +263,13 @@ class _IsFormState extends State<IsForm> {
                           ),
                           const SizedBox(height: 10),
                           CustomDropdown1(
+                            titleColor: AppColors.primaryColor,
                             label: '*Sales Officer',
                             items: controller.salesOfficerNameList,
                             selectedValue: selectedSalesOfficer,
                             parentContext: context,
                             width: media1,
-                            height: 80,
+                            height: 80, ontap: () {  },
                           ),
                           const SizedBox(height: 10),
                         ],
@@ -272,32 +279,35 @@ class _IsFormState extends State<IsForm> {
                   )
                       : const SizedBox.shrink()),
                   CustomDropdown1(
+                    titleColor: AppColors.primaryColor,
                     label: '*Second Person Type',
                     items: personTypeList,
                     selectedValue: selectedSecondPersonType,
                     parentContext: context,
                     width: media1,
-                    height: 80,
+                    height: 80, ontap: () {  },
                   ),
                   SizedBox(height: 10),
                 Obx(() => selectedVia.value == "HUNTING"
                     ? CustomDropdown1(
+                  titleColor: AppColors.primaryColor,
                   label: '*Type',
                   items: type,
                   selectedValue: selectedSoftAccountHolders,
                   parentContext: context,
                   width: media1,
-                  height: 80,
+                  height: 80, ontap: () {  },
                 )
                     : const SizedBox.shrink()),
                 SizedBox(height: 10),
                   CustomDropdown1(
+                    titleColor: AppColors.primaryColor,
                     label: '*Soft Account Holders',
                     items: controller.softAccountHoldersNameList,
                     selectedValue: selectedSoftAccountHolders,
                     parentContext: context,
                     width: media1,
-                    height: 80,
+                    height: 80, ontap: () {  },
                   ),
                   const SizedBox(height: 20),
                   CustomTextField1(
@@ -315,12 +325,13 @@ class _IsFormState extends State<IsForm> {
                   ),
                   const SizedBox(height: 10),
                   CustomDropdown1(
+                    titleColor: AppColors.primaryColor,
                     label: 'Third Person Type',
                     items: personTypeList,
                     selectedValue: selectedThirdPersonType,
                     parentContext: context,
                     width: media1,
-                    height: 80,
+                    height: 80, ontap: () {  },
                   ),
                   const SizedBox(height: 20),
                   CustomTextField1(
@@ -338,12 +349,13 @@ class _IsFormState extends State<IsForm> {
                   ),
                   const SizedBox(height: 10),
                   CustomDropdown1(
+                    titleColor: AppColors.primaryColor,
                     label: '*House Size',
                     items: houseSizelist,
                     selectedValue: selectedHouseSize,
                     parentContext: context,
                     width: media1,
-                    height: 80,
+                    height: 80, ontap: () {  },
                   ),
                   const SizedBox(height: 20),
                 Obx(() => selectedVia.value == "PAINTER"

@@ -18,9 +18,6 @@ class PlanController extends GetxController implements GetxService {
     String salesForceId = "${authController.salesForceId}";
     fetchPlanDataCityWise(salesForceId);
     fetchViamembers();
-    fetchAreasByZoneAndCity();
-    fetchReferalAreasByZoneAndCity();
-    fetchReferalAreasSalesOfiicers();
     fetchSoftAccountHolders();
   }
 
@@ -59,7 +56,7 @@ class PlanController extends GetxController implements GetxService {
 
         cityNameList.value = cities.cast<String>();
         for (var item in cityWisePlanList) {
-          print("City ${item.achievement}, Plan ID: ${item.planId}, Month: ${item.activeMonth},");
+          // print("City ${item.achievement}, Plan ID: ${item.planId}, Month: ${item.activeMonth},");
         }
       } catch (e) {
         errorMessage.value = 'Failed to parse city-wise data';
@@ -109,7 +106,7 @@ class PlanController extends GetxController implements GetxService {
             .toList();
 
         for (var area in areasList) {
-          print("Area: ${area.areaName}, ID: ${area.areaId}");
+          // print("Area: ${area.areaName}, ID: ${area.areaId}");
         }
 
       } catch (e) {
@@ -159,7 +156,7 @@ class PlanController extends GetxController implements GetxService {
         viaDescriptionList.value = viaMembersList.map((e) => e.viaDescription).toList();
 
         for (var item in viaDescriptionList) {
-          print("VIA_DESCRIPTION: $item");
+          // print("VIA_DESCRIPTION: $item");
         }
 
       } else {
@@ -202,7 +199,7 @@ class PlanController extends GetxController implements GetxService {
             .toList();
 
         for (var area in referralAreasList) {
-          print("Referral Area: ${area.areaName}, ID: ${area.areaId}");
+          // print("Referral Area: ${area.areaName}, ID: ${area.areaId}");
         }
 
       } catch (e) {
@@ -239,7 +236,7 @@ class PlanController extends GetxController implements GetxService {
             .toList();
 
         for (var officer in salesOfficersList) {
-          // print("Sales Officer:${officer.salesOfficerName}");
+          // print("Sales Officer:99999999999999999999999999999999999999999999999999${officer.salesOfficerName}");
         }
 
       } catch (e) {
