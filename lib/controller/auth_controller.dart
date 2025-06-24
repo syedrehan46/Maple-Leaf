@@ -23,6 +23,7 @@ class AuthController extends GetxController implements GetxService {
   }
 
   String get salesForceId => loginModel?.user?.salesForceId ?? "";
+  String get employeeName => loginModel?.user?.employeeName ?? "";
 
   // Existing methods below
 

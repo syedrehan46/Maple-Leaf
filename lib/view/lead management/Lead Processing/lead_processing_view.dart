@@ -91,7 +91,7 @@ class _LeadProcessingViewState extends State<LeadProcessingView> {
           Column(
             children: [
               CustomAppbar(
-                title: 'Lead Converted',
+                title: 'Lead Processing',
                 timeLocationIsVisible: true,
                 widget: GestureDetector(
                   onTap: () {

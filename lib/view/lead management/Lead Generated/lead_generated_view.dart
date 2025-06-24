@@ -173,13 +173,21 @@ class _LeadGeneratedViewState extends State<LeadGeneratedView> {
               selectedStatus: selectedStatus,
               selectedMonthIndex: selectedMonthIndex,
                 onApply: () {
-                print("Helloo Rehan");
+                  print("Helloo Rehan");
+
+                  // ✅ Assign UI selections to controller filters
+                  controller.selectedCity.value = selectedCity.value;
+                  controller.selectedStatus.value = selectedStatus.value;
+                  controller.selectedMonthIndex.value = selectedMonthIndex.value;
+
+                  // ✅ Now call API with correct values
                   controller.fetchLeadGeneratedData(
-                    controller.selectedMonthIndex.value,
-                    status: controller.selectedStatus.value,
-                    city: controller.selectedCity.value,
+                    selectedMonthIndex.value,
+                    status: selectedStatus.value,
+                    city: selectedCity.value,
                   );
                 }
+
             );
           },
 

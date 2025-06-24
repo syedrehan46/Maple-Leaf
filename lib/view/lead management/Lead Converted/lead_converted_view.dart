@@ -113,14 +113,22 @@ class _LeadConvertedViewState extends State<LeadConvertedView> {
                   selectedCity: selectedCity,
                   selectedStatus: selectedStatus,
                   selectedMonthIndex: selectedMonthIndex,
-                  onApply: () {
-                    print("Helloo Rehan");
-                    controller.fetchLeadConvertedData(
-                      selectedMonthIndex.value,
-                      status: selectedStatus.value,
-                      city: selectedCity.value,
-                    );
-                  },
+                    onApply: () {
+                      print("Helloo Rehan");
+
+                      // ✅ Assign UI selections to controller filters
+                      controller.selectedCity.value = selectedCity.value;
+                      controller.selectedStatus.value = selectedStatus.value;
+                      controller.selectedMonthIndex.value = selectedMonthIndex.value;
+
+                      // ✅ Now call API with correct values
+                      controller.fetchLeadConvertedData(
+                        selectedMonthIndex.value,
+                        status: selectedStatus.value,
+                        city: selectedCity.value,
+                      );
+                    }
+
                 );
               },
               child: Image.asset(
