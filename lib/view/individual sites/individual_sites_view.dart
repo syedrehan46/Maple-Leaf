@@ -52,7 +52,7 @@ class _IndividualSitesState extends State<IndividualSites> with SingleTickerProv
           // Foreground Content
           Column(
             children: [
-              CustomAppbar(title: 'GROUP MANAGEMENT', timeLocationIsVisible: true),
+              CustomAppbar(title: 'INDIVIDUAL SITES', timeLocationIsVisible: true,),
               const SizedBox(height: 20),
               // TabBar with animated slider
               Padding(

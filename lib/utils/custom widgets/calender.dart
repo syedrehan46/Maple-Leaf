@@ -8,13 +8,18 @@ Future<void> showCustomDatePicker({
   DateTime? initialDate,
 }) async {
   List<DateTime?> selectedDates = [initialDate ?? DateTime.now()];
-
+  bool isYearPickerVisible = false;
+  List<int> yearList = List.generate(100, (index) => 2015 + index);
   await showDialog(
     context: context,
     builder: (ctx) {
       return Dialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-        insetPadding: const EdgeInsets.all(16),
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(
+            top: Radius.circular(0), // Rounded only top corners
+            bottom: Radius.circular(0), // No bottom radius
+          ),
+        ),
         child: StatefulBuilder(
           builder: (context, setState) {
             final selected = selectedDates.first ?? DateTime.now();
@@ -23,20 +28,27 @@ Future<void> showCustomDatePicker({
               children: [
                 // Red Header
                 Container(
+                  height: 80,
                   width: double.infinity,
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
                   decoration: BoxDecoration(
                     color: AppColors.primaryColor,
-                    borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        '${selected.year}',
-                        style: const TextStyle(color: Colors.white, fontSize: 18),
+                      const SizedBox(height: 10),
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            isYearPickerVisible = !isYearPickerVisible;
+                          });
+                        },
+                        child: Text(
+                          '${selected.year}',
+                          style: const TextStyle(color: Colors.white, fontSize: 18),
+                        ),
                       ),
-                      const SizedBox(height: 4),
                       Text(
                         _formatFullDate(selected),
                         style: const TextStyle(
@@ -49,42 +61,89 @@ Future<void> showCustomDatePicker({
                   ),
                 ),
 
-                // Calendar Picker
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 12),
-                  child: CalendarDatePicker2(
-                    config: CalendarDatePicker2Config(
-                      calendarType: CalendarDatePicker2Type.single,
-                      selectedDayHighlightColor: AppColors.primaryColor,
-                      centerAlignModePicker: true,
-                      disableModePicker: true,
-                      weekdayLabelTextStyle: const TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
-                      dayTextStyle: const TextStyle(color: Colors.black),
-                      selectedDayTextStyle: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-                      controlsTextStyle: const TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
-                      dayBorderRadius: BorderRadius.circular(100),
+                const SizedBox(height: 10),
+
+                // Conditional view: Year picker or calendar
+                SizedBox(
+                  height: 320, // Fixed height for both year picker and calendar
+                  child: isYearPickerVisible
+                      ? ListView.builder(
+                    controller: ScrollController(
+                      initialScrollOffset: yearList.indexOf(selected.year) * 56.0 - 112.0, // Center the selected year
                     ),
-                    value: selectedDates,
-                    onValueChanged: (dates) {
-                      setState(() => selectedDates = dates);
+                    itemCount: yearList.length,
+                    itemBuilder: (context, index) {
+                      final year = yearList[index];
+                      final isSelected = year == selected.year;
+                      return ListTile(
+                        title: Center(
+                          child: Text(
+                            '$year',
+                            style: TextStyle(
+                              fontSize: isSelected ? 22 : 18, // Bigger font for selected year
+                              color: isSelected
+                                  ? AppColors.primaryColor
+                                  : Colors.black,
+                              fontWeight: isSelected
+                                  ? FontWeight.bold
+                                  : FontWeight.normal,
+                            ),
+                          ),
+                        ),
+                        onTap: () {
+                          final updated = DateTime(
+                            year,
+                            selected.month,
+                            selected.day,
+                          );
+                          setState(() {
+                            selectedDates = [updated];
+                            isYearPickerVisible = false;
+                          });
+                        },
+                      );
                     },
+                  )
+                      : Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                    child: CalendarDatePicker2(
+                      config: CalendarDatePicker2Config(
+                        calendarType: CalendarDatePicker2Type.single,
+                        selectedDayHighlightColor: AppColors.primaryColor,
+                        centerAlignModePicker: true,
+                        disableModePicker: true,
+                        weekdayLabelTextStyle: const TextStyle(color: AppColors.grey8E8E8EColor, fontWeight: FontWeight.w600),
+                        dayTextStyle: const TextStyle(color: Colors.black),
+                        selectedDayTextStyle: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                        controlsTextStyle: const TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
+                        controlsHeight: 30,
+                        monthTextStyle: const TextStyle(color: Colors.black, fontWeight: FontWeight.w600, fontSize: 16),
+                        yearTextStyle: const TextStyle(color: Colors.black, fontWeight: FontWeight.w600, fontSize: 16),
+                      ),
+                      value: selectedDates,
+                      onValueChanged: (dates) {
+                        setState(() => selectedDates = dates);
+                      },
+                    ),
                   ),
                 ),
 
+                const SizedBox(height: 10),
+
                 // OK / CANCEL Buttons
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       TextButton(
                         onPressed: () => Navigator.pop(context),
                         child: const Text(
                           'CANCEL',
                           style: TextStyle(
-                            color: Colors.red,
+                            color: AppColors.primaryColor,
                             fontWeight: FontWeight.bold,
-                            fontSize: 16,
+                            fontSize: 14,
                           ),
                         ),
                       ),
@@ -98,9 +157,9 @@ Future<void> showCustomDatePicker({
                         child: const Text(
                           'OK',
                           style: TextStyle(
-                            color: Colors.red,
+                            color: AppColors.primaryColor,
                             fontWeight: FontWeight.bold,
-                            fontSize: 16,
+                            fontSize: 14,
                           ),
                         ),
                       ),

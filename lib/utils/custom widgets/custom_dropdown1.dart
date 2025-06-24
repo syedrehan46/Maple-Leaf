@@ -6,14 +6,14 @@ import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import '../app_colors.dart';
 import '../app_fonts.dart';
 
-
-class CustomDropdown1 extends StatelessWidget {
+class CustomDropdown1 extends StatefulWidget {
   final String label;
   final RxString selectedValue;
   final List<String> items;
   final BuildContext parentContext;
   final double? width;
   final double? height;
+  final VoidCallback? ontap;
 
   const CustomDropdown1({
     Key? key,
@@ -23,15 +23,21 @@ class CustomDropdown1 extends StatelessWidget {
     required this.parentContext,
     this.width,
     this.height,
+    this.ontap
   }) : super(key: key);
 
   @override
+  State<CustomDropdown1> createState() => _CustomDropdown1State();
+}
+
+class _CustomDropdown1State extends State<CustomDropdown1> {
+  @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => _showDropdown(parentContext),
+      onTap: () => _showDropdown(widget.parentContext),
       child: Obx(() => SizedBox(
-        height: height ?? 65,
-        width: width ?? MediaQuery.of(context).size.width,
+        height: widget.height ?? 65,
+        width: widget.width ?? MediaQuery.of(context).size.width,
         child: Stack(
           alignment: Alignment.center,
           children: [
@@ -45,20 +51,30 @@ class CustomDropdown1 extends StatelessWidget {
                   BoxShadow(
                     color: Colors.black.withOpacity(0.1),
                     spreadRadius: 2,
-
                   ),
                 ],
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    selectedValue.value.isEmpty
-                        ? "Please Select $label"
-                        : selectedValue.value,
-                    style: const TextStyle(color: Colors.black),
+                  Expanded(
+                    child: Text(
+                      widget.selectedValue.value.isEmpty || !widget.items.contains(widget.selectedValue.value)
+                          ? "Select ${widget.label.replaceAll('*', '')}" // remove * if present
+                          : widget.selectedValue.value,
+                      style: TextStyle(
+                        color: widget.selectedValue.value.isEmpty || !widget.items.contains(widget.selectedValue.value)
+                            ? AppColors.blackColor.withOpacity(0.6)
+                            : AppColors.blackColor,
+                        fontSize: 14,
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ),
-                  const Icon(Icons.arrow_drop_down),
+                  const Icon(
+                    Icons.arrow_drop_down,
+                    color: Colors.black54,
+                  ),
                 ],
               ),
             ),
@@ -68,7 +84,7 @@ class CustomDropdown1 extends StatelessWidget {
               right: 0,
               child: Center(
                 child: Text(
-                  label,
+                  widget.label,
                   style: AppFonts.styleHarmoniaBold16W600(AppColors.primaryColor),
                 ),
               ),
@@ -96,9 +112,9 @@ class CustomDropdown1 extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
+                Text(
                   "Select Item",
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
                     color: Colors.black,
@@ -112,8 +128,8 @@ class CustomDropdown1 extends StatelessWidget {
                     prefixIcon: const Icon(Icons.search, color: Colors.grey),
                     filled: true,
                     fillColor: Colors.white,
-                    contentPadding: const EdgeInsets.symmetric(
-                        horizontal: 12, vertical: 12),
+                    contentPadding:
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
                       borderSide: BorderSide.none,
@@ -129,22 +145,40 @@ class CustomDropdown1 extends StatelessWidget {
                 const SizedBox(height: 12),
                 Flexible(
                   child: Obx(() {
-                    final filtered = items
+                    final filtered = widget.items
                         .where((item) =>
                         item.toLowerCase().contains(searchText.value))
                         .toList();
-
                     return ListView.separated(
                       shrinkWrap: true,
                       itemCount: filtered.length,
                       itemBuilder: (_, index) {
                         final item = filtered[index];
+                        final isSelected = widget.selectedValue.value == item;
+
                         return ListTile(
-                          title: Text(item,
-                              style: const TextStyle(color: Colors.black)),
+
+                          title: Text(
+                            item,
+                            style: TextStyle(
+                              color: isSelected
+                                  ? AppColors.primaryColor
+                                  : Colors.black,
+                              fontWeight: isSelected
+                                  ? FontWeight.bold
+                                  : FontWeight.normal,
+                            ),
+                          ),
                           onTap: () {
-                            selectedValue.value = item;
-                            Navigator.pop(context);
+
+                            setState(() {
+                              widget.selectedValue.value = item;
+                              Navigator.pop(context);
+                              print("selected Value :${widget.selectedValue.value}");
+                              if (widget.ontap != null) widget.ontap!();
+                              print(">>>>>>>>>>>>>>>>>>>>>>>>>> ${widget.selectedValue.value}");
+                            });
+
                           },
                         );
                       },
@@ -162,7 +196,7 @@ class CustomDropdown1 extends StatelessWidget {
                       "Close",
                       style: TextStyle(
                         fontSize: 16,
-                        color: Colors.red,
+                        color: AppColors.primaryColor,
                         fontWeight: FontWeight.bold,
                       ),
                     ),

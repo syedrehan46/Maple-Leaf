@@ -157,40 +157,60 @@ class _LeadGeneratedViewState extends State<LeadGeneratedView> {
             );
           }),
         ),
-        CustomAppbar(title: 'Lead Generated', timeLocationIsVisible: true, isshowSummary: false,widget: GestureDetector(
-          onTap: () {
-
-            // 👇 Add your API/filter logic here
-            print(" ${controller.cityList}");
-            print("Selected Status: ${controller.statusList}");
-            print("Selected Month Index: ${selectedMonthIndex}");
-            selectedMonthIndex.value = 0;
-            showCustomFilterDialog(
-              context: context,
-              cityList: controller.cityNameList,
-              statusList: controller.statusList,
-              selectedCity: selectedCity,
-              selectedStatus: selectedStatus,
-              selectedMonthIndex: selectedMonthIndex,
-                onApply: () {
-                print("Helloo Rehan");
-                  controller.fetchLeadGeneratedData(
-                    controller.selectedMonthIndex.value,
-                    status: controller.selectedStatus.value,
-                    city: controller.selectedCity.value,
-                  );
-                }
-            );
-          },
-
-          child: Image.asset(
-            "assets/images/ic_filter.png",
-            height: 20,
-            width: 20,
-            color: Colors.white, // optional: tint the icon if needed
-          ),
-        ),),
+        CustomAppbar(title: 'Lead Generated', timeLocationIsVisible: true, isshowSummary: false,widget: Filter(controller: controller, selectedMonthIndex: selectedMonthIndex, selectedCity: selectedCity, selectedStatus: selectedStatus),),
       ]),
+    );
+  }
+}
+
+class Filter extends StatelessWidget {
+  const Filter({
+    super.key,
+    required this.controller,
+    required this.selectedMonthIndex,
+    required this.selectedCity,
+    required this.selectedStatus,
+  });
+
+  final LeadGeneratedController controller;
+  final RxInt selectedMonthIndex;
+  final RxString selectedCity;
+  final RxString selectedStatus;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+
+        // 👇 Add your API/filter logic here
+        print(" ${controller.cityList}");
+        print("Selected Status: ${controller.statusList}");
+        print("Selected Month Index: ${selectedMonthIndex}");
+        selectedMonthIndex.value = 0;
+        showCustomFilterDialog(
+          context: context,
+          cityList: controller.cityNameList,
+          statusList: controller.statusList,
+          selectedCity: selectedCity,
+          selectedStatus: selectedStatus,
+          selectedMonthIndex: selectedMonthIndex,
+            onApply: () {
+            print("Helloo Rehan");
+              controller.fetchLeadGeneratedData(
+                controller.selectedMonthIndex.value,
+                status: controller.selectedStatus.value,
+                city: controller.selectedCity.value,
+              );
+            }
+        );
+      },
+
+      child: Image.asset(
+        "assets/images/ic_filter.png",
+        height: 20,
+        width: 20,
+        color: Colors.white, // optional: tint the icon if needed
+      ),
     );
   }
 }
