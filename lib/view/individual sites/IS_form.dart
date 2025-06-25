@@ -524,7 +524,6 @@ class _IsFormState extends State<IsForm> {
                   ),
                   const SizedBox(height: 10),
                   CustomDropdown1(
-
                     titleColor: AppColors.primaryColor,
                     label: '* House Size',
                     items: houseSizelist,
