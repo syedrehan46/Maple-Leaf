@@ -43,4 +43,5 @@ class AppImages{
   static const lahoreImage = "assets/images/lahore.svg";
   static const serviceCenterImage = "assets/images/service_img.svg";
   static const addInverterIcon = "assets/icons/add_inverter_icon.svg";
+  static const filterIcon = "assets/icons/filter.svg";
 }

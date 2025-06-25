@@ -7,7 +7,7 @@ void showCustomFilterDialog({
   required List<String> cityList,
   required List<String> statusList,
   required RxString selectedCity,
-  required RxString selectedStatus,
+  RxString? selectedStatus,
   required RxInt selectedMonthIndex,
   required VoidCallback onApply,
 }) {
@@ -105,7 +105,7 @@ void showCustomFilterDialog({
                 buildDropdown("City", modifiedCityList, selectedCity),
 
                 // Status Dropdown
-                buildDropdown("Status", modifiedStatusList, selectedStatus),
+                buildDropdown("Status", modifiedStatusList, selectedStatus!),
 
                 const SizedBox(height: 20),
 

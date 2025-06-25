@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:mapleleaf/model/login_model.dart';
 import 'package:mapleleaf/utils/app_colors.dart';
 import 'package:get/get.dart';
+import 'package:mapleleaf/utils/app_images.dart';
+import 'package:mapleleaf/utils/custom%20widgets/custom_filter.dart';
 import 'package:mapleleaf/utils/custom%20widgets/floatingaction_button.dart';
 import 'package:mapleleaf/view/individual%20sites/IS_form.dart';
 import '../../controller/IS/is_controller.dart';
@@ -52,7 +55,7 @@ class _IndividualSitesState extends State<IndividualSites> with SingleTickerProv
           // Foreground Content
           Column(
             children: [
-              CustomAppbar(title: 'GROUP MANAGEMENT', timeLocationIsVisible: true),
+              CustomAppbar(title: 'GROUP MANAGEMENT', timeLocationIsVisible: true,widget: InkWell(onTap: (){},child: SvgPicture.asset(AppImages.filterIcon)),),
               const SizedBox(height: 20),
               // TabBar with animated slider
               Padding(
