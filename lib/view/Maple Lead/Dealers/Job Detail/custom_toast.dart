@@ -14,8 +14,8 @@ void CustomToast(
   Widget toast = Container(
     padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
     decoration: BoxDecoration(
-      borderRadius: BorderRadius.circular(12),
-      color: Colors.grey.shade700,
+      borderRadius: BorderRadius.circular(7),
+      color: Colors.grey.shade600.withOpacity(0.85),
     ),
     child: Row(
       mainAxisSize: MainAxisSize.min, // Makes the row wrap its content
@@ -43,6 +43,6 @@ void CustomToast(
   fToast.showToast(
     child: toast,
     gravity: ToastGravity.BOTTOM,
-    toastDuration: const Duration(milliseconds: 1200),
+    toastDuration: const Duration(milliseconds: 1300),
   );
 }

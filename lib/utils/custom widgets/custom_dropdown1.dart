@@ -15,6 +15,7 @@ class CustomDropdown1 extends StatelessWidget {
   final double? height;
   final VoidCallback? ontap;
   final Color titleColor;
+  final bool enabled; // New optional parameter
 
   CustomDropdown1({
     Key? key,
@@ -25,13 +26,14 @@ class CustomDropdown1 extends StatelessWidget {
     this.width,
     this.height,
     this.ontap,
+    this.enabled = true, // Default true
     required this.titleColor,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => _showDropdown(parentContext),
+      onTap: enabled ? () => _showDropdown(parentContext) : null,
       child: Obx(() => SizedBox(
         height: height ?? 65,
         width: width ?? MediaQuery.of(context).size.width,
@@ -39,8 +41,7 @@ class CustomDropdown1 extends StatelessWidget {
           alignment: Alignment.center,
           children: [
             Container(
-              padding: const EdgeInsets.only(
-                  top: 34, bottom: 25, left: 16, right: 16),
+              padding: const EdgeInsets.only(top: 34, bottom: 25, left: 16, right: 16),
               decoration: BoxDecoration(
                 color: AppColors.grey9E9EA2Color,
                 borderRadius: BorderRadius.circular(8),
@@ -56,11 +57,16 @@ class CustomDropdown1 extends StatelessWidget {
                 children: [
                   Text(
                     selectedValue.value.isEmpty
-                        ? "Select ${label.replaceAll('*', '')}"
+                        ? "Select ${label.replaceAll('* ', '')}"
                         : selectedValue.value,
-                    style: const TextStyle(color: Colors.black),
+                    style: TextStyle(
+                      color: Colors.black,
+                    ),
                   ),
-                  const Icon(Icons.arrow_drop_down),
+                  Icon(
+                    Icons.arrow_drop_down,
+                    color: enabled ? Colors.black : Colors.grey.shade400,
+                  ),
                 ],
               ),
             ),
@@ -92,6 +98,7 @@ class CustomDropdown1 extends StatelessWidget {
         return Padding(
           padding: const EdgeInsets.fromLTRB(16, 100, 16, 120),
           child: Container(
+            width: MediaQuery.of(context).size.width * 0.9,
             decoration: const BoxDecoration(color: Colors.white),
             padding: const EdgeInsets.all(16),
             child: Column(
@@ -144,17 +151,19 @@ class CustomDropdown1 extends StatelessWidget {
                             if (ontap != null) ontap!();
                           },
                           child: Container(
-                            // item height
-                            margin: const EdgeInsets.symmetric(vertical: 5), // spacing between items
+                            margin: const EdgeInsets.symmetric(vertical: 5),
                             child: Text(
                               item,
-                              style: const TextStyle(color: Colors.black, fontSize: 16),
+                              style: const TextStyle(
+                                  color: Colors.black, fontSize: 16),
                             ),
                           ),
                         );
                       },
-                      separatorBuilder: (_, __) =>
-                      const Divider(color: AppColors.grey8E8E8EColor,thickness: 0.5,),
+                      separatorBuilder: (_, __) => const Divider(
+                        color: AppColors.grey8E8E8EColor,
+                        thickness: 0.5,
+                      ),
                     );
                   }),
                 ),
@@ -164,7 +173,7 @@ class CustomDropdown1 extends StatelessWidget {
                   child: TextButton(
                     onPressed: () => Navigator.pop(context),
                     child: const Text(
-                      "Close",
+                      "CLOSE",
                       style: TextStyle(
                         fontSize: 16,
                         color: AppColors.primaryColor,

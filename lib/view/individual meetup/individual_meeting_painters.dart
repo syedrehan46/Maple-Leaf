@@ -34,7 +34,7 @@ class IndividualMeetingPainters extends StatelessWidget {
             Column(
               children: [
                 CustomAppbar(
-                  title: "INDIVIDUAL MEETUPS PAINTER",
+                  title: "INDIVIDUAL MEETUPS PAINTR",
                   onPreesed: () {
                     Get.offAll(() => IndividualMeetupView());
                   },

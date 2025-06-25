@@ -36,6 +36,7 @@ class PlanController extends GetxController implements GetxService {
   RxList<String> viaDescriptionList = <String>[].obs;
 
   RxString errorMessage = ''.obs;
+  final RxString selectedCityFromList = ''.obs;
 
   Future<void> fetchPlanDataCityWise(String salesForceId) async {
     EasyLoading.show();
