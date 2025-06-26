@@ -47,7 +47,7 @@ class LeadConvertedController extends GetxController implements GetxService {
           baseUrl = ApiRoutes.apiLmConvertedLastTwoMonth;
           break;
         default:
-          baseUrl = ApiRoutes.apiLmConvertedLastTwoMonth;
+          baseUrl = ApiRoutes.apiLmConvertedTwoWeeks;
       }
 
       // Build dynamic query parameters

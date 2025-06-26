@@ -22,6 +22,13 @@ class LeadGeneratedController extends GetxController implements GetxService {
   RxList<String> cityList = [''].obs;
   RxList<String> statusList = [''].obs;
 
+  // Extracted values lists
+  RxList<String> sampleAppliedList = <String>[].obs;
+  RxList<String> convertedToSaleList = <String>[].obs;
+  RxList<String> specialIncentiveList = <String>[].obs;
+  RxList<String> painterAutoConversionList = <String>[].obs;
+  RxList<String> siteVisitList = <String>[].obs;
+
   /// ✅ Fetch data with optional filters
   Future<void> fetchLeadGeneratedData(
       int selectedMonth, {
@@ -33,56 +40,71 @@ class LeadGeneratedController extends GetxController implements GetxService {
       String salesForceId = authController.salesForceId;
       String baseUrl;
 
-      // Choose API based on selected month
       switch (selectedMonth) {
         case 0:
           baseUrl = ApiRoutes.apiLmGeneratedTwoWeeks;
-          print("Api 1 city: $city, status: $status");
           break;
         case 1:
           baseUrl = ApiRoutes.apiLmGeneratedLastMonth;
-          print("Api 2 city: $city, status: $status");
           break;
         case 2:
           baseUrl = ApiRoutes.apiLmGeneratedLastTwoMonth;
-          print("Api 3 city: $city, status: $status");
           break;
         default:
           baseUrl = ApiRoutes.apiLmGeneratedTwoWeeks;
-          print("Default API used. City: $city, Status: $status");
       }
 
-
-      // Build dynamic query parameters
       final queryParams = {
         'salesForceId': salesForceId,
-        if (status != null && status.isNotEmpty && !status.contains("Please"))
-          'LEAD_STATUS': status,
-        // if (city != null && city.isNotEmpty && !city.contains("Please"))
-        //   'CITY_NAME': city,
       };
 
       final queryString = Uri(queryParameters: queryParams).query;
       final url = "$baseUrl?$queryString";
       print("Final API URL: $url");
 
-      // API Call
       ApiResponse response = await NetworkCall.getApiCallWithToken(url);
       EasyLoading.dismiss();
 
       if ((response.done ?? false) && response.responseString != null) {
         final List<dynamic> data = jsonDecode(response.responseString!);
-        print("Data coming >> $data");
-
         allLeads.value =
             data.map((e) => LeadConvertedModel.fromJson(e)).toList();
         leadGeneratedList.value = allLeads;
 
-        final Set<String> statuses = allLeads
-            .map((e) => (e.leadStatus ?? '').toUpperCase())
-            .toSet();
-
+        final Set<String> statuses =
+        allLeads.map((e) => (e.leadStatus ?? '').toUpperCase()).toSet();
         statusList.value = statuses.toList();
+
+        // Populate key-based lists
+        sampleAppliedList.value = allLeads
+            .map((e) => e.sampleApplied ?? '')
+            .where((val) => val.isNotEmpty)
+            .toSet()
+            .toList();
+
+        convertedToSaleList.value = allLeads
+            .map((e) => e.convertedToSale ?? '')
+            .where((val) => val.isNotEmpty)
+            .toSet()
+            .toList();
+
+        specialIncentiveList.value = allLeads
+            .map((e) => e.specialIncentive ?? '')
+            .where((val) => val.isNotEmpty)
+            .toSet()
+            .toList();
+
+        painterAutoConversionList.value = allLeads
+            .map((e) => e.painterAutoConversion ?? '')
+            .where((val) => val.isNotEmpty)
+            .toSet()
+            .toList();
+
+        siteVisitList.value = allLeads
+            .map((e) => e.siteVisit ?? '')
+            .where((val) => val.isNotEmpty)
+            .toSet()
+            .toList();
       } else {
         errorMessage.value = response.errorMsg ?? 'Unknown error occurred';
       }
@@ -93,7 +115,7 @@ class LeadGeneratedController extends GetxController implements GetxService {
     }
   }
 
-  // ✅ Optional — only used if you want to filter locally instead of from API
+  // ✅ Local filtering
   void applyFilters() {
     final String city = selectedCity.value.trim().toUpperCase();
     final String status = selectedStatus.value.trim().toUpperCase();
@@ -109,7 +131,7 @@ class LeadGeneratedController extends GetxController implements GetxService {
     }).toList();
   }
 
-  // ✅ Fetch city names for dropdown
+  // ✅ Fetch city names
   RxList<String> cityNameList = <String>[].obs;
   RxList<LeadConvertedModel> cityDetail = <LeadConvertedModel>[].obs;
 
@@ -124,7 +146,6 @@ class LeadGeneratedController extends GetxController implements GetxService {
 
       if ((response.done ?? false) && response.responseString != null) {
         final List<dynamic> data = jsonDecode(response.responseString!);
-
         cityDetail.value =
             data.map((e) => LeadConvertedModel.fromJson(e)).toList();
 
@@ -133,8 +154,6 @@ class LeadGeneratedController extends GetxController implements GetxService {
             .where((name) => name.isNotEmpty)
             .toSet()
             .toList();
-
-        print("City Names: $cityNameList");
       } else {
         errorMessage.value = response.errorMsg ?? 'Unknown error occurred';
       }
@@ -145,10 +164,87 @@ class LeadGeneratedController extends GetxController implements GetxService {
     }
   }
 
+  /// ✅ POST: Submit Feedback API
+  Future<void> UpdateInformation({
+    required String siteVisit,
+    required String productSold,
+    required String specialIncentive,
+    required String customerName,
+    required String phone,
+    required String painterAutoConversion,
+    required String retailerId,
+    required String painterId,
+    required String visitDate,
+    required String createdBy,
+    required int generalCustomerId,
+    required String salesForceId,
+    required String sampleApplied,
+    required String convertedToSale,
+    required String noOfBags5KgPutty,
+    required String noOfBags20KgPutty,
+    required String noOfBags20KgRepaint,
+    required String retailerNotAvailRemarks,
+    required String noConversionReasons,
+    required String retailerStock,
+    required String expectedKg,
+    required String tid,
+  }) async {
+    EasyLoading.show(status: 'Submitting feedback...');
+
+    Map<String, dynamic> body = {
+      "SITE_VISIT": siteVisit,
+      "PRODUCT_SOLD": productSold,
+      "SPECIAL_INCENTIVE": specialIncentive,
+      "CUSTOMER_NAME": customerName,
+      "PHONE": phone,
+      "PAINTER_AUTO_CONVERSION": painterAutoConversion,
+      "RETAILER_ID": retailerId,
+      "PAINTER_ID": painterId,
+      "VISIT_DATE": visitDate,
+      "CREATED_BY": createdBy,
+      "GENERAL_CUSTOMER_ID": generalCustomerId.toString(),
+      "SALES_FORCE_ID": salesForceId,
+      "SAMPLE_APPLIED": sampleApplied,
+      "CONVERTED_TO_SALE": convertedToSale,
+      "NO_OF_BAGS_5_KG": noOfBags5KgPutty,
+      "NO_OF_BAGS_20_KG": noOfBags20KgPutty,
+      "NO_OF_BAGS_20_KG_REPAINT": noOfBags20KgRepaint,
+      "RETAILER_NOT_AVAIL_REMARKS": retailerNotAvailRemarks,
+      "CONVERTION_NO_REASON": noConversionReasons,
+      "RETAILER_STOCK": retailerStock,
+      "EXPECTED_KGS": expectedKg,
+      "TID": tid,
+    };
+
+    try {
+      final url = ApiRoutes.apiFeedbackForm;
+
+      ApiResponse response = await NetworkCall.postApiWithTokenCall(url, body);
+      EasyLoading.dismiss();
+
+      if ((response.done ?? false) && response.responseString != null) {
+        final result = jsonDecode(response.responseString ?? '{}');
+        print("${result}");
+        if (result['Data']) {
+          EasyLoading.showSuccess(result['message'] ?? "Feedback submitted");
+        } else {
+          EasyLoading.showError(result['message'] ?? "Submission failed");
+        }
+      } else {
+        EasyLoading.showError(response.errorMsg ?? "Something went wrong");
+      }
+    } catch (e) {
+      EasyLoading.dismiss();
+      EasyLoading.showError("Exception: $e");
+      print("Feedback API Exception: $e");
+    }
+  }
+
   @override
   void onInit() {
     fetchLeadGeneratedData(0);
     fetchCityDetail();
+
     super.onInit();
   }
 }

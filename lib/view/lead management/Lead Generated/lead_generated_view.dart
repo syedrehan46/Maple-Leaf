@@ -137,7 +137,7 @@ class _LeadGeneratedViewState extends State<LeadGeneratedView> {
                             ],
                           ),
 
-                          if(lead.leadStatus != "PROCESSED")
+                          if(lead.leadStatus == "GENERATED" && lead.status == "IS" || lead.leadStatus == "CONVERTED")
                           Padding(
                             padding: const EdgeInsets.only(top: 10.0),
                             child: Image.asset(

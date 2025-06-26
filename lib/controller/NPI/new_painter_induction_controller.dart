@@ -36,6 +36,44 @@ class NewPainterInductionController extends GetxController implements GetxServic
       print('Fetch Error: $e');
     }
   }
+  Future<void> addCardNumberWithPainter({
+    required int registrationId,
+    required String cardNumber,
+  }) async {
+    EasyLoading.show(status: 'Submitting card number...');
+
+    final Map<String, dynamic> body = {
+      "REGISTRATION_ID": registrationId,
+      "CARD_NUMBER": cardNumber,
+    };
+
+    try {
+      final String url = ApiRoutes.apiCardNumberDetail;
+
+      ApiResponse response = await NetworkCall.postApiWithTokenCall(url, body);
+      EasyLoading.dismiss();
+
+      if ((response.done ?? false) && response.responseString != null) {
+        final result = jsonDecode(response.responseString ?? '{}');
+        print("AddCardNumberWithPainter Response: $result");
+
+        if (result['Data'] == "Wallet number alloted" || result['Data'] == "Old Wallet number alloted") {
+          EasyLoading.showSuccess(result['Data']);
+        } else {
+          EasyLoading.showError(result['message'] ?? "Something went wrong");
+        }
+      } else {
+        EasyLoading.showError(response.errorMsg ?? "Something went wrong");
+      }
+    } catch (e) {
+      EasyLoading.dismiss();
+      EasyLoading.showError("Exception: $e");
+      print("AddCardNumberWithPainter Exception: $e");
+    }
+  }
+
+
+
   @override
   void onInit() {
     // TODO: implement onInit

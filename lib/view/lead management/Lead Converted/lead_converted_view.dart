@@ -198,7 +198,7 @@ class _LeadConvertedViewState extends State<LeadConvertedView> {
                             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(8),
-                              color: lead.leadStatus =="PROCESSED"? AppColors.activeColor :AppColors.pendingColor,
+                              color: lead.leadStatus =="PROCESSED"? AppColors.readyForCollectionColor :AppColors.pendingColor,
                             ),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -250,7 +250,7 @@ class _LeadConvertedViewState extends State<LeadConvertedView> {
                                     child: Image.asset(
                                       "assets/images/ule_group.png",
                                       height: 30.h,
-                                      width: 30.w,
+                                      width: 0.w,
                                       color: AppColors.whiteColor,
                                     ),
                                   ),

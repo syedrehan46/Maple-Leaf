@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:mapleleaf/utils/app_fonts.dart';
+import '../../controller/NPI/new_painter_induction_controller.dart';
 import '../../model/NPI/new_painter_induction_model.dart';
 import '../../view/Maple Lead/Dealers/Job Detail/custom_toast.dart';
 import '../app_colors.dart';
@@ -14,19 +17,23 @@ class PainterCardAllocationCustom extends StatefulWidget {
   });
 
   @override
-  State<PainterCardAllocationCustom> createState() => _PainterCardAllocationCustomState();
+  State<PainterCardAllocationCustom> createState() =>
+      _PainterCardAllocationCustomState();
 }
 
-class _PainterCardAllocationCustomState extends State<PainterCardAllocationCustom> {
+class _PainterCardAllocationCustomState
+    extends State<PainterCardAllocationCustom> {
   final TextEditingController painterNameController = TextEditingController();
   final TextEditingController painterNumberController = TextEditingController();
   final TextEditingController customerNumberController = TextEditingController();
+  final controller=Get.put(NewPainterInductionController());
 
   @override
   void initState() {
     super.initState();
     painterNameController.text = widget.painterinduction.painterName ?? '';
     painterNumberController.text = widget.painterinduction.phoneNumber ?? '';
+
   }
 
   @override
@@ -37,21 +44,35 @@ class _PainterCardAllocationCustomState extends State<PainterCardAllocationCusto
     super.dispose();
   }
 
-  // 🔍 Function to validate and show toast or popup
-  void validateCardAndProceed() {
+  // ✅ Validates and shows popup for valid or invalid card
+  void validateCardAndProceed() async {
     final cardNumber = customerNumberController.text.trim();
 
     if (cardNumber.isEmpty) {
       CustomToast("Please Enter Card Number", context: context);
-    }
-    else if(cardNumber.length < 16) {
-      CustomToast("Card number must be 16 digits",context: context);
+    } else if (cardNumber.length != 16) {
+      CustomToast("Card number must be 16 digits", context: context);
+    } else if (!(cardNumber.startsWith("4") || cardNumber.startsWith("5"))) {
+      showCustomPopup(context, message: "Invalid Card Number");
     } else {
+      // ✅ Call API
+      await controller.addCardNumberWithPainter(
+        registrationId: widget.painterinduction.registrationId?.toInt() ?? 0,
+        cardNumber: cardNumber,
+      );
       showCustomPopup(context);
     }
   }
 
-  // 🔔 Custom red error toast using SnackBar
+  // ✅ Simulated API Call
+  Future<void> addCardNumberWithPainter({
+    required int registrationId,
+    required String cardNumber,
+  }) async {
+    print("Calling API with REGISTRATION_ID: $registrationId, CARD_NUMBER: $cardNumber");
+    await Future.delayed(Duration(seconds: 1));
+    // Add actual API call logic here if needed
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -79,7 +100,8 @@ class _PainterCardAllocationCustomState extends State<PainterCardAllocationCusto
                   widget.painterinduction.planType == "IMP"
                       ? "INDIVIDUAL MEETUP PAINTER"
                       : "INDIVIDUAL MEETUP LABOR \n           CONTRACTOR",
-                  style: AppFonts.styleHarmoniaBold18W600().copyWith(color: AppColors.primaryColor),
+                  style: AppFonts.styleHarmoniaBold18W600()
+                      .copyWith(color: AppColors.primaryColor),
                   textAlign: TextAlign.center,
                 ),
               ),
@@ -89,16 +111,12 @@ class _PainterCardAllocationCustomState extends State<PainterCardAllocationCusto
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const SizedBox(height: 30),
-
-                    // Painter Name
                     CustomTextField(
                       label: "Painter Name",
                       controller: painterNameController,
                       keyboardType: TextInputType.name,
                     ),
                     const SizedBox(height: 20),
-
-                    // Painter Number
                     CustomTextField(
                       label: "Painter Number",
                       controller: painterNumberController,
@@ -106,8 +124,6 @@ class _PainterCardAllocationCustomState extends State<PainterCardAllocationCusto
                       maxLength: 11,
                     ),
                     const SizedBox(height: 20),
-
-                    // Customer Card Number
                     CustomTextField(
                       label: "Enter Customer Card",
                       controller: customerNumberController,
@@ -116,7 +132,6 @@ class _PainterCardAllocationCustomState extends State<PainterCardAllocationCusto
                       showCounter: true,
                     ),
                     const SizedBox(height: 30),
-
                     SizedBox(
                       height: 50,
                       width: double.infinity,
@@ -126,7 +141,8 @@ class _PainterCardAllocationCustomState extends State<PainterCardAllocationCusto
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(30),
                           ),
-                          padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 40, vertical: 15),
                         ),
                         onPressed: validateCardAndProceed,
                         child: const Text(
@@ -206,7 +222,8 @@ class _CustomTextFieldState extends State<CustomTextField> {
             labelText: _focusNode.hasFocus ? displayText : null,
             labelStyle: const TextStyle(color: Color(0xff504E4E)),
             counterText: "",
-            contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+            contentPadding:
+            const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(8),
             ),
@@ -236,14 +253,15 @@ class _CustomTextFieldState extends State<CustomTextField> {
   }
 }
 
-void showCustomPopup(BuildContext context) {
+void showCustomPopup(BuildContext context,
+    {bool isError = false, String? message}) {
   showDialog(
     context: context,
     builder: (BuildContext context) {
       return Dialog(
         backgroundColor: Colors.transparent,
         child: Container(
-          height: 170,
+          height: 180,
           width: double.infinity,
           padding: const EdgeInsets.all(12),
           decoration: BoxDecoration(
@@ -253,18 +271,23 @@ void showCustomPopup(BuildContext context) {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Image.asset(
-                'assets/images/check.png',
-                height: 30,
+              Icon(
+                 Icons.check_circle,
+                color: isError ? Colors.red : Colors.green,
+                size: 40,
               ),
               const SizedBox(height: 14),
-              const Text(
+              Text(
                 'Update',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                style:
+                const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
-              const Text(
-                'Card Submitted Successfully',
-                style: TextStyle(fontSize: 14, color: Colors.black, fontWeight: FontWeight.w500),
+              Text(
+                message ?? 'Card Submitted Successfully',
+                style: const TextStyle(
+                    fontSize: 14,
+                    color: Colors.black,
+                    fontWeight: FontWeight.w500),
               ),
               const SizedBox(height: 10),
               SizedBox(
@@ -282,7 +305,10 @@ void showCustomPopup(BuildContext context) {
                   },
                   child: const Text(
                     "OK",
-                    style: TextStyle(color: AppColors.whiteColor, fontSize: 16, fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                        color: AppColors.whiteColor,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold),
                   ),
                 ),
               ),
