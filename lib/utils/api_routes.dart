@@ -84,4 +84,12 @@ class ApiRoutes{
   // static const String apiAddLead = "Opa/AddLeadDetail";
   static const String apifeedback = "$baseUrl/LeadEngine/AddLeadFeedback";
 
+
+
+  /// todo: PE
+  ///
+  static const String apiEngagedPainter = "$baseUrl/LeadEngine/GetAllOldAndNewPaintersDetail";
+
+
+
 }

@@ -100,6 +100,7 @@ class NetworkCall{
           responseString: null);
     }
   }
+
   static Future postApiCall(String url, Map map) async {
     print("Api Url: $url");
     print("Body $map");

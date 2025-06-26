@@ -1,7 +1,12 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:mapleleaf/view/painter%20engagement/Engaged%20Painter/add_lead.dart';
 
+import '../../../controller/PE/Painter_Engaged_Controller.dart';
 import '../../../utils/app_colors.dart';
 import 'Painter_list.dart';
 class EngagedPainter extends StatelessWidget {
@@ -28,6 +33,9 @@ class EngagedPainter extends StatelessWidget {
       "KOTLA",
       "SARAI ALAMGIR",
     ];
+
+    PainterEngagedController painterEngagedController=Get.find<PainterEngagedController>();
+
 
     void showCustomFilterDialog(BuildContext context) {
       showDialog(
@@ -219,9 +227,12 @@ class EngagedPainter extends StatelessWidget {
     }
 
     return SafeArea(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
+      child:
+// Updated UI Code with Search Functionality
+        SingleChildScrollView(
+          child: Obx(() => Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Row(
@@ -234,12 +245,22 @@ class EngagedPainter extends StatelessWidget {
                       color: const Color(0xFFF2F5F7),
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    child: const Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 15),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 15),
                       child: TextField(
                         textAlign: TextAlign.center,
                         textAlignVertical: TextAlignVertical.center,
-                        decoration: InputDecoration(hintText: "Search", border: InputBorder.none,hintStyle: TextStyle(color: Colors.black)),
+                        onChanged: (value) {
+                          // Update search query in controller
+                          painterEngagedController.updateSearchQuery(value);
+                        },
+                        cursorColor: AppColors.primaryColor,
+                        decoration: const InputDecoration(
+                          hintText: "Search",
+
+                          border: InputBorder.none,
+                          hintStyle: TextStyle(color: Colors.black),
+                        ),
                       ),
                     ),
                   ),
@@ -260,13 +281,105 @@ class EngagedPainter extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 20),
-
-          // PainterList - Wrapped in Expanded to give it remaining screen space
-          Expanded(
-            child: PainterList(),
+          // Show filtered list instead of original list
+          painterEngagedController.filteredPainterList.isEmpty
+              ? painterEngagedController.searchQuery.value.isNotEmpty
+              ? const Padding(
+            padding: EdgeInsets.all(20),
+            child: Text(
+              'No painters found matching your search',
+              style: TextStyle(
+                fontSize: 16,
+                color: Colors.grey,
+              ),
+            ),
+          )
+              : const SizedBox.shrink()
+              : ListView.builder(
+            shrinkWrap: true,
+            padding: const EdgeInsets.all(10),
+            itemCount: painterEngagedController.filteredPainterList.length,
+            itemBuilder: (context, index) {
+              final painterData = painterEngagedController.filteredPainterList[index];
+              return Padding(
+                padding: const EdgeInsets.only(bottom: 12),
+                child: Container(
+                  height: 55,
+                  width: media.width * (0.7),
+                  decoration: BoxDecoration(
+                    color: painterData.isPainter == 'OLD'
+                        ? AppColors.selectColor
+                        : AppColors.primaryColor,
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 26, right: 10),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            painterData.painterName.toString(),
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w600,
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                        Container(
+                          width: 110,
+                          margin: const EdgeInsets.only(left: 8),
+                          child: Text(
+                            painterData.phoneNumber.toString(),
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w600,
+                            ),
+                            textAlign: TextAlign.right,
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        InkWell(
+                          onTap: () {
+                            Get.to(() => AddLead(), arguments: {
+                              'name': painterData.painterName,
+                              'phone': painterData.phoneNumber,
+                            });
+                          },
+                          child: const Icon(
+                            Icons.arrow_forward_ios,
+                            color: Colors.white,
+                            size: 20,
+                          ),
+                        ),
+                        const SizedBox(width: 5),
+                        Container(
+                          height: 20.h,
+                          width: 20.w,
+                          decoration: BoxDecoration(
+                            color: AppColors.whiteColor,
+                            shape: BoxShape.circle,
+                          ),
+                          child: Center(
+                            child: Text(
+                              painterData.leadCount.toString(),
+                              style: TextStyle(
+                                color: AppColors.primaryColor,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              );
+            },
           ),
-        ],
-      ),
+                ],
+              )),
+        ),
     );
 
   }

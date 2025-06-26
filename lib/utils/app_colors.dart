@@ -27,4 +27,5 @@ class AppColors{
   static const whiteColor = Colors.white;
   static const redColor = Color(0xFFB71C1C);
   static const lightOrange = Color(0xFFFF6F08);
+  static const selectColor = Color(0xFF005631);
 }
