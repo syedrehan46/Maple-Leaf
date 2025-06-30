@@ -7,9 +7,9 @@ import 'package:mapleleaf/model/login_model.dart';
 import 'package:mapleleaf/utils/app_colors.dart';
 import 'package:mapleleaf/utils/app_fonts.dart';
 import 'package:mapleleaf/utils/custom widgets/custom_appbar.dart';
-import 'package:mapleleaf/utils/custom%20widgets/custom_porfolio.dart';
+import 'package:mapleleaf/utils/custom widgets/custom_porfolio.dart';
 import 'package:mapleleaf/view/lead management/Lead Converted/feedback_view.dart';
-import 'package:mapleleaf/view/lead%20management/Lead%20Generated/Portfolio%20View/porfolio_two_view.dart';
+import 'package:mapleleaf/view/lead management/Lead Generated/Portfolio View/porfolio_two_view.dart';
 
 import '../../../controller/LM/lead_converted_controller.dart';
 import '../../../utils/custom widgets/custom_filter.dart';
@@ -29,12 +29,14 @@ class _LeadConvertedViewState extends State<LeadConvertedView> {
 
   final LeadConvertedController controller = Get.put(LeadConvertedController());
 
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   controller.fetchLeadConvertedData();
-  // }
-
+  @override
+  void initState() {
+    super.initState();
+    controller.selectedCity.value = '';
+    controller.selectedStatus.value = '';
+    controller.selectedMonthIndex.value = 0;
+    controller.fetchLeadConvertedData(0);
+  }
 
   Widget buildDropdown(String label, List<String> items, RxString selectedValue) {
     String dropdownValue = items.first;
@@ -90,23 +92,17 @@ class _LeadConvertedViewState extends State<LeadConvertedView> {
     );
   }
 
- @override
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
         children: [
-
           CustomAppbar(
             title: 'Lead Converted',
             timeLocationIsVisible: true,
             widget: GestureDetector(
               onTap: () {
-                print(" ${controller.cityList}");
-                print("Selected Status: ${controller.statusList}");
-                print("Selected Month Index: ${selectedMonthIndex}");
-
                 selectedMonthIndex.value = 0;
-
                 showCustomFilterDialog(
                   context: context,
                   cityList: controller.cityNameList,
@@ -114,21 +110,22 @@ class _LeadConvertedViewState extends State<LeadConvertedView> {
                   selectedCity: selectedCity,
                   selectedStatus: selectedStatus,
                   selectedMonthIndex: selectedMonthIndex,
-                    onApply: () {
-                      print("Helloo Rehan");
-
-                      // ✅ Assign UI selections to controller filters
-                      controller.selectedCity.value = selectedCity.value;
-                      controller.selectedStatus.value = selectedStatus.value;
-                      controller.selectedMonthIndex.value = selectedMonthIndex.value;
-
-                      // ✅ Now call API with correct values
-                      controller.fetchLeadConvertedData(
-                        selectedMonthIndex.value,
-                        status: selectedStatus.value,
-                        city: selectedCity.value,
-                      );
+                  onApply: () async {
+                    controller.selectedCity.value = selectedCity.value;
+                    controller.selectedStatus.value = selectedStatus.value;
+                    controller.selectedMonthIndex.value = selectedMonthIndex.value;
+                    await controller.fetchLeadConvertedData(
+                      controller.selectedMonthIndex.value,
+                      city: controller.selectedCity.value,
+                      status: controller.selectedStatus.value,
+                    );
+                    if (controller.selectedCity.value.isNotEmpty ||
+                        controller.selectedStatus.value.isNotEmpty) {
+                      controller.applyFilters();
+                    } else {
+                      controller.leadConvertedList.value = controller.allLeads;
                     }
+                  },
 
                 );
               },
@@ -140,7 +137,6 @@ class _LeadConvertedViewState extends State<LeadConvertedView> {
               ),
             ),
           ),
-
           Expanded(
             child: Stack(
               children: [
@@ -162,43 +158,44 @@ class _LeadConvertedViewState extends State<LeadConvertedView> {
                     itemCount: controller.leadConvertedList.length,
                     itemBuilder: (context, index) {
                       final lead = controller.leadConvertedList[index];
-                   final Color textColor= lead.leadStatus == "PROCESSED" ? AppColors.whiteColor :AppColors.blackColor;
-                      // final leadDate = DateFormat('dd-MMM-yyyy').format(
-                      //     DateTime.tryParse(lead.leadConvertedDate ?? '') ?? DateTime.now());
+                      final Color textColor = lead.leadStatus == "PROCESSED" ? AppColors.whiteColor : AppColors.blackColor;
 
                       return Padding(
                         padding: EdgeInsets.fromLTRB(12, index == 0 ? 22 : 6, 12, 4),
-                        child:GestureDetector(
-                            onTap: () {
-                              if (lead.leadStatus == "PROCESSED") {
-                                Get.to(
-                                  FeedbackScreen(
-                                    lead: lead,
-                                    isShowButton: false,
-                                    isShowDropdown: false,
-                                  ),
-                                );
-                              }else if(lead.leadStatus == "GENERATED"){
-                                Get.to(
-                                   CustomPorfolio(lead: lead,isShowFields: true,isremovedFields: true,));
-
-                              }else{
-                                Get.to(
-                                  FeedbackScreen(
-                                    lead: lead,
-                                    isShowButton: false,
-                                    isShowDropdown: false,
-                                  ),
-                                );
-                              }
-                            },
-
-
+                        child: GestureDetector(
+                          onTap: () {
+                            if (lead.leadStatus == "PROCESSED") {
+                              Get.to(FeedbackScreen(lead: lead));
+                            } else if (lead.leadStatus == "CONVERTED" && lead.leadSource == "PAINTER LEAD") {
+                              Get.to(FeedbackScreen(
+                                lead: lead,
+                                isShowPlanType: true,
+                                moveSalesSectionToBottom: false,
+                                showExpectedKgsAfterPlanType: false,
+                                isShowButton: true,
+                                isShowDropdown: true,
+                                showExpectedKgsBeforeRetailer: true,
+                                isShowexpectedkgsbeforeshopname: false,
+                                isShowShopName: true,
+                                moveExpectedKgsBelowRetailer: false,
+                                isShowFiveFields: true,
+                                showShopNameAfterPlanType: true, // ✅ Added flag
+                              ));
+                            } else {
+                              Get.to(CustomPorfolio(
+                                lead: lead,
+                                isShowFields: true,
+                                isremovedFields: true,
+                              ));
+                            }
+                          },
                           child: Container(
                             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(8),
-                              color: lead.leadStatus =="PROCESSED"? AppColors.readyForCollectionColor :AppColors.pendingColor,
+                              color: lead.leadStatus == "PROCESSED"
+                                  ? AppColors.readyForCollectionColor
+                                  : AppColors.pendingColor,
                             ),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -206,57 +203,37 @@ class _LeadConvertedViewState extends State<LeadConvertedView> {
                               children: [
                                 Row(
                                   children: [
-
-                                    // Left Column (ID and Phone)
-                                    Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start, // align left
-                                      children: [
-                                        Text(
-                                          "${lead.generalCustomerId}",
-                                          style: AppFonts.styleHarmoniaBold16W600(textColor),
-                                        ),
-                                        const SizedBox(height: 4), // spacing between ID and phone
-                                        Text(
-                                          "${lead.customerPhone}",
-                                          style: AppFonts.styleHarmoniaBold14W600(textColor),
-                                        ),
-                                      ],
-                                    ),
-
-                                    const SizedBox(width: 16),
-
-
                                     Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-
-                                        Text(
-                                          "${lead.leadCreationDate ?? ''}",
-                                          style: AppFonts.styleHarmoniaBold14W600(textColor),
-                                        ),
+                                        Text("${lead.generalCustomerId}", style: AppFonts.styleHarmoniaBold16W600(textColor)),
+                                        const SizedBox(height: 4),
+                                        Text("${lead.customerPhone}", style: AppFonts.styleHarmoniaBold14W600(textColor)),
+                                      ],
+                                    ),
+                                    const SizedBox(width: 16),
+                                    Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text("${lead.leadCreationDate ?? ''}", style: AppFonts.styleHarmoniaBold14W600(textColor)),
                                         const SizedBox(height: 8),
-                                        Text(
-                                          "${lead.customerName ?? ''}",
-                                          style: AppFonts.styleHarmoniaBold14W600(textColor),
-                                        ),
+                                        Text("${lead.customerName ?? ''}", style: AppFonts.styleHarmoniaBold14W600(textColor)),
                                       ],
                                     ),
                                   ],
                                 ),
-
-                                if(lead.leadStatus != "PROCESSED")
+                                if ((lead.leadStatus == "CONVERTED") && lead.leadSource == "GENERAL CUSTOMER LEAD")
                                   Padding(
                                     padding: const EdgeInsets.only(top: 10.0),
                                     child: Image.asset(
                                       "assets/images/ule_group.png",
-                                      height: 30.h,
-                                      width: 0.w,
+                                      height: 20,
+                                      width: 20,
                                       color: AppColors.whiteColor,
                                     ),
                                   ),
                               ],
                             ),
-
                           ),
                         ),
                       );

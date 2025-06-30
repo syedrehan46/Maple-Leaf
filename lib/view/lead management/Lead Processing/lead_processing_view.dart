@@ -24,6 +24,21 @@ class _LeadProcessingViewState extends State<LeadProcessingView> {
   final RxInt selectedMonthIndex = (-1).obs;
   final LeadProcessingController controller = Get.put(LeadProcessingController());
 
+  @override
+  void initState() {
+    super.initState();
+
+    // ✅ Clear filters on screen open
+    controller.selectedCity.value = '';
+    controller.selectedStatus.value = '';
+    controller.selectedMonthIndex.value = 0;
+
+    // ✅ Fetch all lead data (this month by default)
+    controller.fetchLeadProcessingData(0);
+  }
+
+
+
   Widget buildDropdown(String label, List<String> items, RxString selectedValue) {
     String dropdownValue = items.first;
     return StatefulBuilder(
@@ -108,14 +123,28 @@ class _LeadProcessingViewState extends State<LeadProcessingView> {
                       selectedCity: selectedCity,
                       selectedStatus: selectedStatus,
                       selectedMonthIndex: selectedMonthIndex,
-                      onApply: () {
+                      onApply: () async {
                         print("Helloo Rehan");
-                        controller.fetchLeadProcessingData(
-                          selectedMonthIndex.value,
-                          status: selectedStatus.value,
-                          city: selectedCity.value,
+
+                        // ✅ Assign UI selections to controller filters
+                        controller.selectedCity.value = selectedCity.value;
+                        controller.selectedStatus.value = selectedStatus.value;
+                        controller.selectedMonthIndex.value = selectedMonthIndex.value;
+
+                        // ✅ Now call API with correct values
+                        await controller.fetchLeadProcessingData(
+                          controller.selectedMonthIndex.value,
+                          city: controller.selectedCity.value,
+                          status: controller.selectedStatus.value,
                         );
+                        if (controller.selectedCity.value.isNotEmpty ||
+                            controller.selectedStatus.value.isNotEmpty) {
+                          controller.applyFilters();
+                        } else {
+                          controller.leadProcessingList.value = controller.allLeads;
+                        }// ✅ Apply local filters
                       },
+
                     );
                   },
                   child: Image.asset(
@@ -135,61 +164,77 @@ class _LeadProcessingViewState extends State<LeadProcessingView> {
                 }
 
                 return Expanded(
-                  child: ListView.builder(
-                    padding: const EdgeInsets.only(top: 12),
-                    itemCount: controller.leadProcessingList.length,
-                    itemBuilder: (context, index) {
-                      final lead = controller.leadProcessingList[index];
+                  child: Builder(
+                    builder: (context) {
+                      // ✅ Filter only "PROCESSED" leads
+                      final processedLeads = controller.leadProcessingList
+                          .where((lead) => lead.leadStatus == "PROCESSED")
+                          .toList();
 
-                      return Padding(
-                        padding: EdgeInsets.fromLTRB(12, index == 0 ? 22 : 6, 12, 4),
-                        child: GestureDetector(
-                          onTap: () => Get.to(() => FeedbackScreen(lead:lead,isShowButton: false,isShowDropdown: false,)),
+                      return ListView.builder(
+                        padding: const EdgeInsets.only(top: 12),
+                        itemCount: processedLeads.length,
+                        itemBuilder: (context, index) {
+                          final lead = processedLeads[index];
 
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8),
-                              color: lead.leadStatus == "PROCESSED"
-                                  ? AppColors.activeColor
-                                  : AppColors.primaryColor,
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+                          return Padding(
+                            padding: EdgeInsets.fromLTRB(12, index == 0 ? 22 : 6, 12, 4),
+                            child: GestureDetector(
+                              onTap: () => Get.to(() => FeedbackScreen(
+                                lead: lead,
+                                isShowPlanType: false,
+                                moveSalesSectionToBottom: false,
+                                showExpectedKgsAfterPlanType: false,
+                                isShowButton: false,
+                                isShowDropdown: false,
+                                isShowShopName: true,
+                                moveExpectedKgsBelowRetailer: true,
+                                isShowFiveFields: true,
+                                isShowexpectedkgsbeforeshopname: true,
+                              )),
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8),
+                                  color: AppColors.activeColor,
+                                ),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Row(
+                                    Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        Text(
-                                          "${lead.generalCustomerId}",
-                                          style: AppFonts.styleHarmoniaBold14W600(Colors.white),
+                                        Row(
+                                          children: [
+                                            Text(
+                                              "${lead.generalCustomerId}",
+                                              style: AppFonts.styleHarmoniaBold14W600(Colors.white),
+                                            ),
+                                            const SizedBox(width: 52),
+                                            Text(
+                                              "${lead.leadConvertedDate}",
+                                              style: AppFonts.styleHarmoniaBold14W600(Colors.white),
+                                            ),
+                                          ],
                                         ),
-                                        const SizedBox(width: 52),
+                                        const SizedBox(height: 10),
                                         Text(
-                                          "${lead.leadConvertedDate}",
-                                          style: AppFonts.styleHarmoniaBold14W600(Colors.white),
+                                          "${lead.customerPhone}   ${lead.painterName}",
+                                          style: AppFonts.styleHarmoniaBold14W600(AppColors.whiteColor),
                                         ),
                                       ],
                                     ),
-                                    const SizedBox(height: 10),
-                                    Text(
-                                        "${lead.customerPhone}   ${lead.customerName}",
-                                        style: AppFonts.styleHarmoniaBold14W600(AppColors.whiteColor)
-                                    ),
-
                                   ],
                                 ),
-
-                              ],
+                              ),
                             ),
-                          ),
-                        ),
+                          );
+                        },
                       );
                     },
                   ),
                 );
+
               }),
             ],
           ),

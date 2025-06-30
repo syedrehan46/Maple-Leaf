@@ -6,6 +6,10 @@ import 'package:mapleleaf/utils/custom%20widgets/custom_appbar.dart';
 import '../../../../controller/LM/lead_generated_controller.dart';
 import '../../../../controller/auth_controller.dart';
 import '../../../../model/LM/Lead Converted/lead_converted_model.dart';
+import '../../../../utils/custom widgets/calender.dart';
+import '../../../../utils/custom widgets/custom_button1.dart';
+import '../../../../utils/custom widgets/custom_textfeild.dart';
+import '../../../Maple Lead/Dealers/Job Detail/custom_toast.dart';
 
 class PorfolioView extends StatefulWidget {
   final LeadConvertedModel lead;
@@ -24,7 +28,7 @@ class _PorfolioViewState extends State<PorfolioView> {
   late TextEditingController planTypeController;
   late TextEditingController expectedKgsController;
 
-  String followUpDate = " * Follow up date";
+  String followUpDate = " Further Follow Up";
 
   String? siteVisitDropdown;
   String? specialIncentiveDropdown;
@@ -35,7 +39,6 @@ class _PorfolioViewState extends State<PorfolioView> {
   @override
   void initState() {
     super.initState();
-
     final lead = widget.lead;
 
     painterPhoneController = TextEditingController(text: lead.phoneNumber ?? '');
@@ -88,7 +91,7 @@ class _PorfolioViewState extends State<PorfolioView> {
   Widget build(BuildContext context) {
     final controller = Get.put(LeadGeneratedController());
     final authController = Get.put(AuthController());
-    final String createdBy = authController.employeeName;
+    final String createdBy = authController.salesForceId;
 
     return Scaffold(
       body: Column(
@@ -98,7 +101,7 @@ class _PorfolioViewState extends State<PorfolioView> {
             child: SingleChildScrollView(
               child: Container(
                 margin: const EdgeInsets.all(16),
-                padding: const EdgeInsets.all(16),
+                padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(15),
@@ -106,48 +109,95 @@ class _PorfolioViewState extends State<PorfolioView> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    buildTextField("Painter Phone", painterPhoneController),
-                    buildTextField("Painter Name", painterNameController),
-                    buildTextField("Customer Contact No", customerPhoneController),
-                    buildTextField("Customer Name and Address", customerNameController),
-                    buildTextField("Plan Type", planTypeController),
-                    buildDropdown("Site Visit", [
-                      "Please select Site Visit", "Yes", "No"
-                    ], siteVisitDropdown, (value) {
+                    const SizedBox(height: 8),
+                    CustomTextField1(label: "Painter Phone", controller: painterPhoneController, keyboardType: TextInputType.phone,isIgnorePointer: true,),
+                    const SizedBox(height: 12),
+                    CustomTextField1(label: "Painter Name", controller: painterNameController,isIgnorePointer: true,),
+                    const SizedBox(height: 12),
+                    CustomTextField1(label: "Customer Contact No", controller: customerPhoneController, keyboardType: TextInputType.phone),
+                    const SizedBox(height: 12),
+                    CustomTextField1(label: "Customer Name and Address", controller: customerNameController),
+                    const SizedBox(height: 12),
+                    CustomTextField1(label: "Plan Type", controller: planTypeController,isIgnorePointer: true,),
+
+                    buildDropdown("Site Visit", ["Please select Site Visit", "Yes", "No"], siteVisitDropdown, (value) {
                       setState(() => siteVisitDropdown = value);
                     }),
-                    buildDropdown("Special Incentive", [
-                      "Please select Special Incentive", "YES", "NO"
-                    ], specialIncentiveDropdown, (value) {
+
+                    buildDropdown("Special Incentive", ["Please select Special Incentive", "YES", "NO"], specialIncentiveDropdown, (value) {
                       setState(() => specialIncentiveDropdown = value);
                     }),
-                    buildDropdown("Painter Auto Conversion", [
-                      "Please select Painter auto Conversion", "YES", "NO"
-                    ], painterAutoConversionDropdown, (value) {
+
+                    buildDropdown("Painter Auto Conversion", ["Please select Painter auto Conversion", "YES", "NO"], painterAutoConversionDropdown, (value) {
                       setState(() => painterAutoConversionDropdown = value);
                     }),
-                    buildDropdown("Sample Applied", [
-                      "Please select Sample Applied", "Yes", "No"
-                    ], sampleAppliedDropdown, (value) {
+
+                    buildDropdown("Sample Applied", ["Please select Sample Applied", "Yes", "No"], sampleAppliedDropdown, (value) {
                       setState(() => sampleAppliedDropdown = value);
                     }),
-                    buildDropdown("Converted To Sale", [
-                      "Please select Converted to Sale", "Yes", "No"
-                    ], convertedToSaleDropdown, (value) {
+
+                    buildDropdown("Converted To Sale", ["Please select Converted to Sale", "Yes", "No"], convertedToSaleDropdown, (value) {
                       setState(() => convertedToSaleDropdown = value);
                     }),
+
                     if (convertedToSaleDropdown == "Yes")
-                      buildTextField("Expected KGS", expectedKgsController),
+                      const SizedBox(height: 8),
+                    if (convertedToSaleDropdown == "Yes")
+                      CustomTextField1(label: "Expected KGS", controller: expectedKgsController, keyboardType: TextInputType.number),
+
                     const SizedBox(height: 16),
-                    Text("Further Follow Up", style: TextStyle(fontWeight: FontWeight.bold)),
-                    TextButton(
-                      onPressed: () => _selectDate(context),
-                      child: Text(followUpDate),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          followUpDate != "Select Date" ? followUpDate : "",
+                          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                        ),
+                        Container(
+                          height: 35,
+                          padding: const EdgeInsets.symmetric(horizontal: 12),
+                          decoration: BoxDecoration(
+                            border: Border.all(width: 2, color: AppColors.primaryColor),
+                            borderRadius: BorderRadius.circular(26),
+                            color: Colors.white,
+                          ),
+                          alignment: Alignment.center,
+                          child: TextButton(
+                            onPressed: () {
+                              showCustomDatePicker(
+                                context: context,
+                                initialDate: DateTime.now(),
+                                onDateSelected: (date) {
+                                  setState(() {
+                                    followUpDate = "${date.day}-${date.month}-${date.year}";
+                                  });
+                                },
+                              );
+                            },
+                            style: TextButton.styleFrom(
+                              minimumSize: Size.zero,
+                              padding: const EdgeInsets.symmetric(horizontal: 8),
+                              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                            ),
+                            child: const Text(
+                              "* Further Follow Up",
+                              style: TextStyle(
+                                color: AppColors.primaryColor,
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
+
                     const SizedBox(height: 16),
-                    ElevatedButton(
+                    CustomButton1(
+                      text: "UPDATE INFORMATION",
                       onPressed: () {
                         if (!validateForm()) return;
+
                         controller.UpdateInformation(
                           siteVisit: siteVisitDropdown ?? '',
                           productSold: '',
@@ -173,9 +223,13 @@ class _PorfolioViewState extends State<PorfolioView> {
                           tid: widget.lead.tid?.toString() ?? '0',
                         );
                       },
-                      style: ElevatedButton.styleFrom(backgroundColor: Colors.red[700]),
-                      child: const Text("UPDATE INFORMATION", style: TextStyle(color: Colors.white)),
-                    )
+                      isEnabled: true,
+                      backgroundColor: AppColors.redColor,
+                      width: 0.9,
+                      height: 50,
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ],
                 ),
               ),
@@ -186,20 +240,87 @@ class _PorfolioViewState extends State<PorfolioView> {
     );
   }
 
-  Widget buildTextField(String label, TextEditingController controller) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8),
-      child: TextField(
-        controller: controller,
-        decoration: InputDecoration(
-          labelText: label,
-          border: OutlineInputBorder(),
-        ),
-      ),
-    );
-  }
-
   Widget buildDropdown(String label, List<String> items, String? selectedValue, void Function(String?) onChanged) {
+    final LayerLink _layerLink = LayerLink();
+    OverlayEntry? _overlayEntry;
+    bool isDropdownOpen = false;
+
+    final GlobalKey _dropdownKey = GlobalKey();
+
+    final String headerTitle = items.first;
+    final List<String> dropdownValues = items.sublist(1);
+
+    void _removeDropdown() {
+      _overlayEntry?.remove();
+      _overlayEntry = null;
+      isDropdownOpen = false;
+    }
+
+    void _showDropdown(BuildContext context) {
+      final RenderBox renderBox = _dropdownKey.currentContext?.findRenderObject() as RenderBox;
+      final Offset position = renderBox.localToGlobal(Offset.zero);
+      final Size size = renderBox.size;
+
+      _overlayEntry = OverlayEntry(
+        builder: (context) => Stack(
+          children: [
+            Positioned.fill(
+              child: GestureDetector(
+                onTap: _removeDropdown,
+                behavior: HitTestBehavior.translucent,
+                child: Container(),
+              ),
+            ),
+            Positioned(
+              left: position.dx,
+              top: position.dy + size.height + 4,
+              width: size.width,
+              child: CompositedTransformFollower(
+                link: _layerLink,
+                showWhenUnlinked: false,
+                offset: Offset(0, 0),
+                child: Material(
+                  elevation: 4,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Container(
+                        height: 50,
+                        color: AppColors.primaryColor,
+                        alignment: Alignment.centerLeft,
+                        padding: const EdgeInsets.only(left: 12),
+                        child: Text(
+                          headerTitle,
+                          style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      Container(
+                        color: Colors.white,
+                        child: Column(
+                          children: dropdownValues.map((item) {
+                            return ListTile(
+                              title: Text(item),
+                              onTap: () {
+                                onChanged(item);
+                                _removeDropdown();
+                              },
+                            );
+                          }).toList(),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+
+      Overlay.of(context).insert(_overlayEntry!);
+      isDropdownOpen = true;
+    }
+
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8),
       child: Column(
@@ -207,50 +328,40 @@ class _PorfolioViewState extends State<PorfolioView> {
         children: [
           Text("* $label", style: const TextStyle(fontWeight: FontWeight.bold)),
           const SizedBox(height: 4),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12),
-            decoration: BoxDecoration(
-              border: Border.all(color: Colors.grey.shade400),
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: DropdownButtonHideUnderline(
-              child: DropdownButton<String>(
-                value: selectedValue,
-                isExpanded: true,
-                icon: const Icon(Icons.arrow_drop_down),
-                onChanged: onChanged,
-                items: items.map((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
-                  );
-                }).toList(),
+          CompositedTransformTarget(
+            link: _layerLink,
+            child: GestureDetector(
+              key: _dropdownKey,
+              onTap: () {
+                if (!isDropdownOpen) {
+                  _showDropdown(context);
+                }
+              },
+              child: Container(
+                height: 50,
+                padding: const EdgeInsets.symmetric(horizontal: 12),
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.grey.shade400),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      selectedValue ?? headerTitle,
+                      style: const TextStyle(fontSize: 16),
+                    ),
+                    const Icon(Icons.arrow_drop_down),
+                  ],
+                ),
               ),
             ),
-          )
+          ),
         ],
       ),
     );
   }
 
-  Future<void> _selectDate(BuildContext context) async {
-    final DateTime? picked = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime.now(),
-      lastDate: DateTime(2100),
-    );
-    if (picked != null) {
-      setState(() {
-        followUpDate = DateFormat('dd-MM-yyyy').format(picked);
-      });
-    }
+
   }
 
-  void CustomToast(String message, {required BuildContext context}) {
-    final scaffold = ScaffoldMessenger.of(context);
-    scaffold.showSnackBar(
-      SnackBar(content: Text(message), duration: const Duration(seconds: 2)),
-    );
-  }
-}

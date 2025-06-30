@@ -65,8 +65,8 @@ class _CustomPorfolioState extends State<CustomPorfolio> {
     customerContactNoController = TextEditingController(text: widget.lead.customerPhone ?? "");
     secondPersontypeController = TextEditingController(text: "PAINTER");
     secondPersonNoController = TextEditingController(text: "03214338421");
-    thirdPersonTypeController = TextEditingController();
-    thirdPersonNoController = TextEditingController();
+    thirdPersonTypeController = TextEditingController(text: "ATTENDANT");
+    thirdPersonNoController = TextEditingController(text: "03214758980");
     leadFromController = TextEditingController(text: widget.lead.leadFrom ?? "");
     viaController = TextEditingController(text: widget.lead.via ?? "");
     tokenNumberController = TextEditingController();

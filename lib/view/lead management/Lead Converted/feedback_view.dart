@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:mapleleaf/controller/LM/lead_converted_controller.dart';
+import 'package:mapleleaf/controller/LM/lead_generated_controller.dart';
 import 'package:mapleleaf/utils/app_colors.dart';
 import 'package:mapleleaf/utils/custom widgets/custom_appbar.dart';
-import 'package:mapleleaf/view/Maple%20Lead/Dealers/Job%20Detail/custom_toast.dart';
+import 'package:mapleleaf/view/Maple Lead/Dealers/Job Detail/custom_toast.dart';
 import '../../../model/LM/Lead Converted/lead_converted_model.dart';
 import '../../Maple Lead/Dealers/custom_button1.dart';
 
@@ -21,6 +22,12 @@ class FeedbackScreen extends StatefulWidget {
   final bool isShowFiveFields;
   final bool moveSalesSectionToBottom;
   final bool moveExpectedKgsBelowRetailer;
+  final bool showFollowUpDate;
+  final bool showExpectedKgsAfterPlanType;
+  final bool isShowShopName;
+  final bool isShowexpectedkgsbeforeshopname;
+  final bool showExpectedKgsBeforeRetailer;
+  final bool showShopNameAfterPlanType;
   final String title;
 
   const FeedbackScreen({
@@ -32,6 +39,12 @@ class FeedbackScreen extends StatefulWidget {
     this.isShowFiveFields = true,
     this.moveSalesSectionToBottom = false,
     this.moveExpectedKgsBelowRetailer = false,
+    this.showFollowUpDate = false,
+    this.showExpectedKgsAfterPlanType = false,
+    this.isShowShopName = true,
+    this.isShowexpectedkgsbeforeshopname = false,
+    this.showExpectedKgsBeforeRetailer = false,
+    this.showShopNameAfterPlanType = false,
     this.title = "FEEDBACK",
   }) : super(key: key);
 
@@ -40,13 +53,14 @@ class FeedbackScreen extends StatefulWidget {
 }
 
 class _FeedbackScreenState extends State<FeedbackScreen> {
+  final controllers=Get.put(LeadGeneratedController());
   final LeadConvertedController controller =
   Get.isRegistered<LeadConvertedController>()
       ? Get.find<LeadConvertedController>()
       : Get.put(LeadConvertedController());
 
   final RxString selectedCity = "Select Retailer".obs;
-  final RxString selectProductSold = "Select Product Sold".obs;
+  final RxString selectProductSold = "Yes".obs; // ✅ Fixed default value
 
   final TextEditingController painterController = TextEditingController();
   final TextEditingController painterNameController = TextEditingController();
@@ -60,6 +74,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
   final TextEditingController painterConversionController = TextEditingController();
   final TextEditingController specialIncentivesController = TextEditingController();
   final TextEditingController expectedKgsController = TextEditingController();
+  final TextEditingController followUpDateController = TextEditingController();
   final TextEditingController shopNameController = TextEditingController();
 
   final TextEditingController fiveController = TextEditingController();
@@ -81,19 +96,23 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
   void initState() {
     super.initState();
     _assignLeadDataToControllers();
-
-    fiveController.addListener(() => _updateKgTotal(fiveController, kGSController, 5));
-    twentyController.addListener(() => _updateKgTotal(twentyController, kgstwoController, 20));
-    twentyRegController.addListener(() => _updateKgTotal(twentyRegController, kgsthreeController, 20));
-    twentyExpController.addListener(() => _updateKgTotal(twentyExpController, kgExpController, 20));
-    twentyReguController.addListener(() => _updateKgTotal(twentyReguController, kgReguController, 20));
+    fiveController.addListener(() =>
+        _updateKgTotal(fiveController, kGSController, 5));
+    twentyController.addListener(() =>
+        _updateKgTotal(twentyController, kgstwoController, 20));
+    twentyRegController.addListener(() =>
+        _updateKgTotal(twentyRegController, kgsthreeController, 20));
+    twentyExpController.addListener(() =>
+        _updateKgTotal(twentyExpController, kgsfiveController, 20));
+    twentyReguController.addListener(() =>
+        _updateKgTotal(twentyReguController, kgsfourController, 20));
   }
 
   void _assignLeadDataToControllers() {
     painterController.text = widget.lead.phoneNumber ?? "";
     painterNameController.text = widget.lead.painterName ?? "";
     customerContactController.text = widget.lead.customerPhone ?? "";
-    customerNameAddressController.text = "${widget.lead.customerName ?? ""} - ${widget.lead.customerAreaName ?? ""}";
+    customerNameAddressController.text = widget.lead.customerName ?? "";
     planTypeController.text = widget.lead.engagementPlanType ?? "";
     siteVisitController.text = widget.lead.siteVisit ?? "";
     productSoldController.text = widget.lead.productSold ?? "YES";
@@ -102,11 +121,13 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
     painterConversionController.text = widget.lead.painterAutoConversion ?? "";
     specialIncentivesController.text = widget.lead.specialIncentive ?? "";
     expectedKgsController.text = widget.lead.expectedKgs?.toString() ?? "";
+    followUpDateController.text = widget.lead.followUpDate ?? "";
     shopNameController.text = widget.lead.retailerName ?? "";
 
     fiveController.text = widget.lead.noOfBags5Kg?.toString() ?? "";
     twentyController.text = widget.lead.noOfBags20Kg?.toString() ?? "";
-    twentyRegController.text = widget.lead.noOfBags20KgRepaint?.toString() ?? "";
+    twentyRegController.text =
+        widget.lead.noOfBags20KgRepaint?.toString() ?? "";
     twentyExpController.text = "null";
     twentyReguController.text = "null";
 
@@ -118,7 +139,8 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
     kgsfiveController.text = "null";
   }
 
-  void _updateKgTotal(TextEditingController bagsController, TextEditingController kgController, int multiplier) {
+  void _updateKgTotal(TextEditingController bagsController,
+      TextEditingController kgController, int multiplier) {
     int bags = int.tryParse(bagsController.text) ?? 0;
     kgController.text = (bags * multiplier).toString();
   }
@@ -137,23 +159,48 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
     painterConversionController.dispose();
     specialIncentivesController.dispose();
     expectedKgsController.dispose();
+    followUpDateController.dispose();
     shopNameController.dispose();
-
     fiveController.dispose();
     twentyController.dispose();
     twentyRegController.dispose();
     twentyExpController.dispose();
     twentyReguController.dispose();
-
     kGSController.dispose();
     kgstwoController.dispose();
     kgsthreeController.dispose();
     kgExpController.dispose();
     kgReguController.dispose();
-
     kgsfourController.dispose();
     kgsfiveController.dispose();
     super.dispose();
+  }
+  bool validateForm() {
+    if (siteVisitController.text == "Please select Site Visit") {
+      CustomToast("Please select Site Visit", context: context);
+      return false;
+    }
+    if (specialIncentivesController.text == "Please select Special Incentive") {
+      CustomToast("Please select Special Incentive", context: context);
+      return false;
+    }
+    if (painterConversionController.text == "Please select Painter auto Conversion") {
+      CustomToast("Please select Painter Auto Conversion", context: context);
+      return false;
+    }
+    if (sampleController.text == "Please select Sample Applied") {
+      CustomToast("Please select Sample Applied", context: context);
+      return false;
+    }
+    if (convertedToSaleController.text == "Please select Converted to Sale") {
+      CustomToast("Please select Converted To Sale", context: context);
+      return false;
+    }
+    if (convertedToSaleController.text == "Yes" && expectedKgsController.text.trim().isEmpty) {
+      CustomToast("Please enter Expected KGS", context: context);
+      return false;
+    }
+    return true;
   }
 
   Widget buildSalesInfoFields() {
@@ -161,23 +208,32 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
       children: [
         Row(
           children: [
-            Expanded(child: _buildTextfield("Site Visit", siteVisitController, readOnly: true)),
+            Expanded(child: _buildTextfield(
+                "Site Visit", siteVisitController, readOnly: true)),
             const SizedBox(width: 6),
-            Expanded(child: _buildTextfield("Product Sold", productSoldController, readOnly: true)),
+            Expanded(child: _buildTextfield(
+                "Product Sold", productSoldController, readOnly: true)),
           ],
         ),
         Row(
           children: [
-            Expanded(child: _buildTextfield("Sample Applied", sampleController, readOnly: true)),
+            Expanded(child: _buildTextfield(
+                "Sample Applied", sampleController, readOnly: true)),
             const SizedBox(width: 6),
-            Expanded(child: _buildTextfield("Converted To Sale", convertedToSaleController, readOnly: true)),
+            Expanded(child: _buildTextfield(
+                "Converted To Sale", convertedToSaleController,
+                readOnly: true)),
           ],
         ),
         Row(
           children: [
-            Expanded(child: _buildTextfield("Painter Conversion", painterConversionController, readOnly: true)),
+            Expanded(child: _buildTextfield(
+                "Painter Conversion", painterConversionController,
+                readOnly: true)),
             const SizedBox(width: 6),
-            Expanded(child: _buildTextfield("Special Incentives", specialIncentivesController, readOnly: true)),
+            Expanded(child: _buildTextfield(
+                "Special Incentives", specialIncentivesController,
+                readOnly: true)),
           ],
         ),
       ],
@@ -194,90 +250,154 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
             child: SingleChildScrollView(
               child: Stack(
                 children: [
-                  Positioned.fill(child: Image.asset("assets/images/menu_bg.png", fit: BoxFit.cover)),
+                  Positioned.fill(child: Image.asset(
+                      "assets/images/menu_bg.png", fit: BoxFit.cover)),
                   Padding(
                     padding: const EdgeInsets.all(4.0),
                     child: Column(
                       children: [
-                        _buildTextfield("Painter Phone", painterController, readOnly: true),
-                        _buildTextfield("Painter Name", painterNameController, readOnly: true),
-                        _buildTextfield("Customer Contact No", customerContactController, readOnly: true),
-                        _buildTextfield("Customer Name and Address", customerNameAddressController, readOnly: true),
+                        _buildTextfield(
+                            "Painter Phone", painterController, readOnly: true),
+                        _buildTextfield("Painter Name", painterNameController,
+                            readOnly: true),
+                        _buildTextfield(
+                            "Customer Contact No", customerContactController,
+                            readOnly: true),
+                        _buildTextfield("Customer Name and Address",
+                            customerNameAddressController, readOnly: true),
                         if (widget.isShowPlanType)
-                          _buildTextfield("Plan Type", planTypeController, readOnly: true),
-
-                        if (!widget.moveSalesSectionToBottom)
-                          buildSalesInfoFields(),
-
-                        if (!widget.moveExpectedKgsBelowRetailer)
-                          _buildTextfield("Expected KGS", expectedKgsController, readOnly: true),
-
+                          _buildTextfield(
+                              "Plan Type", planTypeController, readOnly: true),
+                        if (widget.showShopNameAfterPlanType)
+                          _buildTextfield(
+                              "Shop Name", shopNameController, readOnly: true),
+                        if (!widget
+                            .moveSalesSectionToBottom) buildSalesInfoFields(),
+                        if (!widget.moveExpectedKgsBelowRetailer) ...[
+                          if (widget.showExpectedKgsAfterPlanType)
+                            _buildTextfield(
+                                "Expected KGS", expectedKgsController,
+                                readOnly: true),
+                          if (widget.showFollowUpDate)
+                            _buildTextfield("Further Follow-up Date",
+                                followUpDateController),
+                        ],
+                        if (widget.showExpectedKgsBeforeRetailer)
+                          _buildTextfield("Expected KGS", expectedKgsController,
+                              readOnly: true),
                         if (widget.isShowDropdown)
-                          Obx(() => buildDropdown("* Retailer", controller.retailerList, selectedCity)),
-
-                        SizedBox(height: 10.h),
-
-                        _buildTextfield("Shop Name", shopNameController, readOnly: true),
-
-                        if (widget.moveExpectedKgsBelowRetailer)
-                          _buildTextfield("Expected KGS", expectedKgsController, readOnly: true),
-
-                        if (widget.isShowFiveFields)
-                          Column(
+                          Obx(() => buildDropdown(
+                              "* Retailer", controller.retailerList,
+                              selectedCity)),
+                        if (widget.isShowexpectedkgsbeforeshopname)
+                          _buildTextfield("Expected KGS", expectedKgsController,
+                              readOnly: true),
+                        if (widget.isShowShopName &&
+                            !widget.showShopNameAfterPlanType)
+                          _buildTextfield(
+                              "Shop Name", shopNameController, readOnly: true),
+                        if (widget.moveExpectedKgsBelowRetailer) ...[
+                          if (widget.showExpectedKgsAfterPlanType)
+                            _buildTextfield(
+                                "Expected KGS", expectedKgsController,
+                                readOnly: true),
+                          if (widget.showFollowUpDate)
+                            _buildTextfield("Further Follow-up Date",
+                                followUpDateController),
+                        ],
+                        if (widget.isShowFiveFields) ...[
+                          Row(
                             children: [
-                              Row(
-                                children: [
-                                  Expanded(child: _buildTextfield("No of Bags 5 KG Putty", fiveController, isNumber: true)),
-                                  const SizedBox(width: 6),
-                                  Expanded(child: _buildTextfield("KG'S", kGSController, readOnly: true)),
-                                ],
-                              ),
-                              Row(
-                                children: [
-                                  Expanded(child: _buildTextfield("No of Bags 20 KG Putty", twentyController, isNumber: true)),
-                                  const SizedBox(width: 6),
-                                  Expanded(child: _buildTextfield("KG'S", kgstwoController, readOnly: true)),
-                                ],
-                              ),
-                              Row(
-                                children: [
-                                  Expanded(child: _buildTextfield("No of Bags 20 KG Regular", twentyRegController, isNumber: true)),
-                                  const SizedBox(width: 6),
-                                  Expanded(child: _buildTextfield("KG'S", kgsthreeController, readOnly: true)),
-                                ],
-                              ),
-                              Row(
-                                children: [
-                                  Expanded(child: _buildTextfield("No of Bags 20 KG EXP...", twentyExpController, isNumber: true,readOnly: false)),
-                                  const SizedBox(width: 6),
-                                  Expanded(child: _buildTextfield("KG'S", kgsfiveController, readOnly: false)),
-                                ],
-                              ),
-                              Row(
-                                children: [
-                                  Expanded(child: _buildTextfield("No of Bags 20 KG Regu...", twentyReguController, isNumber: true,readOnly: false)),
-                                  const SizedBox(width: 6),
-                                  Expanded(child: _buildTextfield("KG'S", kgsfourController, readOnly: false)),
-                                ],
-                              ),
+                              Expanded(child: _buildTextfield(
+                                  "No of Bags 5 KG Putty", fiveController,
+                                  isNumber: true)),
+                              const SizedBox(width: 6),
+                              Expanded(child: _buildTextfield(
+                                  "KG'S", kGSController, readOnly: true)),
                             ],
                           ),
-
+                          Row(
+                            children: [
+                              Expanded(child: _buildTextfield(
+                                  "No of Bags 20 KG Putty", twentyController,
+                                  isNumber: true)),
+                              const SizedBox(width: 6),
+                              Expanded(child: _buildTextfield(
+                                  "KG'S", kgstwoController, readOnly: true)),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Expanded(child: _buildTextfield(
+                                  "No of Bags 20 KG Regular",
+                                  twentyRegController, isNumber: true)),
+                              const SizedBox(width: 6),
+                              Expanded(child: _buildTextfield(
+                                  "KG'S", kgsthreeController, readOnly: true)),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Expanded(child: _buildTextfield(
+                                  "No of Bags 20 KG EXP...",
+                                  twentyExpController, isNumber: true)),
+                              const SizedBox(width: 6),
+                              Expanded(child: _buildTextfield(
+                                  "KG'S", kgsfiveController)),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Expanded(child: _buildTextfield(
+                                  "No of Bags 20 KG Regu...",
+                                  twentyReguController, isNumber: true)),
+                              const SizedBox(width: 6),
+                              Expanded(child: _buildTextfield(
+                                  "KG'S", kgsfourController)),
+                            ],
+                          ),
+                        ],
                         if (widget.isShowDropdown)
-                          Obx(() => buildDropdown("* Product Sold", controller.productList, selectProductSold)),
-
+                          Obx(() => buildDropdown(
+                              "* Product Sold", ["Yes", "No"],
+                              selectProductSold)), // ✅ Fixed here
                         const SizedBox(height: 20),
-
-                        if (widget.moveSalesSectionToBottom)
-                          buildSalesInfoFields(),
-
+                        if (widget
+                            .moveSalesSectionToBottom) buildSalesInfoFields(),
                         if (widget.isShowButton)
                           CustomButtons(
                             padding: 12,
                             circular: 50,
                             bc_color: AppColors.primaryColor,
                             title: "UPDATE INFORMATION",
-                            onPressed: () {},
+                            onPressed: () {
+                              if (!validateForm()) return;
+
+                              controllers.UpdateInformation(
+                                siteVisit: siteVisitController.text,
+                                productSold: productSoldController.text,
+                                specialIncentive: specialIncentivesController.text,
+                                customerName: customerNameAddressController.text,
+                                phone: customerContactController.text,
+                                painterAutoConversion: painterConversionController.text,
+                                retailerId: widget.lead.retailerId.toString(),
+                                painterId: widget.lead.painterId.toString(),
+                                visitDate: widget.lead.followUpDate ?? "",
+                                createdBy: widget.lead.salesForceId ?? "",
+                                generalCustomerId: widget.lead.generalCustomerId?? 0,
+                                salesForceId: widget.lead.salesForceId.toString(),
+                                sampleApplied: sampleController.text,
+                                convertedToSale: convertedToSaleController.text,
+                                noOfBags5KgPutty: fiveController.text,
+                                noOfBags20KgPutty: twentyController.text,
+                                noOfBags20KgRepaint: twentyRegController.text,
+                                retailerNotAvailRemarks: "",
+                                noConversionReasons: "",
+                                retailerStock: "",
+                                expectedKg: expectedKgsController.text,
+                                tid: widget.lead.tid.toString(),
+                              );
+                            },
                           ),
                       ],
                     ),
@@ -291,7 +411,8 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
     );
   }
 
-  Widget _buildTextfield(String label, TextEditingController controller, {bool readOnly = false, bool isNumber = false}) {
+  Widget _buildTextfield(String label, TextEditingController controller,
+      {bool readOnly = false, bool isNumber = false}) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 6),
       child: TextField(
@@ -302,20 +423,30 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
         decoration: InputDecoration(
           labelText: label,
           labelStyle: const TextStyle(color: Colors.grey),
-          contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(6), borderSide: const BorderSide(width: 2.0)),
-          enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.grey.shade500, width: 2.0), borderRadius: BorderRadius.circular(6)),
-          focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: AppColors.primaryColor, width: 2.0), borderRadius: BorderRadius.circular(6)),
+          contentPadding: const EdgeInsets.symmetric(
+              horizontal: 12, vertical: 10),
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(6)),
+          enabledBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.grey.shade500),
+              borderRadius: BorderRadius.circular(6)),
+          focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: AppColors.primaryColor),
+              borderRadius: BorderRadius.circular(6)),
         ),
       ),
     );
   }
 
-  Widget buildDropdown(String label, List<String> items, RxString selectedValue) {
+
+
+  Widget buildDropdown(String label, List<String> items,
+      RxString selectedValue) {
+    final List<String> updatedItems = [label, ...items];
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(" $label", style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+        Text(" $label",
+            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
         const SizedBox(height: 8),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
@@ -332,12 +463,18 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                 icon: const Icon(Icons.arrow_drop_down),
                 dropdownColor: AppColors.whiteColor,
                 onChanged: (String? newValue) {
-                  if (newValue != null) selectedValue.value = newValue;
+                  if (newValue != null && newValue != label)
+                    selectedValue.value = newValue;
                 },
-                items: items.map((String value) {
+                items: updatedItems.map((String value) {
                   return DropdownMenuItem<String>(
                     value: value,
-                    child: Text(value, style: TextStyle(color: value == items.first ? AppColors.redColor : Colors.black)),
+                    child: Text(
+                      value,
+                      style: TextStyle(
+                          color: value == label ? AppColors.redColor : Colors
+                              .black),
+                    ),
                   );
                 }).toList(),
               ),

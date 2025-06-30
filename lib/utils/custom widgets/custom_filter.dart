@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../app_colors.dart';
 
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import '../app_colors.dart';
+
 void showCustomFilterDialog({
   required BuildContext context,
   required List<String> cityList,
@@ -46,59 +50,63 @@ void showCustomFilterDialog({
                 ),
                 const SizedBox(height: 20),
 
-                // Month Selector
-                Obx(() {
-                  final labels = ["This Month", "Since Last Month", "Since Last Two Month"];
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // First row: 0 and 1
-                      Row(
-                        children: List.generate(2, (index) {
-                          return Padding(
-                            padding: const EdgeInsets.only(right: 12.0),
-                            child: ElevatedButton(
-                              onPressed: () => selectedMonthIndex.value = index,
-                              style: ElevatedButton.styleFrom(
-                                minimumSize: const Size(0, 35), // ✅ Smaller height
-                                padding: const EdgeInsets.symmetric(horizontal: 12),
-                                backgroundColor: Colors.white,
-                                foregroundColor: Colors.black,
-                                side: BorderSide(
-                                  color: selectedMonthIndex.value == index
-                                      ? AppColors.primaryColor
-                                      : Colors.black,
-                                  width: 1.5,
+                // ✅ Month Selector (fixed)
+                StatefulBuilder(
+                  builder: (context, setState) {
+                    final labels = ["This Month", "Since Last Month", "Since Last Two Month"];
+                    return Obx(() => Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: List.generate(2, (index) {
+                            return Padding(
+                              padding: const EdgeInsets.only(right: 12.0),
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  selectedMonthIndex.value = index;
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  minimumSize: const Size(0, 35),
+                                  padding: const EdgeInsets.symmetric(horizontal: 12),
+                                  backgroundColor: Colors.white,
+                                  foregroundColor: Colors.black,
+                                  side: BorderSide(
+                                    color: selectedMonthIndex.value == index
+                                        ? AppColors.primaryColor
+                                        : Colors.black,
+                                    width: 1.5,
+                                  ),
+                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
                                 ),
-                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+                                child: Text(labels[index], style: const TextStyle(fontSize: 13)),
                               ),
-                              child: Text(labels[index], style: const TextStyle(fontSize: 13)),
-                            ),
-                          );
-                        }),
-                      ),
-                      // const SizedBox(height: 10),
-                      // Second row: index 2
-                      ElevatedButton(
-                        onPressed: () => selectedMonthIndex.value = 2,
-                        style: ElevatedButton.styleFrom(
-                          minimumSize: const Size(0, 35), // ✅ Smaller height
-                          padding: const EdgeInsets.symmetric(horizontal: 12),
-                          backgroundColor: Colors.white,
-                          foregroundColor: Colors.black,
-                          side: BorderSide(
-                            color: selectedMonthIndex.value == 2
-                                ? AppColors.primaryColor
-                                : Colors.black,
-                            width: 1.5,
-                          ),
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+                            );
+                          }),
                         ),
-                        child: Text(labels[2], style: const TextStyle(fontSize: 13)),
-                      ),
-                    ],
-                  );
-                }),
+                        const SizedBox(height: 10),
+                        ElevatedButton(
+                          onPressed: () {
+                            selectedMonthIndex.value = 2;
+                          },
+                          style: ElevatedButton.styleFrom(
+                            minimumSize: const Size(0, 35),
+                            padding: const EdgeInsets.symmetric(horizontal: 12),
+                            backgroundColor: Colors.white,
+                            foregroundColor: Colors.black,
+                            side: BorderSide(
+                              color: selectedMonthIndex.value == 2
+                                  ? AppColors.primaryColor
+                                  : Colors.black,
+                              width: 1.5,
+                            ),
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+                          ),
+                          child: Text(labels[2], style: const TextStyle(fontSize: 13)),
+                        ),
+                      ],
+                    ));
+                  },
+                ),
                 const SizedBox(height: 20),
 
                 // City Dropdown

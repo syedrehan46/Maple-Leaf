@@ -9,7 +9,7 @@ class CustomTextFieldS extends StatelessWidget {
   final bool readOnly;
   final int maxLength;
   final bool centerLabel;
-  final bool isAddborder; // <-- Already declared
+  final bool isAddborder;
 
   const CustomTextFieldS({
     Key? key,
@@ -19,7 +19,7 @@ class CustomTextFieldS extends StatelessWidget {
     this.readOnly = true,
     this.maxLength = 11,
     this.centerLabel = false,
-    this.isAddborder = false, // <-- Default false
+    this.isAddborder = false,
   }) : super(key: key);
 
   @override
@@ -46,20 +46,17 @@ class CustomTextFieldS extends StatelessWidget {
 
     Widget textField = TextField(
       controller: controller,
-      readOnly: false,
+      readOnly: readOnly,
       keyboardType: keyboardType,
-
       maxLength: maxLength,
+      textAlign: centerLabel ? TextAlign.center : TextAlign.start,
       decoration: InputDecoration(
-        label: Align(
-          alignment: centerLabel ? Alignment.center : Alignment.centerLeft,
-          child: Text(
-            title,
-            style:AppFonts.styleHarmoniaBold14W600(AppColors.grey8E8E8EColor).copyWith(fontWeight: FontWeight.w300),
-          ),
-        ),
+        labelText: title,
+        labelStyle: AppFonts.styleHarmoniaBold14W600(AppColors.grey8E8E8EColor)
+            .copyWith(fontWeight: FontWeight.w300),
         floatingLabelBehavior: FloatingLabelBehavior.auto,
         counterText: '',
+        alignLabelWithHint: true,
         enabledBorder: borderStyle,
         focusedBorder: focusedBorderStyle,
       ),
@@ -67,12 +64,12 @@ class CustomTextFieldS extends StatelessWidget {
     );
 
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 2.0),
+      padding: const EdgeInsets.symmetric(vertical: 2.0, horizontal: 8),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const SizedBox(height: 4),
-          readOnly ? IgnorePointer(child: textField) : textField,
+          textField,
           if (!readOnly && isNumber)
             ValueListenableBuilder<TextEditingValue>(
               valueListenable: controller,
@@ -83,7 +80,7 @@ class CustomTextFieldS extends StatelessWidget {
                     alignment: Alignment.centerRight,
                     child: Text(
                       "${value.text.length}/$maxLength",
-                      style: AppFonts.styleHarmoniaBold14W600(AppColors.grey8E8E8EColor),
+                      style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
                     ),
                   ),
                 );

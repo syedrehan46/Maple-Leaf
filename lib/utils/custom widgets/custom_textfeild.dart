@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 import '../app_colors.dart';
 
 class CustomTextField1 extends StatefulWidget {
@@ -10,11 +8,13 @@ class CustomTextField1 extends StatefulWidget {
   final TextInputType? keyboardType;
   final bool showCharCount;
   final double? width;
+  final bool isIgnorePointer;
 
   const CustomTextField1({
     Key? key,
     required this.label,
     required this.controller,
+    this.isIgnorePointer = false,
     this.maxLength,
     this.keyboardType,
     this.showCharCount = true,
@@ -55,7 +55,7 @@ class _CustomTextFieldState extends State<CustomTextField1> {
   @override
   Widget build(BuildContext context) {
     final double effectiveWidth = widget.width ?? MediaQuery.of(context).size.width;
-    final String displayText = "${widget.label}";
+    final String displayText = widget.label;
     final int currentLength = widget.controller.text.length;
 
     return SizedBox(
@@ -63,35 +63,37 @@ class _CustomTextFieldState extends State<CustomTextField1> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-          TextField(
-            controller: widget.controller,
-            focusNode: _focusNode,
-            keyboardType: widget.keyboardType,
-            maxLength: widget.showCharCount ? null : widget.maxLength,
-            buildCounter: (_, {required currentLength, required isFocused, required maxLength}) => null,
-            onChanged: (text) {
-              if (widget.maxLength != null && text.length > widget.maxLength!) {
-                widget.controller.text = text.substring(0, widget.maxLength);
-                widget.controller.selection = TextSelection.fromPosition(
-                  TextPosition(offset: widget.maxLength!),
-                );
-              }
-              _currentText = widget.controller.text;
-            },
-            decoration: InputDecoration(
-              hintText: !_focusNode.hasFocus ? displayText : null,
-              labelStyle: const TextStyle(color: Color(0xff504E4E)),
-              labelText: _focusNode.hasFocus ? displayText : null,
-              counterText: "",
-              contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
-              border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8),
-                borderSide: const BorderSide(color: Colors.grey),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8),
-                borderSide: BorderSide(color: AppColors.primaryColor),
+          IgnorePointer(
+            ignoring: widget.isIgnorePointer,
+            child: TextField(
+              controller: widget.controller,
+              focusNode: _focusNode,
+              keyboardType: widget.keyboardType,
+              maxLength: widget.showCharCount ? null : widget.maxLength,
+              buildCounter: (_, {required currentLength, required isFocused, required maxLength}) => null,
+              onChanged: (text) {
+                if (widget.maxLength != null && text.length > widget.maxLength!) {
+                  widget.controller.text = text.substring(0, widget.maxLength);
+                  widget.controller.selection = TextSelection.fromPosition(
+                    TextPosition(offset: widget.maxLength!),
+                  );
+                }
+                _currentText = widget.controller.text;
+              },
+              decoration: InputDecoration(
+                labelText: displayText, // <-- always visible label
+                labelStyle: const TextStyle(color: Color(0xff504E4E)),
+                counterText: "",
+                contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+                border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
+                  borderSide: const BorderSide(color: Colors.grey),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
+                  borderSide: BorderSide(color: AppColors.primaryColor),
+                ),
               ),
             ),
           ),

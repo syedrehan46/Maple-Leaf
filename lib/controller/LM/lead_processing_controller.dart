@@ -39,12 +39,15 @@ class LeadProcessingController extends GetxController implements GetxService {
       switch (selectedMonth) {
         case 0:
           baseUrl = ApiRoutes.apiLmProcessingTwoWeeks;
+          print("hit 1");
           break;
         case 1:
-          baseUrl = ApiRoutes.apiLmProcessingLastThirtyDays;
+          baseUrl = ApiRoutes.apiLmProcessingLastMonth;
+          print("hit 2");
           break;
         case 2:
           baseUrl = ApiRoutes.apiLmProcessingLastTwoMonth;
+          print("hit 3");
           break;
         default:
           baseUrl = ApiRoutes.apiLmProcessingTwoWeeks;
@@ -74,8 +77,10 @@ class LeadProcessingController extends GetxController implements GetxService {
 
           statusList.value = allLeads
               .map((e) => (e.leadStatus ?? '').toUpperCase())
+              .where((status) => status != "CONVERTED") // ❗ EXCLUDE "CONVERTED"
               .toSet()
               .toList();
+
 
           Set<String> allRetailers = {};
           Set<String> allProducts = {};
@@ -104,17 +109,38 @@ class LeadProcessingController extends GetxController implements GetxService {
     }
   }
 
-  /// ✅ Local filters
   void applyFilters() {
-    final city = selectedCity.value.trim().toUpperCase();
-    final status = selectedStatus.value.trim().toUpperCase();
+    final isCityEmpty = selectedCity.value.isEmpty || selectedCity.value.contains("Please");
+    final isStatusEmpty = selectedStatus.value.isEmpty || selectedStatus.value.contains("Please");
 
-    leadProcessingList.value = allLeads.where((lead) {
-      final leadCity = (lead.customerName ?? '').trim().toUpperCase();
-      final leadStatus = (lead.leadStatus ?? '').trim().toUpperCase();
-      return (city.isEmpty || leadCity == city) && (status.isEmpty || leadStatus == status);
+    if (isCityEmpty && isStatusEmpty) {
+      leadProcessingList.value = allLeads;
+    } else {
+      leadProcessingList.value = allLeads.where((e) {
+        final matchCity = isCityEmpty || (e.cityName?.toLowerCase() == selectedCity.value.toLowerCase());
+        final matchStatus = isStatusEmpty || (e.leadStatus?.toLowerCase() == selectedStatus.value.toLowerCase());
+        return matchCity && matchStatus;
+      }).toList();
+    }
+  }
+
+  /// ✅ Getter version (used for direct filtering)
+  List<LeadConvertedModel> get filterData {
+    final isCityEmpty = selectedCity.value.isEmpty || selectedCity.value.contains("Please");
+    final isStatusEmpty = selectedStatus.value.isEmpty || selectedStatus.value.contains("Please");
+
+    if (isCityEmpty && isStatusEmpty) {
+      return allLeads;
+    }
+
+    return allLeads.where((e) {
+      final matchCity = isCityEmpty || (e.cityName?.toLowerCase() == selectedCity.value.toLowerCase());
+      final matchStatus = isStatusEmpty || (e.leadStatus?.toLowerCase() == selectedStatus.value.toLowerCase());
+      return matchCity || matchStatus;
     }).toList();
   }
+
+
 
   /// ✅ Fetch city list
   Future<void> fetchCityDetail() async {

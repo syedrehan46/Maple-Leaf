@@ -24,6 +24,7 @@ class LeadConvertedController extends GetxController implements GetxService {
   RxList<String> retailerList = <String>[].obs;
   RxList<String> productList = <String>[].obs;
 
+
   /// ✅ Fetch converted data with optional filters
   Future<void> fetchLeadConvertedData(
       int selectedMonth, {
@@ -50,20 +51,14 @@ class LeadConvertedController extends GetxController implements GetxService {
           baseUrl = ApiRoutes.apiLmConvertedTwoWeeks;
       }
 
-      // Build dynamic query parameters
       final queryParams = {
         'salesForceId': salesForceId,
-        if (status != null && status.isNotEmpty && !status.contains("Please"))
-          'status': status,
-        if (city != null && city.isNotEmpty && !city.contains("Please"))
-          'city': city,
       };
 
       final queryString = Uri(queryParameters: queryParams).query;
       final url = "$baseUrl?$queryString";
       print("Final API URL: $url");
 
-      // API Call
       ApiResponse response = await NetworkCall.getApiCallWithToken(url);
       EasyLoading.dismiss();
 
@@ -73,7 +68,6 @@ class LeadConvertedController extends GetxController implements GetxService {
         if (rawData is List) {
           final List<dynamic> data = rawData;
 
-          // Parse LeadConvertedModel
           allLeads.value = data
               .where((e) => e is Map<String, dynamic>)
               .map((e) => LeadConvertedModel.fromJson(e as Map<String, dynamic>))
@@ -81,29 +75,27 @@ class LeadConvertedController extends GetxController implements GetxService {
 
           leadConvertedList.value = allLeads;
 
-          // Get status list
+          // ✅ Unique Status List
           final Set<String> statuses = allLeads
               .map((e) => (e.leadStatus ?? '').toUpperCase())
               .toSet();
           statusList.value = statuses.toList();
 
-          // Extract products & retailers
-          Set<String> allProducts = {};
-          Set<String> allRetailers = {};
+          // ✅ Extract Retailers & Products (Only this part added)
+          Set<String> retailers = {};
+          Set<String> products = {};
 
-          for (var item in data) {
-            if (item is Map<String, dynamic>) {
-              if (item["products"] != null && item["products"] is List) {
-                allProducts.addAll(List<String>.from(item["products"]));
-              }
-              if (item["retailers"] != null && item["retailers"] is List) {
-                allRetailers.addAll(List<String>.from(item["retailers"]));
-              }
+          for (var lead in allLeads) {
+            if ((lead.retailerName ?? '').isNotEmpty) {
+              retailers.add(lead.retailerName!.trim());
+            }
+            if ((lead.productSold ?? '').isNotEmpty) {
+              products.add(lead.productSold!.trim());
             }
           }
 
-          productList.value = ["Select Product Sold", ...allProducts.toList()];
-          retailerList.value = ["Select Retailer", ...allRetailers.toList()];
+          retailerList.value = ['Select Retailer', ...retailers.toList()];
+          productList.value = ['Select Product Sold', ...products.toList()];
         } else {
           errorMessage.value = 'Invalid response format: not a list';
         }
@@ -119,17 +111,33 @@ class LeadConvertedController extends GetxController implements GetxService {
 
   /// ✅ Local filter if needed
   void applyFilters() {
-    final String city = selectedCity.value.trim().toUpperCase();
-    final String status = selectedStatus.value.trim().toUpperCase();
+    final isCityEmpty = selectedCity.value.isEmpty || selectedCity.value.contains("Please");
+    final isStatusEmpty = selectedStatus.value.isEmpty || selectedStatus.value.contains("Please");
 
-    leadConvertedList.value = allLeads.where((lead) {
-      final leadCity = (lead.customerName ?? '').trim().toUpperCase();
-      final leadStatus = (lead.leadStatus ?? '').trim().toUpperCase();
+    if (isCityEmpty && isStatusEmpty) {
+      leadConvertedList.value = allLeads;
+    } else {
+      leadConvertedList.value = allLeads.where((e) {
+        final matchCity = isCityEmpty || (e.cityName?.toLowerCase() == selectedCity.value.toLowerCase());
+        final matchStatus = isStatusEmpty || (e.leadStatus?.toLowerCase() == selectedStatus.value.toLowerCase());
+        return matchCity && matchStatus;
+      }).toList();
+    }
+  }
 
-      final cityMatches = city.isEmpty || leadCity == city;
-      final statusMatches = status.isEmpty || leadStatus == status;
+  /// ✅ Getter version (used for direct filtering)
+  List<LeadConvertedModel> get filterData {
+    final isCityEmpty = selectedCity.value.isEmpty || selectedCity.value.contains("Please");
+    final isStatusEmpty = selectedStatus.value.isEmpty || selectedStatus.value.contains("Please");
 
-      return cityMatches && statusMatches;
+    if (isCityEmpty && isStatusEmpty) {
+      return allLeads;
+    }
+
+    return allLeads.where((e) {
+      final matchCity = isCityEmpty || (e.cityName?.toLowerCase() == selectedCity.value.toLowerCase());
+      final matchStatus = isStatusEmpty || (e.leadStatus?.toLowerCase() == selectedStatus.value.toLowerCase());
+      return matchCity || matchStatus;
     }).toList();
   }
 

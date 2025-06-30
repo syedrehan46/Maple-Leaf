@@ -22,14 +22,12 @@ class LeadGeneratedController extends GetxController implements GetxService {
   RxList<String> cityList = [''].obs;
   RxList<String> statusList = [''].obs;
 
-  // Extracted values lists
   RxList<String> sampleAppliedList = <String>[].obs;
   RxList<String> convertedToSaleList = <String>[].obs;
   RxList<String> specialIncentiveList = <String>[].obs;
   RxList<String> painterAutoConversionList = <String>[].obs;
   RxList<String> siteVisitList = <String>[].obs;
 
-  /// ✅ Fetch data with optional filters
   Future<void> fetchLeadGeneratedData(
       int selectedMonth, {
         String? city,
@@ -45,13 +43,13 @@ class LeadGeneratedController extends GetxController implements GetxService {
           baseUrl = ApiRoutes.apiLmGeneratedTwoWeeks;
           break;
         case 1:
-          baseUrl = ApiRoutes.apiLmGeneratedLastMonth;
+          baseUrl = ApiRoutes.apiLmGeneratedLastThirtyDays;
           break;
         case 2:
           baseUrl = ApiRoutes.apiLmGeneratedLastTwoMonth;
           break;
         default:
-          baseUrl = ApiRoutes.apiLmGeneratedTwoWeeks;
+          baseUrl = ApiRoutes.apiLmGeneratedLastTwoMonth;
       }
 
       final queryParams = {
@@ -60,22 +58,20 @@ class LeadGeneratedController extends GetxController implements GetxService {
 
       final queryString = Uri(queryParameters: queryParams).query;
       final url = "$baseUrl?$queryString";
-      print("Final API URL: $url");
 
       ApiResponse response = await NetworkCall.getApiCallWithToken(url);
       EasyLoading.dismiss();
 
       if ((response.done ?? false) && response.responseString != null) {
         final List<dynamic> data = jsonDecode(response.responseString!);
-        allLeads.value =
-            data.map((e) => LeadConvertedModel.fromJson(e)).toList();
+        allLeads.value = data.map((e) => LeadConvertedModel.fromJson(e)).toList();
         leadGeneratedList.value = allLeads;
 
-        final Set<String> statuses =
-        allLeads.map((e) => (e.leadStatus ?? '').toUpperCase()).toSet();
+        final Set<String> statuses = allLeads
+            .map((e) => (e.leadStatus ?? '').toUpperCase())
+            .toSet();
         statusList.value = statuses.toList();
 
-        // Populate key-based lists
         sampleAppliedList.value = allLeads
             .map((e) => e.sampleApplied ?? '')
             .where((val) => val.isNotEmpty)
@@ -111,27 +107,42 @@ class LeadGeneratedController extends GetxController implements GetxService {
     } catch (e) {
       EasyLoading.dismiss();
       errorMessage.value = 'An error occurred: $e';
-      print('Fetch Error: $e');
     }
   }
 
-  // ✅ Local filtering
+  /// ✅ Local filtering logic
   void applyFilters() {
-    final String city = selectedCity.value.trim().toUpperCase();
-    final String status = selectedStatus.value.trim().toUpperCase();
+    final isCityEmpty = selectedCity.value.isEmpty || selectedCity.value.contains("Please");
+    final isStatusEmpty = selectedStatus.value.isEmpty || selectedStatus.value.contains("Please");
 
-    leadGeneratedList.value = allLeads.where((lead) {
-      final leadCity = (lead.customerName ?? '').trim().toUpperCase();
-      final leadStatus = (lead.leadStatus ?? '').trim().toUpperCase();
+    if (isCityEmpty && isStatusEmpty) {
+      leadGeneratedList.value = allLeads;
+    } else {
+      leadGeneratedList.value = allLeads.where((e) {
+        final matchCity = isCityEmpty || (e.cityName?.toLowerCase() == selectedCity.value.toLowerCase());
+        final matchStatus = isStatusEmpty || (e.leadStatus?.toLowerCase() == selectedStatus.value.toLowerCase());
+        return matchCity && matchStatus;
+      }).toList();
+    }
+  }
 
-      final cityMatches = city.isEmpty || leadCity == city;
-      final statusMatches = status.isEmpty || leadStatus == status;
+  /// ✅ Getter version (used for direct filtering)
+  List<LeadConvertedModel> get filterData {
+    final isCityEmpty = selectedCity.value.isEmpty || selectedCity.value.contains("Please");
+    final isStatusEmpty = selectedStatus.value.isEmpty || selectedStatus.value.contains("Please");
 
-      return cityMatches && statusMatches;
+    if (isCityEmpty && isStatusEmpty) {
+      return allLeads;
+    }
+
+    return allLeads.where((e) {
+      final matchCity = isCityEmpty || (e.cityName?.toLowerCase() == selectedCity.value.toLowerCase());
+      final matchStatus = isStatusEmpty || (e.leadStatus?.toLowerCase() == selectedStatus.value.toLowerCase());
+      return matchCity || matchStatus;
     }).toList();
   }
 
-  // ✅ Fetch city names
+  /// ✅ Fetch city names
   RxList<String> cityNameList = <String>[].obs;
   RxList<LeadConvertedModel> cityDetail = <LeadConvertedModel>[].obs;
 
@@ -146,8 +157,7 @@ class LeadGeneratedController extends GetxController implements GetxService {
 
       if ((response.done ?? false) && response.responseString != null) {
         final List<dynamic> data = jsonDecode(response.responseString!);
-        cityDetail.value =
-            data.map((e) => LeadConvertedModel.fromJson(e)).toList();
+        cityDetail.value = data.map((e) => LeadConvertedModel.fromJson(e)).toList();
 
         cityNameList.value = data
             .map((e) => e['CITY_NAME']?.toString() ?? '')
@@ -160,11 +170,10 @@ class LeadGeneratedController extends GetxController implements GetxService {
     } catch (e) {
       EasyLoading.dismiss();
       errorMessage.value = 'An error occurred: $e';
-      print('Fetch Error: $e');
     }
   }
 
-  /// ✅ POST: Submit Feedback API
+  /// ✅ Submit feedback
   Future<void> UpdateInformation({
     required String siteVisit,
     required String productSold,
@@ -218,13 +227,11 @@ class LeadGeneratedController extends GetxController implements GetxService {
 
     try {
       final url = ApiRoutes.apiFeedbackForm;
-
       ApiResponse response = await NetworkCall.postApiWithTokenCall(url, body);
       EasyLoading.dismiss();
 
       if ((response.done ?? false) && response.responseString != null) {
         final result = jsonDecode(response.responseString ?? '{}');
-        print("${result}");
         if (result['Data']) {
           EasyLoading.showSuccess(result['message'] ?? "Feedback submitted");
         } else {
@@ -236,7 +243,6 @@ class LeadGeneratedController extends GetxController implements GetxService {
     } catch (e) {
       EasyLoading.dismiss();
       EasyLoading.showError("Exception: $e");
-      print("Feedback API Exception: $e");
     }
   }
 
@@ -244,7 +250,6 @@ class LeadGeneratedController extends GetxController implements GetxService {
   void onInit() {
     fetchLeadGeneratedData(0);
     fetchCityDetail();
-
     super.onInit();
   }
 }

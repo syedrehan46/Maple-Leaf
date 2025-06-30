@@ -82,7 +82,9 @@ class ApiRoutes{
 
   //FEEDBACK POST API
   // static const String apiAddLead = "Opa/AddLeadDetail";
-  static const String apifeedback = "$baseUrl/LeadEngine/AddLeadFeedback";
+  // static const String apiAddLead = "Opa/AddLeadDetail";
+  static const String apiFeedbackForm = "$baseUrl/LeadEngine/AddLeadFeedback";
+  static const String apiCardNumberDetail = "$baseUrl/LeadEngine/AddCardNumberWithPainter";
 
 
 

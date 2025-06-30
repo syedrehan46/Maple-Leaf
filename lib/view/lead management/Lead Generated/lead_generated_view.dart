@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mapleleaf/utils/app_colors.dart';
 import 'package:mapleleaf/utils/app_fonts.dart';
-import 'package:mapleleaf/utils/custom%20widgets/custom_appbar.dart';
-import 'package:mapleleaf/utils/custom%20widgets/custom_porfolio.dart';
-import 'package:mapleleaf/view/lead%20management/Lead%20Converted/feedback_view.dart';
-import 'package:mapleleaf/view/lead%20management/Lead%20Generated/Portfolio%20View/porfolio_two_view.dart';
-import 'package:mapleleaf/view/lead%20management/Lead%20Generated/Portfolio%20View/portfolio_view.dart';
+import 'package:mapleleaf/utils/custom widgets/custom_appbar.dart';
+import 'package:mapleleaf/utils/custom widgets/custom_porfolio.dart';
+import 'package:mapleleaf/view/lead management/Lead Converted/feedback_view.dart';
+import 'package:mapleleaf/view/lead management/Lead Generated/Portfolio View/porfolio_two_view.dart';
+import 'package:mapleleaf/view/lead management/Lead Generated/Portfolio View/portfolio_view.dart';
 
 import '../../../controller/LM/lead_generated_controller.dart';
 import '../../../utils/custom widgets/custom_filter.dart';
@@ -26,7 +26,18 @@ class _LeadGeneratedViewState extends State<LeadGeneratedView> {
 
   final LeadGeneratedController controller = Get.put(LeadGeneratedController());
 
+  @override
+  void initState() {
+    super.initState();
 
+    // ✅ Clear filters on screen open
+    controller.selectedCity.value = '';
+    controller.selectedStatus.value = '';
+    controller.selectedMonthIndex.value = 0;
+
+    // ✅ Fetch all lead data (this month by default)
+    controller.fetchLeadGeneratedData(0);
+  }
 
   Widget _filterButton(String label, int index) {
     return ElevatedButton(
@@ -73,15 +84,45 @@ class _LeadGeneratedViewState extends State<LeadGeneratedView> {
                     4,
                   ),
                   child: GestureDetector(
-                    onTap: ()  {
-                      if(lead.leadStatus =="PROCESSED"){
-                    Get.to(FeedbackScreen(lead: lead,isShowFiveFields: false,title: "PORTFOLIO",isShowButton: false,isShowDropdown: false,
-                    isShowPlanType: true,moveSalesSectionToBottom:true,moveExpectedKgsBelowRetailer:true
-                    ));
-                      }
+                    onTap: () {
+                      if (lead.leadStatus == "PROCESSED") {
+                        Get.to(
+                            FeedbackScreen(
+                              lead: lead,
+                              isShowPlanType: true,
+                              showExpectedKgsAfterPlanType: true,
+                              showFollowUpDate: true,
+                              isShowFiveFields: false,
+                              moveSalesSectionToBottom: true,
+                              isShowButton: false,
+                              isShowDropdown: false,
+                                showShopNameAfterPlanType:true,
+                            )
+                        );
+                      } else if (lead.leadStatus == "LEAD GENERATED" &&
+                          lead.leadSource == "PAINTER LEAD") {
+                        Get.to(PorfolioView(lead: lead));
+                      } else if (lead.leadStatus == "LEAD GENERATED" &&
+                          lead.leadSource == "GENERAL CUSTOMER LEAD") {
+                        Get.to(PorfolioTwoView(lead: lead));
+                      } else if (lead.leadStatus == "CONVERTED" &&
+                          lead.leadSource == "GENERAL CUSTOMER LEAD") {
+                        Get.to(PorfolioTwoView(lead: lead));
+                      } else {
+                        Get.to(
+                            FeedbackScreen(
+                              lead: lead,
+                              isShowPlanType: true,
+                              showExpectedKgsAfterPlanType: true,
+                              showFollowUpDate: true,
+                              isShowFiveFields: false,
+                              moveSalesSectionToBottom: true,
+                              isShowButton: false,
+                              isShowDropdown: false,
+                              isShowShopName: false,
 
-                      else{
-                        Get.to(PorfolioTwoView(lead: lead),);
+                            )
+                        );
                       }
                     },
                     child: Container(
@@ -92,8 +133,7 @@ class _LeadGeneratedViewState extends State<LeadGeneratedView> {
                             ? Colors.green
                             : lead.leadStatus == "CONVERTED"
                             ? AppColors.pendingColor
-                            :AppColors.primaryColor,
-
+                            : AppColors.primaryColor,
                       ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -103,22 +143,20 @@ class _LeadGeneratedViewState extends State<LeadGeneratedView> {
                             children: [
                               // Left Column (ID and Phone)
                               Column(
-                                crossAxisAlignment: CrossAxisAlignment.start, // align left
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
                                     "${lead.generalCustomerId}",
                                     style: AppFonts.styleHarmoniaBold16W600(Colors.white),
                                   ),
-                                  const SizedBox(height: 4), // spacing between ID and phone
+                                  const SizedBox(height: 4),
                                   Text(
                                     "${lead.customerPhone}",
                                     style: AppFonts.styleHarmoniaBold14W600(Colors.white),
                                   ),
                                 ],
                               ),
-
                               const SizedBox(width: 16),
-
                               // Right Column (Date and Name)
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -129,27 +167,27 @@ class _LeadGeneratedViewState extends State<LeadGeneratedView> {
                                   ),
                                   const SizedBox(height: 8),
                                   Text(
-                                    "${lead.customerName ?? ''}",
+                                    "${lead.painterName ?? ''}",
                                     style: AppFonts.styleHarmoniaBold14W600(Colors.white),
                                   ),
                                 ],
                               ),
                             ],
                           ),
-
-                          if(lead.leadStatus == "GENERATED" && lead.status == "IS" || lead.leadStatus == "CONVERTED")
-                          Padding(
-                            padding: const EdgeInsets.only(top: 10.0),
-                            child: Image.asset(
-                              "assets/images/ule_group.png",
-                              height: 20,
-                              width: 20,
-                              color: AppColors.whiteColor,
+                          if ((lead.leadStatus == "CONVERTED" ||
+                              lead.leadStatus == "LEAD GENERATED") &&
+                              lead.leadSource == "GENERAL CUSTOMER LEAD")
+                            Padding(
+                              padding: const EdgeInsets.only(top: 10.0),
+                              child: Image.asset(
+                                "assets/images/ule_group.png",
+                                height: 20,
+                                width: 20,
+                                color: AppColors.whiteColor,
+                              ),
                             ),
-                          ),
                         ],
                       ),
-
                     ),
                   ),
                 );
@@ -157,39 +195,43 @@ class _LeadGeneratedViewState extends State<LeadGeneratedView> {
             );
           }),
         ),
-        CustomAppbar(title: 'Lead Generated', timeLocationIsVisible: true, isshowSummary: false,widget: GestureDetector(
-          onTap: () {
-
-            // 👇 Add your API/filter logic here
-            print(" ${controller.cityList}");
-            print("Selected Status: ${controller.statusList}");
-            print("Selected Month Index: ${selectedMonthIndex}");
-            selectedMonthIndex.value = 0;
-            showCustomFilterDialog(
-              context: context,
-              cityList: controller.cityNameList,
-              statusList: controller.statusList,
-              selectedCity: selectedCity,
-              selectedStatus: selectedStatus,
-              selectedMonthIndex: selectedMonthIndex,
-                onApply: () {
-                print("Helloo Rehan");
-                  controller.fetchLeadGeneratedData(
+        CustomAppbar(
+          title: 'Lead Generated',
+          timeLocationIsVisible: true,
+          isshowSummary: false,
+          widget: GestureDetector(
+            onTap: () {
+              showCustomFilterDialog(
+                context: context,
+                cityList: controller.cityNameList,
+                statusList: controller.statusList,
+                selectedCity: controller.selectedCity,
+                selectedStatus: controller.selectedStatus,
+                selectedMonthIndex: controller.selectedMonthIndex,
+                onApply: () async {
+                  await controller.fetchLeadGeneratedData(
                     controller.selectedMonthIndex.value,
-                    status: controller.selectedStatus.value,
                     city: controller.selectedCity.value,
+                    status: controller.selectedStatus.value,
                   );
-                }
-            );
-          },
 
-          child: Image.asset(
-            "assets/images/ic_filter.png",
-            height: 20,
-            width: 20,
-            color: Colors.white, // optional: tint the icon if needed
+                  if (controller.selectedCity.value.isNotEmpty ||
+                      controller.selectedStatus.value.isNotEmpty) {
+                    controller.applyFilters();
+                  } else {
+                    controller.leadGeneratedList.value = controller.allLeads;
+                  }
+                },
+              );
+            },
+            child: Image.asset(
+              "assets/images/ic_filter.png",
+              height: 20,
+              width: 20,
+              color: Colors.white,
+            ),
           ),
-        ),),
+        ),
       ]),
     );
   }
