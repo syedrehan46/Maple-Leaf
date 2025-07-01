@@ -60,7 +60,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
       : Get.put(LeadConvertedController());
 
   final RxString selectedCity = "Select Retailer".obs;
-  final RxString selectProductSold = "Yes".obs; // ✅ Fixed default value
+  final RxString selectProductSold = "* Product Sold".obs; // User must select/ ✅ Fixed default value
 
   final TextEditingController painterController = TextEditingController();
   final TextEditingController painterNameController = TextEditingController();
@@ -128,8 +128,8 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
     twentyController.text = widget.lead.noOfBags20Kg?.toString() ?? "";
     twentyRegController.text =
         widget.lead.noOfBags20KgRepaint?.toString() ?? "";
-    twentyExpController.text = "null";
-    twentyReguController.text = "null";
+    twentyExpController.text = "";
+    twentyReguController.text = "";
 
     kGSController.text = widget.lead.total5Kgs?.toString() ?? "";
     kgstwoController.text = widget.lead.total20Kgs?.toString() ?? "";
@@ -176,30 +176,44 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
     super.dispose();
   }
   bool validateForm() {
-    if (siteVisitController.text == "Please select Site Visit") {
-      CustomToast("Please select Site Visit", context: context);
+    // 🟢 Validate top-most bag field first
+    if (selectedCity.value == "* Retailer" || selectedCity.value == "Select Retailer") {
+      CustomToast("Please select a Retailer", context: context);
       return false;
     }
-    if (specialIncentivesController.text == "Please select Special Incentive") {
-      CustomToast("Please select Special Incentive", context: context);
+    if (fiveController.text.trim().isEmpty) {
+      CustomToast("Please enter No of Bags 5 KG Putty", context: context);
       return false;
     }
-    if (painterConversionController.text == "Please select Painter auto Conversion") {
-      CustomToast("Please select Painter Auto Conversion", context: context);
+
+    if (twentyController.text.trim().isEmpty) {
+      CustomToast("Please enter No of Bags 20 KG Putty", context: context);
       return false;
     }
-    if (sampleController.text == "Please select Sample Applied") {
-      CustomToast("Please select Sample Applied", context: context);
+
+    if (twentyRegController.text.trim().isEmpty) {
+      CustomToast("Please enter No of Bags 20 KG Regular", context: context);
       return false;
     }
-    if (convertedToSaleController.text == "Please select Converted to Sale") {
-      CustomToast("Please select Converted To Sale", context: context);
+
+    if (twentyExpController.text.trim().isEmpty) {
+      CustomToast("Please enter No of Bags 20 KG EXP...", context: context);
       return false;
     }
-    if (convertedToSaleController.text == "Yes" && expectedKgsController.text.trim().isEmpty) {
-      CustomToast("Please enter Expected KGS", context: context);
+
+    if (twentyReguController.text.trim().isEmpty) {
+      CustomToast("Please enter No of Bags 20 KG Regu...", context: context);
       return false;
     }
+
+
+
+    if (selectProductSold.value == "* Product Sold" || selectProductSold.value == "Select Product Sold") {
+      CustomToast("Please select Product Sold", context: context);
+      return false;
+    }
+
+
     return true;
   }
 
@@ -289,6 +303,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                           Obx(() => buildDropdown(
                               "* Retailer", controller.retailerList,
                               selectedCity)),
+                        SizedBox(height: 12,),
                         if (widget.isShowexpectedkgsbeforeshopname)
                           _buildTextfield("Expected KGS", expectedKgsController,
                               readOnly: true),

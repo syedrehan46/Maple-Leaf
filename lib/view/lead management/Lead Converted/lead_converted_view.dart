@@ -169,17 +169,18 @@ class _LeadConvertedViewState extends State<LeadConvertedView> {
                             } else if (lead.leadStatus == "CONVERTED" && lead.leadSource == "PAINTER LEAD") {
                               Get.to(FeedbackScreen(
                                 lead: lead,
-                                isShowPlanType: true,
+                                isShowPlanType: false,
                                 moveSalesSectionToBottom: false,
                                 showExpectedKgsAfterPlanType: false,
                                 isShowButton: true,
                                 isShowDropdown: true,
-                                showExpectedKgsBeforeRetailer: true,
+                                showExpectedKgsBeforeRetailer: false,
                                 isShowexpectedkgsbeforeshopname: false,
-                                isShowShopName: true,
+                                isShowShopName: false,
                                 moveExpectedKgsBelowRetailer: false,
                                 isShowFiveFields: true,
-                                showShopNameAfterPlanType: true, // ✅ Added flag
+
+                                showShopNameAfterPlanType: false, // ✅ Added flag
                               ));
                             } else {
                               Get.to(CustomPorfolio(
