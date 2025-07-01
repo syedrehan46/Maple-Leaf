@@ -21,6 +21,7 @@ class ApiRoutes{
   static const String apiIsGetRetailer = "$baseUrl/Leads/GetRetailersBySalesForceIdForFosV1";
   static const String apiIsGetRetailerByCities = "$baseUrl/Leads/GetRetailerByCities";
   static const String apiIsGetAlGiftForMkt = "$baseUrl/Leads/GetGiftsOfMKT";
+  static const String apiAddGeneralCustomer="$baseUrl/Leads/AddGeneralCustomerFOSD2CUpdatedV5";
    //LEad Converted
   static const String apiLmConvertedCityRecord= "$baseUrl/LeadEngine/GetAllCitiesByLeadManager";
   static const String apiLmConvertedTwoWeeks = "$baseUrl/LeadEngine/GetTwoWeekLeaConvertedDetail";

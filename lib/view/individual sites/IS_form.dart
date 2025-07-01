@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mapleleaf/controller/auth_controller.dart';
 import 'package:mapleleaf/model/IS/Area%20Wise%20Planning%20User/areawise_model.dart';
-import 'package:mapleleaf/utils/custom%20widgets/calender.dart';
+import 'package:mapleleaf/utils/custom%20widgets/custom_calender.dart';
 import 'package:mapleleaf/view/Maple%20Lead/Dealers/Job%20Detail/custom_toast.dart';
 import '../../controller/IS/is_controller.dart';
+import '../../model/IS/Sales_oficer/sales_oficer_model.dart';
 import '../../model/IS/area/area_model.dart';
 import '../../utils/app_colors.dart';
 import '../../utils/custom widgets/custom_appbar.dart';
@@ -41,6 +42,9 @@ class _IsFormState extends State<IsForm> {
   final RxBool isReferralSelected = false.obs;
   final Rx<DateTime?> selectedPlannedVisitDate = Rx<DateTime?>(null);
   final Rx<DateTime?> selectedMktDate = Rx<DateTime?>(null);
+
+  int? cityID;
+  String? retailer_id;
 
   final RxList<String> personTypeList = <String>[
     'LABOR CONTRACTOR',
@@ -103,8 +107,7 @@ class _IsFormState extends State<IsForm> {
       isCityFromList.value = true;
 
       // City details fetch karna for areas
-      PlanModel? cityDetails =
-          controller.getCityDetailsByName(selectedCity.value);
+      PlanModel? cityDetails = controller.getCityDetailsByName(selectedCity.value);
       if (cityDetails != null) {
         selectedArea.value = '';
         controller.fetchAreasByZoneAndCity(
@@ -238,6 +241,7 @@ class _IsFormState extends State<IsForm> {
                               zoneId: cityDetails.zoneId,
                               cityId: cityDetails.cityId,
                             );
+                            cityID=cityDetails.cityId;
                           }
                         }
                       },
@@ -446,7 +450,22 @@ class _IsFormState extends State<IsForm> {
                         parentContext: context,
                         width: media1,
                         height: 80,
-                        ontap: () {},
+                        ontap: () {
+                          if (selectedSoftAccountHolders.value.isNotEmpty) {
+                            final matchedRetailer = controller.softAccountHoldersList.firstWhere(
+                                  (holder) => holder.retailerName == selectedSoftAccountHolders.value,
+                              orElse: () => SalesOfficerModel(), // fallback empty model
+                            );
+
+                            if (matchedRetailer.retailerId != null) {
+                              retailer_id = matchedRetailer.retailerId!;
+                              print("Selected Retailer ID: $retailer_id");
+                            } else {
+                              retailer_id = "";
+                              print("Retailer ID not found");
+                            }
+                          }
+                        },
                       );
                     } else {
                       return const SizedBox.shrink(); // Empty widget
@@ -788,7 +807,6 @@ class _IsFormState extends State<IsForm> {
                   SizedBox(
                     height: 10,
                   ),
-
                   CustomButton1(
                     text: 'ADD',
                     onPressed: () {
@@ -843,6 +861,12 @@ class _IsFormState extends State<IsForm> {
                       else if(thirdPersonNumberController.value.text.isEmpty){
                         CustomToast('Please Enter Third Person Number', context: context);
                       }
+                      else if (
+                      thirdPersonNumberController.value.text.length < 11 ||
+                          !thirdPersonNumberController.value.text.startsWith('03')
+                      ) {
+                        CustomToast('Please ENTER valid Customer Contact Number (e.g. 03XXXXXXXXX)', context: context);
+                      }
                       else if(selectedHouseSize.value.isEmpty){
                         CustomToast('Please Select Customer House Size', context: context);
                       }
@@ -860,6 +884,40 @@ class _IsFormState extends State<IsForm> {
                       }
                       else if (selectedVia.value=='PAINTER' &&selectedPainterIndex.value.toString().isEmpty) {
                         CustomToast('Please Select Painter', context: context);
+                      } else {
+                        controller.addGeneralCustomerFOSD2CUpdatedV5(CUSTOMER_NAME: customerNameAddressController.text,
+                            PHONE: customerContactController.text,
+                            CITY_ID: cityID,
+                            VIA: selectedVia.toString(),
+                            STATUS: '',
+                            REVISIT_DATE: selectedPlannedVisitDate.toString(),
+                            CREATED_BY: authController.employeeName,
+                            SALES_FORCE_ID: authController.salesForceId,
+                            WALLET_NUMBER: painterNumberController.text,
+                            RETAILER_ID: retailer_id.toString(),
+                            PAINTER_NUMBER: painterNumberController.text,
+                            NEW_PAINTER_NUMBER: painterNumberController.text,
+                            WINNING_DATE_OF_STW: '',
+                            DATE_OF_MKT_LEAD: selectedMktDate.toString(),
+                            ASSIGN_TO:'',
+                            LEAD_FROM: '',
+                            GIFT_ID: '',
+                            TYPE: selectedTypeHunting.toString(),
+                            LOCATION_NAME: '',
+                            LATITUDE: '',
+                            LONGITUDE: '',
+                            SIZE_OF_HOUSE: selectedHouseSize.toString(),
+                            EXPECTED_KGS: ExpectedKgsController.toString(),
+                            AREA_ID: 105,
+                            SECOND_PERSON_TYPE: selectedSecondPersonType.toString(),
+                            SECOND_PERSON_NUMBER: secoundPersonNumberController.text,
+                            THIRD_PERSON_TYPE: selectedThirdPersonType.toString(),
+                            THIRD_PERSON_NUMBER: thirdPersonNumberController.text,
+                            SECOND_PERSON_NAME: secoundPersonNameController.text,
+                            THIRD_PERSON_NAME: thirdPersonNameController.text,
+                            LEAD_REFERAL: isReferralSelected.string,
+                            REFER_AREA_ID: selectedReferralArea.toString(),
+                            REFERED_BY_SALES_ID: selectedSalesOfficer.string);
                       }
                     },
                     width: 0.85,

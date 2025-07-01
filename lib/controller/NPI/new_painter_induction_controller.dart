@@ -48,7 +48,7 @@ class NewPainterInductionController extends GetxController implements GetxServic
     };
 
     try {
-      final String url = ApiRoutes.apiCardNumberDetail;
+      final String url = ApiRoutes.apiFeedBack;
 
       ApiResponse response = await NetworkCall.postApiWithTokenCall(url, body);
       EasyLoading.dismiss();

@@ -137,6 +137,7 @@ class PlanController extends GetxController implements GetxService {
       print("Area API Error: ${response.errorMsg}");
     }
   }
+
   Future<void> fetchViamembers() async {
     try {
       EasyLoading.show();
@@ -292,4 +293,95 @@ class PlanController extends GetxController implements GetxService {
       print("Soft Account Holders API Error: ${response.errorMsg}");
     }
   }
+
+  Future<void> addGeneralCustomerFOSD2CUpdatedV5({
+    required String CUSTOMER_NAME,
+    required String PHONE,
+    required int? CITY_ID,
+    required String VIA,
+    required String STATUS,
+    required String REVISIT_DATE,
+    required String CREATED_BY,
+    required String SALES_FORCE_ID,
+    required String WALLET_NUMBER,
+    required String RETAILER_ID,
+    required String PAINTER_NUMBER,
+    required String NEW_PAINTER_NUMBER,
+    required String WINNING_DATE_OF_STW,
+    required String DATE_OF_MKT_LEAD,
+    required String ASSIGN_TO,
+    required String LEAD_FROM,
+    required String GIFT_ID,
+    required String TYPE,
+    required String LOCATION_NAME,
+    required String LATITUDE,
+    required String LONGITUDE,
+    required String SIZE_OF_HOUSE,
+    required var EXPECTED_KGS,
+    required int AREA_ID,
+    required String SECOND_PERSON_TYPE,
+    required String SECOND_PERSON_NUMBER,
+    required String THIRD_PERSON_TYPE,
+    required String THIRD_PERSON_NUMBER,
+    required String SECOND_PERSON_NAME,
+    required String THIRD_PERSON_NAME,
+    required String LEAD_REFERAL,
+    required String REFER_AREA_ID,
+    required String REFERED_BY_SALES_ID,
+  }) async {
+    try {
+      EasyLoading.show();
+      final url = ApiRoutes.apiAddGeneralCustomer;
+      final body = {
+        "CUSTOMER_NAME": CUSTOMER_NAME,
+        "PHONE": PHONE,
+        "CITY_ID": CITY_ID,
+        "VIA": VIA,
+        "STATUS": STATUS ?? '',
+        "REVISIT_DATE": REVISIT_DATE,
+        "CREATED_BY": CREATED_BY,
+        "SALES_FORCE_ID": SALES_FORCE_ID,
+        "WALLET_NUMBER": WALLET_NUMBER ?? "",
+        "RETAILER_ID": RETAILER_ID ?? "",
+        "PAINTER_NUMBER": PAINTER_NUMBER ?? "",
+        "NEW_PAINTER_NUMBER": NEW_PAINTER_NUMBER ?? "",
+        "WINNING_DATE_OF_STW": WINNING_DATE_OF_STW ?? "",
+        "DATE_OF_MKT_LEAD": DATE_OF_MKT_LEAD ?? "",
+        "ASSIGN_TO": ASSIGN_TO ?? "",
+        "LEAD_FROM": LEAD_FROM ?? "",
+        "GIFT_ID": GIFT_ID ?? "",
+        "TYPE": TYPE ?? '',
+        "LOCATION_NAME": LOCATION_NAME ?? '',
+        "LATITUDE": LATITUDE ?? '',
+        "LONGITUDE": LONGITUDE ?? '',
+        "SIZE_OF_HOUSE": SIZE_OF_HOUSE ?? "",
+        "EXPECTED_KGS": EXPECTED_KGS,
+        "AREA_ID": AREA_ID,
+        "SECOND_PERSON_TYPE": SECOND_PERSON_TYPE ?? "",
+        "SECOND_PERSON_NUMBER": SECOND_PERSON_NUMBER ?? "",
+        "THIRD_PERSON_TYPE": THIRD_PERSON_TYPE ?? "",
+        "THIRD_PERSON_NUMBER": THIRD_PERSON_NUMBER ?? "",
+        "SECOND_PERSON_NAME": SECOND_PERSON_NAME ?? "",
+        "THIRD_PERSON_NAME": THIRD_PERSON_NAME ?? "",
+        "LEAD_REFERAL": LEAD_REFERAL ?? "",
+        "REFER_AREA_ID": REFER_AREA_ID ?? "",
+        "REFERED_BY_SALES_ID": REFERED_BY_SALES_ID ?? ""
+      };
+      final ApiResponse response = await NetworkCall.postApiCall(url, body);
+      EasyLoading.dismiss();
+      if ((response.done ?? false) && response.responseString != null) {
+        final json = jsonDecode(response.responseString!);
+        // Success logic
+        print("Response Success: $json");
+      } else {
+        errorMessage.value = response.errorMsg ?? 'Customer Add API Error';
+        print("API Error: ${response.errorMsg}");
+      }
+    } catch (e) {
+      EasyLoading.dismiss();
+      errorMessage.value = 'Something went wrong!';
+      print("Exception in Add Customer: $e");
+    }
+  }
+
 }
