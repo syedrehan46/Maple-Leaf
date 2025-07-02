@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:mapleleaf/controller/auth_controller.dart';
 import 'package:mapleleaf/model/IS/Area%20Wise%20Planning%20User/areawise_model.dart';
 import 'package:mapleleaf/utils/custom%20widgets/custom_calender.dart';
+import 'package:mapleleaf/utils/custom%20widgets/custom_popup.dart';
 import 'package:mapleleaf/view/Maple%20Lead/Dealers/Job%20Detail/custom_toast.dart';
 import '../../controller/IS/is_controller.dart';
 import '../../model/IS/Sales_oficer/sales_oficer_model.dart';
@@ -123,14 +124,12 @@ class _IsFormState extends State<IsForm> {
       }
     }
   }
-
   @override
   void dispose() {
     // Page close hone pe city selection clear karna
     controller.selectedCityFromList.value = '';
     super.dispose();
   }
-
   @override
   Widget build(BuildContext context) {
     final media = MediaQuery.of(context).size.width * 0.85;
@@ -456,7 +455,6 @@ class _IsFormState extends State<IsForm> {
                                   (holder) => holder.retailerName == selectedSoftAccountHolders.value,
                               orElse: () => SalesOfficerModel(), // fallback empty model
                             );
-
                             if (matchedRetailer.retailerId != null) {
                               retailer_id = matchedRetailer.retailerId!;
                               print("Selected Retailer ID: $retailer_id");
@@ -494,7 +492,6 @@ class _IsFormState extends State<IsForm> {
                       },
                     );
                   }),
-
                   const SizedBox(height: 10),
                   CustomTextField1(
                     label: '* Enter Second Person Name',
@@ -886,38 +883,72 @@ class _IsFormState extends State<IsForm> {
                         CustomToast('Please Select Painter', context: context);
                       } else {
                         controller.addGeneralCustomerFOSD2CUpdatedV5(CUSTOMER_NAME: customerNameAddressController.text,
+
                             PHONE: customerContactController.text,
+
                             CITY_ID: cityID,
+
                             VIA: selectedVia.toString(),
+
                             STATUS: '',
+
                             REVISIT_DATE: selectedPlannedVisitDate.toString(),
+
                             CREATED_BY: authController.employeeName,
+
                             SALES_FORCE_ID: authController.salesForceId,
+
                             WALLET_NUMBER: painterNumberController.text,
+
                             RETAILER_ID: retailer_id.toString(),
+
                             PAINTER_NUMBER: painterNumberController.text,
+
                             NEW_PAINTER_NUMBER: painterNumberController.text,
+
                             WINNING_DATE_OF_STW: '',
+
                             DATE_OF_MKT_LEAD: selectedMktDate.toString(),
+
                             ASSIGN_TO:'',
+
                             LEAD_FROM: '',
+
                             GIFT_ID: '',
+
                             TYPE: selectedTypeHunting.toString(),
+
                             LOCATION_NAME: '',
+
                             LATITUDE: '',
+
                             LONGITUDE: '',
+
                             SIZE_OF_HOUSE: selectedHouseSize.toString(),
+
                             EXPECTED_KGS: ExpectedKgsController.toString(),
+
                             AREA_ID: 105,
+
                             SECOND_PERSON_TYPE: selectedSecondPersonType.toString(),
+
                             SECOND_PERSON_NUMBER: secoundPersonNumberController.text,
+
                             THIRD_PERSON_TYPE: selectedThirdPersonType.toString(),
+
                             THIRD_PERSON_NUMBER: thirdPersonNumberController.text,
+
                             SECOND_PERSON_NAME: secoundPersonNameController.text,
+
                             THIRD_PERSON_NAME: thirdPersonNameController.text,
+
                             LEAD_REFERAL: isReferralSelected.string,
+
                             REFER_AREA_ID: selectedReferralArea.toString(),
+
                             REFERED_BY_SALES_ID: selectedSalesOfficer.string);
+
+                        showCustomPopup1(context,message: 'Done',popupTitle: 'Lead Added',buttonText: 'ok');
                       }
                     },
                     width: 0.85,

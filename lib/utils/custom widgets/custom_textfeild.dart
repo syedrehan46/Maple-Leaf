@@ -82,8 +82,9 @@ class _CustomTextFieldState extends State<CustomTextField1> {
               _currentText = widget.controller.text;
             },
             decoration: InputDecoration(
+              hintStyle: TextStyle(fontSize: 14),
               hintText: !_focusNode.hasFocus ? displayText : null,
-              labelStyle: const TextStyle(color: Color(0xff504E4E)),
+              labelStyle:  TextStyle(color: Color(0xff504E4E)),
               labelText: _focusNode.hasFocus ? displayText : null,
               counterText: "",
               contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),

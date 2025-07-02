@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_udid/flutter_udid.dart';
 import 'package:get/get.dart';

@@ -20,7 +20,6 @@ class PlanController extends GetxController implements GetxService {
     fetchViamembers();
     fetchSoftAccountHolders();
   }
-
   RxList<AreaModel> areasList = <AreaModel>[].obs;
   RxList<String> areaNameList = <String>[].obs;
   RxList<AreaModel> referralAreasList = <AreaModel>[].obs;

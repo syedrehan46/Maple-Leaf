@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mapleleaf/utils/app_colors.dart';
 import 'package:mapleleaf/utils/app_fonts.dart';
+import '../../utils/custom widgets/custom_appbar.dart';
 import '../Maple Lead/Dealers/Job Detail/general_customer_view.dart';
-
 class JobsView extends StatelessWidget {
   final List<Map<String, String>> jobs = [
     {
@@ -28,20 +28,9 @@ class JobsView extends StatelessWidget {
       'createdBy': 'AHMED',
     },
   ];
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.primaryColor,
-      appBar: AppBar(
-        backgroundColor: AppColors.primaryColor,
-        elevation: 0,
-        centerTitle: true,
-        title: Text(
-          'JOBS',
-          style: AppFonts.styleHarmoniaBold18W600(),
-        ),
-      ),
       body: Stack(
         children: [
           Positioned.fill(
@@ -52,6 +41,7 @@ class JobsView extends StatelessWidget {
           ),
           Column(
             children: [
+              CustomAppbar(title: 'Jobs'),
               Container(
                 padding: const EdgeInsets.symmetric(vertical: 12),
                 child: Text(

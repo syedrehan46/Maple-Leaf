@@ -3,6 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:mapleleaf/controller/auth_controller.dart';
 import 'package:mapleleaf/utils/app_fonts.dart';
+import 'package:mapleleaf/utils/app_images.dart';
+import 'package:mapleleaf/view/cc/cc_view.dart';
 import 'package:mapleleaf/view/individual%20meetup/individual_meetup_view.dart';
 import 'package:mapleleaf/view/individual%20sites/individual_sites_view.dart';
 import 'package:mapleleaf/view/jobs/jobs_view.dart';
@@ -11,6 +13,7 @@ import 'package:mapleleaf/view/new%20painter%20induction/new_painter_induction_v
 import 'package:mapleleaf/view/painter%20engagement/painter_engagement_view.dart';
 import 'package:mapleleaf/view/sab%20contractor%20profile/sab_contractor_profile_view.dart';
 import '../../utils/app_colors.dart';
+import '../vl/video_links.dart';
 
 class UleDashboardView extends StatefulWidget {
   const UleDashboardView({super.key});
@@ -30,6 +33,8 @@ class _UleDashboardViewState extends State<UleDashboardView> {
     _MenuItem("PE", "assets/images/ic_pe.png", () => Get.to(PainterEngagementView()), badgeCount: 1),
     _MenuItem("SCP", "assets/images/ic_scp.png", () => Get.to(SabContractorProfileView()), badgeCount: 1),
     _MenuItem("JOBS", "assets/images/ic_ima.png", () => Get.to(JobsView()), badgeCount: 0),
+    _MenuItem('CC', "assets/images/calculator.png", ()=> Get.to(CCView())),
+    _MenuItem('VL', "assets/images/youtube.png", ()=> Get.to(VideoLinks())),
     // _MenuItem("CC", "assets/images/ic_cc.png", () {}),
     // _MenuItem("SA", "assets/images/ic_sa.png", () {}),
   ];
