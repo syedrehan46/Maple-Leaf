@@ -38,7 +38,7 @@ class _IndividualSitesState extends State<IndividualSites> with SingleTickerProv
     final media = MediaQuery.of(context).size;
     final animationValue = _tabController.animation?.value ?? 0.0;
     return Scaffold(
-      backgroundColor: Colors.transparent, // Make the scaffold transparent
+      backgroundColor: Colors.white, // Make the scaffold transparent
       body: Stack(
         children: [
           // Background Image - Full screen
@@ -145,7 +145,7 @@ class _IndividualSitesState extends State<IndividualSites> with SingleTickerProv
         ],
       ),
       floatingActionButton: CustomFloatingActionButton(onPressed: (){
-        Get.to(IsForm());
+        Get.off(IsForm());
       }),
 
     );

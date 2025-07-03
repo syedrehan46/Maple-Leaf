@@ -2,8 +2,6 @@ import 'dart:convert';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_udid/flutter_udid.dart';
 import 'package:get/get.dart';
-import 'package:mapleleaf/view/auth/change_password_view.dart';
-import 'package:mapleleaf/view/auth/forget_password_change_view.dart';
 import 'package:mapleleaf/view/auth/forgot_password_view.dart';
 import 'package:mapleleaf/view/auth/sign_in_view.dart';
 import 'package:mapleleaf/view/dashboard/select_dashboard_view.dart';
@@ -12,7 +10,6 @@ import '../model/login_model.dart';
 import '../network/network_call.dart';
 import '../utils/api_routes.dart';
 import '../utils/shared_keys.dart';
-import '../view/auth/select_account_view.dart';
 
 class AuthController extends GetxController implements GetxService {
   LoginModel? loginModel; // <-- Added this field to store login data
@@ -44,7 +41,7 @@ class AuthController extends GetxController implements GetxService {
       // Save to the controller's loginModel field as well
       saveLoginData(apiResponse.responseString ?? "");
 
-      if (loginModelLocal.success == "2") {
+      if (loginModelLocal.success == "1") {
         preferences.setString(SharedKeys.keyUsername, loginModelLocal.user?.username ?? "");
         preferences.setString(SharedKeys.keyPswd, password);
         Get.offAll(() => const SelectDashboardView());

@@ -19,7 +19,7 @@ class CityWiseView extends StatelessWidget {
             return InkWell(onTap:(){
               final isController = Get.find<PlanController>();
               isController.selectedCityFromList.value = item.cityName ?? '';
-              Get.to(IsForm());},
+              Get.off(IsForm());},
               child: MeetupCard(
                 showTarget: false,
                 city: item.cityName,

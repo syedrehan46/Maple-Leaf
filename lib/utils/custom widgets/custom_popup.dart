@@ -7,8 +7,10 @@ void showCustomPopup1(
       String? message,
       String popupTitle = 'Update',
       String buttonText = 'OK',
+      VoidCallback? onTap, // ✅ New parameter
     }) {
   showDialog(
+    barrierDismissible: false,
     context: context,
     builder: (BuildContext context) {
       return Dialog(
@@ -38,7 +40,7 @@ void showCustomPopup1(
                 ),
               ),
               Text(
-                message ?? (isError ? 'An error occurred' : 'Card Submitted Successfully'),
+                message ?? (isError ? 'An error occurred' : ''),
                 style: const TextStyle(
                   fontSize: 14,
                   color: Colors.black,
@@ -58,7 +60,10 @@ void showCustomPopup1(
                     ),
                   ),
                   onPressed: () {
-                    Navigator.pop(context);
+                    Navigator.pop(context); // Close the dialog
+                    if (onTap != null) {
+                      onTap(); // ✅ Navigate or perform action
+                    }
                   },
                   child: Text(
                     buttonText,

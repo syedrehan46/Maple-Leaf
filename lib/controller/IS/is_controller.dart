@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:mapleleaf/model/IS/allCity/city_model.dart';
 import 'package:mapleleaf/model/IS/via/via_model.dart';
 import '../../model/IS/Area Wise Planning User/areawise_model.dart';
 import '../../model/IS/Sales_oficer/sales_oficer_model.dart';
@@ -19,7 +20,11 @@ class PlanController extends GetxController implements GetxService {
     fetchPlanDataCityWise(salesForceId);
     fetchViamembers();
     fetchSoftAccountHolders();
+    fetchCities(salesForceId, zoneId);
   }
+  RxList<CityModel> citiesData =<CityModel>[].obs;
+  RxList<String> citiesList = <String>[].obs;
+
   RxList<AreaModel> areasList = <AreaModel>[].obs;
   RxList<String> areaNameList = <String>[].obs;
   RxList<AreaModel> referralAreasList = <AreaModel>[].obs;
@@ -36,7 +41,53 @@ class PlanController extends GetxController implements GetxService {
 
   RxString errorMessage = ''.obs;
   final RxString selectedCityFromList = ''.obs;
+  String zoneId='10';
+  Future<void> fetchCities(String salesForceId,String zoneId) async {
+    EasyLoading.show();
+    String url = "${ApiRoutes.apiIsAllCities}?salesForceId=$salesForceId&zoneId=$zoneId";
+    ApiResponse response = await NetworkCall.getApiCallWithToken(url);
+    EasyLoading.dismiss();
 
+    if ((response.done ?? false) && response.responseString != null) {
+      try {
+        final List<dynamic> data = jsonDecode(response.responseString!);
+
+        // ✅ Decode and assign city model list
+        citiesData.value = data.map((e) => CityModel.fromJson(e)).toList();
+
+        // ✅ Extract unique, non-empty city names
+        final names = citiesData
+            .map((item) => item.cityName?.toString() ?? '')
+            .where((name) => name.isNotEmpty)
+            .toSet()
+            .toList();
+
+        citiesList.value = names;
+
+        // Optional debug
+        for (var item in citiesData) {
+          print("City: ${item.cityName}, SQL ID: ${item.sqlCityId}");
+        }
+      } catch (e) {
+        errorMessage.value = 'Failed to parse city-wise data';
+        print("City Parse Error: $e");
+      }
+    } else {
+      errorMessage.value = response.errorMsg ?? 'City-wise API error';
+      print("City API Error: ${response.errorMsg}");
+    }
+  }
+
+// ✅ Get city details from citiesData by name
+  CityModel? getCityByName(String cityName) {
+    try {
+      return citiesData.firstWhere(
+            (city) => city.cityName?.toLowerCase() == cityName.toLowerCase(),
+      );
+    } catch (e) {
+      return null;
+    }
+  }
   Future<void> fetchPlanDataCityWise(String salesForceId) async {
     EasyLoading.show();
     String url = "${ApiRoutes.apiIsPlanDetailCityWise}?salesForceId=$salesForceId";
@@ -300,7 +351,7 @@ class PlanController extends GetxController implements GetxService {
     required String VIA,
     required String STATUS,
     required String REVISIT_DATE,
-    required String CREATED_BY,
+    required String? CREATED_BY,
     required String SALES_FORCE_ID,
     required String WALLET_NUMBER,
     required String RETAILER_ID,

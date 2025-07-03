@@ -89,8 +89,11 @@ class VideoLinks extends StatelessWidget {
     final Uri uri = Uri.parse(url);
     if (await canLaunchUrl(uri)) {
       await launchUrl(uri, mode: LaunchMode.externalApplication);
+      print('Successfuly ');
     } else {
+      print('Nahi huwa bhai dubara koshis kr ');
       throw 'Could not launch $url';
+
     }
   }
 }

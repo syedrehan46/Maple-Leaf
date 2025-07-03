@@ -98,7 +98,7 @@ class MyApp extends StatelessWidget {
           builder: EasyLoading.init(),
         );
       },
-        child:UleDashboardView(),
+        child:SignInView(),
       // UleDashboardVRew(),
     );
   }
