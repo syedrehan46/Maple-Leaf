@@ -233,18 +233,20 @@ class UiHelper {
     );
   }
 
-  static customPassTextField({
+  static Widget customPassTextField({
     required TextEditingController controller,
     required bool obscureText,
     required bool isPasswordVisible,
     required VoidCallback onPress,
     String hintText = "Password",
     FormFieldValidator<String>? validator,
+    List<String>? autofillHints, // <-- Added this line
   }) {
     return TextFormField(
       obscureText: obscureText,
       controller: controller,
       cursorColor: AppColors.primaryColor,
+      autofillHints: autofillHints, // <-- Added this line
       style: AppFonts.styleHarmoniaRegular13W400(AppColors.greyA4A4A4Color),
       decoration: InputDecoration(
         hintText: hintText,
@@ -269,7 +271,7 @@ class UiHelper {
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(color:AppColors.primaryColor, width: 2),
+          borderSide: const BorderSide(color: AppColors.primaryColor, width: 2),
         ),
         focusedErrorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
@@ -279,18 +281,19 @@ class UiHelper {
       validator: validator,
     );
   }
-  static customTextField({
+
+  static Widget customTextField({
     required TextEditingController controller,
     required String labelText,
     String? Function(String?)? validator,
-
-
+    List<String>? autofillHints, // <-- Add this
   }) {
     return TextFormField(
       controller: controller,
       validator: validator,
       cursorColor: AppColors.primaryColor,
-      keyboardType: TextInputType.number,
+      keyboardType: TextInputType.text, // <-- change to text/email
+      autofillHints: autofillHints, // <-- Add this line
       textInputAction: TextInputAction.next,
       textCapitalization: TextCapitalization.words,
       style: AppFonts.styleHarmoniaRegular13W400(AppColors.blackColor),
@@ -305,22 +308,21 @@ class UiHelper {
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide:
-          const BorderSide(color: AppColors.greyA4A4A4Color, width: 2),
+          borderSide: const BorderSide(color: AppColors.greyA4A4A4Color, width: 2),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide:
-          const BorderSide(color: AppColors.primaryColor, width: 2),
+          borderSide: const BorderSide(color: AppColors.primaryColor, width: 2),
         ),
         focusedErrorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide:
-          const BorderSide(color: AppColors.primaryColor, width: 2),
+          borderSide: const BorderSide(color: AppColors.primaryColor, width: 2),
         ),
       ),
     );
   }
+
+
   // ============================
   // NEW: buildDropdown method
   // ============================

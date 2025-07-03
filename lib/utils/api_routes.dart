@@ -23,19 +23,19 @@ class ApiRoutes{
   static const String apiIsGetAlGiftForMkt = "$baseUrl/Leads/GetGiftsOfMKT";
    //LEad Converted
   static const String apiLmConvertedCityRecord= "$baseUrl/LeadEngine/GetAllCitiesByLeadManager";
-  static const String apiLmConvertedTwoWeeks = "$baseUrl/LeadEngine/GetTwoWeekLeaConvertedDetail";
-  static const String apiLmConvertedLastThirtyDays = "$baseUrl/LeadEngine/LastThirtyDaysLeadConvertedDetail";
-  static const String apiLmConvertedLastMonth= "$baseUrl/LeadEngine/SinceLastMonthLeadConvertedDetail";
+  static const String apiLmConvertedTwoWeeks = "$baseUrl/Leads/GetTwoWeekLeaConvertedDetailV1";
+  static const String apiLmConvertedLastThirtyDays = "$baseUrl/Leads/LastThirtyDaysLeadConvertedDetailV1l";
+  static const String apiLmConvertedLastMonth= "$baseUrl/Leads/SinceLastMonthLeadConvertedDetailV1";
   static const String apiLmConvertedLastTwoMonth= "$baseUrl/Leads/SinceLastTwoMonthLeadConvertedDetailV1";
   static const String apiLmConvertedLeadStatus= "$baseUrl/LeadEngine/GetLeadStatus";
   static const String apiLmConvertedFilterAllCities= "$baseUrl/LeadEngine/GetAllCitiesByLeadManager";
   static const String apiLmConvertedFilteredConverted= "$baseUrl/Leads/GetAllLeadConvertedByMonthTypeV1";
   //Lead Processing
   static const String apiLmProcessingCityDetail= "$baseUrl/LeadEngine/GetAllCitiesByLeadManager";
-  static const String apiLmProcessingTwoWeeks = "$baseUrl/LeadEngine/GetTwoWeekLeadCovnertedProcessedandNotProcessed";
-  static const String apiLmProcessingLastThirtyDays = "$baseUrl/LeadEngine/LastThirtyDaysLeadCovnertedProcessedandNotProcessed";
-  static const String apiLmProcessingLastMonth= "$baseUrl/LeadEngine/SinceLastMonthLeadCovnertedProcessedandNotProcessed";
-  static const String  apiLmProcessingLastTwoMonth= "$baseUrl//LeadEngine/SinceLastTwoMonthLeadCovnertedProcessedandNotProcessed";
+  static const String apiLmProcessingTwoWeeks = "$baseUrl/Leads/GetTwoWeekLeadCovnertedProcessedandNotProcessedV1";
+  static const String apiLmProcessingLastThirtyDays = "$baseUrl/Leads/LastThirtyDaysLeadCovnertedProcessedandNotProcessedV1";
+  static const String apiLmProcessingLastMonth= "$baseUrl/Leads/SinceLastMonthLeadCovnertedProcessedandNotProcessedV1";
+  static const String  apiLmProcessingLastTwoMonth= "$baseUrl/Leads/SinceLastTwoMonthLeadCovnertedProcessedandNotProcessedV1";
   static const String apiLmProcessingFiltersCity= "$baseUrl/LeadEngine/GetAllCitiesByLeadManager";
   static const String apiLmProcessingFilterStatus = "$baseUrl/LeadEngine/GetAllCitiesByLeadManager";
   static const String apiLmProcessingFilteredProcessed= "$baseUrl/LeadEngine/GetAllLeadProcessedByMonthTypeV1";
@@ -86,7 +86,9 @@ class ApiRoutes{
   static const String apiFeedbackForm = "$baseUrl/LeadEngine/AddLeadFeedback";
   static const String apiCardNumberDetail = "$baseUrl/LeadEngine/AddCardNumberWithPainter";
 
-
+  //IM MODULE
+  static const String  apiImAddLead = "$baseUrl/LeadEngine/LeadAssociateWithPainter";
+  static const String  apiImAddPlan= "$baseUrl/LeadEngine/AddPlanDetail";
 
   /// todo: PE
   ///

@@ -11,6 +11,8 @@ import 'package:mapleleaf/view/individual%20meetup/Individual_meetup_painter.dar
 import 'package:mapleleaf/view/painter%20engagement/painter_engagement_view.dart';
 import 'package:mapleleaf/view/sab%20contractor%20profile/individual_meetup_labor_view.dart';
 
+import '../../controller/IM/Individual Painter/individual_meetup_painter_labor_controller.dart';
+import '../../controller/IM/Individual Painter/individual_painter_controller.dart';
 import '../../utils/app_colors.dart';
 import '../../utils/custom widgets/custom_appbar.dart';
 
@@ -22,10 +24,12 @@ class IndividualMeetupView extends StatefulWidget {
 }
 
 class _IndividualMeetupViewState extends State<IndividualMeetupView> {
-
+  final controller=Get.put(IndividualPainterController());
+  final controllers=Get.put(IndividualMeetupPainterLaborController());
 
   @override
   Widget build(BuildContext context) {
+
     return WillPopScope(child:  Scaffold(
       body: Stack(
         children: [
@@ -59,9 +63,9 @@ class _IndividualMeetupViewState extends State<IndividualMeetupView> {
                   mainAxisSize: MainAxisSize.min
                   ,
                   children: [
-                    CustomButton(title: "PAINTER", color: AppColors.blackColor, isShowContainer: true, navigateTo: IndividualMeetupPainter(city: '32',)),
+                    CustomButton(title: "PAINTER", color: AppColors.blackColor, isShowContainer: true, navigateTo: IndividualMeetupPainter(city: '32',),count:controller.meetupCount,),
                     const SizedBox(height: 20),
-                    CustomButton(title: "LABORS CONTRACTOR", color: AppColors.blackColor, isShowContainer: true, navigateTo: IndividualMeetupLaborView())
+                    CustomButton(title: "LABORS CONTRACTOR", color: AppColors.blackColor, isShowContainer: true, navigateTo: IndividualMeetupLaborView(),count:controllers.meetupCounts  ,)
                   ],
                 ),
               ))

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mapleleaf/controller/auth_controller.dart';
 import 'package:mapleleaf/utils/app_colors.dart';
 import 'package:mapleleaf/utils/custom%20widgets/custom_appbar.dart';
 import '../../../controller/IM/Individual Painter/all_paniter_detail_controller.dart';
+import '../../../controller/IM/Individual Painter/individual_painter_controller.dart';
 import '../../../model/IM/indivdual_painter_model.dart';
 
 class AddLeadsView extends StatefulWidget {
@@ -21,8 +23,11 @@ class _AddLeadsViewState extends State<AddLeadsView> {
   final TextEditingController searchController = TextEditingController();
 
   final AllPaniterDetailController allPainterController = Get.put(AllPaniterDetailController());
+  final controllers = Get.put(IndividualPainterController());
+  final authController=Get.put(AuthController());
 
   String selectedLocation = '';
+
 
   @override
   void initState() {
@@ -158,7 +163,7 @@ class _AddLeadsViewState extends State<AddLeadsView> {
                     Center(
                       child: Text(
                         widget.title ?? "",
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
                           color: AppColors.primaryColor,
@@ -231,7 +236,25 @@ class _AddLeadsViewState extends State<AddLeadsView> {
                             ),
                             padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
                           ),
-                          onPressed: () {},
+                          onPressed: () {
+
+
+
+                            // Get areaId from area name list (you must map names to IDs)
+                            int areaId = allPainterController.areaNameList.indexOf(selectedLocation) + 1;
+
+                            controllers.AddLeadWithPainter(
+                              registrationId: widget.painter?.registrationId?.toInt() ?? 0,
+                              customerNumber: customerNumberEditingController.text,
+                              customerNameAndAddress: customerNameEditingController.text,
+                              painterName: widget.painter?.painterName ?? '',
+                              phoneNumber: widget.painter?.phoneNumber ?? '',
+                              planType: widget.painter?.planType ?? '',
+                              areaId: 0,
+                              createdBy: widget.painter?.createdBy ?? 0,
+                              salesForceId: widget.painter?.salesForceId ?? " ",
+                            );
+                          },
                           child: const Text(
                             "Add Lead",
                             style: TextStyle(fontSize: 18, color: Colors.white, fontWeight: FontWeight.bold),

@@ -10,8 +10,10 @@ import '../../auth_controller.dart';
 
 class IndividualMeetupPainterLaborController extends GetxController implements GetxService {
   RxList<IndivdualPainterModel> meetupCardList = <IndivdualPainterModel>[].obs;
+  RxInt get meetupCounts => meetupCardList.length.obs;
   RxString errorMessage = ''.obs;
   RxString salesForceId = ''.obs;
+
   // You can pass this as a parameter from your screen
 
 

@@ -166,6 +166,30 @@ class NetworkCall{
           responseString: null);
     }
   }
+  static Future postFormUrlEncodedWithTokenCall(String url, Map<String, String> map) async {
+    print(url);
+    print("***Form Data: $map");
+
+    try {
+      var response = await http.post(
+        Uri.parse(url),
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Accept': 'application/json',
+          'Authorization': 'Bearer $bearerToken',
+        },
+        body: map, // don't encode it, http handles encoding
+      );
+      return _checkResponse(response);
+    } on SocketException {
+      return ApiResponse(
+        done: false,
+        errorMsg: "Please check your connection",
+        responseString: null,
+      );
+    }
+  }
+
   static Future deleteApiWithTokenCall(String url) async {
     print(url);
     // print("***Body: $map");

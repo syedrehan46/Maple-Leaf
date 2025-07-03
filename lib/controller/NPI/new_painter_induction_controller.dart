@@ -12,6 +12,7 @@ class NewPainterInductionController extends GetxController implements GetxServic
   final AuthController authController = Get.find<AuthController>();
 
   RxList<NewPainterInductionModel> newPainterInductionList = <NewPainterInductionModel>[].obs;
+  RxInt get npiCount => newPainterInductionList.length.obs;
   RxString errorMessage = ''.obs;
 
   Future<void> fetchLeadProcessingData() async {

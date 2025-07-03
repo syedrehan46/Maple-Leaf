@@ -218,7 +218,7 @@ class _LeadConvertedViewState extends State<LeadConvertedView> {
                                       children: [
                                         Text("${lead.leadCreationDate ?? ''}", style: AppFonts.styleHarmoniaBold14W600(textColor)),
                                         const SizedBox(height: 8),
-                                        Text("${lead.customerName ?? ''}", style: AppFonts.styleHarmoniaBold14W600(textColor)),
+                                        Text("${lead.painterName ?? ''}", style: AppFonts.styleHarmoniaBold14W600(textColor)),
                                       ],
                                     ),
                                   ],

@@ -8,6 +8,7 @@ import 'package:mapleleaf/view/Maple%20Lead/Dealers/Job%20Detail/custom_textfile
 import 'package:mapleleaf/view/Maple%20Lead/Dealers/Job%20Detail/custom_toast.dart';
 import 'package:mapleleaf/view/Maple%20Lead/Dealers/Job%20Detail/job_controller.dart';
 import 'package:mapleleaf/view/Maple%20Lead/Dealers/custom_button1.dart';
+import '../../controller/LM/lead_generated_controller.dart';
 import 'custom_dropdown1.dart';
 
 class CustomPorfolio extends StatefulWidget {
@@ -29,6 +30,7 @@ class CustomPorfolio extends StatefulWidget {
 class _CustomPorfolioState extends State<CustomPorfolio> {
   String selectedValue = "";
   final MyController controller = Get.put(MyController());
+  final controllers = Get.find<LeadGeneratedController>();
 
   late TextEditingController customerNameController;
   late TextEditingController customerContactNoController;
@@ -155,7 +157,7 @@ class _CustomPorfolioState extends State<CustomPorfolio> {
                   SizedBox(height: MediaQuery.of(context).size.height * 0.06),
                   CustomDropdown1(label: '* Sample Applied ', items: controller.selectedSampledList, selectedValue: controller.selectedSampleApplied, parentContext: context, width: double.infinity, height: 80,titleColor: AppColors.lightOrange, ontap: () {  },),
                   SizedBox(height: 12,),
-                  CustomDropdown1(label: '* Converted To Sale', items: controller.selectedConvertedToSaleList, selectedValue: controller.selectedConvertedToSale, parentContext: context, width: double.infinity, height: 80,titleColor: AppColors.lightOrange, ontap: () {  },),
+                  CustomDropdown1(label: '* Converted To Sale', items: controllers.Project, selectedValue: controller.selectedConvertedToSale, parentContext: context, width: double.infinity, height: 80,titleColor: AppColors.lightOrange, ontap: () {  },),
                   SizedBox(height: 12,),
                   CustomDropdown1(label: '*  Project Stage', items: controller.selectedProjectToSaleList, selectedValue: controller.selectedProjectToSale, parentContext: context, width: double.infinity, height: 80,titleColor: AppColors.lightOrange, ontap: () {  },),
                   SizedBox(height: 12,),

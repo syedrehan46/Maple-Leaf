@@ -43,13 +43,13 @@ class LeadGeneratedController extends GetxController implements GetxService {
           baseUrl = ApiRoutes.apiLmGeneratedTwoWeeks;
           break;
         case 1:
-          baseUrl = ApiRoutes.apiLmGeneratedLastThirtyDays;
+          baseUrl = ApiRoutes.apiLmGeneratedLastMonth;
           break;
         case 2:
           baseUrl = ApiRoutes.apiLmGeneratedLastTwoMonth;
           break;
         default:
-          baseUrl = ApiRoutes.apiLmGeneratedLastTwoMonth;
+          baseUrl = ApiRoutes.apiLmGeneratedTwoWeeks;
       }
 
       final queryParams = {

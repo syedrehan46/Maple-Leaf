@@ -4,9 +4,11 @@ import 'package:get/get.dart';
 import 'package:mapleleaf/controller/LM/lead_converted_controller.dart';
 import 'package:mapleleaf/controller/LM/lead_generated_controller.dart';
 import 'package:mapleleaf/utils/app_colors.dart';
+import 'package:mapleleaf/utils/app_fonts.dart';
 import 'package:mapleleaf/utils/custom widgets/custom_appbar.dart';
 import 'package:mapleleaf/view/Maple Lead/Dealers/Job Detail/custom_toast.dart';
 import '../../../model/LM/Lead Converted/lead_converted_model.dart';
+import '../../../utils/custom widgets/custom_dropdown_for _feedback.dart';
 import '../../Maple Lead/Dealers/custom_button1.dart';
 
 class AlwaysDisabledFocusNode extends FocusNode {
@@ -59,8 +61,8 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
       ? Get.find<LeadConvertedController>()
       : Get.put(LeadConvertedController());
 
-  final RxString selectedCity = "Select Retailer".obs;
-  final RxString selectProductSold = "* Product Sold".obs; // User must select/ ✅ Fixed default value
+  final RxString selectRetailer = "Select Retailer".obs;
+  final RxString selectProductSold = "Yes".obs; // ✅ Fixed default value
 
   final TextEditingController painterController = TextEditingController();
   final TextEditingController painterNameController = TextEditingController();
@@ -128,8 +130,8 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
     twentyController.text = widget.lead.noOfBags20Kg?.toString() ?? "";
     twentyRegController.text =
         widget.lead.noOfBags20KgRepaint?.toString() ?? "";
-    twentyExpController.text = "";
-    twentyReguController.text = "";
+    twentyExpController.text = "null";
+    twentyReguController.text = "null";
 
     kGSController.text = widget.lead.total5Kgs?.toString() ?? "";
     kgstwoController.text = widget.lead.total20Kgs?.toString() ?? "";
@@ -177,10 +179,6 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
   }
   bool validateForm() {
     // 🟢 Validate top-most bag field first
-    if (selectedCity.value == "* Retailer" || selectedCity.value == "Select Retailer") {
-      CustomToast("Please select a Retailer", context: context);
-      return false;
-    }
     if (fiveController.text.trim().isEmpty) {
       CustomToast("Please enter No of Bags 5 KG Putty", context: context);
       return false;
@@ -207,12 +205,10 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
     }
 
 
-
     if (selectProductSold.value == "* Product Sold" || selectProductSold.value == "Select Product Sold") {
       CustomToast("Please select Product Sold", context: context);
       return false;
     }
-
 
     return true;
   }
@@ -300,10 +296,19 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                           _buildTextfield("Expected KGS", expectedKgsController,
                               readOnly: true),
                         if (widget.isShowDropdown)
-                          Obx(() => buildDropdown(
-                              "* Retailer", controller.retailerList,
-                              selectedCity)),
-                        SizedBox(height: 12,),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                            child: Column(
+                              children: [
+                                Text("* Retailer",style: AppFonts.styleHarmoniaBold16W600(Colors.black),),
+                                CustomDropdownFieldWidget(
+                                  selectedValue: selectRetailer,
+                                  items: controller.retailerList,
+                                  parentContext: context,
+                                ),
+                              ],
+                            ),
+                          ),
                         if (widget.isShowexpectedkgsbeforeshopname)
                           _buildTextfield("Expected KGS", expectedKgsController,
                               readOnly: true),
@@ -372,10 +377,22 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                             ],
                           ),
                         ],
+                        SizedBox(height: 6,),
                         if (widget.isShowDropdown)
-                          Obx(() => buildDropdown(
-                              "* Product Sold", ["Yes", "No"],
-                              selectProductSold)), // ✅ Fixed here
+    Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 10.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text("* Product Sold ",style: AppFonts.styleHarmoniaBold16W600(Colors.black),),
+          CustomDropdownFieldWidget(
+          selectedValue: selectProductSold,
+          items: ['YES', 'NO'],
+          parentContext: context,
+          ),
+        ],
+      ),
+    ),
                         const SizedBox(height: 20),
                         if (widget
                             .moveSalesSectionToBottom) buildSalesInfoFields(),
@@ -454,49 +471,5 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
 
 
 
-  Widget buildDropdown(String label, List<String> items,
-      RxString selectedValue) {
-    final List<String> updatedItems = [label, ...items];
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(" $label",
-            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-        const SizedBox(height: 8),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10.0),
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12),
-            decoration: BoxDecoration(
-              color: AppColors.grey9E9EA2Color,
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: DropdownButtonHideUnderline(
-              child: DropdownButton<String>(
-                value: selectedValue.value,
-                isExpanded: true,
-                icon: const Icon(Icons.arrow_drop_down),
-                dropdownColor: AppColors.whiteColor,
-                onChanged: (String? newValue) {
-                  if (newValue != null && newValue != label)
-                    selectedValue.value = newValue;
-                },
-                items: updatedItems.map((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(
-                      value,
-                      style: TextStyle(
-                          color: value == label ? AppColors.redColor : Colors
-                              .black),
-                    ),
-                  );
-                }).toList(),
-              ),
-            ),
-          ),
-        ),
-      ],
-    );
-  }
+
 }
