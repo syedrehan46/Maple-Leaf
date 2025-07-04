@@ -66,7 +66,7 @@ class PlanController extends GetxController implements GetxService {
 
         // Optional debug
         for (var item in citiesData) {
-          print("City: ${item.cityName}, SQL ID: ${item.sqlCityId}");
+          // print("City: ${item.cityName}, SQL ID: ${item.sqlCityId}");
         }
       } catch (e) {
         errorMessage.value = 'Failed to parse city-wise data';
@@ -361,7 +361,7 @@ class PlanController extends GetxController implements GetxService {
     required String DATE_OF_MKT_LEAD,
     required String ASSIGN_TO,
     required String LEAD_FROM,
-    required String GIFT_ID,
+    required String? GIFT_ID,
     required String TYPE,
     required String LOCATION_NAME,
     required String LATITUDE,
@@ -433,5 +433,4 @@ class PlanController extends GetxController implements GetxService {
       print("Exception in Add Customer: $e");
     }
   }
-
 }

@@ -8,6 +8,7 @@ import 'package:mapleleaf/utils/custom%20widgets/custom_popup.dart';
 import 'package:mapleleaf/view/Maple%20Lead/Dealers/Job%20Detail/custom_toast.dart';
 import 'package:mapleleaf/view/individual%20sites/citiywise_view.dart';
 import '../../controller/IS/is_controller.dart';
+import '../../controller/location_controller.dart';
 import '../../model/IS/Sales_oficer/sales_oficer_model.dart';
 import '../../model/IS/area/area_model.dart';
 import '../../utils/app_colors.dart';
@@ -51,7 +52,7 @@ class _IsFormState extends State<IsForm> {
   int? area_ID;
   int? referalArea_id;
   String? referalSales_id;
-  String? leadReferal;
+  String leadReferal='N';
 
   final RxList<String> personTypeList = <String>[
     'LABOR CONTRACTOR',
@@ -102,9 +103,25 @@ class _IsFormState extends State<IsForm> {
         return 11;
     }
   }
+  void checkLocationAccess() async {
+    bool hasPermission = await locationController.checkAndRequestPermission();
+
+    if (!hasPermission) {
+      Get.snackbar(
+        "Location Required",
+        "Please enable location access to use this feature.",
+        snackPosition: SnackPosition.BOTTOM,
+      );
+    } else {
+      // Permission mil gayi — ab location use karo
+      await locationController.getCurrentLocation();
+      print("Lat: ${locationController.latitude}, Address: ${locationController.address}");
+    }
+  }
 
   final PlanController controller = Get.find<PlanController>();
   final AuthController authController = Get.find<AuthController>();
+  final LocationController locationController = Get.find<LocationController>();
   @override
   void initState() {
     super.initState();
@@ -853,9 +870,11 @@ class _IsFormState extends State<IsForm> {
                           ),
                         )
                       : const SizedBox.shrink()),
+
                   SizedBox(
                     height: 10,
                   ),
+
                   CustomTextField1(
                     label: '* Expected Kgs',
                     controller: ExpectedKgsController,
@@ -867,7 +886,7 @@ class _IsFormState extends State<IsForm> {
                   ),
                   CustomButton1(
                     text: 'ADD',
-                    onPressed: () {
+                    onPressed: () async {
                       if (selectedVia.value.isEmpty) {
                         CustomToast('Please Select Via', context: context);
                       } else if (customerContactController.value.text.isEmpty) {
@@ -938,52 +957,51 @@ class _IsFormState extends State<IsForm> {
                           selectedPainterIndex.value.toString().isEmpty) {
                         CustomToast('Please Select Painter', context: context);
                       } else {
-                        controller.addGeneralCustomerFOSD2CUpdatedV5(
-                            CUSTOMER_NAME: customerNameAddressController.text,
-                            PHONE: customerContactController.text,
-                            CITY_ID: cityID,
-                            VIA: selectedVia.toString(),
-                            STATUS: 'OPEN',
-                            REVISIT_DATE: selectedPlannedVisitDate.toString(),
-                            CREATED_BY: '',
-                            SALES_FORCE_ID: authController.salesForceId,
-                            WALLET_NUMBER: painterNumberController.text,
-                            RETAILER_ID: retailer_id.toString(),
-                            PAINTER_NUMBER: painterNumberController.text,
-                            NEW_PAINTER_NUMBER: painterNumberController.text,
-                            WINNING_DATE_OF_STW: '',
-                            DATE_OF_MKT_LEAD: selectedMktDate.toString(),
-                            ASSIGN_TO: '',
-                            LEAD_FROM: authController.loginModel!.user!.permanentContractual.toString(),
-                            GIFT_ID: '',
-                            TYPE: selectedTypeHunting.toString(),
-                            LOCATION_NAME: '',
-                            LATITUDE: '',
-                            LONGITUDE: '',
-                            SIZE_OF_HOUSE: selectedHouseSize.toString(),
-                            EXPECTED_KGS: ExpectedKgsController.toString(),
-                            AREA_ID: area_ID!.toInt(),
-                            SECOND_PERSON_TYPE:
-                                selectedSecondPersonType.toString(),
-                            SECOND_PERSON_NUMBER:
-                                secoundPersonNumberController.text,
-                            THIRD_PERSON_TYPE:
-                                selectedThirdPersonType.toString(),
-                            THIRD_PERSON_NUMBER:
-                                thirdPersonNumberController.text,
-                            SECOND_PERSON_NAME:
-                                secoundPersonNameController.text,
-                            THIRD_PERSON_NAME: thirdPersonNameController.text,
-                            LEAD_REFERAL: leadReferal.toString(),
-                            REFER_AREA_ID: referalArea_id.toString(),
-                            REFERED_BY_SALES_ID: referalSales_id.toString());
+                        bool locationReady = await locationController.checkLocationReadyWithDialog(context);
 
-                        showCustomPopup1(context,
-                            popupTitle: 'Lead Added',
-                            buttonText: 'Done',
-                          onTap: (){
-                          Get.off(IndividualSites());
-                          }
+                        if (!locationReady) return;
+                        controller.addGeneralCustomerFOSD2CUpdatedV5(
+                          CUSTOMER_NAME: customerNameAddressController.text,
+                          PHONE: customerContactController.text,
+                          CITY_ID: cityID,
+                          VIA: selectedVia.toString(),
+                          STATUS: 'OPEN',
+                          REVISIT_DATE: selectedPlannedVisitDate.toString(),
+                          CREATED_BY: authController.employeeName,
+                          SALES_FORCE_ID: authController.salesForceId,
+                          WALLET_NUMBER: painterNumberController.text,
+                          RETAILER_ID: retailer_id.toString(),
+                          PAINTER_NUMBER: painterNumberController.text,
+                          NEW_PAINTER_NUMBER: painterNumberController.text,
+                          WINNING_DATE_OF_STW: '',
+                          DATE_OF_MKT_LEAD: selectedMktDate.toString(),
+                          ASSIGN_TO: '',
+                          LEAD_FROM: authController.loginModel!.user!.permanentContractual.toString(),
+                          GIFT_ID: null,
+                          TYPE: selectedTypeHunting.toString(),
+                          LOCATION_NAME: locationController.address.toString(),
+                          LATITUDE: locationController.latitude.string,
+                          LONGITUDE: locationController.longitude.string,
+                          SIZE_OF_HOUSE: selectedHouseSize.toString(),
+                          EXPECTED_KGS: ExpectedKgsController.text,
+                          AREA_ID: area_ID!.toInt(),
+                          SECOND_PERSON_TYPE: selectedSecondPersonType.toString(),
+                          SECOND_PERSON_NUMBER: secoundPersonNumberController.text,
+                          THIRD_PERSON_TYPE: selectedThirdPersonType.toString(),
+                          THIRD_PERSON_NUMBER: thirdPersonNumberController.text,
+                          SECOND_PERSON_NAME: secoundPersonNameController.text,
+                          THIRD_PERSON_NAME: thirdPersonNameController.text,
+                          LEAD_REFERAL: leadReferal.toString(),
+                          REFER_AREA_ID: referalArea_id.toString(),
+                          REFERED_BY_SALES_ID: referalSales_id.toString(),
+                        );
+                        showCustomPopup1(
+                          context,
+                          popupTitle: 'Lead Added',
+                          buttonText: 'Done',
+                          onTap: () {
+                            Get.off(IndividualSites());
+                          },
                         );
                       }
                     },

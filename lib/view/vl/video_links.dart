@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mapleleaf/utils/app_colors.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../utils/app_fonts.dart';
 import '../../utils/custom widgets/custom_appbar.dart';
@@ -61,11 +62,9 @@ class VideoLinks extends StatelessWidget {
                           onTap: () => _launchURL(video['url']!),
                           child: Text(
                             video['url']!,
-                            style: AppFonts.styleHarmoniaRegular12W400(
-                              Colors.blue,
-                            ).copyWith(
-                              decoration: TextDecoration.underline,
-                            ),
+                            style: AppFonts.styleHarmoniaBold18W6000(
+                              AppColors.blue2763E6Color,
+                            )
                           ),
                         ),
                         const Divider(
@@ -88,12 +87,15 @@ class VideoLinks extends StatelessWidget {
   Future<void> _launchURL(String url) async {
     final Uri uri = Uri.parse(url);
     if (await canLaunchUrl(uri)) {
-      await launchUrl(uri, mode: LaunchMode.externalApplication);
-      print('Successfuly ');
+      final bool launched = await launchUrl(uri, mode: LaunchMode.platformDefault);
+      if (!launched) {
+        print('Could not launch using platform default, trying fallback');
+        await launchUrl(uri); // fallback
+      }
     } else {
-      print('Nahi huwa bhai dubara koshis kr ');
+      print('Nahi huwa bhai dubara koshis kr');
       throw 'Could not launch $url';
-
     }
   }
+
 }

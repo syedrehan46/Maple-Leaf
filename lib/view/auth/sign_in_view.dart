@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:mapleleaf/controller/auth_controller.dart';
+import 'package:mapleleaf/controller/location_controller.dart'; // ✅ Add this
 import 'package:mapleleaf/main.dart';
 import 'package:mapleleaf/utils/ui_helper.dart';
 import 'package:mapleleaf/view/auth/change_password_view.dart';
@@ -19,6 +20,8 @@ class SignInView extends StatefulWidget {
 }
 
 class _SignInViewState extends State<SignInView> {
+  final LocationController locationController = Get.put(LocationController()); // ✅ Location controller
+
   TextEditingController usernameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
@@ -48,7 +51,6 @@ class _SignInViewState extends State<SignInView> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -67,6 +69,8 @@ class _SignInViewState extends State<SignInView> {
                               ),
                             ],
                           ),
+
+                          // ✅ Location Address (Top)
                           SizedBox(height: 25.h),
                           Text(
                             "Sign In to Your Account",
@@ -105,8 +109,7 @@ class _SignInViewState extends State<SignInView> {
                                 return null;
                               }),
 
-
-                        SizedBox(height: 10.h),
+                          SizedBox(height: 10.h),
 
                           // Custom Circular Checkbox
                           GestureDetector(
@@ -122,26 +125,28 @@ class _SignInViewState extends State<SignInView> {
                                   height: 18,
                                   decoration: BoxDecoration(
                                     shape: BoxShape.circle,
-                                    border:
-                                        Border.all(color: AppColors.primaryColor,width: 1.5), // red border
+                                    border: Border.all(
+                                        color: AppColors.primaryColor,
+                                        width: 1.5),
                                   ),
                                   child: _rememberMe
                                       ? Center(
-                                          child: Container(
-                                            width: 10,
-                                            height: 10,
-                                            decoration: BoxDecoration(
-                                              color: AppColors.primaryColor,
-                                              shape: BoxShape.circle,
-                                            ),
-                                          ),
-                                        )
+                                    child: Container(
+                                      width: 10,
+                                      height: 10,
+                                      decoration: BoxDecoration(
+                                        color: AppColors.primaryColor,
+                                        shape: BoxShape.circle,
+                                      ),
+                                    ),
+                                  )
                                       : null,
                                 ),
                                 const SizedBox(width: 8),
-                                 Text('Remember Me',
-                                    style: AppFonts.styleHarmoniaBold14W600(
-                                    AppColors.primaryColor),
+                                Text(
+                                  'Remember Me',
+                                  style: AppFonts.styleHarmoniaBold14W600(
+                                      AppColors.primaryColor),
                                 ),
                               ],
                             ),
@@ -158,7 +163,9 @@ class _SignInViewState extends State<SignInView> {
                               if (_formKey.currentState!.validate()) {
                                 if (usernameController.text.isNotEmpty &&
                                     passwordController.text.isNotEmpty) {
-                                  Get.find<AuthController>().apiLogin(userName: usernameController.text, password: passwordController.text);
+                                  Get.find<AuthController>().apiLogin(
+                                      userName: usernameController.text,
+                                      password: passwordController.text);
                                 }
                               } else {
                                 print("Error");
@@ -166,9 +173,6 @@ class _SignInViewState extends State<SignInView> {
                             },
                           ),
 
-                          // SizedBox(height: Get.height * 0.1),
-
-                          // Centered Forgot Password
                           Padding(
                             padding: const EdgeInsets.only(top: 14.0),
                             child: Column(
@@ -185,10 +189,7 @@ class _SignInViewState extends State<SignInView> {
                                     ),
                                   ),
                                 ),
-
                                 SizedBox(height: 10.h),
-
-                                // Centered Change Password
                                 Center(
                                   child: GestureDetector(
                                     onTap: () {
@@ -204,9 +205,9 @@ class _SignInViewState extends State<SignInView> {
                               ],
                             ),
                           ),
-                          // SizedBox(height: 85.h),
-                  ],
+                        ],
                       ),
+
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Align(
