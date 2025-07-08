@@ -165,7 +165,8 @@ class _LeadConvertedViewState extends State<LeadConvertedView> {
                         child: GestureDetector(
                           onTap: () {
                             if (lead.leadStatus == "PROCESSED") {
-                              Get.to(FeedbackScreen(lead: lead));
+                              Get.to(FeedbackScreen(lead: lead,isShowDropdown: false,isShowButton: false,showExpectedKgsbelowShopName:true
+                              ));
                             } else if (lead.leadStatus == "CONVERTED" && lead.leadSource == "PAINTER LEAD") {
                               Get.to(FeedbackScreen(
                                 lead: lead,

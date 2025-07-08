@@ -22,6 +22,7 @@ class LeadGeneratedController extends GetxController implements GetxService {
   RxList<String> cityList = [''].obs;
   RxList<String> statusList = [''].obs;
 
+
   RxList<String> sampleAppliedList = <String>[].obs;
   RxList<String> convertedToSaleList = <String>[].obs;
   RxList<String> specialIncentiveList = <String>[].obs;
@@ -245,6 +246,127 @@ class LeadGeneratedController extends GetxController implements GetxService {
       EasyLoading.showError("Exception: $e");
     }
   }
+  Future<void> updateGeneralCustomer({
+    required String generalCustomerId,
+    required String customerName,
+    required String phone,
+    required String painterNumber,
+    required String walletNumber,
+    required String newPainterNumber,
+    required String updatedBy,
+    required String winningDateOfSTW,
+    required String dateOfMktLead,
+    required String retailerId,
+  }) async {
+    EasyLoading.show(status: 'Submitting update...');
+
+    Map<String, dynamic> body = {
+      "GENERAL_CUSTOMER_ID": generalCustomerId,
+      "CUSTOMER_NAME": customerName,
+      "PHONE": phone,
+      "PAINTER_NUMBER": painterNumber,
+      "WALLET_NUMBER": walletNumber,
+      "NEW_PAINTER_NUMBER": newPainterNumber,
+      "UPDATED_BY": updatedBy,
+      "WINNING_DATE_OF_STW": winningDateOfSTW,
+      "DATE_OF_MKT_LEAD": dateOfMktLead,
+      "RETAILER_ID": retailerId,
+    };
+
+    try {
+      final String url = ApiRoutes.apiLmGeneralCustomerUpdate; // 🔁 Replace with actual URL
+      ApiResponse response = await NetworkCall.postApiWithTokenCall(url, body);
+
+      EasyLoading.dismiss();
+
+      if ((response.done ?? false) && response.responseString != null) {
+        final result = jsonDecode(response.responseString ?? '{}');
+        print("Data ... ${result}");
+
+        if (result['Success']) {
+          EasyLoading.showSuccess(result['message'] ?? "General Customer Updated successfully");
+        } else {
+          EasyLoading.showError(result['message'] ?? "Update failed");
+        }
+      } else {
+        EasyLoading.showError(response.errorMsg ?? "Something went wrong");
+      }
+    } catch (e) {
+      EasyLoading.dismiss();
+      EasyLoading.showError("Exception: $e");
+    }
+  }
+  Future<void> leadFeedBackAndIntimationD2CUpdated({
+    required String generalCustomerId,
+    required String createdBy,
+    required String salesForceId,
+    required String convertedToSale,
+    required String sampleApplied,
+    required String remarks,
+    required String assignToSalesForceId,
+    required String createdBySalesForceId,
+    required String tokenNumber,
+    required String noOfBags5Kg,
+    required String noOfBags20Kg,
+    required String sampleAppliedStatus,
+    required String nextPlannedVisitDate,
+    required String giftId,
+    required String deliveredYesNo,
+    required String projectStage,
+    required String jobId,
+    required String laborPainterType,
+    required String lpName,
+    required String lpPhoneNumber,
+    required String permanentContractual,
+  }) async {
+    EasyLoading.show(status: 'Submitting feedback...');
+
+    Map<String, dynamic> body = {
+      "GENERAL_CUSTOMER_ID": generalCustomerId,
+      "CREATED_BY": createdBy,
+      "SALES_FORCE_ID": salesForceId,
+      "CONVERTED_TO_SALE": convertedToSale,
+      "SAMPLE_APPLIED": sampleApplied,
+      "REMARKS": remarks,
+      "ASSIGN_TO_SALES_FORCE_ID": assignToSalesForceId,
+      "CREATED_BY_SALES_FORCE_ID": createdBySalesForceId,
+      "TOKEN_NUMBER": tokenNumber,
+      "NO_OF_BAGS_5_KG": noOfBags5Kg,
+      "NO_OF_BAGS_20_KG": noOfBags20Kg,
+      "SAMPLE_APPLIED_STATUS": sampleAppliedStatus,
+      "NEXT_PLANNED_VISIT_DATE": nextPlannedVisitDate,
+      "GIFT_ID": giftId,
+      "DELIVERED_YES_NO": deliveredYesNo,
+      "PROJECT_STAGE": projectStage,
+      "JOB_ID": jobId,
+      "LABOR_PAINTER_TYPE": laborPainterType,
+      "LP_NAME": lpName,
+      "LP_PHONENUMBER": lpPhoneNumber,
+      "PERMANENT_CONTRACTUAL": permanentContractual,
+    };
+
+    try {
+      final String url = ApiRoutes.apiLmFeedbackWithIntimationUpdate; // Replace with real endpoint
+      ApiResponse response = await NetworkCall.postApiWithTokenCall(url, body);
+
+      EasyLoading.dismiss();
+
+      if ((response.done ?? false) && response.responseString != null) {
+        final result = jsonDecode(response.responseString ?? '{}');
+        if (result['Data']) {
+          EasyLoading.showSuccess(result['message'] ?? "Feedback submitted successfully");
+        } else {
+          EasyLoading.showError(result['message'] ?? "Submission failed");
+        }
+      } else {
+        EasyLoading.showError(response.errorMsg ?? "Something went wrong");
+      }
+    } catch (e) {
+      EasyLoading.dismiss();
+      EasyLoading.showError("Exception: $e");
+    }
+  }
+
 
   @override
   void onInit() {

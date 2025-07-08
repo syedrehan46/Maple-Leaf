@@ -6,6 +6,8 @@ import 'package:mapleleaf/utils/custom%20widgets/custom_appbar.dart';
 import '../../../controller/IM/Individual Painter/all_paniter_detail_controller.dart';
 import '../../../controller/IM/Individual Painter/individual_painter_controller.dart';
 import '../../../model/IM/indivdual_painter_model.dart';
+import '../../../model/IM/all_area_painter_model.dart';
+import '../../Maple Lead/Dealers/Job Detail/custom_toast.dart';
 
 class AddLeadsView extends StatefulWidget {
   final String? title;
@@ -23,17 +25,48 @@ class _AddLeadsViewState extends State<AddLeadsView> {
   final TextEditingController searchController = TextEditingController();
 
   final AllPaniterDetailController allPainterController = Get.put(AllPaniterDetailController());
-  final controllers = Get.put(IndividualPainterController());
-  final authController=Get.put(AuthController());
+  final IndividualPainterController controllers = Get.put(IndividualPainterController());
+  final authController = Get.put(AuthController());
 
-  String selectedLocation = '';
-
+  AreaModel? selectedArea;
 
   @override
   void initState() {
     super.initState();
     customerNameEditingController.text = widget.painter?.painterName ?? '';
     customerNumberEditingController.text = widget.painter?.phoneNumber ?? '';
+    controllers.fetchAllAreas();
+  }
+  bool validateLeadInformation() {
+    String name = customerNameEditingController.text.trim();
+    String number = customerNumberEditingController.text.trim();
+
+    if (name.isEmpty) {
+      CustomToast('Please enter Customer Name', context: context);
+      return false;
+    }
+
+    if (number.isEmpty) {
+      CustomToast('Please enter Customer Number', context: context);
+      return false;
+    }
+
+    if (!number.startsWith('03')) {
+      CustomToast('Customer Number must start with "03"', context: context);
+      return false;
+    }
+
+    if (number.length != 11) {
+      CustomToast('Customer Number must be 11 digits', context: context);
+      return false;
+    }
+
+    if (selectedArea == null) {
+      CustomToast('Please select Area', context: context);
+      return false;
+    }
+
+    return true;
   }
 
   void openLocationDialog() {
@@ -42,10 +75,10 @@ class _AddLeadsViewState extends State<AddLeadsView> {
       builder: (BuildContext context) {
         return StatefulBuilder(
           builder: (context, setDialogState) {
-            List<String> dialogFilteredLocations = searchController.text.isEmpty
-                ? List.from(allPainterController.areaNameList)
-                : allPainterController.areaNameList
-                .where((item) => item.toLowerCase().contains(searchController.text.toLowerCase()))
+            List<AreaModel> dialogFilteredLocations = searchController.text.isEmpty
+                ? List.from(controllers.allAreaList)
+                : controllers.allAreaList
+                .where((item) => item.areaName!.toLowerCase().contains(searchController.text.toLowerCase()))
                 .toList();
 
             return Dialog(
@@ -86,7 +119,7 @@ class _AddLeadsViewState extends State<AddLeadsView> {
                                   dense: true,
                                   contentPadding: EdgeInsets.zero,
                                   title: Text(
-                                    dialogFilteredLocations[index],
+                                    dialogFilteredLocations[index].areaName ?? '',
                                     style: const TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w300,
@@ -94,7 +127,7 @@ class _AddLeadsViewState extends State<AddLeadsView> {
                                   ),
                                   onTap: () {
                                     setState(() {
-                                      selectedLocation = dialogFilteredLocations[index];
+                                      selectedArea = dialogFilteredLocations[index];
                                     });
                                     searchController.clear();
                                     Navigator.pop(context);
@@ -213,7 +246,7 @@ class _AddLeadsViewState extends State<AddLeadsView> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                selectedLocation.isEmpty ? "Please Select Area" : selectedLocation,
+                                selectedArea?.areaName ?? "Please Select Area",
                                 style: const TextStyle(fontSize: 16),
                               ),
                               const Icon(Icons.arrow_drop_down),
@@ -237,12 +270,7 @@ class _AddLeadsViewState extends State<AddLeadsView> {
                             padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
                           ),
                           onPressed: () {
-
-
-
-                            // Get areaId from area name list (you must map names to IDs)
-                            int areaId = allPainterController.areaNameList.indexOf(selectedLocation) + 1;
-
+                            if (!validateLeadInformation()) return;
                             controllers.AddLeadWithPainter(
                               registrationId: widget.painter?.registrationId?.toInt() ?? 0,
                               customerNumber: customerNumberEditingController.text,
@@ -250,7 +278,7 @@ class _AddLeadsViewState extends State<AddLeadsView> {
                               painterName: widget.painter?.painterName ?? '',
                               phoneNumber: widget.painter?.phoneNumber ?? '',
                               planType: widget.painter?.planType ?? '',
-                              areaId: 0,
+                              areaId: selectedArea?.areaId ?? 0,
                               createdBy: widget.painter?.createdBy ?? 0,
                               salesForceId: widget.painter?.salesForceId ?? " ",
                             );
@@ -272,6 +300,7 @@ class _AddLeadsViewState extends State<AddLeadsView> {
     );
   }
 }
+
 
 class CustomTextField extends StatefulWidget {
   final String label;

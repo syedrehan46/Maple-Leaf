@@ -30,6 +30,7 @@ class FeedbackScreen extends StatefulWidget {
   final bool isShowexpectedkgsbeforeshopname;
   final bool showExpectedKgsBeforeRetailer;
   final bool showShopNameAfterPlanType;
+  final bool showExpectedKgsbelowShopName;
   final String title;
 
   const FeedbackScreen({
@@ -47,6 +48,7 @@ class FeedbackScreen extends StatefulWidget {
     this.isShowexpectedkgsbeforeshopname = false,
     this.showExpectedKgsBeforeRetailer = false,
     this.showShopNameAfterPlanType = false,
+    this.showExpectedKgsbelowShopName = false,
     this.title = "FEEDBACK",
   }) : super(key: key);
 
@@ -62,7 +64,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
       : Get.put(LeadConvertedController());
 
   final RxString selectRetailer = "Select Retailer".obs;
-  final RxString selectProductSold = "Yes".obs; // ✅ Fixed default value
+  final RxString selectProductSold = " select product sold".obs; // ✅ Fixed default value
 
   final TextEditingController painterController = TextEditingController();
   final TextEditingController painterNameController = TextEditingController();
@@ -179,6 +181,10 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
   }
   bool validateForm() {
     // 🟢 Validate top-most bag field first
+    if (selectRetailer.value .isEmpty|| selectRetailer.value == "Select Retailer") {
+      CustomToast("Please select Retailer", context: context);
+      return false;
+    }
     if (fiveController.text.trim().isEmpty) {
       CustomToast("Please enter No of Bags 5 KG Putty", context: context);
       return false;
@@ -205,7 +211,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
     }
 
 
-    if (selectProductSold.value == "* Product Sold" || selectProductSold.value == "Select Product Sold") {
+    if (selectProductSold.value .isEmpty|| selectProductSold.value == "Select Product Sold") {
       CustomToast("Please select Product Sold", context: context);
       return false;
     }
@@ -299,8 +305,11 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 10.0),
                             child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
                               children: [
-                                Text("* Retailer",style: AppFonts.styleHarmoniaBold16W600(Colors.black),),
+                                Align(  alignment: Alignment.topLeft,
+    child: Text("* Retailer",style: AppFonts.styleHarmoniaBold16W600(Colors.black),)),
+                                SizedBox(height: 8,),
                                 CustomDropdownFieldWidget(
                                   selectedValue: selectRetailer,
                                   items: controller.retailerList,
@@ -309,6 +318,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                               ],
                             ),
                           ),
+                        // SizedBox(height: 10,),
                         if (widget.isShowexpectedkgsbeforeshopname)
                           _buildTextfield("Expected KGS", expectedKgsController,
                               readOnly: true),
@@ -316,6 +326,9 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                             !widget.showShopNameAfterPlanType)
                           _buildTextfield(
                               "Shop Name", shopNameController, readOnly: true),
+                        if (widget.showExpectedKgsbelowShopName)
+                          _buildTextfield("Expected KGS", expectedKgsController,
+                              readOnly: true),
                         if (widget.moveExpectedKgsBelowRetailer) ...[
                           if (widget.showExpectedKgsAfterPlanType)
                             _buildTextfield(
@@ -379,20 +392,25 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                         ],
                         SizedBox(height: 6,),
                         if (widget.isShowDropdown)
-    Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 10.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text("* Product Sold ",style: AppFonts.styleHarmoniaBold16W600(Colors.black),),
-          CustomDropdownFieldWidget(
-          selectedValue: selectProductSold,
-          items: ['YES', 'NO'],
-          parentContext: context,
-          ),
-        ],
-      ),
-    ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "* Product Sold",
+                                  style: AppFonts.styleHarmoniaBold16W600(Colors.black),
+                                ),
+                                const SizedBox(height: 8),
+                                CustomDropdownFieldWidget(
+                                  selectedValue: selectProductSold,
+                                  items: [' select product sold', 'YES', 'NO'],
+                                  parentContext: context,
+                                ),
+                              ],
+                            ),
+                          ),
+
                         const SizedBox(height: 20),
                         if (widget
                             .moveSalesSectionToBottom) buildSalesInfoFields(),

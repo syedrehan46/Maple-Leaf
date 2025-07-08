@@ -1,38 +1,61 @@
 import 'dart:convert';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
-import 'package:mapleleaf/model/login_model.dart';
 
+import '../../../model/IM/all_area_painter_model.dart';
 import '../../../model/IM/indivdual_painter_model.dart';
 import '../../../network/network_call.dart';
 import '../../../utils/api_routes.dart';
 import '../../auth_controller.dart';
 
 class IndividualPainterController extends GetxController implements GetxService {
+  // Data
   RxList<IndivdualPainterModel> meetupCardList = <IndivdualPainterModel>[].obs;
-  RxInt get meetupCount => meetupCardList.length.obs;
+  RxList<AreaModel> allAreaList = <AreaModel>[].obs;
+
+  // Selection & State
+  RxInt selectedPlanId = 0.obs;
   RxString errorMessage = ''.obs;
   RxString salesForceId = ''.obs;
-  // You can pass this as a parameter from your screen
+  RxString city = "".obs;
+  int clusterId = 605;
 
+  // Getter to access planId anywhere
+  int get planId => selectedPlanId.value;
+
+  // Count getter if needed
+  RxInt get meetupCount => meetupCardList.length.obs;
+
+  @override
+  void onInit() {
+    super.onInit();
+    final AuthController authController = Get.find<AuthController>();
+    salesForceId.value = authController.salesForceId;
+    print("Fetched salesForceId: ${salesForceId.value}");
+
+    fetchPainetrDetail(); // Fetch painter data
+  }
 
   Future<void> fetchPainetrDetail() async {
-
-
     EasyLoading.show();
 
-    String url = "${ApiRoutes.apiEngamentPlanDetail}?salesForceId=$salesForceId";
-    print("URL>> $url");
+    final url = "${ApiRoutes.apiEngamentPlanDetail}?salesForceId=$salesForceId";
+    print("URL >> $url");
 
     ApiResponse response = await NetworkCall.getApiCallWithToken(url);
-
     EasyLoading.dismiss();
 
     if ((response.done ?? false) && response.responseString != null) {
       try {
         final List<dynamic> data = jsonDecode(response.responseString!);
         meetupCardList.value = data.map((e) => IndivdualPainterModel.fromJson(e)).toList();
-        print("Painter response >>> ${meetupCardList.value}");
+
+        // ✅ Set selectedPlanId
+        if (meetupCardList.isNotEmpty && meetupCardList.first.planId != null) {
+          selectedPlanId.value = meetupCardList.first.planId!;
+          print("Selected Plan ID: ${selectedPlanId.value}");
+        }
+
       } catch (e) {
         errorMessage.value = 'Failed to parse data';
         print("Parse Error: $e");
@@ -42,6 +65,31 @@ class IndividualPainterController extends GetxController implements GetxService 
       print("API Error: ${response.errorMsg}");
     }
   }
+
+  Future<void> fetchAllAreas() async {
+    EasyLoading.show();
+
+    final url = "${ApiRoutes.apiImAllArea}?salesForceId=$salesForceId&ClusterID=$clusterId";
+    print("All Areas URL >> $url");
+
+    ApiResponse response = await NetworkCall.getApiCallWithToken(url);
+    EasyLoading.dismiss();
+
+    if ((response.done ?? false) && response.responseString != null) {
+      try {
+        final List<dynamic> data = jsonDecode(response.responseString!);
+        allAreaList.value = data.map((e) => AreaModel.fromJson(e)).toList();
+        print("All Area Response: ${allAreaList.length} items");
+      } catch (e) {
+        errorMessage.value = 'Failed to parse area data';
+        print("Area Parse Error: $e");
+      }
+    } else {
+      errorMessage.value = response.errorMsg ?? 'Unknown error';
+      print("Area API Error: ${response.errorMsg}");
+    }
+  }
+
   Future<void> AddLeadWithPainter({
     required int registrationId,
     required String customerNumber,
@@ -68,22 +116,19 @@ class IndividualPainterController extends GetxController implements GetxService 
     };
 
     try {
-      final url = ApiRoutes.apiImAddLead; // e.g., 'https://yourapi.com/LeadEngine/LeadAssociateWithPainter'
+      final url = ApiRoutes.apiImAddLead;
 
-      ApiResponse response = await NetworkCall.postFormUrlEncodedWithTokenCall(
-        url,body
-        // important
-      );
-
+      ApiResponse response = await NetworkCall.postFormUrlEncodedWithTokenCall(url, body);
       EasyLoading.dismiss();
 
       if ((response.done ?? false) && response.responseString != null) {
         final result = jsonDecode(response.responseString ?? '{}');
-        print("Data ... ${result}");
+        print("Lead Add Response: $result");
+
         if (result['Data'] == true) {
-          EasyLoading.showSuccess(result['message'] ?? "Lead Added successfully");
+          EasyLoading.showSuccess(result['message'] ?? "Lead Added Successfully");
         } else {
-          EasyLoading.showError(result['message'] ?? "Lead failed");
+          EasyLoading.showError(result['message'] ?? "Lead Submission Failed");
         }
       } else {
         EasyLoading.showError(response.errorMsg ?? "Something went wrong");
@@ -93,17 +138,17 @@ class IndividualPainterController extends GetxController implements GetxService 
       EasyLoading.showError("Exception: $e");
     }
   }
-  Future<void> submitPlanWithImage({
+
+  Future<void> addPainter({
     required String planId,
     required String location,
     required String giveAways,
     required String createdBy,
     required String salesForceId,
-    required String imagePath, // local file path (e.g. from ImagePicker)
+    required String imagePath,
   }) async {
     EasyLoading.show(status: 'Submitting plan...');
 
-    // Prepare body fields
     Map<String, String> body = {
       "PLAN_ID": planId,
       "LOCATION": location,
@@ -113,20 +158,14 @@ class IndividualPainterController extends GetxController implements GetxService 
     };
 
     try {
-      final url = ApiRoutes.apiImAddPlan; // Example: https://yourapi.com/LeadEngine/AddPlanDetail
+      final url = ApiRoutes.apiImAddPlan;
 
-      // Make the call using your utility
-      ApiResponse response = await NetworkCall.multipartUploadFile(
-        url,
-        body,
-        imagePath,
-      );
-
+      ApiResponse response = await NetworkCall.multipartUploadFile(url, body, imagePath);
       EasyLoading.dismiss();
 
       if ((response.done ?? false) && response.responseString != null) {
         final result = jsonDecode(response.responseString ?? '{}');
-        print("Data ... ${result}");
+        print("Add Painter Result: $result");
 
         if (result['Data'] == true) {
           EasyLoading.showSuccess(result['message'] ?? "Plan submitted successfully");
@@ -141,50 +180,4 @@ class IndividualPainterController extends GetxController implements GetxService 
       EasyLoading.showError("Exception: $e");
     }
   }
-
-  @override
-  void onInit() {
-    super.onInit();
-    final AuthController authController = Get.find<AuthController>();
-    salesForceId.value = authController.salesForceId;
-
-    print("Fetched salesForceId: ${salesForceId.value}");
-    fetchPainetrDetail(); // Call your data-fetching method/ ✅ now it's called!
-  }
 }
-
-//
-// class IndividualPainterController extends GetxController implements GetxService {
-//   RxList<IndivdualPainterModel> meetupCardList = <IndivdualPainterModel>[].obs;
-//   RxString errorMessage = ''.obs;
-//   Future<void> fetchPainetrDetail(String salesForceId) async {
-//     EasyLoading.show();
-//
-//     String url = "${ApiRoutes.apiEngamentPlanDetail}?salesForceId=$salesForceId";
-// print("URL>> $url");
-//     ApiResponse response = await NetworkCall.getApiCallWithToken(url);
-//
-//     EasyLoading.dismiss();
-//
-//     if ((response.done ?? false) && response.responseString != null) {
-//       try {
-//         final List<dynamic> data = jsonDecode(response.responseString!);
-//         meetupCardList.value = data.map((e) => IndivdualPainterModel.fromJson(e)).toList();
-//         print("Painter response >>> ${meetupCardList.value}");
-//       } catch (e) {
-//         errorMessage.value = 'Failed to parse data';
-//         print("Parse Error: $e");
-//       }
-//     } else {
-//       errorMessage.value = response.errorMsg ?? 'Unknown error';
-//       print("API Error: ${response.errorMsg}");
-//     }
-//   }
-//   @override
-//   void onInit() {
-//     print("check>>");
-//     // fetchPainetrDetail("0");
-//     super.onInit();
-//   }
-//
-// }

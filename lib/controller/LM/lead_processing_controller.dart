@@ -39,15 +39,12 @@ class LeadProcessingController extends GetxController implements GetxService {
       switch (selectedMonth) {
         case 0:
           baseUrl = ApiRoutes.apiLmProcessingTwoWeeks;
-          print("hit 1");
           break;
         case 1:
           baseUrl = ApiRoutes.apiLmProcessingLastMonth;
-          print("hit 2");
           break;
         case 2:
           baseUrl = ApiRoutes.apiLmProcessingLastTwoMonth;
-          print("hit 3");
           break;
         default:
           baseUrl = ApiRoutes.apiLmProcessingTwoWeeks;
@@ -65,40 +62,48 @@ class LeadProcessingController extends GetxController implements GetxService {
       print("Final API URL: $url");
 
       ApiResponse response = await NetworkCall.getApiCallWithToken(url);
-      print("DATA IS COMMING ==>${response.responseString} ");
       EasyLoading.dismiss();
 
       if ((response.done ?? false) && response.responseString != null) {
-        final json = jsonDecode(response.responseString!);
+        print("Raw API Response: ${response.responseString}");
 
-        if (json is List && json.isNotEmpty && json.first is Map<String, dynamic>) {
-          allLeads.value = json.map((e) => LeadConvertedModel.fromJson(e)).toList();
-          leadProcessingList.value = allLeads;
+        final decoded = jsonDecode(response.responseString!);
 
-          statusList.value = allLeads
-              .map((e) => (e.leadStatus ?? '').toUpperCase())
-              .where((status) => status != "CONVERTED") // ❗ EXCLUDE "CONVERTED"
-              .toSet()
-              .toList();
-
-
-          Set<String> allRetailers = {};
-          Set<String> allProducts = {};
-
-          for (var item in json) {
-            if (item["products"] != null && item["products"] is List) {
-              allProducts.addAll(List<String>.from(item["products"]));
-            }
-            if (item["retailers"] != null && item["retailers"] is List) {
-              allRetailers.addAll(List<String>.from(item["retailers"]));
-            }
-          }
-
-          productList.value = ["Select Product Sold", ...allProducts.toList()];
-          retailerList.value = ["Select Retailer", ...allRetailers.toList()];
+        List<dynamic> jsonList;
+        if (decoded is List) {
+          jsonList = decoded;
+        } else if (decoded is Map && decoded.containsKey("data") && decoded["data"] is List) {
+          jsonList = decoded["data"];
         } else {
           throw Exception("Unexpected response format");
         }
+
+        allLeads.value = jsonList.map<LeadConvertedModel>((e) {
+          return LeadConvertedModel.fromJson(e);
+        }).toList();
+
+        leadProcessingList.value = allLeads;
+
+        statusList.value = allLeads
+            .map((e) => (e.leadStatus ?? '').toUpperCase())
+            .where((status) => status != "CONVERTED")
+            .toSet()
+            .toList();
+
+        Set<String> allRetailers = {};
+        Set<String> allProducts = {};
+
+        for (var item in jsonList) {
+          if (item["products"] != null && item["products"] is List) {
+            allProducts.addAll(List<String>.from(item["products"]));
+          }
+          if (item["retailers"] != null && item["retailers"] is List) {
+            allRetailers.addAll(List<String>.from(item["retailers"]));
+          }
+        }
+
+        productList.value = ["Select Product Sold", ...allProducts.toList()];
+        retailerList.value = ["Select Retailer", ...allRetailers.toList()];
       } else {
         errorMessage.value = response.errorMsg ?? 'Unknown error occurred';
       }
@@ -124,7 +129,6 @@ class LeadProcessingController extends GetxController implements GetxService {
     }
   }
 
-  /// ✅ Getter version (used for direct filtering)
   List<LeadConvertedModel> get filterData {
     final isCityEmpty = selectedCity.value.isEmpty || selectedCity.value.contains("Please");
     final isStatusEmpty = selectedStatus.value.isEmpty || selectedStatus.value.contains("Please");
@@ -139,8 +143,6 @@ class LeadProcessingController extends GetxController implements GetxService {
       return matchCity || matchStatus;
     }).toList();
   }
-
-
 
   /// ✅ Fetch city list
   Future<void> fetchCityDetail() async {

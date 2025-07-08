@@ -61,7 +61,7 @@ class NewPainterInductionController extends GetxController implements GetxServic
         if (result['Data'] == "Wallet number alloted" || result['Data'] == "Old Wallet number alloted") {
           EasyLoading.showSuccess(result['Data']);
         } else {
-          EasyLoading.showError(result['message'] ?? "Something went wrong");
+          EasyLoading.showError(result['message'] ?? "This wallet number is not exist in system");
         }
       } else {
         EasyLoading.showError(response.errorMsg ?? "Something went wrong");

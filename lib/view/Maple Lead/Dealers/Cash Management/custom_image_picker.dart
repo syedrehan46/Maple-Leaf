@@ -9,10 +9,16 @@ const Color lightOrange = Color(0xFFFFA726); // Example light orange
 class ImagePickerRow extends StatefulWidget {
   final bool isShowGallery;
   final Function(File) onImageSelected;
+  final int height;
+  final int width;
+  final String? label; // Optional label
 
   const ImagePickerRow({
     Key? key,
     this.isShowGallery = true,
+    this.height = 50,
+    this.width = 50,
+    this.label,
     required this.onImageSelected,
   }) : super(key: key);
 
@@ -45,7 +51,7 @@ class _ImagePickerRowState extends State<ImagePickerRow> {
   Widget _buildImageOption({
     required File? imageFile,
     required IconData icon,
-    required String label,
+    String? label,
     required VoidCallback onTap,
   }) {
     return GestureDetector(
@@ -58,19 +64,24 @@ class _ImagePickerRowState extends State<ImagePickerRow> {
             child: ColorFiltered(
               colorFilter: const ColorFilter.mode(
                 lightOrange,
-                BlendMode.modulate, // Try `overlay`, `modulate`, or `multiply`
+                BlendMode.modulate,
               ),
               child: Image.file(
                 imageFile,
-                width: 50,
-                height: 50,
+                width: widget.width.toDouble(),
+                height: widget.height.toDouble(),
                 fit: BoxFit.cover,
               ),
             ),
           )
-              : Icon(icon, size: 50.0, color: AppColors.blackColor),
+              : Icon(
+            icon,
+            size: widget.width.toDouble(),
+            color: AppColors.primaryColor,
+          ),
           const SizedBox(height: 8.0),
-          Text(label),
+          if (label != null && label.isNotEmpty)
+            Text(label!, textAlign: TextAlign.center),
         ],
       ),
     );
@@ -86,14 +97,14 @@ class _ImagePickerRowState extends State<ImagePickerRow> {
             _buildImageOption(
               imageFile: _cameraImage,
               icon: Icons.camera_alt,
-              label: 'Capture Image',
+              label: widget.label,
               onTap: () => _pickImage(ImageSource.camera),
             ),
             if (widget.isShowGallery)
               _buildImageOption(
                 imageFile: _galleryImage,
                 icon: Icons.photo,
-                label: 'Select from Gallery',
+                label: widget.label,
                 onTap: () => _pickImage(ImageSource.gallery),
               ),
           ],

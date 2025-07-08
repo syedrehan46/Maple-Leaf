@@ -11,6 +11,7 @@ class PainterDataController extends GetxController {
   var cardNumber = ''.obs;
   var phoneNumber = ''.obs;
   var painterName = ''.obs;
+  RxString areaId = ''.obs;
   Rx<File?> attachmentImage = Rx<File?>(null);
   Rx<File?> painterAttachmentImage = Rx<File?>(null);
 

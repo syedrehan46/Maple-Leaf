@@ -52,15 +52,13 @@ class _PainterCardAllocationCustomState
       CustomToast("Please Enter Card Number", context: context);
     } else if (cardNumber.length != 16) {
       CustomToast("Card number must be 16 digits", context: context);
-    } else if (!(cardNumber.startsWith("4") || cardNumber.startsWith("5"))) {
-      showCustomPopup(context, message: "Invalid Card Number");
     } else {
       // ✅ Call API
       await controller.addCardNumberWithPainter(
         registrationId: widget.painterinduction.registrationId?.toInt() ?? 0,
         cardNumber: cardNumber,
       );
-      showCustomPopup(context);
+      // showCustomPopup(context);
     }
   }
 

@@ -89,6 +89,11 @@ class ApiRoutes{
   //IM MODULE
   static const String  apiImAddLead = "$baseUrl/LeadEngine/LeadAssociateWithPainter";
   static const String  apiImAddPlan= "$baseUrl/LeadEngine/AddPlanDetail";
+  static const String  apiImAllArea= "$baseUrl/LeadEngine/GetAreas";
+
+  // LM POST APIS
+  static const String  apiLmGeneralCustomerUpdate= "$baseUrl/Leads/UpdateGeneralCustomer";
+  static const String  apiLmFeedbackWithIntimationUpdate= "$baseUrl/Leads/LeadFeedBackAndIntimationD2CUpdated";
 
   /// todo: PE
   ///

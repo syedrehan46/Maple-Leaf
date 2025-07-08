@@ -71,7 +71,7 @@ class IndividualMeetingPainters extends StatelessWidget {
                               painter: painter,
                             ));
                           } else {
-                            Get.to(() => PainterEngagementInvite1());
+                            Get.to(() => PainterEngagementInvite1(location: "",giveaway: "",));
                           }
                         },
 

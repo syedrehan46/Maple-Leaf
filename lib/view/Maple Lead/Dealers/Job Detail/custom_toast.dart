@@ -7,6 +7,7 @@ late FToast fToast;
 void CustomToast(
     String message, {
       required BuildContext context,
+      ToastGravity gravity = ToastGravity.BOTTOM, // <-- Optional gravity parameter
     }) {
   fToast = FToast();
   fToast.init(context);
@@ -18,7 +19,7 @@ void CustomToast(
       color: Colors.grey.shade600.withOpacity(0.85),
     ),
     child: Row(
-      mainAxisSize: MainAxisSize.min, // Makes the row wrap its content
+      mainAxisSize: MainAxisSize.min,
       children: [
         ClipOval(
           child: Image.asset(
@@ -29,7 +30,7 @@ void CustomToast(
           ),
         ),
         const SizedBox(width: 14),
-        Flexible( // Better than Expanded here
+        Flexible(
           child: Text(
             message,
             style: const TextStyle(color: Colors.white),
@@ -42,7 +43,7 @@ void CustomToast(
 
   fToast.showToast(
     child: toast,
-    gravity: ToastGravity.BOTTOM,
+    gravity: gravity, // <-- Uses optional parameter here
     toastDuration: const Duration(milliseconds: 1300),
   );
 }
