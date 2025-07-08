@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:mapleleaf/controller/auth_controller.dart';
 import 'package:mapleleaf/model/IS/Area%20Wise%20Planning%20User/areawise_model.dart';
 import 'package:mapleleaf/model/IS/allCity/city_model.dart';
@@ -27,27 +28,29 @@ class IsForm extends StatefulWidget {
 
 class _IsFormState extends State<IsForm> {
   final TextEditingController customerContactController =
-      TextEditingController();
+  TextEditingController();
   final TextEditingController customerNameAddressController =
-      TextEditingController();
+  TextEditingController();
   final TextEditingController secoundPersonNameController =
-      TextEditingController();
+  TextEditingController();
   final TextEditingController secoundPersonNumberController =
-      TextEditingController();
+  TextEditingController();
   final TextEditingController thirdPersonNameController =
-      TextEditingController();
+  TextEditingController();
   final TextEditingController thirdPersonNumberController =
-      TextEditingController();
+  TextEditingController();
   final TextEditingController painterNumberController = TextEditingController();
   final TextEditingController ExpectedKgsController =
-      TextEditingController(); // New controller for painter field
+  TextEditingController();// New controller for painter field
+
   RxInt selectedPainterIndex = (-1).obs;
   final RxBool isCityFromList = false.obs;
   final RxBool isReferralSelected = false.obs;
   final Rx<DateTime?> selectedPlannedVisitDate = Rx<DateTime?>(null);
   final Rx<DateTime?> selectedMktDate = Rx<DateTime?>(null);
 
-  int? cityID;
+  var PainterNo;
+  var cityID;
   String? retailer_id;
   int? area_ID;
   int? referalArea_id;
@@ -157,6 +160,8 @@ class _IsFormState extends State<IsForm> {
 
   @override
   Widget build(BuildContext context) {
+    String fullValue = authController.loginModel!.user!.permanentContractual.toString().trim();
+    String leadFrom = fullValue.length > 10 ? fullValue.substring(0, 10) : fullValue;
     final media = MediaQuery.of(context).size.width * 0.85;
     final media1 = MediaQuery.of(context).size.width * 0.84;
 
@@ -222,15 +227,15 @@ class _IsFormState extends State<IsForm> {
                   const SizedBox(height: 10),
                   Obx(() => selectedVia.value == "HUNTING"
                       ? CustomDropdown1(
-                          titleColor: AppColors.primaryColor,
-                          label: '* Type',
-                          items: type,
-                          selectedValue: selectedTypeHunting,
-                          parentContext: context,
-                          width: media1,
-                          height: 80,
-                          ontap: () {},
-                        )
+                    titleColor: AppColors.primaryColor,
+                    label: '* Type',
+                    items: type,
+                    selectedValue: selectedTypeHunting,
+                    parentContext: context,
+                    width: media1,
+                    height: 80,
+                    ontap: () {},
+                  )
                       : const SizedBox.shrink()),
                   const SizedBox(height: 10),
                   Obx(() {
@@ -255,7 +260,7 @@ class _IsFormState extends State<IsForm> {
                           selectedReferralArea.value = '';
                           selectedSalesOfficer.value = '';
                           CityModel? cityDetails =
-                              controller.getCityByName(selectedCity.value);
+                          controller.getCityByName(selectedCity.value);
                           if (cityDetails != null) {
                             controller.fetchAreasByZoneAndCity(
                               salesForceId: authController.salesForceId,
@@ -291,7 +296,7 @@ class _IsFormState extends State<IsForm> {
 
                         if (selectedArea.value.isNotEmpty) {
                           final matchedArea = controller.areasList.firstWhere(
-                            (area) => area.areaName == selectedArea.value,
+                                (area) => area.areaName == selectedArea.value,
                             orElse: () =>
                                 AreaModel(), // fallback to empty model
                           );
@@ -353,164 +358,164 @@ class _IsFormState extends State<IsForm> {
                   // Conditionally show referral widget only when selectedVia is NOT "MARKETING ACTIVITIES"
                   Obx(() => selectedVia.value != "MARKETING ACTIVITIES"
                       ? Column(
-                          children: [
-                            GestureDetector(
-                              onTap: () {
-                                isReferralSelected.value =
-                                    !isReferralSelected.value;
-                                leadReferal =
-                                    isReferralSelected.value ? 'Y' : 'N';
-                                print(leadReferal);
-                              },
-                              child: Container(
-                                height: 80,
-                                width: media,
-                                decoration: BoxDecoration(
-                                  border: Border.all(
-                                      color: AppColors.blackColor, width: 1),
-                                  color: Colors.transparent,
-                                  borderRadius: BorderRadius.circular(5),
-                                ),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          isReferralSelected.value =
+                          !isReferralSelected.value;
+                          leadReferal =
+                          isReferralSelected.value ? 'Y' : 'N';
+                          print(leadReferal);
+                        },
+                        child: Container(
+                          height: 80,
+                          width: media,
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                                color: AppColors.blackColor, width: 1),
+                            color: Colors.transparent,
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(10),
+                                child: Row(
                                   children: [
-                                    Padding(
-                                      padding: const EdgeInsets.all(10),
-                                      child: Row(
-                                        children: [
-                                          Container(
-                                            height: 20,
-                                            width: 20,
-                                            decoration: BoxDecoration(
-                                              shape: BoxShape.circle,
-                                              border: Border.all(
-                                                  color: AppColors
-                                                      .greyA4A4A4Color),
-                                            ),
-                                            child: Padding(
-                                              padding: const EdgeInsets.all(2),
-                                              child: Container(
-                                                decoration: BoxDecoration(
-                                                  shape: BoxShape.circle,
-                                                  color: isReferralSelected
-                                                          .value
-                                                      ? AppColors.primaryColor
-                                                      : Colors.transparent,
-                                                ),
-                                              ),
-                                            ),
+                                    Container(
+                                      height: 20,
+                                      width: 20,
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        border: Border.all(
+                                            color: AppColors
+                                                .greyA4A4A4Color),
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(2),
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            color: isReferralSelected
+                                                .value
+                                                ? AppColors.primaryColor
+                                                : Colors.transparent,
                                           ),
-                                          const SizedBox(width: 8),
-                                          const Text(
-                                              'You want to refer this Lead'),
-                                        ],
+                                        ),
                                       ),
                                     ),
+                                    const SizedBox(width: 8),
+                                    const Text(
+                                        'You want to refer this Lead'),
                                   ],
                                 ),
                               ),
-                            ),
-                            const SizedBox(height: 10),
-                            Obx(() => isReferralSelected.value
-                                ? Column(
-                                    children: [
-                                      Obx(() {
-                                        final isEnabled =
-                                            selectedCity.value.isNotEmpty;
+                            ],
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                      Obx(() => isReferralSelected.value
+                          ? Column(
+                        children: [
+                          Obx(() {
+                            final isEnabled =
+                                selectedCity.value.isNotEmpty;
 
-                                        return CustomDropdown1(
-                                          titleColor: AppColors.primaryColor,
-                                          label: '* Referral Areas',
-                                          items:
-                                              controller.referralAreaNameList,
-                                          selectedValue: selectedReferralArea,
-                                          parentContext: context,
-                                          width: media1,
-                                          height: 80,
-                                          enabled:
-                                              isEnabled, // 🔑 dynamically disable/enable
-                                          ontap: () {
-                                            if (!isEnabled) return;
+                            return CustomDropdown1(
+                              titleColor: AppColors.primaryColor,
+                              label: '* Referral Areas',
+                              items:
+                              controller.referralAreaNameList,
+                              selectedValue: selectedReferralArea,
+                              parentContext: context,
+                              width: media1,
+                              height: 80,
+                              enabled:
+                              isEnabled, // 🔑 dynamically disable/enable
+                              ontap: () {
+                                if (!isEnabled) return;
 
-                                            if (selectedReferralArea
-                                                .value.isNotEmpty) {
-                                              // Clear previous sales officer selection
-                                              selectedSalesOfficer.value = '';
+                                if (selectedReferralArea
+                                    .value.isNotEmpty) {
+                                  // Clear previous sales officer selection
+                                  selectedSalesOfficer.value = '';
 
-                                              // Get area details to fetch areaId
-                                              AreaModel? areaDetails =
-                                                  controller
-                                                      .getReferralAreaByName(
-                                                          selectedReferralArea
-                                                              .value);
+                                  // Get area details to fetch areaId
+                                  AreaModel? areaDetails =
+                                  controller
+                                      .getReferralAreaByName(
+                                      selectedReferralArea
+                                          .value);
 
-                                              if (areaDetails != null &&
-                                                  areaDetails.areaId != null) {
-                                                controller
-                                                    .fetchReferalAreasSalesOfiicers(
-                                                        areaId:
-                                                            areaDetails.areaId);
-                                                referalArea_id =
-                                                    areaDetails.areaId;
-                                              }
-                                            }
-                                            print(referalArea_id);
-                                          },
-                                        );
-                                      }),
-                                      const SizedBox(height: 10),
-                                      Obx(() {
-                                        final isEnabled =
-                                            selectedCity.value.isNotEmpty &&
-                                                selectedReferralArea
-                                                    .value.isNotEmpty;
+                                  if (areaDetails != null &&
+                                      areaDetails.areaId != null) {
+                                    controller
+                                        .fetchReferalAreasSalesOfiicers(
+                                        areaId:
+                                        areaDetails.areaId);
+                                    referalArea_id =
+                                        areaDetails.areaId;
+                                  }
+                                }
+                                print(referalArea_id);
+                              },
+                            );
+                          }),
+                          const SizedBox(height: 10),
+                          Obx(() {
+                            final isEnabled =
+                                selectedCity.value.isNotEmpty &&
+                                    selectedReferralArea
+                                        .value.isNotEmpty;
 
-                                        return CustomDropdown1(
-                                          titleColor: AppColors.primaryColor,
-                                          label: '* Sales Officer',
-                                          items:
-                                              controller.salesOfficerNameList,
-                                          selectedValue: selectedSalesOfficer,
-                                          parentContext: context,
-                                          width: media1,
-                                          height: 80,
-                                          enabled: isEnabled,
-                                          ontap: () {
-                                            if (!isEnabled) return;
+                            return CustomDropdown1(
+                              titleColor: AppColors.primaryColor,
+                              label: '* Sales Officer',
+                              items:
+                              controller.salesOfficerNameList,
+                              selectedValue: selectedSalesOfficer,
+                              parentContext: context,
+                              width: media1,
+                              height: 80,
+                              enabled: isEnabled,
+                              ontap: () {
+                                if (!isEnabled) return;
 
-                                            if (selectedSalesOfficer
-                                                .value.isNotEmpty) {
-                                              final matchedOfficer = controller
-                                                  .salesOfficersList
-                                                  .firstWhere(
-                                                (officer) =>
-                                                    officer.salesOfficerName ==
-                                                    selectedSalesOfficer.value,
-                                                orElse: () =>
-                                                    SalesOfficerModel(), // fallback
-                                              );
+                                if (selectedSalesOfficer
+                                    .value.isNotEmpty) {
+                                  final matchedOfficer = controller
+                                      .salesOfficersList
+                                      .firstWhere(
+                                        (officer) =>
+                                    officer.salesOfficerName ==
+                                        selectedSalesOfficer.value,
+                                    orElse: () =>
+                                        SalesOfficerModel(), // fallback
+                                  );
 
-                                              if (matchedOfficer.salesForceId !=
-                                                  null) {
-                                                referalSales_id = matchedOfficer
-                                                    .salesForceId as String?;
-                                                print(
-                                                    "Selected Referral Sales Officer ID: $referalSales_id");
-                                              } else {
-                                                referalSales_id = null;
-                                                print(
-                                                    "Referral Sales Officer ID not found");
-                                              }
-                                            }
-                                          },
-                                        );
-                                      }),
-                                      const SizedBox(height: 10),
-                                    ],
-                                  )
-                                : const SizedBox.shrink()),
-                          ],
-                        )
+                                  if (matchedOfficer.salesForceId !=
+                                      null) {
+                                    referalSales_id = matchedOfficer
+                                        .salesForceId as String?;
+                                    print(
+                                        "Selected Referral Sales Officer ID: $referalSales_id");
+                                  } else {
+                                    referalSales_id = null;
+                                    print(
+                                        "Referral Sales Officer ID not found");
+                                  }
+                                }
+                              },
+                            );
+                          }),
+                          const SizedBox(height: 10),
+                        ],
+                      )
+                          : const SizedBox.shrink()),
+                    ],
+                  )
                       : const SizedBox.shrink()),
                   Obx(() {
                     if (selectedVia.value == "RETAILER") {
@@ -525,9 +530,9 @@ class _IsFormState extends State<IsForm> {
                         ontap: () {
                           if (selectedSoftAccountHolders.value.isNotEmpty) {
                             final matchedRetailer =
-                                controller.softAccountHoldersList.firstWhere(
-                              (holder) =>
-                                  holder.retailerName ==
+                            controller.softAccountHoldersList.firstWhere(
+                                  (holder) =>
+                              holder.retailerName ==
                                   selectedSoftAccountHolders.value,
                               orElse: () =>
                                   SalesOfficerModel(), // fallback empty model
@@ -585,20 +590,20 @@ class _IsFormState extends State<IsForm> {
                   ),
                   const SizedBox(height: 10),
                   Obx(() => CustomDropdown1(
-                        titleColor: AppColors.primaryColor,
-                        label: 'Third Person Type',
-                        items: personTypeList
-                            .where((item) =>
-                                item != selectedVia.value &&
-                                item != selectedSecondPersonType.value)
-                            .toList()
-                            .obs,
-                        selectedValue: selectedThirdPersonType,
-                        parentContext: context,
-                        width: media1,
-                        height: 80,
-                        ontap: () {},
-                      )),
+                    titleColor: AppColors.primaryColor,
+                    label: 'Third Person Type',
+                    items: personTypeList
+                        .where((item) =>
+                    item != selectedVia.value &&
+                        item != selectedSecondPersonType.value)
+                        .toList()
+                        .obs,
+                    selectedValue: selectedThirdPersonType,
+                    parentContext: context,
+                    width: media1,
+                    height: 80,
+                    ontap: () {},
+                  )),
                   const SizedBox(height: 10),
                   CustomTextField1(
                     label: 'Enter Third Person Name',
@@ -628,91 +633,91 @@ class _IsFormState extends State<IsForm> {
                   const SizedBox(height: 20),
                   Obx(() => selectedVia.value == "PAINTER"
                       ? Column(
-                          children: [
-                            Container(
-                              height: 80,
-                              width: media,
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                    color: AppColors.blackColor, width: 1),
-                                color: Colors.transparent,
-                                borderRadius: BorderRadius.circular(5),
-                              ),
-                              padding: const EdgeInsets.only(
-                                  bottom: 10, top: 10, right: 10),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: List.generate(3, (index) {
-                                  final List<String> options = [
-                                    "Painter\nNo",
-                                    "Wallet\nNo",
-                                    "New\nPainter No"
-                                  ];
-                                  return Expanded(
-                                    child: GestureDetector(
-                                      onTap: () {
-                                        selectedPainterIndex.value = index;
-                                        painterNumberController
-                                            .clear(); // Clear on change
-                                      },
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Container(
-                                            height: 20,
-                                            width: 20,
-                                            decoration: BoxDecoration(
-                                              shape: BoxShape.circle,
-                                              border: Border.all(
-                                                  color: AppColors
-                                                      .greyA4A4A4Color),
-                                            ),
-                                            child: Padding(
-                                              padding: const EdgeInsets.all(2),
-                                              child: Container(
-                                                decoration: BoxDecoration(
-                                                  shape: BoxShape.circle,
-                                                  color: selectedPainterIndex
-                                                              .value ==
-                                                          index
-                                                      ? AppColors.primaryColor
-                                                      : Colors.transparent,
-                                                ),
-                                              ),
-                                            ),
+                    children: [
+                      Container(
+                        height: 80,
+                        width: media,
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                              color: AppColors.blackColor, width: 1),
+                          color: Colors.transparent,
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                        padding: const EdgeInsets.only(
+                            bottom: 10, top: 10, right: 10),
+                        child: Row(
+                          mainAxisAlignment:
+                          MainAxisAlignment.spaceBetween,
+                          children: List.generate(3, (index) {
+                            final List<String> options = [
+                              "Painter\nNo",
+                              "Wallet\nNo",
+                              "New\nPainter No"
+                            ];
+                            return Expanded(
+                              child: GestureDetector(
+                                onTap: () {
+                                  selectedPainterIndex.value = index;
+                                  painterNumberController
+                                      .clear(); // Clear on change
+                                },
+                                child: Row(
+                                  mainAxisAlignment:
+                                  MainAxisAlignment.center,
+                                  children: [
+                                    Container(
+                                      height: 20,
+                                      width: 20,
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        border: Border.all(
+                                            color: AppColors
+                                                .greyA4A4A4Color),
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(2),
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            color: selectedPainterIndex
+                                                .value ==
+                                                index
+                                                ? AppColors.primaryColor
+                                                : Colors.transparent,
                                           ),
-                                          const SizedBox(width: 6),
-                                          Flexible(
-                                            child: Text(
-                                              options[index],
-                                              textAlign: TextAlign.center,
-                                              overflow: TextOverflow.ellipsis,
-                                              style:
-                                                  const TextStyle(fontSize: 14),
-                                            ),
-                                          ),
-                                        ],
+                                        ),
                                       ),
                                     ),
-                                  );
-                                }),
+                                    const SizedBox(width: 6),
+                                    Flexible(
+                                      child: Text(
+                                        options[index],
+                                        textAlign: TextAlign.center,
+                                        overflow: TextOverflow.ellipsis,
+                                        style:
+                                        const TextStyle(fontSize: 14),
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ),
-                            const SizedBox(height: 10),
-                            // Show textfield only if a painter type is selected
-                            if (selectedPainterIndex.value != -1)
-                              CustomTextField1(
-                                label: labelOptions[selectedPainterIndex.value],
-                                controller: painterNumberController,
-                                showCharCount: true,
-                                maxLength: getMaxLength(),
-                                width: media,
-                                keyboardType: TextInputType.phone,
-                              ),
-                          ],
-                        )
+                            );
+                          }),
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                      // Show textfield only if a painter type is selected
+                      if (selectedPainterIndex.value != -1)
+                        CustomTextField1(
+                          label: labelOptions[selectedPainterIndex.value],
+                          controller: painterNumberController,
+                          showCharCount: true,
+                          maxLength: getMaxLength(),
+                          width: media,
+                          keyboardType: TextInputType.phone,
+                        ),
+                    ],
+                  )
                       : const SizedBox.shrink()),
                   InkWell(
                     onTap: () {
@@ -740,11 +745,11 @@ class _IsFormState extends State<IsForm> {
                                       : '*Planned Visit Date',
                                   style: TextStyle(
                                     fontSize:
-                                        media * 0.053, // responsive font size
+                                    media * 0.053, // responsive font size
                                     color:
-                                        selectedPlannedVisitDate.value != null
-                                            ? AppColors.blackColor
-                                            : AppColors.grey8E8E8EColor,
+                                    selectedPlannedVisitDate.value != null
+                                        ? AppColors.blackColor
+                                        : AppColors.grey8E8E8EColor,
                                   ),
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 1,
@@ -766,7 +771,7 @@ class _IsFormState extends State<IsForm> {
                               height: 30,
                               decoration: const BoxDecoration(
                                 borderRadius:
-                                    BorderRadius.all(Radius.circular(16)),
+                                BorderRadius.all(Radius.circular(16)),
                                 color: AppColors.activeColor,
                               ),
                               child: const Center(
@@ -795,80 +800,80 @@ class _IsFormState extends State<IsForm> {
                   ),
                   Obx(() => selectedVia.value == "MARKETING ACTIVITIES"
                       ? InkWell(
-                          onTap: () {
-                            showCustomDatePicker(
-                              context: context,
-                              onDateSelected: (DateTime date) {
-                                selectedMktDate.value = date;
-                              },
-                            );
-                          },
-                          child: Container(
-                            width: media, // This is already responsive
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.center,
+                    onTap: () {
+                      showCustomDatePicker(
+                        context: context,
+                        onDateSelected: (DateTime date) {
+                          selectedMktDate.value = date;
+                        },
+                      );
+                    },
+                    child: Container(
+                      width: media, // This is already responsive
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Flexible(
+                            flex: 3,
+                            child: Column(
+                              crossAxisAlignment:
+                              CrossAxisAlignment.start,
                               children: [
-                                Flexible(
-                                  flex: 3,
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        selectedMktDate.value != null
-                                            ? '${selectedMktDate.value!.toLocal().toString().split(' ')[0]}'
-                                            : '*Select Date of Make Activity',
-                                        style: TextStyle(
-                                          fontSize: media *
-                                              0.042, // Responsive font size
-                                          color: selectedMktDate.value != null
-                                              ? AppColors.blackColor
-                                              : AppColors.grey8E8E8EColor,
-                                        ),
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                      const SizedBox(height: 4),
-                                      Container(
-                                        width: double.infinity,
-                                        height: 1,
-                                        color: Colors.black,
-                                      ),
-                                    ],
+                                Text(
+                                  selectedMktDate.value != null
+                                      ? '${selectedMktDate.value!.toLocal().toString().split(' ')[0]}'
+                                      : '*Select Date of Make Activity',
+                                  style: TextStyle(
+                                    fontSize: media *
+                                        0.042, // Responsive font size
+                                    color: selectedMktDate.value != null
+                                        ? AppColors.blackColor
+                                        : AppColors.grey8E8E8EColor,
                                   ),
+                                  overflow: TextOverflow.ellipsis,
                                 ),
-                                const SizedBox(width: 10),
-                                Flexible(
-                                  flex: 2,
-                                  child: Container(
-                                    height: 30,
-                                    decoration: const BoxDecoration(
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(16)),
-                                      color: AppColors.activeColor,
-                                    ),
-                                    child: const Center(
-                                      child: Padding(
-                                        padding:
-                                            EdgeInsets.symmetric(horizontal: 8),
-                                        child: FittedBox(
-                                          fit: BoxFit.scaleDown,
-                                          child: Text(
-                                            'MKT Date',
-                                            style: TextStyle(
-                                              color: AppColors.whiteColor,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
+                                const SizedBox(height: 4),
+                                Container(
+                                  width: double.infinity,
+                                  height: 1,
+                                  color: Colors.black,
                                 ),
                               ],
                             ),
                           ),
-                        )
+                          const SizedBox(width: 10),
+                          Flexible(
+                            flex: 2,
+                            child: Container(
+                              height: 30,
+                              decoration: const BoxDecoration(
+                                borderRadius:
+                                BorderRadius.all(Radius.circular(16)),
+                                color: AppColors.activeColor,
+                              ),
+                              child: const Center(
+                                child: Padding(
+                                  padding:
+                                  EdgeInsets.symmetric(horizontal: 8),
+                                  child: FittedBox(
+                                    fit: BoxFit.scaleDown,
+                                    child: Text(
+                                      'MKT Date',
+                                      style: TextStyle(
+                                        color: AppColors.whiteColor,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  )
                       : const SizedBox.shrink()),
 
                   SizedBox(
@@ -893,7 +898,7 @@ class _IsFormState extends State<IsForm> {
                         CustomToast('Please Add Customer Contact Number',
                             context: context);
                       } else if (customerContactController.value.text.length <
-                              11 ||
+                          11 ||
                           !customerContactController.value.text
                               .startsWith('03')) {
                         CustomToast(
@@ -930,8 +935,8 @@ class _IsFormState extends State<IsForm> {
                         CustomToast('Please Enter Second Person Number',
                             context: context);
                       } else if (secoundPersonNumberController
-                                  .value.text.length <
-                              11 ||
+                          .value.text.length <
+                          11 ||
                           !secoundPersonNumberController.value.text
                               .startsWith('03')) {
                         CustomToast(
@@ -957,43 +962,83 @@ class _IsFormState extends State<IsForm> {
                           selectedPainterIndex.value.toString().isEmpty) {
                         CustomToast('Please Select Painter', context: context);
                       } else {
-                        bool locationReady = await locationController.checkLocationReadyWithDialog(context);
+                        if (cityID == null && selectedCity.value.isNotEmpty) {
+                          CityModel? cityDetails = controller.getCityByName(selectedCity.value);
+                          if (cityDetails != null) {
+                            cityID = cityDetails.sqlCityId;
+                          }
+                        }
 
+                        // Ensure area_ID is set properly
+                        if (area_ID == null && selectedArea.value.isNotEmpty) {
+                          final matchedArea = controller.areasList.firstWhere(
+                                (area) => area.areaName == selectedArea.value,
+                            orElse: () => AreaModel(),
+                          );
+                          if (matchedArea.areaId != null) {
+                            area_ID = matchedArea.areaId!;
+                          }
+                        }
+
+                        // Check location
+                        bool locationReady = await locationController.checkLocationReadyWithDialog(context);
                         if (!locationReady) return;
+
+                        // Format dates
+                        String getFormattedPlannedVisitDate() {
+                          if (selectedPlannedVisitDate.value != null) {
+                            return DateFormat('yyyy-MM-dd').format(selectedPlannedVisitDate.value!);
+                          }
+                          return '';
+                        }
+
+                        String getFormattedMktDate() {
+                          if (selectedMktDate.value != null) {
+                            return DateFormat('yyyy-MM-dd').format(selectedMktDate.value!);
+                          }
+                          return '';
+                        }
+
+                        // Set painter number based on selection
+                        String? painterNumber;
+                        if (selectedVia.value == 'PAINTER' && selectedPainterIndex.value != -1) {
+                          painterNumber = painterNumberController.text;
+                        }
+                        // Make API call with corrected parameters
                         controller.addGeneralCustomerFOSD2CUpdatedV5(
                           CUSTOMER_NAME: customerNameAddressController.text,
                           PHONE: customerContactController.text,
-                          CITY_ID: cityID,
-                          VIA: selectedVia.toString(),
-                          STATUS: 'OPEN',
-                          REVISIT_DATE: selectedPlannedVisitDate.toString(),
-                          CREATED_BY: authController.employeeName,
-                          SALES_FORCE_ID: authController.salesForceId,
-                          WALLET_NUMBER: painterNumberController.text,
-                          RETAILER_ID: retailer_id.toString(),
-                          PAINTER_NUMBER: painterNumberController.text,
-                          NEW_PAINTER_NUMBER: painterNumberController.text,
-                          WINNING_DATE_OF_STW: '',
-                          DATE_OF_MKT_LEAD: selectedMktDate.toString(),
-                          ASSIGN_TO: '',
+                          CITY_ID: cityID?.toString(), // Convert to string, can be null
+                          VIA: selectedVia.value,
+                          STATUS: "OPEN",
+                          REVISIT_DATE: getFormattedPlannedVisitDate(),
+                          CREATED_BY: leadFrom,
+                          SALES_FORCE_ID: authController.salesForceId.toString(),
+                          WALLET_NUMBER: selectedPainterIndex.value == 1 ? painterNumber : null,
+                          RETAILER_ID: selectedVia.value == 'RETAILER' ? retailer_id : null,
+                          PAINTER_NUMBER: selectedPainterIndex.value == 0 ? painterNumber : null,
+                          NEW_PAINTER_NUMBER: selectedPainterIndex.value == 2 ? painterNumber : null,
+                          WINNING_DATE_OF_STW: "",
+                          DATE_OF_MKT_LEAD: getFormattedMktDate(),
+                          ASSIGN_TO: "",
                           LEAD_FROM: authController.loginModel!.user!.permanentContractual.toString(),
                           GIFT_ID: null,
-                          TYPE: selectedTypeHunting.toString(),
+                          TYPE: selectedVia.value == "HUNTING" ? selectedTypeHunting.value : "",
                           LOCATION_NAME: locationController.address.toString(),
-                          LATITUDE: locationController.latitude.string,
-                          LONGITUDE: locationController.longitude.string,
-                          SIZE_OF_HOUSE: selectedHouseSize.toString(),
+                          LATITUDE: locationController.latitude.toString(),
+                          LONGITUDE: locationController.longitude.toString(),
+                          SIZE_OF_HOUSE: selectedHouseSize.value,
                           EXPECTED_KGS: ExpectedKgsController.text,
-                          AREA_ID: area_ID!.toInt(),
-                          SECOND_PERSON_TYPE: selectedSecondPersonType.toString(),
+                          AREA_ID: area_ID?.toString() ?? "", // Convert to string
+                          SECOND_PERSON_TYPE: selectedSecondPersonType.value,
                           SECOND_PERSON_NUMBER: secoundPersonNumberController.text,
-                          THIRD_PERSON_TYPE: selectedThirdPersonType.toString(),
+                          THIRD_PERSON_TYPE: selectedThirdPersonType.value,
                           THIRD_PERSON_NUMBER: thirdPersonNumberController.text,
                           SECOND_PERSON_NAME: secoundPersonNameController.text,
                           THIRD_PERSON_NAME: thirdPersonNameController.text,
-                          LEAD_REFERAL: leadReferal.toString(),
-                          REFER_AREA_ID: referalArea_id.toString(),
-                          REFERED_BY_SALES_ID: referalSales_id.toString(),
+                          LEAD_REFERAL: leadReferal,
+                          REFER_AREA_ID: referalArea_id?.toString(),
+                          REFERED_BY_SALES_ID: referalSales_id,
                         );
                         showCustomPopup1(
                           context,

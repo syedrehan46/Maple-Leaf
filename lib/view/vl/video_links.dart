@@ -10,23 +10,23 @@ class VideoLinks extends StatelessWidget {
   final List<Map<String, String>> videos = const [
     {
       'title': 'MapleFamily Family Vlog',
-      'url': 'https://youtube.com/shorts/ankiPZL6sF0?si=26mJVtQqIoPQYrzR',
+      'url': 'https://youtu.be/ankiPZL6sF0',
     },
     {
       'title': 'Maple Leaf Eid Campaign',
-      'url': 'https://youtube.com/shorts/7DXYUVGOiyg?si=Hxlj4YUvsnLkgiz0',
+      'url': 'https://youtu.be/7DXYUVGOiyg',
     },
     {
       'title': 'MapleFamily Bara Bonus',
-      'url': 'https://youtube.com/shorts/ewcOS7meWgw?si=oVzpC7C1p27vv1NQ',
+      'url': 'https://youtu.be/ewcOS7meWgw',
     },
     {
       'title': 'MapleFamily Selfie Session',
-      'url': 'https://youtube.com/shorts/aB2p5f6dQ_U?si=T_0297wHlhBiINlQ',
+      'url': 'https://youtu.be/aB2p5f6dQ_U',
     },
     {
       'title': 'MapleFamily Dadi Jaan ki recipe',
-      'url': 'https://youtube.com/shorts/TJ149rB14uM?si=BXAPxShRKy1JcYd_',
+      'url': 'https://youtu.be/TJ149rB14uM',
     },
   ];
 
@@ -43,7 +43,7 @@ class VideoLinks extends StatelessWidget {
           ),
           Column(
             children: [
-               CustomAppbar(title: 'Video links'),
+              CustomAppbar(title: 'Video links'),
               Expanded(
                 child: ListView.builder(
                   padding: const EdgeInsets.all(16),
@@ -61,10 +61,10 @@ class VideoLinks extends StatelessWidget {
                         GestureDetector(
                           onTap: () => _launchURL(video['url']!),
                           child: Text(
-                            video['url']!,
-                            style: AppFonts.styleHarmoniaBold18W6000(
-                              AppColors.blue2763E6Color,
-                            )
+                              video['url']!,
+                              style: AppFonts.styleHarmoniaBold18W6000(
+                                AppColors.blue2763E6Color,
+                              )
                           ),
                         ),
                         const Divider(
@@ -85,17 +85,46 @@ class VideoLinks extends StatelessWidget {
   }
 
   Future<void> _launchURL(String url) async {
-    final Uri uri = Uri.parse(url);
-    if (await canLaunchUrl(uri)) {
-      final bool launched = await launchUrl(uri, mode: LaunchMode.platformDefault);
-      if (!launched) {
-        print('Could not launch using platform default, trying fallback');
-        await launchUrl(uri); // fallback
+    try {
+      final Uri uri = Uri.parse(url);
+
+      // Try different launch modes in order of preference
+      final List<LaunchMode> modes = [
+        LaunchMode.externalApplication,
+        LaunchMode.inAppWebView,
+        LaunchMode.platformDefault,
+      ];
+
+      bool launched = false;
+
+      for (LaunchMode mode in modes) {
+        try {
+          if (await canLaunchUrl(uri)) {
+            launched = await launchUrl(uri, mode: mode);
+            if (launched) {
+              print('Successfully launched with mode: $mode');
+              break;
+            }
+          }
+        } catch (e) {
+          print('Failed with mode $mode: $e');
+          continue;
+        }
       }
-    } else {
-      print('Nahi huwa bhai dubara koshis kr');
-      throw 'Could not launch $url';
+
+      if (!launched) {
+        print('All launch methods failed for: $url');
+        // Show user-friendly error
+        _showErrorDialog('Could not open YouTube video. Please check if YouTube app is installed.');
+      }
+    } catch (e) {
+      print('Error launching URL: $e');
+      _showErrorDialog('Error opening link: $e');
     }
   }
 
+  void _showErrorDialog(String message) {
+    // You can implement this to show a dialog to the user
+    print('Error: $message');
+  }
 }

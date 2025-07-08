@@ -49,7 +49,18 @@
 	</array>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
+	<key>NSAllowsArbitraryLoads</key>
+    <true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	    <key>LSApplicationQueriesSchemes</key>
+        <array>
+            <string>https</string>
+            <string>http</string>
+            <string>youtube</string>
+            <string>vnd.youtube</string>
+        </array>
+        <!-- Allow arbitrary loads for web content -->
+        <key>NSAppTransportSecurity</key>
 </dict>
 </plist>
