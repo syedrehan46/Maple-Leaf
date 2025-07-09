@@ -7,11 +7,12 @@ import '../../../controller/IM/Individual Painter/all_paniter_detail_controller.
 import '../../../controller/IM/Individual Painter/individual_painter_controller.dart';
 import '../../../model/IM/indivdual_painter_model.dart';
 import '../../../model/IM/all_area_painter_model.dart';
+import '../../../model/IM/paineter_record_model.dart';
 import '../../Maple Lead/Dealers/Job Detail/custom_toast.dart';
 
 class AddLeadsView extends StatefulWidget {
   final String? title;
-  final IndivdualPainterModel? painter;
+  final IndividualPainterPlanModel? painter;
 
   const AddLeadsView({super.key, this.title, this.painter});
 

@@ -7,8 +7,9 @@ import 'package:mapleleaf/utils/custom%20widgets/Custom_Toaste.dart';
 import 'package:mapleleaf/utils/custom%20widgets/background_image.dart';
 import 'package:mapleleaf/utils/custom%20widgets/custom_appbar.dart';
 
-import '../../controller/painter_controller.dart';
 import '../../controller/IM/Individual Painter/individual_painter_controller.dart';
+import '../../controller/painter_controller.dart';
+import '../../controller/auth_controller.dart';
 import '../../utils/app_colors.dart';
 import 'individual_meeting_painters.dart';
 
@@ -23,8 +24,8 @@ class PainterEngagementInvite1 extends StatelessWidget {
 
   final ImagePicker _picker = ImagePicker();
   final painterDataController = Get.find<PainterDataController>();
-  final controller = Get.find<IndividualPainterController>();
-  final controllers = Get.find<IndividualPainterController>();
+  final individualPainterController = Get.find<IndividualPainterController>();
+  final authController = Get.find<AuthController>();
 
   PainterEngagementInvite1({
     super.key,
@@ -75,14 +76,15 @@ class PainterEngagementInvite1 extends StatelessWidget {
 
                 Navigator.of(context).pop();
 
-                final imageFile = painterDataController.painterAttachmentImage.value!;
-                await controller.addPainter(
-                  planId: controllers.planId.toString() ?? "0",
-                  location: location,
-                  giveAways: giveaway,
-                  createdBy: "11665",
-                  salesForceId: "001519",
-                  imagePath: imageFile.path,
+                final painterImage = painterDataController.painterAttachmentImage.value!;
+                final attachmentImage = painterDataController.attachmentImage.value;
+
+                await individualPainterController.addPainter(
+                  planId: individualPainterController.selectedPlanId,
+                  actualId: individualPainterController.selectedActualId,
+                  createdBy: individualPainterController.selectedCreatedBy,
+                  imagePath1: painterImage.path,
+                  imagePath2: attachmentImage?.path,
                 );
 
                 Get.to(() => IndividualMeetingPainters());
@@ -119,6 +121,7 @@ class PainterEngagementInvite1 extends StatelessWidget {
                   onPreesed: () => Get.offAll(IndividualMeetingPainters()),
                 ),
                 const SizedBox(height: 10),
+
                 Obx(() => Text(
                   "${painterDataController.city.value} (${painterDataController.city.value})",
                   style: const TextStyle(
@@ -164,7 +167,7 @@ class PainterEngagementInvite1 extends StatelessWidget {
 
                 const SizedBox(height: 15),
 
-                // Attachments
+                // Attachment Image
                 InkWell(
                   onTap: () => _takePicture(false),
                   child: Obx(() => Container(
@@ -194,9 +197,9 @@ class PainterEngagementInvite1 extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-
                 const SizedBox(height: 10),
 
+                // Painter Attachment
                 InkWell(
                   onTap: () => _takePicture(true),
                   child: Obx(() => Container(
@@ -226,10 +229,9 @@ class PainterEngagementInvite1 extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-
                 const SizedBox(height: 10),
 
-                // Finalise Button
+                // Finalize Button
                 Container(
                   height: 30,
                   width: media.width * 0.5,
@@ -251,7 +253,6 @@ class PainterEngagementInvite1 extends StatelessWidget {
                     ),
                   ),
                 ),
-
                 const SizedBox(height: 20),
               ],
             ),

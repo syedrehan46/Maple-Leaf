@@ -15,7 +15,12 @@ class IndividualMeetupPainterLaborController extends GetxController implements G
   RxString salesForceId = ''.obs;
 
   // You can pass this as a parameter from your screen
+  Rx<IndivdualPainterModel?> selectedPlan = Rx<IndivdualPainterModel?>(null);
 
+  // Access selected card values
+  String get selectedPlanId => selectedPlan.value?.planId?.toString() ?? '';
+  String get selectedActualId => selectedPlan.value?.actualId?.toString() ?? '';
+  String get selectedCreatedBy => selectedPlan.value?.createdBy?.toString() ?? '';
 
   Future<void> fetchPainetrDetail() async {
 

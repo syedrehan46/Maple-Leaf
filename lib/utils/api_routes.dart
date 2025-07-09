@@ -57,6 +57,8 @@ class ApiRoutes{
   static const String apiEngamentPlanDetail = "$baseUrl/LeadEngine/GetEngagementPlanDetail";
   static const String apiEngamentPlanDetailLabor = "$baseUrl/LeadEngine/GetEngagementPlanDetail";
   static const String apiAllPainterDetail = "$baseUrl/LeadEngine/GetAllLaborContractorDetail";
+  static const String apiAllPainterHeader = "https://mlcf.kmlg.com:4050/api/LeadEngine/GetPlanHeaderForIndividualPainters";
+
 
   // new painter induction
   static const String apiNewPainterInduction = "$baseUrl/LeadEngine/GetAllNewPainterDetailsForAlotingCards";
@@ -89,7 +91,9 @@ class ApiRoutes{
   //IM MODULE
   static const String  apiImAddLead = "$baseUrl/LeadEngine/LeadAssociateWithPainter";
   static const String  apiImAddPlan= "$baseUrl/LeadEngine/AddPlanDetail";
+  static const String  apiImAddPainter = "$baseUrl/LeadEngine/FinalisedEngagementGroupV1";
   static const String  apiImAllArea= "$baseUrl/LeadEngine/GetAreas";
+  static const String  apiImArchitectDetail="$baseUrl/LeadEngine/GetAllArchitectAndBuilderDetail";
 
   // LM POST APIS
   static const String  apiLmGeneralCustomerUpdate= "$baseUrl/Leads/UpdateGeneralCustomer";

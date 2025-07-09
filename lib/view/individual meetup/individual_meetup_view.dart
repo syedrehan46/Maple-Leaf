@@ -15,6 +15,7 @@ import '../../controller/IM/Individual Painter/individual_meetup_painter_labor_c
 import '../../controller/IM/Individual Painter/individual_painter_controller.dart';
 import '../../utils/app_colors.dart';
 import '../../utils/custom widgets/custom_appbar.dart';
+import 'architect_view.dart';
 
 class IndividualMeetupView extends StatefulWidget {
   const IndividualMeetupView({super.key});
@@ -65,7 +66,9 @@ class _IndividualMeetupViewState extends State<IndividualMeetupView> {
                   children: [
                     CustomButton(title: "PAINTER", color: AppColors.blackColor, isShowContainer: true, navigateTo: IndividualMeetupPainter(city: '32',),count:controller.meetupCount,),
                     const SizedBox(height: 20),
-                    CustomButton(title: "LABORS CONTRACTOR", color: AppColors.blackColor, isShowContainer: true, navigateTo: IndividualMeetupLaborView(),count:controllers.meetupCounts  ,)
+                    CustomButton(title: "LABORS CONTRACTOR", color: AppColors.blackColor, isShowContainer: true, navigateTo: IndividualMeetupLaborView(),count:controllers.meetupCounts  ,),
+                    const SizedBox(height: 20),
+                    CustomButton(title: "ARCHITECT/BUILDER", color: AppColors.blackColor, isShowContainer: true, navigateTo: ArchitectView(),  ),
                   ],
                 ),
               ))

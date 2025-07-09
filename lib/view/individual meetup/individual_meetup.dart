@@ -6,9 +6,11 @@ import 'package:mapleleaf/utils/app_colors.dart';
 import 'package:mapleleaf/utils/custom%20widgets/custom_appbar.dart';
 import 'package:mapleleaf/view/individual%20meetup/painter_engament_invite.dart';
 
+import '../../model/IM/indivdual_painter_model.dart';
 import '../Maple Lead/Dealers/Job Detail/custom_toast.dart';
 
 class IndividualMeetup extends StatefulWidget {
+
   IndividualMeetup({super.key});
 
   @override
@@ -136,6 +138,8 @@ class _IndividualMeetupState extends State<IndividualMeetup> {
                               Get.to(() => PainterEngamentInvite(
                                 location: location!,
                                 giveaway: giveaway!,
+
+
                               )); // ✅ Navigate to your screen
                             }
                           },

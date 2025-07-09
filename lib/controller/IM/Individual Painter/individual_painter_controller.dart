@@ -1,9 +1,9 @@
 import 'dart:convert';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
-
 import '../../../model/IM/all_area_painter_model.dart';
 import '../../../model/IM/indivdual_painter_model.dart';
+import '../../../model/IM/paineter_record_model.dart';
 import '../../../network/network_call.dart';
 import '../../../utils/api_routes.dart';
 import '../../auth_controller.dart';
@@ -11,20 +11,24 @@ import '../../auth_controller.dart';
 class IndividualPainterController extends GetxController implements GetxService {
   // Data
   RxList<IndivdualPainterModel> meetupCardList = <IndivdualPainterModel>[].obs;
+  RxList<IndividualPainterPlanModel> allPainterDetail = <IndividualPainterPlanModel>[].obs;
   RxList<AreaModel> allAreaList = <AreaModel>[].obs;
+  RxInt meetupCount = 0.obs;
 
-  // Selection & State
-  RxInt selectedPlanId = 0.obs;
+  // Selected Card
+  Rx<IndivdualPainterModel?> selectedPlan = Rx<IndivdualPainterModel?>(null);
+
+  // Access selected card values
+  String get selectedPlanId => selectedPlan.value?.planId?.toString() ?? '';
+  String get selectedActualId => selectedPlan.value?.actualId?.toString() ?? '';
+  String get selectedCreatedBy => selectedPlan.value?.createdBy?.toString() ?? '';
+
+  // Extra State
+  RxInt selectedPlanIndex = 0.obs;
   RxString errorMessage = ''.obs;
   RxString salesForceId = ''.obs;
   RxString city = "".obs;
   int clusterId = 605;
-
-  // Getter to access planId anywhere
-  int get planId => selectedPlanId.value;
-
-  // Count getter if needed
-  RxInt get meetupCount => meetupCardList.length.obs;
 
   @override
   void onInit() {
@@ -33,13 +37,20 @@ class IndividualPainterController extends GetxController implements GetxService 
     salesForceId.value = authController.salesForceId;
     print("Fetched salesForceId: ${salesForceId.value}");
 
-    fetchPainetrDetail(); // Fetch painter data
+    // Sequential loading
+    loadData();
+  }
+
+  Future<void> loadData() async {
+    await fetchPainetrDetail();
+    print("Selected Plan ID: $selectedPlanId");
+    await fetcAllPainter();
   }
 
   Future<void> fetchPainetrDetail() async {
     EasyLoading.show();
 
-    final url = "${ApiRoutes.apiEngamentPlanDetail}?salesForceId=$salesForceId";
+    final url = "${ApiRoutes.apiEngamentPlanDetail}?salesForceId=${salesForceId.value}";
     print("URL >> $url");
 
     ApiResponse response = await NetworkCall.getApiCallWithToken(url);
@@ -50,12 +61,10 @@ class IndividualPainterController extends GetxController implements GetxService 
         final List<dynamic> data = jsonDecode(response.responseString!);
         meetupCardList.value = data.map((e) => IndivdualPainterModel.fromJson(e)).toList();
 
-        // ✅ Set selectedPlanId
-        if (meetupCardList.isNotEmpty && meetupCardList.first.planId != null) {
-          selectedPlanId.value = meetupCardList.first.planId!;
-          print("Selected Plan ID: ${selectedPlanId.value}");
+        if (meetupCardList.isNotEmpty) {
+          selectedPlan.value = meetupCardList.first;
+          print("First selected planId: ${selectedPlan.value?.planId}");
         }
-
       } catch (e) {
         errorMessage.value = 'Failed to parse data';
         print("Parse Error: $e");
@@ -66,10 +75,35 @@ class IndividualPainterController extends GetxController implements GetxService 
     }
   }
 
+  Future<void> fetcAllPainter() async {
+    EasyLoading.show();
+
+    final url =
+        "${ApiRoutes.apiAllPainterHeader}?salesForceId=${salesForceId.value}&planId=$selectedPlanId";
+    print("Painter Fetch URL >> $url");
+
+    ApiResponse response = await NetworkCall.getApiCallWithToken(url);
+    EasyLoading.dismiss();
+
+    if ((response.done ?? false) && response.responseString != null) {
+      try {
+        final List<dynamic> data = jsonDecode(response.responseString!);
+        allPainterDetail.value = data.map((e) => IndividualPainterPlanModel.fromJson(e)).toList();
+        print("Fetched ${allPainterDetail.length} painters");
+      } catch (e) {
+        errorMessage.value = 'Failed to parse painter data';
+        print("Painter Parse Error: $e");
+      }
+    } else {
+      errorMessage.value = response.errorMsg ?? 'Unknown error';
+      print("Painter API Error: ${response.errorMsg}");
+    }
+  }
+
   Future<void> fetchAllAreas() async {
     EasyLoading.show();
 
-    final url = "${ApiRoutes.apiImAllArea}?salesForceId=$salesForceId&ClusterID=$clusterId";
+    final url = "${ApiRoutes.apiImAllArea}?salesForceId=${salesForceId.value}&ClusterID=$clusterId";
     print("All Areas URL >> $url");
 
     ApiResponse response = await NetworkCall.getApiCallWithToken(url);
@@ -79,7 +113,7 @@ class IndividualPainterController extends GetxController implements GetxService 
       try {
         final List<dynamic> data = jsonDecode(response.responseString!);
         allAreaList.value = data.map((e) => AreaModel.fromJson(e)).toList();
-        print("All Area Response: ${allAreaList.length} items");
+        print("Fetched ${allAreaList.length} areas");
       } catch (e) {
         errorMessage.value = 'Failed to parse area data';
         print("Area Parse Error: $e");
@@ -141,34 +175,41 @@ class IndividualPainterController extends GetxController implements GetxService 
 
   Future<void> addPainter({
     required String planId,
-    required String location,
-    required String giveAways,
+    required String actualId,
     required String createdBy,
-    required String salesForceId,
-    required String imagePath,
+    required String imagePath1,
+    String? imagePath2,
   }) async {
-    EasyLoading.show(status: 'Submitting plan...');
-
-    Map<String, String> body = {
-      "PLAN_ID": planId,
-      "LOCATION": location,
-      "GIVE_AWAYS": giveAways,
-      "CREATED_BY": createdBy,
-      "SALES_FORCE_ID": salesForceId,
-    };
+    EasyLoading.show(status: 'Submitting...');
 
     try {
-      final url = ApiRoutes.apiImAddPlan;
+      final url = ApiRoutes.apiImAddPainter;
 
-      ApiResponse response = await NetworkCall.multipartUploadFile(url, body, imagePath);
+      Map<String, String> body = {
+        "PLAN_ID": planId,
+        "ACTUAL_ID": actualId,
+        "CREATED_BY": createdBy,
+      };
+
+      Map<String, String> images = {
+        "Img": imagePath1,
+      };
+
+      if (imagePath2 != null && imagePath2.isNotEmpty) {
+        images["Img1"] = imagePath2;
+      }
+
+      ApiResponse response =
+      await NetworkCall.multipartUploadMultipleFiles(url, body, images);
+
       EasyLoading.dismiss();
 
       if ((response.done ?? false) && response.responseString != null) {
-        final result = jsonDecode(response.responseString ?? '{}');
-        print("Add Painter Result: $result");
+        final result = jsonDecode(response.responseString!);
+        print("Response: $result");
 
         if (result['Data'] == true) {
-          EasyLoading.showSuccess(result['message'] ?? "Plan submitted successfully");
+          EasyLoading.showSuccess(result['message'] ?? "Submitted successfully");
         } else {
           EasyLoading.showError(result['message'] ?? "Submission failed");
         }

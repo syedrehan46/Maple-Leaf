@@ -310,6 +310,69 @@ class NetworkCall{
         }
 
   }
+  static Future<ApiResponse> multipartUploadMultipleFiles(
+      String url,
+      Map<String, String> fields,
+      Map<String, String> imagePaths, // e.g. { "Img": path1, "Img1": path2 }
+      ) async {
+    print("URL: $url");
+    print("Fields: $fields");
+    print("ImagePaths: $imagePaths");
+
+    try {
+      Map<String, String> headers = {
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $bearerToken',
+      };
+
+      var request = http.MultipartRequest("POST", Uri.parse(url));
+
+      // Add form fields
+      fields.forEach((key, value) {
+        request.fields[key] = value;
+      });
+
+      // Add image files with custom keys
+      for (var entry in imagePaths.entries) {
+        final fieldKey = entry.key;
+        final imagePath = entry.value;
+
+        if (imagePath.isNotEmpty) {
+          String fileName = imagePath.split('/').last;
+          String fileExtension = fileName.split('.').last.toLowerCase();
+
+          MediaType? mediaType;
+          if (['jpg', 'jpeg', 'png'].contains(fileExtension)) {
+            mediaType = MediaType('image', fileExtension);
+          } else if (['mp4', 'mov', 'avi'].contains(fileExtension)) {
+            mediaType = MediaType('video', fileExtension);
+          }
+
+          var multipartFile = await http.MultipartFile.fromPath(
+            fieldKey,
+            imagePath,
+            contentType: mediaType,
+          );
+
+          request.files.add(multipartFile);
+        }
+      }
+
+      request.headers.addAll(headers);
+
+      var streamedResponse = await request.send();
+      var response = await http.Response.fromStream(streamedResponse);
+      print("Response Body: ${response.body}");
+      return _checkResponse(response);
+    } on SocketException {
+      return ApiResponse(
+        done: false,
+        errorMsg: "Please check your connection",
+        responseString: null,
+      );
+    }
+  }
+
   static Future<ApiResponse> uploadFileWithToken(
       String url, Map map, String imagePath) async {
     try {

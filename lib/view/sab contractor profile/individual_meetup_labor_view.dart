@@ -59,10 +59,10 @@ class IndividualMeetupLaborView extends StatelessWidget {
                         topPadding: index == 0 ? 16 : 8,
                         onTap: () {
                           print("Tapped card at index $index");
-                          Get.to(
-                                () => IndividualMeetingPainters(painters: [item]),
-                          );
+                          controller.selectedPlan.value = item; // Set the selected plan
+                          Get.to(() => IndividualMeetingPainters());
                         },
+
                       );
                     },
                   );

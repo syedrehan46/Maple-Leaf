@@ -7,18 +7,18 @@ import 'package:mapleleaf/utils/custom widgets/floatingaction_button.dart';
 import 'package:mapleleaf/view/individual meetup/UserLead Page/add_leads_view.dart';
 import 'package:mapleleaf/view/individual meetup/individual_meetup.dart';
 import 'package:mapleleaf/view/individual meetup/painter_engagement_invite1.dart';
+import '../../controller/IM/Individual Painter/individual_painter_controller.dart';
 import '../../controller/painter_controller.dart';
 import '../../model/IM/indivdual_painter_model.dart';
 import 'Individual_meetup_painter.dart';
 import 'individual_meetup_view.dart';
 
 class IndividualMeetingPainters extends StatelessWidget {
-  final List<IndivdualPainterModel>? painters;
-
-  IndividualMeetingPainters({super.key, this.painters});
+  IndividualMeetingPainters({super.key});
 
   final TextEditingController textEditingController = TextEditingController();
   final PainterDataController painterController = Get.put(PainterDataController());
+  final IndividualPainterController controller = Get.put(IndividualPainterController());
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +34,7 @@ class IndividualMeetingPainters extends StatelessWidget {
             Column(
               children: [
                 CustomAppbar(
-                  title: "INDIVIDUAL MEETUPS PAINTR",
+                  title: "INDIVIDUAL MEETUPS PAINTER",
                   onPreesed: () {
                     Get.offAll(() => IndividualMeetupView());
                   },
@@ -44,6 +44,9 @@ class IndividualMeetingPainters extends StatelessWidget {
                   child: TextField(
                     controller: textEditingController,
                     textAlign: TextAlign.center,
+                    onChanged: (value) {
+                      // Optional: implement search filter
+                    },
                     decoration: InputDecoration(
                       hintText: "Search",
                       filled: true,
@@ -56,89 +59,102 @@ class IndividualMeetingPainters extends StatelessWidget {
                     ),
                   ),
                 ),
+
+                /// Use Obx here to reflect API data
                 Expanded(
-                  child: ListView.builder(
-                    itemCount: painters?.length ?? 0,
-                    padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                    itemBuilder: (context, index) {
-                      final painter = painters?[index];
+                  child: Obx(() {
+                    final painters = controller.allPainterDetail;
 
-                      return GestureDetector(
-                        onTap: () {
-                          if (painterController.painterAttachmentImage.value == null) {
-                            Get.to(() => AddLeadsView(
-                              title: painter?.planType ?? '',
-                              painter: painter,
-                            ));
-                          } else {
-                            Get.to(() => PainterEngagementInvite1(location: "",giveaway: "",));
-                          }
-                        },
-
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 8.0),
-                          child: Container(
-                            height: 60,
-                            width: double.infinity,
-                            decoration: BoxDecoration(
-                              color: painterController.painterAttachmentImage.value == null
-                                  ? AppColors.redColor
-                                  : AppColors.redColor,
-                              borderRadius: BorderRadius.circular(30),
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 16),
-                                  child: Text(
-                                    painter?.planType ?? 'No Name',
-                                    style: const TextStyle(
-                                      fontSize: 16,
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(right: 14.0),
-                                  child: Row(
-                                    children: [
-                                      Text(
-                                        painter?.phoneNumber ?? 'wehehj',
-                                        style: const TextStyle(
-                                          fontSize: 16,
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                      const SizedBox(width: 8),
-                                      const Icon(Icons.arrow_forward_ios, size: 25, color: Colors.white),
-                                      if (index == 0)
-                                        Container(
-                                          height: 25,
-                                          width: 25,
-                                          margin: const EdgeInsets.only(left: 8),
-                                          decoration: const BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            color: Colors.white,
-                                          ),
-                                          child: Center(
-                                            child: Text(
-                                              "1",
-                                              style: TextStyle(color: AppColors.primaryColor),
-                                            ),
-                                          ),
-                                        ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
+                    if (painters.isEmpty) {
+                      return const Center(
+                        child: Text(
+                          "No Data Found",
+                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                         ),
                       );
-                    },
-                  ),
+                    }
+
+                    return ListView.builder(
+                      itemCount: painters.length,
+                      padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                      itemBuilder: (context, index) {
+                        final painter = painters[index];
+
+                        return GestureDetector(
+                          onTap: () {
+                            if (painterController.painterAttachmentImage.value == null) {
+                              Get.to(() => AddLeadsView(
+                                title: painter.planType ?? '',
+                                painter: painter,
+                              ));
+                            } else {
+                              Get.to(() => PainterEngagementInvite1(location: "", giveaway: ""));
+                            }
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 8.0),
+                            child: Container(
+                              height: 60,
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                color: AppColors.redColor,
+                                borderRadius: BorderRadius.circular(30),
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 16),
+                                    child: Text(
+                                      painter.painterName ?? 'No Plan',
+                                      style: const TextStyle(
+                                        fontSize: 16,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(right: 14.0),
+                                    child: Row(
+                                      children: [
+                                        Text(
+                                          painter.phoneNumber ?? 'No Number',
+                                          style: const TextStyle(
+                                            fontSize: 16,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                        const SizedBox(width: 8),
+                                        const Icon(Icons.arrow_forward_ios,
+                                            size: 25, color: Colors.white),
+                                        if (index == 0)
+                                          Container(
+                                            height: 25,
+                                            width: 25,
+                                            margin: const EdgeInsets.only(left: 8),
+                                            decoration: const BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              color: Colors.white,
+                                            ),
+                                            child: Center(
+                                              child: Text(
+                                                "1",
+                                                style: TextStyle(color: AppColors.primaryColor),
+                                              ),
+                                            ),
+                                          ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    );
+                  }),
                 ),
               ],
             ),

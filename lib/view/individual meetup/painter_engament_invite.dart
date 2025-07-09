@@ -8,6 +8,7 @@ import 'package:mapleleaf/utils/custom%20widgets/custom_button1.dart';
 import 'package:mapleleaf/utils/custom%20widgets/custom_dropdownfeild.dart';
 import 'package:mapleleaf/view/individual%20meetup/painter_engagement_invite1.dart';
 import '../../controller/IM/Individual Painter/individual_painter_controller.dart';
+import '../../model/IM/indivdual_painter_model.dart';
 import '../../utils/app_colors.dart';
 import '../../utils/custom widgets/Custom_Toaste.dart';
 import '../../utils/custom widgets/custom_textfeild.dart';
@@ -21,6 +22,7 @@ class PainterEngamentInvite extends StatefulWidget {
     super.key,
     required this.location,
     required this.giveaway,
+
   });
 
   @override
@@ -123,6 +125,7 @@ class _PainterEngamentInviteState extends State<PainterEngamentInvite> {
       areaId: AreaId.toString(),
       location: widget.location,
       giveaway: widget.giveaway,
+
     ));
   }
 
