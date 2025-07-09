@@ -119,73 +119,92 @@ final List<DashboardItemModel> dashboardItems = [
   DashboardItemModel(
     icon: Icons.home,
     title: 'Home',
+    onTap: (){}
   ),
   DashboardItemModel(
     icon: Icons.person,
     title: 'Profile',
+      onTap: (){}
   ),
   DashboardItemModel(
     icon: Icons.settings,
     title: 'Settings',
+      onTap: (){}
   ),
   DashboardItemModel(
     icon: Icons.notifications,
     title: 'Notifications',
+      onTap: (){}
   ),
   DashboardItemModel(
     icon: Icons.message,
     title: 'Messages',
+      onTap: (){}
   ),
   DashboardItemModel(
     icon: Icons.history,
     title: 'History',
+      onTap: (){}
   ),
   DashboardItemModel(
     icon: Icons.favorite,
     title: 'Favorites',
+      onTap: (){}
   ),
   DashboardItemModel(
     icon: Icons.shopping_cart,
     title: 'Cart',
+      onTap: (){}
   ),
   DashboardItemModel(
     icon: Icons.book,
     title: 'Book',
+      onTap: (){}
   ),
   DashboardItemModel(
     icon: Icons.article,
     title: 'Articles',
+      onTap: (){}
   ),
   DashboardItemModel(
     icon: Icons.music_note,
     title: 'Music',
+      onTap: (){}
   ),
   DashboardItemModel(
     icon: Icons.video_library,
     title: 'Video',
+      onTap: (){}
   ),
   DashboardItemModel(
     icon: Icons.photo,
     title: 'Photo',
+      onTap: (){}
   ),
   DashboardItemModel(
     icon: Icons.file_copy,
     title: 'Files',
+      onTap: (){}
   ),
   DashboardItemModel(
     icon: Icons.calendar_today,
     title: 'Calendar',
+      onTap: (){}
   ),
   DashboardItemModel(
     icon: Icons.wallet,
     title: 'Wallet',
+      onTap: (){}
   ),
   DashboardItemModel(
     icon: Icons.location_on,
     title: 'Location',
+      onTap: (){}
   ),
   DashboardItemModel(
     icon: Icons.help,
     title: 'Help',
+      onTap: (){
+      }
   ),
 ];

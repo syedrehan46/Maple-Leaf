@@ -78,7 +78,6 @@ fetchDeviceInfo() async{
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     var screenWidth = MediaQueryData.fromView(WidgetsBinding.instance.window).size.width;
@@ -100,7 +99,7 @@ class MyApp extends StatelessWidget {
           builder: EasyLoading.init(),
         );
       },
-        child:SignInView(),
+        child:SplashView(),
       // UleDashboardVRew(),
     );
   }

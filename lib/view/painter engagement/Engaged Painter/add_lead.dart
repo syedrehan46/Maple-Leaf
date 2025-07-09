@@ -153,7 +153,6 @@ class _AddLeadState extends State<AddLead> {
       },
     );
   }
-
   @override
   void dispose() {
     nameController.dispose();
@@ -161,7 +160,6 @@ class _AddLeadState extends State<AddLead> {
     searchController.dispose();
     super.dispose();
   }
-
   @override
   Widget build(BuildContext context) {
     final media=MediaQuery.of(context).size;
@@ -178,7 +176,6 @@ class _AddLeadState extends State<AddLead> {
               ),
             ),
           ),
-
           // Foreground Content
           SingleChildScrollView(
             child: Column(
@@ -187,7 +184,7 @@ class _AddLeadState extends State<AddLead> {
               children: [
                 // Header
                 CustomAppbar(title: 'ADD LEADS', timeLocationIsVisible: false),
-
+                SizedBox(height: 30,),
                 // Display ONLY the painter name if passed from previous screen
                 if (Get.arguments != null && Get.arguments['name'] != null)
                   Center(
@@ -203,7 +200,6 @@ class _AddLeadState extends State<AddLead> {
                       ),
                     ),
                   ),
-
                 // Form fields
                 Container(
                   height: 50,
@@ -226,9 +222,7 @@ class _AddLeadState extends State<AddLead> {
                     ),
                   ),
                 ),
-
                 const SizedBox(height: 20),
-
                 // Phone Number TextField
                 Container(
                   height: 50,
@@ -252,9 +246,7 @@ class _AddLeadState extends State<AddLead> {
                     ),
                   ),
                 ),
-
                 const SizedBox(height: 20),
-
                 // Area Text
                 Padding(
                   padding: const EdgeInsets.only(right: 280),
@@ -263,9 +255,7 @@ class _AddLeadState extends State<AddLead> {
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
                   ),
                 ),
-
                 const SizedBox(height: 10),
-
                 // Area Selection Field that shows dialog on tap
                 InkWell(
                   onTap: showAreaSelectionDialog,
@@ -292,9 +282,7 @@ class _AddLeadState extends State<AddLead> {
                     ),
                   ),
                 ),
-
                 const SizedBox(height: 30),
-
                 // Add Lead Button
                 Center(
                   child: InkWell(
@@ -327,6 +315,5 @@ class _AddLeadState extends State<AddLead> {
         ],
       ),
     );
-
   }
 }

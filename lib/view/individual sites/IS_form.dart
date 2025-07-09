@@ -124,7 +124,7 @@ class _IsFormState extends State<IsForm> {
 
   final PlanController controller = Get.find<PlanController>();
   final AuthController authController = Get.find<AuthController>();
-  final LocationController locationController = Get.find<LocationController>();
+  final LocationController locationController = Get.put(LocationController());
   @override
   void initState() {
     super.initState();

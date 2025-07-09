@@ -1,4 +1,5 @@
 class ApiRoutes{
+
   static const String liveUrl = "https://mlcf.kmlg.com:4050/api/";
   static const String testUrl = "http://192.168.1.7:8080/api/";
   static const String baseUrl = liveUrl;
@@ -58,11 +59,8 @@ class ApiRoutes{
   static const String apiEngamentPlanDetail = "$baseUrl/LeadEngine/GetEngagementPlanDetail";
   static const String apiEngamentPlanDetailLabor = "$baseUrl/LeadEngine/GetEngagementPlanDetail";
   static const String apiAllPainterDetail = "$baseUrl/LeadEngine/GetAllLaborContractorDetail";
-
   // new painter induction
   static const String apiNewPainterInduction = "$baseUrl/LeadEngine/GetAllNewPainterDetailsForAlotingCards";
-
-
   static const String apiSendOtp = "auth/send-otp";
   static const String apiSignUp = "auth/user";
   static const String apiFeedBack = "feedback";
@@ -80,19 +78,13 @@ class ApiRoutes{
   static const String apiUpdateProfile = "user/";
   static const String apiAccountDelete = "user/";
   static const String apiAddLead = "Opa/AddLeadDetail";
-
   //FEEDBACK POST API
   // static const String apiAddLead = "Opa/AddLeadDetail";
   // static const String apiAddLead = "Opa/AddLeadDetail";
   static const String apiFeedbackForm = "$baseUrl/LeadEngine/AddLeadFeedback";
   static const String apiCardNumberDetail = "$baseUrl/LeadEngine/AddCardNumberWithPainter";
-
-
-
   /// todo: PE
   ///
   static const String apiEngagedPainter = "$baseUrl/LeadEngine/GetAllOldAndNewPaintersDetail";
-
-
 
 }

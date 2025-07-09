@@ -86,7 +86,6 @@ class MappingCustomDesign extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 16),
-
                     // Custom City Dropdown
                     CustomDropdownField(
                       label: '* City',
@@ -94,10 +93,7 @@ class MappingCustomDesign extends StatelessWidget {
                       items: controller.cities,
                       parentContext: context,
                     ),
-
-
                     const SizedBox(height: 16),
-
                     // Custom Dealer Dropdown (similar to the City dropdown)
                     CustomDropdownField(
                       label: '* Dealer',
@@ -105,10 +101,7 @@ class MappingCustomDesign extends StatelessWidget {
                       items: controller.dealers,
                       parentContext: context,
                     ),
-
-
                     const SizedBox(height: 16),
-
                     // Placeholder for Google Map
                     Container(
                       height: 200,
@@ -116,9 +109,7 @@ class MappingCustomDesign extends StatelessWidget {
                       alignment: Alignment.center,
                       child: const Text("Google Map Placeholder"),
                     ),
-
                     const SizedBox(height: 24),
-
                     // TAG Button
                     SizedBox(
                       width: double.infinity,
@@ -131,7 +122,6 @@ class MappingCustomDesign extends StatelessWidget {
                             borderRadius: BorderRadius.circular(8),
                           ),
                         ),
-
                         child: const Text(
                           "TAG",
                           style: TextStyle(color: Colors.white, fontSize: 16),

@@ -18,6 +18,7 @@ class PlanController extends GetxController implements GetxService {
     super.onInit();
     String salesForceId = "${authController.salesForceId}";
     fetchPlanDataCityWise(salesForceId);
+    fetchPlanDataAreaWise(salesForceId);
     fetchViamembers();
     fetchSoftAccountHolders();
     fetchCities(salesForceId, zoneId);
@@ -38,7 +39,6 @@ class PlanController extends GetxController implements GetxService {
   RxList<String> cityNameList = <String>[].obs;
   RxList<ViaModel> viaMembersList=<ViaModel>[].obs;
   RxList<String> viaDescriptionList = <String>[].obs;
-
   RxString errorMessage = ''.obs;
   final RxString selectedCityFromList = ''.obs;
   String zoneId='10';
@@ -78,6 +78,51 @@ class PlanController extends GetxController implements GetxService {
     }
   }
 
+
+
+  Future<void> fetchPlanDataAreaWise(String salesForceId) async {
+    EasyLoading.show();
+    String url = "${ApiRoutes.apiIsPlanDetailAreaWise}?salesForceId=$salesForceId";
+    ApiResponse response = await NetworkCall.getApiCallWithToken(url);
+    EasyLoading.dismiss();
+
+    if ((response.done ?? false) && response.responseString != null) {
+      try {
+        final List<dynamic> data = jsonDecode(response.responseString!);
+        areaWisePlanList.value = data.map((e) => PlanModel.fromJson(e)).toList();
+
+        // ✅ Extract area names from plan data
+        final areas = areaWisePlanList
+            .map((item) => item.areaName?.toString() ?? '')
+            .where((name) => name.isNotEmpty)
+            .toSet()
+            .toList();
+
+        areaNameList.value = areas.cast<String>();
+
+        for (var item in areaWisePlanList) {
+          // print("Area ${item.areaName}, Plan ID: ${item.planId}, Month: ${item.activeMonth},");
+        }
+      } catch (e) {
+        errorMessage.value = 'Failed to parse area-wise data';
+        print("Area Parse Error: $e");
+      }
+    } else {
+      errorMessage.value = response.errorMsg ?? 'Area-wise API error';
+      print("Area API Error: ${response.errorMsg}");
+    }
+  }
+
+
+
+// ✅ Method to get area plan details by area name
+  PlanModel? getAreaPlanDetailsByName(String areaName) {
+    try {
+      return areaWisePlanList.firstWhere((area) => area.areaName == areaName);
+    } catch (e) {
+      return null;
+    }
+  }
 // ✅ Get city details from citiesData by name
   CityModel? getCityByName(String cityName) {
     try {
@@ -88,6 +133,7 @@ class PlanController extends GetxController implements GetxService {
       return null;
     }
   }
+
   Future<void> fetchPlanDataCityWise(String salesForceId) async {
     EasyLoading.show();
     String url = "${ApiRoutes.apiIsPlanDetailCityWise}?salesForceId=$salesForceId";
@@ -168,26 +214,6 @@ class PlanController extends GetxController implements GetxService {
       errorMessage.value = response.errorMsg ?? 'Area API error';
     }
   }
-
-  Future<void> fetchPlanDataAreaWise(String salesForceId) async {
-    EasyLoading.show();
-    String url = "${ApiRoutes.apiIsPlanDetailAreaWise}?salesForceId=$salesForceId";
-    ApiResponse response = await NetworkCall.getApiCallWithToken(url);
-    EasyLoading.dismiss();
-    if ((response.done ?? false) && response.responseString != null) {
-      try {
-        final List<dynamic> data = jsonDecode(response.responseString!);
-        areaWisePlanList.value = data.map((e) => PlanModel.fromJson(e)).toList();
-      } catch (e) {
-        errorMessage.value = 'Failed to parse area-wise data';
-        print("Area Parse Error: $e");
-      }
-    } else {
-      errorMessage.value = response.errorMsg ?? 'Area-wise API error';
-      print("Area API Error: ${response.errorMsg}");
-    }
-  }
-
   Future<void> fetchViamembers() async {
     try {
       EasyLoading.show();

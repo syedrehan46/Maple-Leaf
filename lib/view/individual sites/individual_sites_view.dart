@@ -9,6 +9,7 @@ import 'package:mapleleaf/utils/custom%20widgets/floatingaction_button.dart';
 import 'package:mapleleaf/view/individual%20sites/IS_form.dart';
 import '../../controller/IS/is_controller.dart';
 import '../../utils/custom widgets/custom_appbar.dart';
+import 'areawise_view.dart';
 import 'citiywise_view.dart';
 class IndividualSites extends StatefulWidget {
   const IndividualSites({super.key});
@@ -135,7 +136,7 @@ class _IndividualSitesState extends State<IndividualSites> with SingleTickerProv
                     ),
                     children: [
                       CityWiseView(),
-                      Text('')
+                      AreaWiseView(),
                     ],
                   ),
                 ),
