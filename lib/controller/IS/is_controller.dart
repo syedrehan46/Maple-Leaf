@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:mapleleaf/model/IS/allCity/city_model.dart';
 import 'package:mapleleaf/model/IS/via/via_model.dart';
 import '../../model/IS/Area Wise Planning User/areawise_model.dart';
 import '../../model/IS/Sales_oficer/sales_oficer_model.dart';
@@ -17,9 +18,13 @@ class PlanController extends GetxController implements GetxService {
     super.onInit();
     String salesForceId = "${authController.salesForceId}";
     fetchPlanDataCityWise(salesForceId);
+    fetchPlanDataAreaWise(salesForceId);
     fetchViamembers();
     fetchSoftAccountHolders();
+    fetchCities(salesForceId, zoneId);
   }
+  RxList<CityModel> citiesData =<CityModel>[].obs;
+  RxList<String> citiesList = <String>[].obs;
 
   RxList<AreaModel> areasList = <AreaModel>[].obs;
   RxList<String> areaNameList = <String>[].obs;
@@ -34,9 +39,100 @@ class PlanController extends GetxController implements GetxService {
   RxList<String> cityNameList = <String>[].obs;
   RxList<ViaModel> viaMembersList=<ViaModel>[].obs;
   RxList<String> viaDescriptionList = <String>[].obs;
-
   RxString errorMessage = ''.obs;
   final RxString selectedCityFromList = ''.obs;
+  String zoneId='10';
+  Future<void> fetchCities(String salesForceId,String zoneId) async {
+    EasyLoading.show();
+    String url = "${ApiRoutes.apiIsAllCities}?salesForceId=$salesForceId&zoneId=$zoneId";
+    ApiResponse response = await NetworkCall.getApiCallWithToken(url);
+    EasyLoading.dismiss();
+
+    if ((response.done ?? false) && response.responseString != null) {
+      try {
+        final List<dynamic> data = jsonDecode(response.responseString!);
+
+        // ✅ Decode and assign city model list
+        citiesData.value = data.map((e) => CityModel.fromJson(e)).toList();
+
+        // ✅ Extract unique, non-empty city names
+        final names = citiesData
+            .map((item) => item.cityName?.toString() ?? '')
+            .where((name) => name.isNotEmpty)
+            .toSet()
+            .toList();
+
+        citiesList.value = names;
+
+        // Optional debug
+        for (var item in citiesData) {
+          // print("City: ${item.cityName}, SQL ID: ${item.sqlCityId}");
+        }
+      } catch (e) {
+        errorMessage.value = 'Failed to parse city-wise data';
+        print("City Parse Error: $e");
+      }
+    } else {
+      errorMessage.value = response.errorMsg ?? 'City-wise API error';
+      print("City API Error: ${response.errorMsg}");
+    }
+  }
+
+
+
+  Future<void> fetchPlanDataAreaWise(String salesForceId) async {
+    EasyLoading.show();
+    String url = "${ApiRoutes.apiIsPlanDetailAreaWise}?salesForceId=$salesForceId";
+    ApiResponse response = await NetworkCall.getApiCallWithToken(url);
+    EasyLoading.dismiss();
+
+    if ((response.done ?? false) && response.responseString != null) {
+      try {
+        final List<dynamic> data = jsonDecode(response.responseString!);
+        areaWisePlanList.value = data.map((e) => PlanModel.fromJson(e)).toList();
+
+        // ✅ Extract area names from plan data
+        final areas = areaWisePlanList
+            .map((item) => item.areaName?.toString() ?? '')
+            .where((name) => name.isNotEmpty)
+            .toSet()
+            .toList();
+
+        areaNameList.value = areas.cast<String>();
+
+        for (var item in areaWisePlanList) {
+          // print("Area ${item.areaName}, Plan ID: ${item.planId}, Month: ${item.activeMonth},");
+        }
+      } catch (e) {
+        errorMessage.value = 'Failed to parse area-wise data';
+        print("Area Parse Error: $e");
+      }
+    } else {
+      errorMessage.value = response.errorMsg ?? 'Area-wise API error';
+      print("Area API Error: ${response.errorMsg}");
+    }
+  }
+
+
+
+// ✅ Method to get area plan details by area name
+  PlanModel? getAreaPlanDetailsByName(String areaName) {
+    try {
+      return areaWisePlanList.firstWhere((area) => area.areaName == areaName);
+    } catch (e) {
+      return null;
+    }
+  }
+// ✅ Get city details from citiesData by name
+  CityModel? getCityByName(String cityName) {
+    try {
+      return citiesData.firstWhere(
+            (city) => city.cityName?.toLowerCase() == cityName.toLowerCase(),
+      );
+    } catch (e) {
+      return null;
+    }
+  }
 
   Future<void> fetchPlanDataCityWise(String salesForceId) async {
     EasyLoading.show();
@@ -116,25 +212,6 @@ class PlanController extends GetxController implements GetxService {
       }
     } else {
       errorMessage.value = response.errorMsg ?? 'Area API error';
-    }
-  }
-
-  Future<void> fetchPlanDataAreaWise(String salesForceId) async {
-    EasyLoading.show();
-    String url = "${ApiRoutes.apiIsPlanDetailAreaWise}?salesForceId=$salesForceId";
-    ApiResponse response = await NetworkCall.getApiCallWithToken(url);
-    EasyLoading.dismiss();
-    if ((response.done ?? false) && response.responseString != null) {
-      try {
-        final List<dynamic> data = jsonDecode(response.responseString!);
-        areaWisePlanList.value = data.map((e) => PlanModel.fromJson(e)).toList();
-      } catch (e) {
-        errorMessage.value = 'Failed to parse area-wise data';
-        print("Area Parse Error: $e");
-      }
-    } else {
-      errorMessage.value = response.errorMsg ?? 'Area-wise API error';
-      print("Area API Error: ${response.errorMsg}");
     }
   }
   Future<void> fetchViamembers() async {
@@ -290,6 +367,106 @@ class PlanController extends GetxController implements GetxService {
     } else {
       errorMessage.value = response.errorMsg ?? 'Soft Account Holders API error';
       print("Soft Account Holders API Error: ${response.errorMsg}");
+    }
+  }
+
+  Future<void> addGeneralCustomerFOSD2CUpdatedV5({
+    required String CUSTOMER_NAME,
+    required String PHONE,
+    required String? CITY_ID,
+    required String VIA,
+    required String STATUS,
+    required String REVISIT_DATE,
+    required String CREATED_BY,
+    required String SALES_FORCE_ID,
+    required String? WALLET_NUMBER,
+    required String? RETAILER_ID,
+    required String? PAINTER_NUMBER,
+    required String? NEW_PAINTER_NUMBER,
+    required String WINNING_DATE_OF_STW,
+    required String DATE_OF_MKT_LEAD,
+    required String ASSIGN_TO,
+    required String LEAD_FROM,
+    required String? GIFT_ID,
+    required String TYPE,
+    required String LOCATION_NAME,
+    required String LATITUDE,
+    required String LONGITUDE,
+    required String SIZE_OF_HOUSE,
+    required String EXPECTED_KGS,
+    required String AREA_ID,  // Changed to String
+    required String SECOND_PERSON_TYPE,
+    required String SECOND_PERSON_NUMBER,
+    required String THIRD_PERSON_TYPE,
+    required String THIRD_PERSON_NUMBER,
+    required String SECOND_PERSON_NAME,
+    required String THIRD_PERSON_NAME,
+    required String LEAD_REFERAL,
+    required String? REFER_AREA_ID,
+    required String? REFERED_BY_SALES_ID,
+  }) async {
+    try {
+      EasyLoading.show();
+      final url = ApiRoutes.apiAddGeneralCustomer;
+
+      // Debug prints
+      print("Api Url: $url");
+      print("CITY_ID value: $CITY_ID");
+      print("AREA_ID value: $AREA_ID");
+      print("RETAILER_ID value: $RETAILER_ID");
+
+      final body = {
+        "CUSTOMER_NAME": CUSTOMER_NAME,
+        "PHONE": PHONE,
+        "CITY_ID": CITY_ID, // Don't convert to string if it's already null
+        "VIA": VIA,
+        "STATUS": STATUS,
+        "REVISIT_DATE": REVISIT_DATE,
+        "CREATED_BY": CREATED_BY,
+        "SALES_FORCE_ID": SALES_FORCE_ID,
+        "WALLET_NUMBER": WALLET_NUMBER,
+        "RETAILER_ID": RETAILER_ID ?? "", // Use empty string if null
+        "PAINTER_NUMBER": PAINTER_NUMBER,
+        "NEW_PAINTER_NUMBER": NEW_PAINTER_NUMBER,
+        "WINNING_DATE_OF_STW": WINNING_DATE_OF_STW ?? "",
+        "DATE_OF_MKT_LEAD": DATE_OF_MKT_LEAD,
+        "ASSIGN_TO": "",
+        "LEAD_FROM": LEAD_FROM,
+        "GIFT_ID": GIFT_ID,
+        "TYPE": TYPE,
+        "LOCATION_NAME": LOCATION_NAME,
+        "LATITUDE": LATITUDE,
+        "LONGITUDE": LONGITUDE,
+        "SIZE_OF_HOUSE": SIZE_OF_HOUSE,
+        "EXPECTED_KGS": EXPECTED_KGS,
+        "AREA_ID": AREA_ID, // Keep as string
+        "SECOND_PERSON_TYPE": SECOND_PERSON_TYPE,
+        "SECOND_PERSON_NUMBER": SECOND_PERSON_NUMBER,
+        "THIRD_PERSON_TYPE": THIRD_PERSON_TYPE,
+        "THIRD_PERSON_NUMBER": THIRD_PERSON_NUMBER,
+        "SECOND_PERSON_NAME": SECOND_PERSON_NAME,
+        "THIRD_PERSON_NAME": THIRD_PERSON_NAME,
+        "LEAD_REFERAL": LEAD_REFERAL,
+        "REFER_AREA_ID": REFER_AREA_ID,
+        "REFERED_BY_SALES_ID": REFERED_BY_SALES_ID
+      };
+
+      print("Body: $body");
+
+      final ApiResponse response = await NetworkCall.postApiCall(url, body);
+      EasyLoading.dismiss();
+
+      if ((response.done ?? false) && response.responseString != null) {
+        final json = jsonDecode(response.responseString!);
+        print("Response Success: $json");
+      } else {
+        errorMessage.value = response.errorMsg ?? 'Customer Add API Error';
+        print("API Error: ${response.errorMsg}");
+      }
+    } catch (e) {
+      EasyLoading.dismiss();
+      errorMessage.value = 'Something went wrong!';
+      print("Exception in Add Customer: $e");
     }
   }
 }

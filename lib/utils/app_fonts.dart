@@ -49,6 +49,14 @@ class AppFonts{
         color: color
     );
   }
+  static TextStyle styleHarmoniaRegular18W400(Color color){
+    return TextStyle(
+        fontSize: 18.sp,
+        fontWeight: FontWeight.w400,
+        fontFamily: AppStrings.fontFamilyHarmoniaRegular,
+        color: color
+    );
+  }
 
   static TextStyle styleHarmoniaBold14W600(Color color){
     return TextStyle(
@@ -81,6 +89,14 @@ class AppFonts{
         fontWeight: FontWeight.bold,
         fontFamily: AppStrings.fontFamilyHarmoniaBold,
         color: Colors.white
+    );
+  }
+  static TextStyle styleHarmoniaBold18W6000(Color color){
+    return TextStyle(
+        fontSize: 18.sp,
+        fontWeight: FontWeight.bold,
+        fontFamily: AppStrings.fontFamilyHarmoniaBold,
+        color: color
     );
   }
 

@@ -9,6 +9,7 @@ import 'package:mapleleaf/utils/custom%20widgets/floatingaction_button.dart';
 import 'package:mapleleaf/view/individual%20sites/IS_form.dart';
 import '../../controller/IS/is_controller.dart';
 import '../../utils/custom widgets/custom_appbar.dart';
+import 'areawise_view.dart';
 import 'citiywise_view.dart';
 class IndividualSites extends StatefulWidget {
   const IndividualSites({super.key});
@@ -38,7 +39,7 @@ class _IndividualSitesState extends State<IndividualSites> with SingleTickerProv
     final media = MediaQuery.of(context).size;
     final animationValue = _tabController.animation?.value ?? 0.0;
     return Scaffold(
-      backgroundColor: Colors.transparent, // Make the scaffold transparent
+      backgroundColor: Colors.white, // Make the scaffold transparent
       body: Stack(
         children: [
           // Background Image - Full screen
@@ -55,7 +56,7 @@ class _IndividualSitesState extends State<IndividualSites> with SingleTickerProv
           // Foreground Content
           Column(
             children: [
-              CustomAppbar(title: 'GROUP MANAGEMENT', timeLocationIsVisible: true,widget: InkWell(onTap: (){},child: SvgPicture.asset(AppImages.filterIcon)),),
+              CustomAppbar(title: 'individual sites', timeLocationIsVisible: true,widget: InkWell(onTap: (){},child: SvgPicture.asset(AppImages.filterIcon)),),
               const SizedBox(height: 20),
               // TabBar with animated slider
               Padding(
@@ -135,7 +136,7 @@ class _IndividualSitesState extends State<IndividualSites> with SingleTickerProv
                     ),
                     children: [
                       CityWiseView(),
-                      Text('')
+                      AreaWiseView(),
                     ],
                   ),
                 ),
@@ -145,7 +146,7 @@ class _IndividualSitesState extends State<IndividualSites> with SingleTickerProv
         ],
       ),
       floatingActionButton: CustomFloatingActionButton(onPressed: (){
-        Get.to(IsForm());
+        Get.off(IsForm());
       }),
 
     );

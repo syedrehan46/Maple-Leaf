@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:mapleleaf/utils/app_colors.dart';
 import 'package:mapleleaf/utils/custom%20widgets/custom_button.dart';
+import 'package:mapleleaf/view/dashboard/dashboardp2p.dart';
 import 'package:mapleleaf/view/dashboard/ule_dashboard_view.dart';
 
 class SelectDashboardView extends StatefulWidget {
@@ -43,8 +44,7 @@ class _SelectDashboardViewState extends State<SelectDashboardView> {
                 children: [
                   CustomButton(title: "ULE/POD/D2C", color: AppColors.primaryColor, navigateTo: UleDashboardView()),
                   SizedBox(height: 20.h),
-                  CustomButton(title: "FOS",background_color: AppColors.primaryColor, color: AppColors.whiteColor),
-
+                  CustomButton(title: "FOS",background_color: AppColors.primaryColor, color: AppColors.whiteColor,navigateTo: DashboardC2C(),),
                 ],
               ),
             ),

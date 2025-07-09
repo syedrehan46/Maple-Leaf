@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 import 'package:mapleleaf/utils/app_colors.dart';
-
 Future<void> showCustomDatePicker({
   required BuildContext context,
   required Function(DateTime) onDateSelected,
@@ -60,9 +59,7 @@ Future<void> showCustomDatePicker({
                     ],
                   ),
                 ),
-
                 const SizedBox(height: 10),
-
                 // Conditional view: Year picker or calendar
                 SizedBox(
                   height: 320, // Fixed height for both year picker and calendar
@@ -111,6 +108,7 @@ Future<void> showCustomDatePicker({
                         calendarType: CalendarDatePicker2Type.single,
                         selectedDayHighlightColor: AppColors.primaryColor,
                         centerAlignModePicker: true,
+                        daySplashColor: Colors.transparent,
                         disableModePicker: true,
                         weekdayLabelTextStyle: const TextStyle(color: AppColors.grey8E8E8EColor, fontWeight: FontWeight.w600),
                         dayTextStyle: const TextStyle(color: Colors.black),
@@ -127,9 +125,7 @@ Future<void> showCustomDatePicker({
                     ),
                   ),
                 ),
-
                 const SizedBox(height: 10),
-
                 // OK / CANCEL Buttons
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
