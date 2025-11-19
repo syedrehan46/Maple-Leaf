@@ -1,5 +1,5 @@
 # Maple Leaf - Lead Management & Productivity App
-<b> Note: The GitHub username hussambinnoor belongs to my account and was used during my internship period.</b>
+<b> Note: Please note that the GitHub username hussambinnoor was associated with my account during the period of my internship.</b>
 
 **Maple Leaf** is an innovative cross-platform mobile app built with **Flutter**, designed to empower employees to generate, convert, and seamlessly manage leads through an intuitive workflow system. The app combines talent acquisition, analytics, and collaboration tools to boost productivity and streamline business processes.
 
