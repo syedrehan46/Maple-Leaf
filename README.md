@@ -28,6 +28,7 @@
 ## Screenshots / Images
 
 You can view the app screenshots and images here:  
+https://github.com/syedrehan46/Maple-Leaf/blob/main/Images/s6.PNG?raw=true
 [Maple Leaf Images](https://github.com/syedrehan46/Maple-Leaf/tree/8c5ab2b544fd5a378ddebc2237489b7a00e2f65e/Images)
 
 ## Technology Stack
