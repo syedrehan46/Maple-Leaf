@@ -35,7 +35,9 @@ You can view the app screenshots and images here:
 - **Frontend:** Flutter  
 - **Backend:** RESTful APIs / Firebase (adjust based on implementation)  
 - **State Management:** GetX  
-- **Database:** Firebase / MySQL  
+- **Database:** Firebase / MySQL
+  
+Note: The GitHub username hussambinnoor belongs to my account and was used during my internship period.
 
 ## Installation
 
